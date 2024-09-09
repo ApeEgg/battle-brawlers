@@ -26,6 +26,7 @@ export default [
   'numpad2',
   'numpad3',
   'numpad4',
+  'numpad5',
   'numpad6',
   'numpad7',
   'numpad8',
