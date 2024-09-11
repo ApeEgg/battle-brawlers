@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   const { keys, overlay, socket, token } = STORES;
   const { lockKeys, unlockKeys, notify } = ACTIONS;
   const { IS_DEV, AUTO_EMAIL, AUTO_PASSWORD } = ENV;
@@ -38,8 +38,8 @@
   $: ({ escape } = $keys);
 </script>
 
-<form class="w-full cy-left gap-2" on:submit|preventDefault={login}>
-  <div class="cx gap-2 w-full">
+<form class="w-full column-left gap-2" on:submit|preventDefault={login}>
+  <Row class="gap-2 w-full">
     <Input
       class="xs:w-full"
       placeholder="Email"
@@ -60,7 +60,7 @@
     />
 
     <Button class="xs:w-full" primary type="submit" blur={escape}>Log&nbsp;in</Button>
-  </div>
+  </Row>
 
   <Checkbox
     id="codeOfConduct"

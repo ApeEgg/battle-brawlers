@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
   const { token, overlay } = STORES;
 </script>
 
-<Frame class="cy gap-2">
+<Frame class="column gap-2">
   <Button secondary on:click={() => ($overlay = 'ReleaseNotes')}>Release notes</Button>
   {#if $token}
     <Logout />

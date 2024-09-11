@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { renderable, height } from '$svelte-game-engine';
 
   let text = '';

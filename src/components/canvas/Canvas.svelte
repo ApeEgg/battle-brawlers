@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { width, height } from '$svelte-game-engine';
   import Canvas from '$svelte-game-engine/Canvas.svelte';
 </script>

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   let show = false;
 
   onMount(() => {
@@ -13,10 +13,10 @@
 </script>
 
 {#if show}
-  <div class="cy fixed bg-black/25 inset-0" in:fade={{ duration: 250, delay: 500 }}>
-    <div
+  <div class="column fixed bg-black/25 inset-0" in:fade={{ duration: 250, delay: 500 }}>
+    <Column
       class="
-        cy gap-4 py-6 text-white dark:text-gray-800 relative bg-black/70 dark:bg-white/70 w-full
+        gap-4 py-6 text-white dark:text-gray-800 relative bg-black/70 dark:bg-white/70 w-full
         before:absolute before:content-[''] before:bg-black/50 dark:before:bg-white/50 before:left-0 before:right-0 before:h-1 before:bottom-[calc(100%+theme(space.1))]
         after:absolute after:content-[''] after:bg-black/50 dark:after:bg-white/50 after:left-0 after:right-0 after:h-1 after:top-[calc(100%+theme(space.1))]
       "
@@ -31,6 +31,6 @@
           name="spinner-inner"
         />
       </div>
-    </div>
+    </Column>
   </div>
 {/if}

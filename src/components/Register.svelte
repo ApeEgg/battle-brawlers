@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   const { keys, socket, settings } = STORES;
   const { lockKeys, unlockKeys, notify } = ACTIONS;
 
@@ -25,7 +25,7 @@
   $: ({ escape } = $keys);
 </script>
 
-<form class="cx gap-2 w-full" on:submit|preventDefault={register}>
+<form class="row gap-2 w-full" on:submit|preventDefault={register}>
   <Input
     class="xs:w-full"
     placeholder="Email"

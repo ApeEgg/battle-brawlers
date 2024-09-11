@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { getCookie } from '$src/helpers';
   import { version } from '../../package.json';
 

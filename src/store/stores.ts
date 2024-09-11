@@ -1,6 +1,10 @@
 import loadLocalStorage from '$src/store/loadLocalStorage';
 import mediaQuery from '$src/store/mediaQuery';
 
+type Store = {
+  [key: string]: any;
+};
+
 export default {
   token: undefined,
   socket: undefined,
@@ -25,4 +29,4 @@ export default {
     portrait: '(orientation: portrait)',
     hoverable: '(hover: hover)'
   })
-};
+} as Store;

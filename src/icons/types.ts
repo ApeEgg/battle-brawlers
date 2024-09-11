@@ -1,0 +1,1 @@
+export type IconName = 'alert' | 'bug_report' | 'check' | 'checkmark' | 'chevron-down' | 'chevron-left' | 'chevron-right' | 'chevron-up' | 'cross' | 'info' | 'logo-simple' | 'logo' | 'menu' | 'moon-o' | 'spinner-circle' | 'spinner-inner' | 'sun';

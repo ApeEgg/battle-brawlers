@@ -8,11 +8,16 @@
     "package": "vite package",
     "preview": "vite preview",
     "lint": "prettier --check . && eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "svg:generate": "svgo -f ./src/icons -o ./src/icons && node ./scripts/icon.js ./src/icons --generate-types",
+    "svelte-check": "svelte-check --compiler-warnings 'missing-declaration:ignore'"
   },
   "devDependencies": {
     "@sveltejs/adapter-vercel": "^3.0.1",
     "@sveltejs/kit": "^1.5.0",
+    "@sveltejs/vite-plugin-svelte": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.3.0",
@@ -21,17 +26,20 @@
     "prettier": "^3.0.0",
     "prettier-plugin-svelte": "^2.8.1",
     "svelte": "^3.54.0",
-    "sveltekit-autoimport": "^1.6.9",
+    "svelte-check": "^4.0.1",
     "tailwind-merge": "^1.13.1",
     "tailwindcss": "^3.3.2",
     "vite": "^4.3.0"
   },
   "type": "module",
   "dependencies": {
+    "@ape-egg/tailwind-rows-columns": "^1.0.2",
     "async-await-websockets": "^2.0.1",
     "gl-vec2": "^1.3.0",
     "lodash": "^4.17.21",
     "svelte-component-kit": "^2.0.2",
-    "svelte-global-store": "^1.0.4"
+    "svelte-global-store": "^1.0.4",
+    "sveltekit-autoimport": "^1.8.1",
+    "svgo": "^3.3.2"
   }
 }

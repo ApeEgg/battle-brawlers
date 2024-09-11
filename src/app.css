@@ -6,7 +6,10 @@
 
 @layer base {
   html {
-    font-family: Fira Sans Condensed, Trebuchet MS, sans-serif;
+    font-family:
+      Fira Sans Condensed,
+      Trebuchet MS,
+      sans-serif;
   }
   body {
     @apply text-gray-800 dark:text-white;
@@ -17,61 +20,6 @@
   .glass {
     @apply rounded-md backdrop-blur-xl bg-white/50 shadow-lg border border-white/50;
   }
-  .cx-up-left {
-    @apply flex flex-wrap content-start justify-start;
-  }
-  .cx-up {
-    @apply flex flex-wrap content-start justify-center;
-  }
-  .cx-up-right {
-    @apply flex flex-wrap content-start justify-end;
-  }
-  .cx-left {
-    @apply flex flex-wrap content-center items-center justify-start;
-  }
-  .cx {
-    @apply flex flex-wrap content-center items-center justify-center;
-  }
-  .cx-right {
-    @apply flex flex-wrap content-center items-center justify-end;
-  }
-  .cx-down-left {
-    @apply flex flex-wrap items-end justify-start;
-  }
-  .cx-down {
-    @apply flex flex-wrap items-end justify-center;
-  }
-  .cx-down-right {
-    @apply flex flex-wrap items-end justify-end;
-  }
-  .cy-up-left {
-    @apply flex flex-col items-start;
-  }
-  .cy-up {
-    @apply flex flex-col items-center justify-start;
-  }
-  .cy-up-right {
-    @apply flex flex-col items-end;
-  }
-  .cy-left {
-    @apply flex flex-col items-start justify-center;
-  }
-  .cy {
-    @apply flex flex-col items-center justify-center;
-  }
-  .cy-right {
-    @apply flex flex-col items-end justify-center;
-  }
-  .cy-down {
-    @apply flex flex-col items-center justify-end;
-  }
-  .cy-down-left {
-    @apply flex flex-col items-start justify-end;
-  }
-  .cy-down-right {
-    @apply flex flex-col items-end justify-end;
-  }
-
   h1 {
     @apply text-2xl font-medium sm:text-4xl sm:tracking-[-0.0625rem] md:text-5xl md:tracking-[-0.0625rem];
   }

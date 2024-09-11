@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import AVAILABLE_KEYS from '$src/constants/AVAILABLE_KEYS';
 
   const { keys, keyLock } = STORES;

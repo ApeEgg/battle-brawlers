@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
 
@@ -6,7 +6,7 @@
   const { notify } = ACTIONS;
 
   let password = '';
-  let error = undefined;
+  let error: boolean | string | undefined = undefined;
 
   const reset = async () => {
     try {
@@ -28,7 +28,7 @@
           secret: $page.params.secret
         });
         error = false;
-      } catch (e) {
+      } catch (e: any) {
         error = e.error;
       }
     })();

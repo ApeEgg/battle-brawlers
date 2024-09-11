@@ -1,8 +1,9 @@
-<script>
-  export let inputRef = undefined;
-  export let value;
-  export let placeholder;
-  export let blur;
+<script lang="ts">
+  export let placeholder: string | undefined;
+  export let blur: any;
+
+  let inputRef: HTMLInputElement;
+  let value: string;
 
   let {
     placeholder: _placeholder,

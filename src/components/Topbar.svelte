@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   const { setOverlay } = ACTIONS;
 
   const toggleDarkMode = () => {
@@ -10,12 +10,12 @@
   };
 </script>
 
-<div class="fixed cx-right inset-0 bottom-auto">
+<Row class="fixed inset-0 bottom-auto" right>
   <Clickable class="dark:hidden w-8 h-8 hover:bg-black/5" on:click={toggleDarkMode}>
     <Icon class="text-yellow-500" name="light" />
   </Clickable>
   <Clickable
-    class="-translate-y-px hidden dark:cx w-8 h-8 hover:bg-black/5"
+    class="-translate-y-px hidden dark:row w-8 h-8 hover:bg-black/5"
     on:click={toggleDarkMode}
   >
     <Icon class="text-blue-500" name="dark" />
@@ -23,4 +23,4 @@
   <Clickable class="w-8 h-8 hover:bg-black/5" on:click={setOverlay.bind(undefined, 'GameMenu')}>
     <Icon name="menu" size={20} />
   </Clickable>
-</div>
+</Row>

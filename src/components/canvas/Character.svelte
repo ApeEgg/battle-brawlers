@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { renderable, width, height } from '$svelte-game-engine';
   import vec2 from 'gl-vec2';
 

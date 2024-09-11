@@ -1,8 +1,12 @@
+type Action = {
+  [key: string]: (args?: any, ...rest: any[]) => any;
+};
+
 export default {
   setOverlay: ([to], { keyLock, overlay }) => ({ overlay: keyLock ? overlay : to }),
   lockKeys: () => ({ keyLock: true }),
   unlockKeys: () => ({ keyLock: false }),
-  notify: ([payload], { notifications }) => {
+  notify: ([payload]: any, { notifications }) => {
     const { error, warning, success, information } = payload;
 
     if (error) notifications.add(JSON.stringify({ type: 'error', message: error }));
@@ -27,4 +31,4 @@ export default {
     }
   }),
   hideTooltip: (_, { tooltip }) => ({ tooltip: { ...tooltip, visible: false } })
-};
+} as Action;

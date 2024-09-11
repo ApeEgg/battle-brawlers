@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { tick } from 'svelte';
   import { fly } from 'svelte/transition';
 
@@ -66,7 +66,7 @@
   on:mouseenter={hover.bind(undefined, true)}
   on:mouseleave={hover.bind(undefined, false)}
 >
-  <div class="cy-right" bind:this={ref}>
+  <div class="column-right" bind:this={ref}>
     {#each [...$notifications] as notification (notification)}
       {@const { type, message } = JSON.parse(notification)}
       <div>
@@ -80,10 +80,10 @@
               type === 'success' && 'border-green-500'
             )}
           >
-            <div class="cx gap-2">
-              <div
+            <Row class="gap-2">
+              <Row
                 class={tw(
-                  'icon w-8 h-8 cx rounded-full',
+                  'icon w-8 h-8 rounded-full',
                   type === 'error' && 'bg-red-500',
                   type === 'warning' && 'bg-orange-500',
                   type === 'information' && 'bg-blue-500',
@@ -91,14 +91,14 @@
                 )}
               >
                 <Icon class="text-white text-lg" name={type} />
-              </div>
+              </Row>
               <div>
                 <strong class="text-gray-800 text-base">{titleByType(type)}</strong>
                 <div class="text-gray-700 max-w-xs first-letter:capitalize">
                   {message.replace('Error: ', '')}
                 </div>
               </div>
-            </div>
+            </Row>
           </div>
         </div>
       </div>

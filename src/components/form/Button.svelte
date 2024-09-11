@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   export let primary = true;
   export let secondary = false;
   export let tertiary = false;
@@ -10,6 +10,8 @@
 
   $: blur && inputRef && inputRef === document.activeElement && inputRef.blur();
 </script>
+
+
 
 <button
   on:click

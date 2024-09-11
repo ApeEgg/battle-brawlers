@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { recursiveLookup } from '$src/helpers';
   const { showTooltip, hideTooltip } = ACTIONS;
 </script>

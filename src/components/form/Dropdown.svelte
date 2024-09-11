@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { emptySlot } from '$src/helpers';
 
   export let value = 'Choose one';
@@ -18,7 +18,7 @@
     </optgroup>
   </select>
   <Frame class="dark:bg-black">
-    <div class="cx !justify-between">
+    <Row class="!justify-between">
       {#if options.find(emptySlot)}
         <span class="first-letter:uppercase" class:default={value === 'Choose one'}>{value}</span>
       {:else if options[value]?.icon}
@@ -27,6 +27,6 @@
         {value || 'N/A'}
       {/if}
       <Icon class="text-gray-800 dark:text-white" name="down" />
-    </div>
+    </Row>
   </Frame>
 </div>

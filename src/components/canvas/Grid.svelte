@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { renderable } from '$svelte-game-engine';
 
   export let color = 'green';

@@ -1,6 +1,5 @@
-<script>
+<script lang="ts">
   import { onMount, setContext } from 'svelte';
-
   import {
     key,
     width,

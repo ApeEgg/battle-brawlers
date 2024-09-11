@@ -1,4 +1,5 @@
-<script>
+<script lang="ts">
+  import Input from "$src/components/form/Input.svelte";
   const { notify, unlockKeys, lockKeys } = ACTIONS;
   const { keys } = STORES;
 
@@ -6,12 +7,12 @@
 </script>
 
 <div class="grid p-10 rounded-md w-[43.75rem]">
-  <div class="cy-up-left gap-10">
+  <Column class="gap-10" left up>
     <div>
       <h2>Input</h2>
       <Input
         placeholder="Type something"
-        on:keyup={(e) => console.info(e.target.value)}
+        on:keyup={(e: KeyboardEvent) => console.info(e.target.value)}
         on:blur={unlockKeys}
         on:focus={lockKeys}
         blur={escape}
@@ -30,15 +31,15 @@
     </div>
     <div>
       <h2>Button</h2>
-      <div class="cx gap-2">
+      <Row class="gap-2">
         <Button primary on:click={console.info}>Primary</Button>
         <Button secondary on:click={console.info}>Secondary</Button>
         <Button tertiary on:click={console.info}>Tertiary</Button>
-      </div>
+      </Row>
     </div>
     <div>
       <h2>Toasts</h2>
-      <div class="cx gap-2">
+      <Row class="gap-2">
         <Button
           tertiary
           on:click={notify.bind(undefined, { error: 'this is a error toast' })}
@@ -69,7 +70,7 @@
         >
           Success
         </Button>
-      </div>
+      </Row>
     </div>
-  </div>
+  </Column>
 </div>

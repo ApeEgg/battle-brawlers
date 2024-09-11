@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { recursiveLookup, camelCaseToDashed } from '$src/helpers';
 
   const { overlay, keys } = STORES;
