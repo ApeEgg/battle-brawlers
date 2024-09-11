@@ -5,7 +5,7 @@
   export let name: IconName;
   export let multiColor: boolean = false;
   export let ratio: number = 1;
-
+ 
   const { elements, fills, strokes, viewBoxWidth, viewBoxHeight, widthRatio, heightRatio } =
     icons[name];
 

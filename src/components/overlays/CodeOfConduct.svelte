@@ -46,7 +46,7 @@
   <Close on:click />
 </div>
 
-<style>
+<style lang="postcss">
   span {
     @apply text-red-500;
   }

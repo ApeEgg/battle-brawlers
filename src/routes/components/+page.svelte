@@ -1,5 +1,4 @@
 <script lang="ts">
-  import Input from "$src/components/form/Input.svelte";
   const { notify, unlockKeys, lockKeys } = ACTIONS;
   const { keys } = STORES;
 
@@ -10,9 +9,9 @@
   <Column class="gap-10" left up>
     <div>
       <h2>Input</h2>
+      <!--on:keyup={(e) => console.info(e?.target?.value)}-->
       <Input
         placeholder="Type something"
-        on:keyup={(e: KeyboardEvent) => console.info(e.target.value)}
         on:blur={unlockKeys}
         on:focus={lockKeys}
         blur={escape}
@@ -24,9 +23,9 @@
     </div>
     <div>
       <h2>Dropdown</h2>
+      <!--on:change={({ target: { value } }) => console.info(value)}-->
       <Dropdown
         options={['option 1', 'option 2']}
-        on:change={({ target: { value } }) => console.info(value)}
       />
     </div>
     <div>

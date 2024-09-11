@@ -1,10 +1,12 @@
 <script lang="ts">
   import { recursiveLookup, camelCaseToDashed } from '$src/helpers';
+  import type { ClickEvent } from '$src/types/common';
 
   const { overlay, keys } = STORES;
   const { setOverlay } = ACTIONS;
-  const close = ({ target }) => recursiveLookup(target, ['close']) && setOverlay('');
-  const closeSelf = ({ target }) => target.classList.contains('overlay') && setOverlay('');
+  const close = ({ target }: ClickEvent) => recursiveLookup(target, ['close']) && setOverlay('');
+  const closeSelf = ({ target }: ClickEvent) =>
+    target.classList.contains('overlay') && setOverlay('');
 
   $: ({ escape } = $keys);
   $: escape && setOverlay($overlay ? '' : 'GameMenu');
@@ -18,7 +20,7 @@
     $overlay && 'opacity-1 pointer-events-auto duration-200 delay-75 scale-100'
   )}
 >
-  <div />
+  <div></div>
   <div
     class={tw(
       'relative text-left min-w-[43.75rem] xs:min-w-[calc(100%-theme(spacing.20))] max-w-[calc(100%-theme(spacing.24))] xs:max-w-[calc(100%-theme(spacing.8))]',
@@ -29,5 +31,5 @@
       <Async component={`./overlays/${$overlay}.svelte`} on:click={close} />
     {/if}
   </div>
-  <div />
+  <div></div>
 </button>

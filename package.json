@@ -5,33 +5,34 @@
     "dev": "vite dev",
     "predev": "vercel env pull",
     "build": "vite build",
-    "package": "vite package",
     "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
-    "svg:generate": "svgo -f ./src/icons -o ./src/icons && node ./scripts/icon.js ./src/icons --generate-types",
-    "svelte-check": "svelte-check --compiler-warnings 'missing-declaration:ignore'"
+    "svg:generate": "svgo -f ./src/icons -o ./src/icons && node ./scripts/icon.js ./src/icons --generate-types"
   },
   "devDependencies": {
-    "@sveltejs/adapter-vercel": "^3.0.1",
-    "@sveltejs/kit": "^1.5.0",
-    "@sveltejs/vite-plugin-svelte": "^3.0.0",
-    "@typescript-eslint/eslint-plugin": "^5.45.0",
-    "@typescript-eslint/parser": "^5.45.0",
+    "@sveltejs/adapter-vercel": "^5.4.3",
+    "@sveltejs/kit": "^2.0.0",
+    "@sveltejs/vite-plugin-svelte": "^4.0.0-next.6",
+    "@types/eslint": "^9.6.0",
     "autoprefixer": "^10.4.14",
-    "eslint": "^8.28.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-svelte": "^2.26.0",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-svelte": "^2.36.0",
+    "globals": "^15.0.0",
     "postcss": "^8.4.24",
-    "prettier": "^3.0.0",
-    "prettier-plugin-svelte": "^2.8.1",
-    "svelte": "^3.54.0",
-    "svelte-check": "^4.0.1",
+    "prettier": "^3.1.1",
+    "prettier-plugin-svelte": "^3.1.2",
+    "svelte": "^5.0.0-next.1",
+    "svelte-check": "^4.0.0",
     "tailwind-merge": "^1.13.1",
     "tailwindcss": "^3.3.2",
-    "vite": "^4.3.0"
+    "typescript": "^5.0.0",
+    "typescript-eslint": "^8.0.0",
+    "vite": "^5.0.3"
   },
-  "type": "module",
   "dependencies": {
     "@ape-egg/tailwind-rows-columns": "^1.0.2",
     "async-await-websockets": "^2.0.1",
@@ -41,5 +42,6 @@
     "svelte-global-store": "^1.0.4",
     "sveltekit-autoimport": "^1.8.1",
     "svgo": "^3.3.2"
-  }
+  },
+  "type": "module"
 }

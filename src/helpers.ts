@@ -1,5 +1,6 @@
 import lodash from 'lodash';
 import { IS_DEV } from '$src/constants/ENV_VARS';
+import type { DynamicObject } from '$src/types/common';
 
 const { isEqual, merge } = lodash;
 
@@ -38,13 +39,13 @@ const generateID = () =>
 
 const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
 
-const getCookie = () =>
+const getCookie = (): DynamicObject =>
   document.cookie
     .replaceAll(' ', '')
     .split(';')
     .reduce((a, b) => ({ ...a, [b.split('=')[0]]: b.split('=')[1] }), {});
 
-const recursiveLookup = (target, searches = []) => {
+const recursiveLookup = (target: HTMLElement, searches: string[] = []) => {
   if (!target) return false;
 
   if (searches.find((search) => target.classList.contains(search))) {
@@ -107,7 +108,7 @@ const debounce = (fn, wait, maxWait) => {
 };
 
 const lerp = (min, max, value) => {
-  var x = Math.max(0, Math.min(1, (value - min) / (max - min)));
+  const x = Math.max(0, Math.min(1, (value - min) / (max - min)));
   return x * x * (3 - 2 * x);
 };
 
@@ -210,7 +211,7 @@ const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 const isNewerVersion = (oldVer = '0.0.0', newVer) => {
   const oldParts = oldVer.split('.');
   const newParts = newVer.split('.');
-  for (var i = 0; i < newParts.length; i++) {
+  for (let i = 0; i < newParts.length; i++) {
     const a = ~~newParts[i]; // parse int
     const b = ~~oldParts[i]; // parse int
     if (a > b) return true;
