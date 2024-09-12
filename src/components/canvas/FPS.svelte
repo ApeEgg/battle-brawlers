@@ -17,7 +17,7 @@
   });
 </script>
 
-<Text
+<Txt
   {text}
   fontSize="12"
   fontFamily="Courier New"

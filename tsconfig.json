@@ -14,9 +14,11 @@
     "baseUrl": ".",
     "paths": {
       "$src/*": ["src/*"],
-      "$svelte-game-engine": ["svelte-game-engine/*"]
+      "$svelte-game-engine": ["svelte-game-engine/*"],
+      "$svelte-game-engine/*": ["svelte-game-engine/*"]
     }
-  }
+  },
+  "exclude": ["src/**/*.js"]
   // Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
   // except $lib which is handled by https://kit.svelte.dev/docs/configuration#files
   //

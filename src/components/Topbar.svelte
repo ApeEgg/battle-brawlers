@@ -5,8 +5,8 @@
     const classes = [...document.getElementsByTagName('html')[0].classList];
 
     document.getElementsByTagName('html')[0].className = classes.includes('dark')
-      ? classes.filter((className) => className !== 'dark')
-      : [...classes, 'dark'];
+      ? classes.filter((className) => className !== 'dark').join(' ')
+      : [...classes, 'dark'].join(' ');
   };
 </script>
 

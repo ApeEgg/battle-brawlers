@@ -5,10 +5,10 @@
     show = true;
   });
 
-  const fade = (_node, { duration, delay }) => ({
+  const fade = (_: any, { duration, delay }: any) => ({
     duration,
     delay,
-    css: (t) => `opacity: ${t};`
+    css: (t: number) => `opacity: ${t};`
   });
 </script>
 

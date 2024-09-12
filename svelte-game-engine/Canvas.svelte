@@ -14,10 +14,10 @@
   export let killLoopOnError = true;
   export let attributes = {};
 
-  let listeners = [];
-  let canvas;
-  let context;
-  let frame;
+  let listeners: any[] = [];
+  let canvas: any;
+  let context: any;
+  let frame: any;
   let id = Math.random();
 
   const makeReady = () =>
@@ -40,7 +40,7 @@
     makeReady();
 
     // start game loop
-    return createLoop((elapsed, dt) => {
+    return createLoop((elapsed: any, dt: any) => {
       // Run this to make sure components reloading on HMR runs their code again
       makeReady();
       time.set(elapsed);
@@ -49,17 +49,17 @@
   });
 
   setContext(key, {
-    add(fn) {
+    add(fn: any) {
       this.remove(fn);
       listeners.push(fn);
     },
-    remove(fn) {
+    remove(fn: any) {
       const idx = listeners.indexOf(fn);
       if (idx >= 0) listeners.splice(idx, 1);
     }
   });
 
-  const render = (dt) => {
+  const render = (dt: any) => {
     context.save();
     context.scale($pixelRatio, $pixelRatio);
     listeners.forEach((entity) => {
@@ -84,7 +84,7 @@
     pixelRatio.set(window.devicePixelRatio);
   };
 
-  const createLoop = (fn) => {
+  const createLoop = (fn: any) => {
     let elapsed = 0;
     let lastTime = performance.now();
     (function loop() {

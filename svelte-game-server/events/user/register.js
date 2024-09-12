@@ -1,4 +1,4 @@
-import { validateEmail } from '../../helpers.js';
+import { validateEmail } from '../../helpers';
 
 const {
   password: { hash }

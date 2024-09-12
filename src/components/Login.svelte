@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { ChangeEvent } from '$src/types/common';
+
   const { keys, overlay, socket, token } = STORES;
   const { lockKeys, unlockKeys, notify } = ACTIONS;
   const { IS_DEV, AUTO_EMAIL, AUTO_PASSWORD } = ENV;
@@ -20,6 +22,7 @@
         email,
         password
       });
+
       let expiration = '';
       if (rememberMe) {
         const future = new Date();
@@ -65,7 +68,7 @@
   <Checkbox
     id="codeOfConduct"
     bind:value={codeOfConduct}
-    on:change={({ target: { checked } }) => (codeOfConduct = checked)}
+    on:change={({ target: { checked } }: ChangeEvent) => (codeOfConduct = checked)}
   >
     I agree to the <a
       class="text-blue-500 hover:underline"
@@ -79,7 +82,7 @@
   <Checkbox
     id="rememberMe"
     bind:value={rememberMe}
-    on:change={({ target: { checked } }) => (rememberMe = checked)}
+    on:change={({ target: { checked } }: ChangeEvent) => (rememberMe = checked)}
   >
     Remember me
   </Checkbox>

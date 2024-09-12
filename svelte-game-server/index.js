@@ -1,6 +1,6 @@
 import aaw from 'async-await-websockets';
 import { MongoClient } from 'mongodb';
-import { sizeOf } from './helpers.js';
+import { sizeOf } from './helpers';
 
 const { PORT, MONGO_CONNECT } = process.env;
 

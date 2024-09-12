@@ -5,7 +5,7 @@
   export let divisions = 20;
   export let pointSize = 1;
 
-  renderable(({ ctx, width, height }) => {
+  renderable(({ ctx, width, height }: any) => {
     const aspect = width / height;
 
     ctx.save();

@@ -1,5 +1,5 @@
 import json from '../../package.json' assert { type: 'json' };
-import { isNewerVersion } from '../../helpers.js';
+import { isNewerVersion } from '../../helpers';
 const { version: serverVersion } = json;
 
 export default async ({ token, clientVersion, isDev }, { mongo }) => {

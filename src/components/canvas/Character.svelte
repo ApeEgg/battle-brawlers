@@ -11,16 +11,16 @@
   export let moveSpeed = 0.2;
   export let maxVelocity = 5;
 
-  let text;
+  let text: string;
 
   let x = startX;
   let y = startY;
   const velocity = [0, 0];
 
-  let mouse = null;
+  let mouse: null | [number, number] = null;
   let mouseDown = false;
 
-  renderable(({ ctx, width, height }) => {
+  renderable(({ ctx, width, height }: any) => {
     let position = [x, y];
     if (mouseDown) {
       const delta = vec2.sub([], mouse, position);
@@ -66,6 +66,8 @@
 
     // We use this to make sure the text is in sync with the character
     // Because regular prop reactivity happens a frame too late
+
+    // @ts-ignore
     text.$set({
       text: `(${position.map((n) => Math.round(n)).join(', ')})`,
       x,
@@ -73,7 +75,7 @@
     });
   });
 
-  function drawNormal(ctx, position, normal, length) {
+  function drawNormal(ctx: any, position: number[], normal: any, length: number) {
     const point = vec2.scaleAndAdd([], position, normal, length);
     ctx.beginPath();
     ctx.moveTo(position[0], position[1]);
@@ -81,16 +83,16 @@
     ctx.stroke();
   }
 
-  function handleMouseMove({ clientX, clientY }) {
+  function handleMouseMove({ clientX, clientY }: MouseEvent) {
     mouse = [clientX, clientY];
   }
 
-  function handleMouseDown(ev) {
+  function handleMouseDown(ev: MouseEvent) {
     handleMouseMove(ev);
     mouseDown = true;
   }
 
-  function handleMouseUp(ev) {
+  function handleMouseUp(ev: MouseEvent) {
     handleMouseMove(ev);
     mouseDown = false;
   }
@@ -102,6 +104,6 @@
   on:mousemove={handleMouseMove}
 />
 
-<Text fontSize={8} baseline="top" bind:this={text} />
+<Txt fontSize={8} baseline="top" bind:this={text} />
 
 <slot />

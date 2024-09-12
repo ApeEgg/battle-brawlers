@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 import hashids from 'hashids';
-import { validateEmail } from '../../../helpers.js';
+import { validateEmail } from '../../../helpers';
 
 const { SUPPORT_EMAIL_PASSWORD, PASSWORD_RESET_HASH } = process.env;
 
