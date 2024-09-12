@@ -12,7 +12,7 @@
   export let fontSize = 16;
   export let fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica';
 
-  renderable(({ ctx }) => {
+  renderable(({ ctx }: any) => {
     if (text) {
       ctx.fillStyle = color;
       ctx.font = `${fontSize}px ${fontFamily}`;

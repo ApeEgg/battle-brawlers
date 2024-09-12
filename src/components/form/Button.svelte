@@ -4,14 +4,12 @@
   export let tertiary = false;
   export let blur = false;
 
-  let inputRef;
+  let inputRef: HTMLButtonElement;
 
   let { class: _class } = $$props;
 
   $: blur && inputRef && inputRef === document.activeElement && inputRef.blur();
 </script>
-
-
 
 <button
   on:click

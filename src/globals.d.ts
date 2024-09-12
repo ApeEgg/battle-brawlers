@@ -6,11 +6,13 @@ interface Window {
 
 declare module 'async-await-websockets';
 declare module 'svelte-global-store';
+declare module '$svelte-game-engine';
 
 declare const tw: (typeof import('tailwind-merge'))['default'];
 declare const ACTIONS: (typeof import('$src/store/actions'))['default'];
 declare const STORES: (typeof import('$src/store/stores'))['default'];
 declare const ENV: (typeof import('$src/constants/ENV_VARS'))['default'];
+declare const Tooltip: (typeof import('svelte-component-kit'))['Tooltip'];
 declare const onMount: import('svelte').LifecycleHook<void>;
 declare const onDestroy: import('svelte').LifecycleHook<void>;
 

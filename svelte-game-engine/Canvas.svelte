@@ -9,7 +9,7 @@
     pixelRatio,
     props,
     time
-  } from '$svelte-game-engine';
+  } from './';
 
   export let killLoopOnError = true;
   export let attributes = {};
@@ -106,6 +106,6 @@
   width={$width * $pixelRatio}
   height={$height * $pixelRatio}
   style="width: {$width}px; height: {$height}px;"
-/>
+></canvas>
 <svelte:window on:resize|passive={handleResize} />
 <slot />

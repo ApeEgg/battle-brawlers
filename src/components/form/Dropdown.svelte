@@ -1,15 +1,22 @@
 <script lang="ts">
   import { emptySlot } from '$src/helpers';
 
-  export let value = 'Choose one';
-  export let options = [];
+  type Option =
+    | {
+        name?: string;
+        icon: string;
+      }
+    | string;
+
+  export let value: string = 'Choose one';
+  export let options: Option[] = [];
 </script>
 
 <div class="relative">
   <select class="absolute w-full h-full inset-0 opacity-0" bind:value on:change>
     <optgroup label="Choose one">
       {#each options as option, i}
-        {#if emptySlot(option)}
+        {#if typeof option === 'string'}
           <option value={option}>{option}</option>
         {:else}
           <option value={i}>{option?.name}</option>
@@ -21,8 +28,6 @@
     <Row class="!justify-between">
       {#if options.find(emptySlot)}
         <span class="first-letter:uppercase" class:default={value === 'Choose one'}>{value}</span>
-      {:else if options[value]?.icon}
-        <Icon name={options[value].icon} />
       {:else}
         {value || 'N/A'}
       {/if}

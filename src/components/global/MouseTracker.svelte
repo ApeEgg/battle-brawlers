@@ -7,9 +7,9 @@
     y = 0,
     left = 0,
     top = 0,
-    parent;
+    parent: HTMLElement;
 
-  const trackCursor = ({ clientX, clientY }) => {
+  const trackCursor = ({ clientX, clientY }: MouseEvent) => {
     parent = parent;
 
     x = clientX;
