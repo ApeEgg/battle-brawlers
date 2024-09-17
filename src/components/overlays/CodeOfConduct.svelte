@@ -1,3 +1,7 @@
+<script lang="ts">
+  let { onclick } = $props();
+</script>
+
 <div class="code-of-conduct">
   <Frame>
     By playing the game you agree to the following rules and regulations.
@@ -43,7 +47,7 @@
     </h3>
   </Frame>
 
-  <Close on:click />
+  <Close {onclick} />
 </div>
 
 <style lang="postcss">

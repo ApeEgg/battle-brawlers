@@ -11,7 +11,7 @@ export const canvas = writable();
 export const time = writable(0);
 
 // A more convenient store for grabbing all game props
-export const props = deriveObject({
+export const properties = deriveObject({
   ctx,
   canvas,
   width,

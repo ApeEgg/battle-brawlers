@@ -1,15 +1,18 @@
 <script lang="ts">
   import { renderable, width, height } from '$svelte-game-engine';
   import vec2 from 'gl-vec2';
+  import type { Snippet } from 'svelte';
 
-  export let color = '#ffe554';
-  export let size = 10;
-  export let thickness = 3;
-
-  export let startX = $width / 2;
-  export let startY = $height / 2;
-  export let moveSpeed = 0.2;
-  export let maxVelocity = 5;
+  let {
+    color = '#ffe554',
+    size = 10,
+    thickness = 3,
+    startX = $width / 2,
+    startY = $height / 2,
+    moveSpeed = 0.2,
+    maxVelocity = 5,
+    children
+  } = $props<{ children: Snippet }>();
 
   let text: string;
 
@@ -106,4 +109,4 @@
 
 <Txt fontSize={8} baseline="top" bind:this={text} />
 
-<slot />
+{@render children()}

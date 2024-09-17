@@ -1,10 +1,13 @@
 <script lang="ts">
-  $: ({ component, ...props } = $$restProps);
-  $: [making, vite, happy] = component.replace('./', '').replace('.svelte', '').split('/');
+  let { onclick, component, ...props }: any = $props();
+
+  let [making, vite, happy] = $derived(
+    component.replace('./', '').replace('.svelte', '').split('/')
+  );
 </script>
 
 {#await happy ? import(`./${making}/${vite}/${happy}.svelte`) : import(`./${making}/${vite}.svelte`) then { default: component }}
-  <svelte:component this={component} {...props} on:click />
+  <svelte:component this={component} {...props} {onclick} />
 {:catch}
   <Column class="bg-black p-4 text-yellow-500 text-center">
     Error loading.<br />Restart your game to fix it.

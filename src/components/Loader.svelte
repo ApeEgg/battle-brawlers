@@ -1,7 +1,10 @@
 <script lang="ts">
-  let show = false;
+  import type { Snippet } from 'svelte';
 
-  onMount(() => {
+  let { children } = $props<{ children: Snippet }>();
+  let show = $state(false);
+
+  $effect(() => {
     show = true;
   });
 
@@ -22,7 +25,7 @@
       "
     >
       <h1>
-        <slot />
+        {@render children()}
       </h1>
       <div class="relative leading-[0]">
         <Icon class="text-4xl text-white/20 dark:text-gray-800/20" name="spinner-circle" />

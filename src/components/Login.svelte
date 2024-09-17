@@ -1,14 +1,15 @@
 <script lang="ts">
+  import { preventDefault } from '$src/helpers';
   import type { ChangeEvent } from '$src/types/common';
 
   const { keys, overlay, socket, token } = STORES;
   const { lockKeys, unlockKeys, notify } = ACTIONS;
   const { IS_DEV, AUTO_EMAIL, AUTO_PASSWORD } = ENV;
 
-  let email = IS_DEV ? AUTO_EMAIL : '';
-  let password = IS_DEV ? AUTO_PASSWORD : '';
-  let rememberMe = IS_DEV ? true : false;
-  let codeOfConduct = IS_DEV ? true : false;
+  let email = $state(IS_DEV ? AUTO_EMAIL : '');
+  let password = $state(IS_DEV ? AUTO_PASSWORD : '');
+  let rememberMe = $state(IS_DEV ? true : false);
+  let codeOfConduct = $state(IS_DEV ? true : false);
 
   const login = async () => {
     if (!codeOfConduct) {
@@ -38,10 +39,10 @@
     }
   };
 
-  $: ({ escape } = $keys);
+  const { escape } = $derived($keys);
 </script>
 
-<form class="w-full column-left gap-2" on:submit|preventDefault={login}>
+<form class="w-full column-left gap-2" onsubmit={preventDefault(login)}>
   <Row class="gap-2 w-full">
     <Input
       class="xs:w-full"
@@ -68,12 +69,12 @@
   <Checkbox
     id="codeOfConduct"
     bind:value={codeOfConduct}
-    on:change={({ target: { checked } }: ChangeEvent) => (codeOfConduct = checked)}
+    onchange={({ target: { checked } }: ChangeEvent) => (codeOfConduct = checked)}
   >
     I agree to the <a
       class="text-blue-500 hover:underline"
       href="/"
-      on:click|preventDefault={() => ($overlay = 'CodeOfConduct')}
+      onclick={preventDefault(() => ($overlay = 'CodeOfConduct'))}
     >
       Code of Conduct
     </a>
@@ -82,7 +83,7 @@
   <Checkbox
     id="rememberMe"
     bind:value={rememberMe}
-    on:change={({ target: { checked } }: ChangeEvent) => (rememberMe = checked)}
+    onchange={({ target: { checked } }: ChangeEvent) => (rememberMe = checked)}
   >
     Remember me
   </Checkbox>

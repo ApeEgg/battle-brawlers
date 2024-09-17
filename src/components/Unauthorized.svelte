@@ -17,15 +17,13 @@
   {/if}
   <Row>
     {#if loginPageMode !== 0}
-      <Button tertiary on:click={() => ($settings.loginPageMode = 0)} blur={escape}>Login</Button>
+      <Button tertiary onclick={() => ($settings.loginPageMode = 0)} blur={escape}>Login</Button>
     {/if}
     {#if loginPageMode !== 1}
-      <Button tertiary on:click={() => ($settings.loginPageMode = 1)} blur={escape}>
-        Register
-      </Button>
+      <Button tertiary onclick={() => ($settings.loginPageMode = 1)} blur={escape}>Register</Button>
     {/if}
     {#if loginPageMode !== 2}
-      <Button tertiary on:click={() => ($settings.loginPageMode = 2)} blur={escape}>
+      <Button tertiary onclick={() => ($settings.loginPageMode = 2)} blur={escape}>
         Forgot password
       </Button>
     {/if}

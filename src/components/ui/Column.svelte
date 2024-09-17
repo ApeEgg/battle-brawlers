@@ -1,11 +1,16 @@
 <script lang="ts">
-  export let up: boolean = false;
-  export let right: boolean = false;
-  export let down: boolean = false;
-  export let left: boolean = false;
-  export let style: string | undefined = undefined;
+  import type { Snippet } from 'svelte';
 
-  $: ({ class: classes, ...rest } = $$restProps);
+  let {
+    up,
+    right,
+    down,
+    left,
+    style,
+    class: classes,
+    children,
+    ...rest
+  } = $props<{ children: Snippet }>();
 </script>
 
 <div
@@ -24,5 +29,5 @@
   {style}
   {...rest}
 >
-  <slot />
+  {@render children()}
 </div>

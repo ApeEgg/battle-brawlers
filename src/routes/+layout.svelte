@@ -2,7 +2,10 @@
   import { page } from '$app/stores';
   import '../app.css';
   import '$src/store/settings';
+  import type { Snippet } from 'svelte';
   const { token } = STORES;
+
+  let { children } = $props<{ children: Snippet }>();
 </script>
 
 <ConnectSocket />
@@ -17,7 +20,7 @@
   )}
 >
   <Row class="xs:w-[calc(100%-theme(space.4))]">
-    <slot />
+    {@render children()}
   </Row>
 </Row>
 

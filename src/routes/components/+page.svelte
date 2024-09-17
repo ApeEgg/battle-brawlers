@@ -10,12 +10,7 @@
     <div>
       <h2>Input</h2>
       <!--on:keyup={(e) => console.info(e?.target?.value)}-->
-      <Input
-        placeholder="Type something"
-        on:blur={unlockKeys}
-        on:focus={lockKeys}
-        blur={escape}
-      />
+      <Input placeholder="Type something" on:blur={unlockKeys} on:focus={lockKeys} blur={escape} />
     </div>
     <div>
       <h2>Checkbox</h2>
@@ -24,16 +19,14 @@
     <div>
       <h2>Dropdown</h2>
       <!--on:change={({ target: { value } }) => console.info(value)}-->
-      <Dropdown
-        options={['option 1', 'option 2']}
-      />
+      <Dropdown options={['option 1', 'option 2']} />
     </div>
     <div>
       <h2>Button</h2>
       <Row class="gap-2">
-        <Button primary on:click={console.info}>Primary</Button>
-        <Button secondary on:click={console.info}>Secondary</Button>
-        <Button tertiary on:click={console.info}>Tertiary</Button>
+        <Button primary onclick={console.info}>Primary</Button>
+        <Button secondary onclick={console.info}>Secondary</Button>
+        <Button tertiary onclick={console.info}>Tertiary</Button>
       </Row>
     </div>
     <div>
@@ -41,14 +34,14 @@
       <Row class="gap-2">
         <Button
           tertiary
-          on:click={notify.bind(undefined, { error: 'this is a error toast' })}
+          onclick={notify.bind(undefined, { error: 'this is a error toast' })}
           class="text-red-500"
         >
           Error
         </Button>
         <Button
           tertiary
-          on:click={notify.bind(undefined, {
+          onclick={notify.bind(undefined, {
             warning: 'this is a warning toast'
           })}
           class="text-orange-500"
@@ -57,14 +50,14 @@
         </Button>
         <Button
           tertiary
-          on:click={notify.bind(undefined, { information: 'this is a information toast' })}
+          onclick={notify.bind(undefined, { information: 'this is a information toast' })}
           class="text-blue-500"
         >
           Information
         </Button>
         <Button
           tertiary
-          on:click={notify.bind(undefined, { success: 'this is a success toast' })}
+          onclick={notify.bind(undefined, { success: 'this is a success toast' })}
           class="text-green-500"
         >
           Success

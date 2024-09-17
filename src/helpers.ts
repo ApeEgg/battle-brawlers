@@ -263,6 +263,20 @@ const camelCaseToDashed = (string: string) =>
     .join('-')
     .toLowerCase();
 
+function once(fn: any) {
+  return function (this: any, event: any) {
+    if (fn) fn.call(this, event);
+    fn = null;
+  };
+}
+
+function preventDefault(fn: any) {
+  return function (this: any, event: any) {
+    event.preventDefault();
+    fn.call(this, event);
+  };
+}
+
 export {
   generateStyles,
   formatProps,
@@ -298,5 +312,7 @@ export {
   notByKeys,
   reorder,
   onlyUnique,
-  camelCaseToDashed
+  camelCaseToDashed,
+  once,
+  preventDefault
 };

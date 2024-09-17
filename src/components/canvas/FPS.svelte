@@ -1,9 +1,13 @@
 <script lang="ts">
   import { renderable, height } from '$svelte-game-engine';
+  import type { Snippet } from 'svelte';
 
-  let text = '';
-  let frames = 0;
-  let prevTime = performance.now();
+  let {
+    text = '',
+    frames = 0,
+    prevTime = performance.now(),
+    children
+  } = $props<{ children: Snippet }>();
 
   renderable(() => {
     let time = performance.now();
@@ -27,4 +31,4 @@
   y={$height - 20}
 />
 
-<slot />
+{@render children()}

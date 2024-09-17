@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount, setContext } from 'svelte';
+  import type { Snippet } from 'svelte';
   import {
     key,
     width,
@@ -7,12 +8,11 @@
     canvas as canvasStore,
     ctx as contextStore,
     pixelRatio,
-    props,
+    properties,
     time
   } from './';
 
-  export let killLoopOnError = true;
-  export let attributes = {};
+  let { killLoopOnError = true, attributes = {}, children } = $props<{ children: Snippet }>();
 
   let listeners: any[] = [];
   let canvas: any;
@@ -24,7 +24,7 @@
     listeners.forEach(async (entity) => {
       if (entity.ready) return;
       if (entity.setup) {
-        let p = entity.setup($props);
+        let p = entity.setup($properties);
         if (p && p.then) await p;
       }
       entity.ready = true;
@@ -65,7 +65,7 @@
     listeners.forEach((entity) => {
       try {
         if (entity.mounted && entity.ready && entity.render) {
-          entity.render($props, dt);
+          entity.render($properties, dt);
         }
       } catch (err) {
         console.error(err);
@@ -108,4 +108,4 @@
   style="width: {$width}px; height: {$height}px;"
 ></canvas>
 <svelte:window on:resize|passive={handleResize} />
-<slot />
+{@render children()}

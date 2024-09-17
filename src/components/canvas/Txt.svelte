@@ -1,16 +1,18 @@
 <script lang="ts">
   import { renderable } from '$svelte-game-engine';
+  import type { Snippet } from 'svelte';
 
-  export let color = 'hsl(0, 0%, 100%)';
-  export let align = 'center';
-  export let baseline = 'middle';
-
-  export let text = '';
-  export let x = 0;
-  export let y = 0;
-
-  export let fontSize = 16;
-  export let fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica';
+  let {
+    color = 'hsl(0, 0%, 100%)',
+    align = 'center',
+    baseline = 'middle',
+    text = '',
+    x = 0,
+    y = 0,
+    fontSize = 16,
+    fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica',
+    children
+  } = $props<{ children: Snippet }>();
 
   renderable(({ ctx }: any) => {
     if (text) {
@@ -23,4 +25,4 @@
   });
 </script>
 
-<slot />
+{@render children()}

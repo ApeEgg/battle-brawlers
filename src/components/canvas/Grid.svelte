@@ -1,9 +1,13 @@
 <script lang="ts">
   import { renderable } from '$svelte-game-engine';
+  import type { Snippet } from 'svelte';
 
-  export let color = 'green';
-  export let divisions = 20;
-  export let pointSize = 1;
+  let {
+    color = 'green',
+    divisions = 20,
+    pointSize = 1,
+    children
+  } = $props<{ children: Snippet }>();
 
   renderable(({ ctx, width, height }: any) => {
     const aspect = width / height;
@@ -32,4 +36,4 @@
   });
 </script>
 
-<slot />
+{@render children()}
