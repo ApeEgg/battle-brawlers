@@ -43,15 +43,10 @@
     <br />
     <br />
     <h3>
-      Moderators reserve the right to <span>mute</span> players who consistently violate the rules above.
+      Moderators reserve the right to <span class="text-red-500">mute</span> players who consistently
+      violate the rules above.
     </h3>
   </Frame>
 
   <Close {onclick} />
 </div>
-
-<style lang="postcss">
-  span {
-    @apply text-red-500;
-  }
-</style>
