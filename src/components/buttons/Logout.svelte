@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   const { token, overlay } = STORES;
   const logout = () => {
     document.cookie = 'token= ; Expires=Thu, 01 Jan 1970 00:00:00 GMT;';
@@ -7,4 +7,4 @@
   };
 </script>
 
-<Button on:click={logout}>Log out</Button>
+<Button onclick={logout}>Log out</Button>

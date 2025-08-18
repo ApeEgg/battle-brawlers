@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { renderable, width, height } from '$svelte-game-engine';
 
   const BLEED = 1;
@@ -6,8 +6,8 @@
   const HEX_HEIGHT = 200;
   const HEX_WIDTH = 2 * (HEX_HEIGHT / Math.sqrt(3));
 
-  const roundToClosestOdd = (n) => 2 * Math.floor((n + BLEED) / 2) + 1;
-  const hexPath = (x, y) => {
+  const roundToClosestOdd = (n: number) => 2 * Math.floor((n + BLEED) / 2) + 1;
+  const hexPath = (x: number, y: number) => {
     x = x - HEX_WIDTH / 2;
     const width = HEX_WIDTH;
     const height = HEX_HEIGHT;
@@ -30,7 +30,7 @@
   $: spaceX = ($width - (points - 1) * SPACE) / 2;
   $: spaceY = ($height - (points - 1) * HEX_HEIGHT) / 2;
 
-  renderable(({ ctx, width, height }) => {
+  renderable(({ ctx, width, height }: any) => {
     const middleIndex = Math.floor(points / 2);
     for (let x = 0; x < points; x++) {
       for (let y = 0; y < points; y++) {

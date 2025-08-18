@@ -11,7 +11,7 @@ export const canvas = writable();
 export const time = writable(0);
 
 // A more convenient store for grabbing all game props
-export const props = deriveObject({
+export const properties = deriveObject({
   ctx,
   canvas,
   width,
@@ -27,12 +27,14 @@ export const key = Symbol();
 //   return api.getState();
 // };
 
-export const renderable = (render) => {
-  const api = getContext(key);
+export const renderable = (render: any) => {
+  const api = getContext<any>(key);
 
   const element = {
     ready: false,
-    mounted: false
+    mounted: false,
+    render: undefined,
+    setup: undefined
   };
   if (typeof render === 'function') {
     element.render = render;
@@ -52,13 +54,13 @@ export const renderable = (render) => {
   });
 };
 
-function deriveObject(obj) {
+function deriveObject(obj: any) {
   const keys = Object.keys(obj);
   const list = keys.map((key) => {
     return obj[key];
   });
   return derived(list, (array) => {
-    return array.reduce((dict, value, i) => {
+    return array.reduce((dict: any, value, i) => {
       dict[keys[i]] = value;
       return dict;
     }, {});

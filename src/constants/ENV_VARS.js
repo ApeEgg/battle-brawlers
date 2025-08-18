@@ -1,4 +1,4 @@
-// Named exports are needed to import these individually in .js-files (see `src/helpers.js`)
+// Named exports are needed to import these individually in .js-files (see `src/helpers`)
 export const WEBSOCKET_CONNECT = import.meta.env.VITE_WEBSOCKET_CONNECT;
 export const ENVIRONMENT = import.meta.env.VITE_VERCEL_ENV;
 export const AUTO_EMAIL = import.meta.env.VITE_AUTO_EMAIL;

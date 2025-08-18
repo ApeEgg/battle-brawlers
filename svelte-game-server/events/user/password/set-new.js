@@ -5,12 +5,12 @@ const {
 } = Bun;
 
 const { PASSWORD_RESET_HASH } = process.env;
-const { decode } = new hashids(PASSWORD_RESET_HASH);
+const Hashids = new hashids(PASSWORD_RESET_HASH);
 
 export default async ({ password, secret }, { mongo }) => {
   const collection = mongo.collection('users');
 
-  const [pwr] = decode(secret);
+  const [pwr] = Hashids.decode(secret);
 
   if (password.length < 3) throw Error('Your password needs to be at least 3 characters long');
 

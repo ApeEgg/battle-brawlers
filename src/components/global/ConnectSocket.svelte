@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import aaw from 'async-await-websockets';
   import { browser } from '$app/environment';
 
@@ -8,7 +8,8 @@
 
   onMount(() => {
     if (browser && !window.ws) {
-      window.ws = aaw(WEBSOCKET_CONNECT);
+      const ws = aaw(WEBSOCKET_CONNECT);
+      window.ws = ws;
       ws.on('broadcast', console.info);
       ws.on('open', () => ($socket = ws), notify({ success: 'Connected to game server' }));
       ws.on('close', () => notify({ error: `Can't connect to game server` }));
