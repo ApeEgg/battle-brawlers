@@ -5,19 +5,19 @@
   const { notifications } = STORES;
   const { removeFirstNotification } = ACTIONS;
 
-  let ref;
-  let animations = [];
+  let ref: HTMLDivElement;
+  let animations: any[] = [];
   let animating = false;
 
-  const titleByType = (type) =>
+  const titleByType = (type: string) =>
     ({
       error: 'Ops, something went wrong!',
       information: 'Did you know?',
       success: 'Good news',
       warning: 'Heads up'
-    }[type]);
+    })[type];
 
-  const removeFirst = (items) => {
+  const removeFirst = (items: any[]) => {
     if (!ref.children.length) return;
     const { height } = ref.children[0].getBoundingClientRect();
     if (items.length && !animating && height) {
@@ -58,10 +58,12 @@
       removeFirst([...$notifications]);
     })();
 
-  const hover = (enter) => animations.map((animation) => animation[enter ? 'pause' : 'play']());
+  const hover = (enter: boolean) =>
+    animations.map((animation) => animation[enter ? 'pause' : 'play']());
 </script>
 
 <div
+  role="status"
   class="fixed top-8 right-2 text-gray-500"
   on:mouseenter={hover.bind(undefined, true)}
   on:mouseleave={hover.bind(undefined, false)}

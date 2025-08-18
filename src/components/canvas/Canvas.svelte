@@ -10,7 +10,7 @@
     <!-- <Grid /> -->
 
     <!-- <Character size={10} /> -->
-    <!-- <Text
+    <!-- <Txt
       text="Click and drag around the page to move the character."
       fontSize={12}
       align="right"

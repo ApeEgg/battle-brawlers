@@ -1,10 +1,10 @@
 <script lang="ts">
   import { page } from '$app/stores';
-
-  $: ({
+  
+  const {
     status,
-    error: { message }
-  } = $page);
+    error
+  } = $page;
 </script>
 
-<h1>{status}: {message}</h1>
+<h1>{status}: {error?.message}</h1>

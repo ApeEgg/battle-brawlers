@@ -1,9 +1,8 @@
 <script lang="ts">
   export let placeholder: string | undefined;
   export let blur: any;
-
-  let inputRef: HTMLInputElement;
-  let value: string;
+  export let inputRef: HTMLInputElement;
+  export let value: string;
 
   let {
     placeholder: _placeholder,

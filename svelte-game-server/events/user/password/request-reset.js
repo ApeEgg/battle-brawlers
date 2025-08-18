@@ -1,10 +1,10 @@
 import nodemailer from 'nodemailer';
 import hashids from 'hashids';
-import { validateEmail } from '../../../helpers.js';
+import { validateEmail } from '../../../helpers';
 
 const { SUPPORT_EMAIL_PASSWORD, PASSWORD_RESET_HASH } = process.env;
 
-const { encode } = new hashids(PASSWORD_RESET_HASH);
+const Hashids = new hashids(PASSWORD_RESET_HASH);
 
 export default async ({ email, url }, { mongo }) => {
   const collection = mongo.collection('users');
@@ -46,14 +46,16 @@ export default async ({ email, url }, { mongo }) => {
   });
 
   try {
-    const token = encode(pwr);
-    await transporter.sendMail({
+    const token = Hashids.encode(pwr);
+    const result = await transporter.sendMail({
       from: '"Ape Egg" <noreply@apeegg.com>',
       to: email,
       subject: 'Svelte-game-client password reset request',
       text: `Hello ${user.email}!\n\nHere is your link to reset your password:\n${url}/reset-password/${token}\nThe link expires in 10 minutes.\n\nYou can't reply to this email.`
     });
-  } catch {
+    console.info(result);
+  } catch (e) {
+    console.error(e);
     throw Error('Failed to send mail');
   }
 };

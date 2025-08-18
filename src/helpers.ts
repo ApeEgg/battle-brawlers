@@ -1,18 +1,19 @@
 import lodash from 'lodash';
 import { IS_DEV } from '$src/constants/ENV_VARS';
+import type { DynamicObject } from '$src/types/common';
 
 const { isEqual, merge } = lodash;
 
-const wrapBasedOnType = (value) => (typeof value !== 'string' ? `{${value}}` : `"${value}"`);
+const wrapBasedOnType = (value: any) => (typeof value !== 'string' ? `{${value}}` : `"${value}"`);
 
-const generateStyles = (styles) =>
+const generateStyles = (styles: any) =>
   Object.entries(styles)
-    .reduce((a, [property, value]) => [...a, `${property}: ${value};`], [])
+    .reduce((a: any, [property, value]) => [...a, `${property}: ${value};`], [])
     .join(' ');
 
-const formatProps = (props) =>
+const formatProps = (props: any) =>
   props.reduce(
-    (a, { name, defaultValue }) => `${a} ${name}=${wrapBasedOnType(defaultValue)}\n`,
+    (a: string, { name, defaultValue }: any) => `${a} ${name}=${wrapBasedOnType(defaultValue)}\n`,
     ''
   );
 
@@ -21,11 +22,11 @@ const range = (end = 0, start = 0) =>
     .fill(0)
     .map((_, i) => start + i * (end > 0 ? 1 : -1));
 
-const emptySlot = (obj) => typeof obj !== 'object' || !Object.keys(obj).length;
+const emptySlot = (obj: any) => typeof obj !== 'object' || !Object.keys(obj).length;
 
-const filledSlot = (obj) => !emptySlot(obj);
+const filledSlot = (obj: DynamicObject) => !emptySlot(obj);
 
-const compare = (a, b) => {
+const compare = (a: any, b: any) => {
   if (a > b) return +1;
   if (a < b) return -1;
   return 0;
@@ -36,15 +37,15 @@ const generateID = () =>
     Number(String(Math.random()).slice(2)) + Date.now() + Math.round(performance.now()).toString(36)
   }`;
 
-const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
+const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-const getCookie = () =>
+const getCookie = (): DynamicObject =>
   document.cookie
     .replaceAll(' ', '')
     .split(';')
     .reduce((a, b) => ({ ...a, [b.split('=')[0]]: b.split('=')[1] }), {});
 
-const recursiveLookup = (target, searches = []) => {
+const recursiveLookup = (target: HTMLElement, searches: string[] = []) => {
   if (!target) return false;
 
   if (searches.find((search) => target.classList.contains(search))) {
@@ -56,9 +57,10 @@ const recursiveLookup = (target, searches = []) => {
   return false;
 };
 
-const capitalizeFirstLetter = (string) => `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
+const capitalizeFirstLetter = (string: string) =>
+  `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
 
-const colorStrength = (col, amt) => {
+const colorStrength = (col: any, amt: any) => {
   let usePound = false;
 
   if (col[0] === '#') {
@@ -86,10 +88,10 @@ const colorStrength = (col, amt) => {
   return (usePound ? '#' : '') + (g | (b << 8) | (r << 16)).toString(16);
 };
 
-const debounce = (fn, wait, maxWait) => {
-  let timer, maxTimer;
+const debounce = (fn: any, wait: any, maxWait: any) => {
+  let timer: any, maxTimer: any;
 
-  return function (...args) {
+  return function (...args: any) {
     if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
       clearTimeout(maxTimer);
@@ -106,40 +108,40 @@ const debounce = (fn, wait, maxWait) => {
   };
 };
 
-const lerp = (min, max, value) => {
-  var x = Math.max(0, Math.min(1, (value - min) / (max - min)));
+const lerp = (min: number, max: number, value: number) => {
+  const x = Math.max(0, Math.min(1, (value - min) / (max - min)));
   return x * x * (3 - 2 * x);
 };
 
-const smoothLerp = (animStart, animEnd, animCurrent, reverse) => {
+const smoothLerp = (animStart: number, animEnd: number, animCurrent: number, reverse: boolean) => {
   const lerped = lerp(animStart, animEnd, animCurrent);
   return reverse ? 1 - lerped : lerped;
 };
 
-const randomNumber = (min, max, factor = Math.random()) =>
+const randomNumber = (min: number, max: number, factor = Math.random()) =>
   Math.floor(factor * (max - min + 1) + min);
 
-const stringListToArray = (string) =>
+const stringListToArray = (string: string) =>
   string
     .split(',')
     .map((segment) => segment.trim())
     .filter((segment) => segment);
 
-const pad = (v) => (v < 10 ? `0${v}` : v);
+const pad = (v: number) => (v < 10 ? `0${v}` : v);
 
-const intToArray = (int, fill = undefined) =>
+const intToArray = (int: number, fill: any = undefined) =>
   Array(int)
     .fill(0)
     .map((_, i) => (fill !== undefined ? fill : i));
 
-const filterSplit = (array, condition) =>
+const filterSplit = (array: any[], condition: any) =>
   array.reduce(
     ([hits, misses], item) =>
       condition(item) ? [[...hits, item], misses] : [hits, [...misses, item]],
     [[], []]
   );
 
-const findNIndex = (array, condition, n = 1, searched = []) => {
+const findNIndex = (array: any, condition: any, n = 1, searched = []) => {
   const index = array.findIndex(condition);
 
   if (index === -1) {
@@ -156,18 +158,18 @@ const findNIndex = (array, condition, n = 1, searched = []) => {
   return searched.length + index;
 };
 
-const readableTimestamp = (timestamp) => new Date(timestamp).toLocaleString();
+const readableTimestamp = (timestamp: any) => new Date(timestamp).toLocaleString();
 
-const msToTime = (ms) => ({
-  milliseconds: parseInt(ms % 1000, 10),
+const msToTime = (ms: number) => ({
+  milliseconds: ms % 1000,
   seconds: Math.floor((ms / 1000) % 60),
   minutes: Math.floor((ms / (1000 * 60)) % 60),
   hours: Math.floor((ms / (1000 * 60 * 60)) % 24),
   days: Math.floor((ms / (1000 * 60 * 60 * 24)) % 365)
 });
 
-const upsertArray = (players, nearby) =>
-  nearby.reduce((a, player) => {
+const upsertArray = (players: any[], nearby: any[]) =>
+  nearby.reduce((a: any[], player: any) => {
     const index = a.findIndex(({ _id }) => _id === player._id);
     if (index === -1) {
       return [...a, player];
@@ -176,14 +178,14 @@ const upsertArray = (players, nearby) =>
     }
   }, players);
 
-const fillOut = (array, amount, fillWith = false, repeat = false) =>
+const fillOut = (array: any[], amount: number, fillWith = false, repeat = false) =>
   amount > array.length || repeat
     ? [...array, ...intToArray(amount - (repeat ? array.length % amount : array.length), fillWith)]
     : array;
 
-const prettyNumber = (value) => value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ');
+const prettyNumber = (value: number) => value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ');
 
-const parseVersion = (versionString) => {
+const parseVersion = (versionString: string) => {
   const [major, minor, patch] = versionString.split('.').map(Number);
 
   return {
@@ -193,7 +195,7 @@ const parseVersion = (versionString) => {
   };
 };
 
-const dayAfter = (time) => {
+const dayAfter = (time: any) => {
   const tomorrow = new Date(time || null);
 
   tomorrow.setHours(IS_DEV ? tomorrow.getHours() : 0);
@@ -205,12 +207,12 @@ const dayAfter = (time) => {
   return tomorrow;
 };
 
-const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
+const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max);
 
-const isNewerVersion = (oldVer = '0.0.0', newVer) => {
+const isNewerVersion = (oldVer = '0.0.0', newVer: any) => {
   const oldParts = oldVer.split('.');
   const newParts = newVer.split('.');
-  for (var i = 0; i < newParts.length; i++) {
+  for (let i = 0; i < newParts.length; i++) {
     const a = ~~newParts[i]; // parse int
     const b = ~~oldParts[i]; // parse int
     if (a > b) return true;
@@ -219,7 +221,7 @@ const isNewerVersion = (oldVer = '0.0.0', newVer) => {
   return false;
 };
 
-const traverse = ([step, ...steps], tree, pointer = undefined) => {
+const traverse = ([step, ...steps]: any, tree: any, pointer: any = undefined) => {
   if (!pointer) pointer = tree;
   if (steps.length - 1) {
     if (!pointer[step]) pointer[step] = {};
@@ -231,8 +233,8 @@ const traverse = ([step, ...steps], tree, pointer = undefined) => {
   return tree;
 };
 
-const dirty = (oldData = {}, newData, chain = '') =>
-  Object.entries(newData).reduce((a, [key, value]) => {
+const dirty: any = (oldData: any = {}, newData: any, chain: any = '') =>
+  Object.entries(newData).reduce((a, [key, value]: any) => {
     const keyChain = [...(chain ? [chain] : []), key].join('.');
 
     if (typeof value === 'object' && Object.keys(value)?.length && value?.length === undefined) {
@@ -246,20 +248,34 @@ const dirty = (oldData = {}, newData, chain = '') =>
     return a;
   }, {});
 
-const byKeys = (keys) => (checkAgainst) =>
-  Object.entries(keys).every(([key, value]) => checkAgainst?.[key] === value);
+const byKeys = (keys: any[]) => (checkAgainst: any[]) =>
+  Object.entries(keys).every(([key, value]: any) => checkAgainst?.[key] === value);
 
-const notByKeys = (keys) => (checkAgainst) => !byKeys(keys)(checkAgainst);
+const notByKeys = (keys: any[]) => (checkAgainst: any[]) => !byKeys(keys)(checkAgainst);
 
-const reorder = (array, index) => array.slice(index).concat(array.slice(0, index));
+const reorder = (array: any[], index: number) => array.slice(index).concat(array.slice(0, index));
 
-const onlyUnique = (value, index, self) => self.indexOf(value) === index;
+const onlyUnique = (value: number, index: number, self: any) => self.indexOf(value) === index;
 
-const camelCaseToDashed = (string) =>
+const camelCaseToDashed = (string: string) =>
   string
     .split(/\.?(?=[A-Z])/)
     .join('-')
     .toLowerCase();
+
+function once(fn: any) {
+  return function (this: any, event: any) {
+    if (fn) fn.call(this, event);
+    fn = null;
+  };
+}
+
+function preventDefault(fn: any) {
+  return function (this: any, event: any) {
+    event.preventDefault();
+    fn.call(this, event);
+  };
+}
 
 export {
   generateStyles,
@@ -296,5 +312,7 @@ export {
   notByKeys,
   reorder,
   onlyUnique,
-  camelCaseToDashed
+  camelCaseToDashed,
+  once,
+  preventDefault
 };

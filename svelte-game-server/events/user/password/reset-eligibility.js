@@ -1,12 +1,12 @@
 import hashids from 'hashids';
 
 const { PASSWORD_RESET_HASH } = process.env;
-const { decode } = new hashids(PASSWORD_RESET_HASH);
+const Hashids = new hashids(PASSWORD_RESET_HASH);
 
 export default async ({ secret }, { mongo }) => {
   const collection = mongo.collection('users');
 
-  const [pwr] = decode(secret);
+  const [pwr] = Hashids.decode(secret);
 
   if (!pwr) throw Error('Reset link is either invalid or expired');
 

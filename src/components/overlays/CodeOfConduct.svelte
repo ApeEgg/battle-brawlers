@@ -1,3 +1,7 @@
+<script lang="ts">
+  let { onclick } = $props();
+</script>
+
 <div class="code-of-conduct">
   <Frame>
     By playing the game you agree to the following rules and regulations.
@@ -39,15 +43,10 @@
     <br />
     <br />
     <h3>
-      Moderators reserve the right to <span>mute</span> players who consistently violate the rules above.
+      Moderators reserve the right to <span class="text-red-500">mute</span> players who consistently
+      violate the rules above.
     </h3>
   </Frame>
 
-  <Close on:click />
+  <Close {onclick} />
 </div>
-
-<style>
-  span {
-    @apply text-red-500;
-  }
-</style>

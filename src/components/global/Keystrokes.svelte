@@ -1,11 +1,12 @@
 <script lang="ts">
   import AVAILABLE_KEYS from '$src/constants/AVAILABLE_KEYS';
+  import type { DynamicObject } from '$src/types/common';
 
   const { keys, keyLock } = STORES;
 
-  let localKeys = { ...AVAILABLE_KEYS };
+  let localKeys: DynamicObject = { ...AVAILABLE_KEYS };
 
-  const toggleKey = (c) => {
+  const toggleKey = (c: KeyboardEvent) => {
     if (!(c instanceof KeyboardEvent)) return; // Password auto-filler fires `Event` which is missing `code` for example
     const { type, code, metaKey, ctrlKey } = c;
     const lcKey = code.toLowerCase();
