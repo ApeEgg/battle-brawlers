@@ -10,6 +10,7 @@ declare module '$svelte-game-engine';
 declare module 'gl-vec2';
 declare module 'lodash';
 declare module 'sveltekit-autoimport';
+declare module 'seedrandom';
 
 declare const tw: (typeof import('tailwind-merge'))['default'];
 declare const ACTIONS: (typeof import('$src/store/actions'))['default'];
