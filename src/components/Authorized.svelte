@@ -76,10 +76,9 @@
         {#each combatants as combatant, c}
           {@const rot =
             index * rotation + 270 - rotation / 2 + (rotation / (combatants.length + 1)) * (c + 1)}
-          <div
-            class="diameter"
-            style={`transform: rotate(${rot}deg); z-index: ${Math.round(Math.abs(Math.abs(rot - 540) - 180))};`}
-          >
+          {@const raw = Math.round(Math.abs(Math.abs(rot - 540) - 180))}
+          {@const z = Math.floor((raw / 180) * 9) + 1}
+          <div class="diameter" style={`transform: rotate(${rot}deg); z-index: ${z};`}>
             <div
               class="edge"
               style={`transform: scale(${geometry.scale}) translate(-50%, -50%) rotate(-${rot}deg);`}
@@ -105,7 +104,7 @@
     <br /><input type="range" min="1" max="6" bind:value={combatantCount} />
     <br />
 
-    <button onclick={runCombat} disabled={!teams.length}> Run combat </button>
+    <Button onclick={runCombat} disabled={!teams.length}>Run combat</Button>
 
     <!--<pre>{JSON.stringify(comb1, null, 2)}</pre>
 <pre>{JSON.stringify(comb2, null, 2)}</pre>
