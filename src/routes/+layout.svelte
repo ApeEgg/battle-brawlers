@@ -6,23 +6,29 @@
   const { token } = STORES;
 
   let { children } = $props<{ children: Snippet }>();
+  let isFrontpage = $derived($page.route.id === '/' && !$token);
 </script>
 
 <ConnectSocket />
 <Keystrokes />
 
-<Row
+<div
   class={tw(
     'w-screen min-h-screen bg-no-repeat bg-cover bg-center bg-blur',
-    $page.route.id === '/' && !$token
-      ? 'bg-[url("/images/desktop-1920x1080.jpg")]'
-      : 'bg-gray-200 dark:bg-gray-800'
+    isFrontpage
+      ? 'bg-[url("/images/desktop-1920x1080.jpg")] row'
+      : 'bg-[url("/images/parchment-bg.jpg")] dark:bg-gray-800 row-up'
   )}
 >
-  <Row class="xs:w-[calc(100%-theme(space.4))]">
+  <div
+    class={tw(
+      'xs:w-[calc(100%-theme(space.4))]',
+      isFrontpage ? 'row' : 'row-up-left max-w-7xl w-full'
+    )}
+  >
     {@render children()}
-  </Row>
-</Row>
+  </div>
+</div>
 
 <Topbar />
 <Logo />

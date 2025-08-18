@@ -69,34 +69,40 @@
   });
 </script>
 
-<Column class="gap-10" up>
-  <CombatArena>
-    {#if teams.length}
-      {#each teams as { combatants }, index}
-        {#each combatants as combatant, c}
-          {@const rot =
-            index * rotation + 270 - rotation / 2 + (rotation / (combatants.length + 1)) * (c + 1)}
-          {@const raw = Math.round(Math.abs(Math.abs(rot - 540) - 180))}
-          {@const z = Math.floor((raw / 180) * 9) + 1}
-          <div class="diameter" style={`transform: rotate(${rot}deg); z-index: ${z};`}>
-            <div
-              class="edge"
-              style={`transform: scale(${geometry.scale}) translate(-50%, -50%) rotate(-${rot}deg);`}
-            >
-              <CombatantCard {...combatant}></CombatantCard>
+<Row class="gap-2 min-h-screen flex-1 pt-20" up>
+  <div class="bg-white/30 w-56 border-gray-400 border rounded p-4">left side</div>
+  <div class="bg-white h-full flex-1 border-gray-400 border rounded">
+    <CombatArena>
+      {#if teams.length}
+        {#each teams as { combatants }, index}
+          {#each combatants as combatant, c}
+            {@const rot =
+              index * rotation +
+              270 -
+              rotation / 2 +
+              (rotation / (combatants.length + 1)) * (c + 1)}
+            {@const raw = Math.round(Math.abs(Math.abs(rot - 540) - 180))}
+            {@const z = Math.floor((raw / 180) * 9) + 1}
+            <div class="diameter" style={`transform: rotate(${rot}deg); z-index: ${z};`}>
+              <div
+                class="edge"
+                style={`transform: scale(${geometry.scale}) translate(-50%, -50%) rotate(-${rot}deg);`}
+              >
+                <CombatantCard {...combatant}></CombatantCard>
+              </div>
             </div>
-          </div>
-        {/each}
-        <!--<TeamBadge
+          {/each}
+          <!--<TeamBadge
         {index}
         rotation={index * rotation + 270}
         scale={geometry.scale}
       />-->
-      {/each}
-    {/if}
-  </CombatArena>
+        {/each}
+      {/if}
+    </CombatArena>
+  </div>
 
-  <div>
+  <div class="bg-white/30 w-56 border-gray-400 border rounded p-4">
     Teams {teamCount}:
     <br /><input type="range" min="1" max="8" bind:value={teamCount} />
     <br />
@@ -112,12 +118,9 @@
 <pre>{JSON.stringify(weaponTypes, null, 2)}</pre>-->
     <pre>{JSON.stringify(combat, null, 2)}</pre>
   </div>
-</Column>
+</Row>
 
 <style>
-  :global(body) {
-    margin: 0;
-  }
   .diameter {
     position: absolute;
     top: 0;
