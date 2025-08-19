@@ -15,11 +15,6 @@ export default {
     props: {},
     visible: false
   },
-  combat: {
-    start: 0,
-    seed: '',
-    teams: []
-  },
   keys: [],
   keyLock: false,
   overlay: '',

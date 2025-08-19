@@ -3,32 +3,15 @@
   // import weaponTypes from '$src/constants/WeaponTypes.js';
   import { prepareCombatant, generateCombat, seededRandom } from '$src/ts/Utils';
   import type { Team } from '$src/types/team';
+  import type { Action } from '$src/types/action';
+  import type { Character } from '$src/types/character';
+
   import CombatArena from '$src/components/combat/CombatArena.svelte';
   import CombatantCard from '$src/components/combat/CombatantCard.svelte';
   import { onDestroy } from 'svelte';
 
-  const { combat } = STORES;
-
-  const actions1 = ['basic attack', 'block', 'basic attack'];
-  const actions2 = ['basic attack', 'basic attack', 'basic attack'];
-
-  const comb1 = prepareCombatant({
-    name: 'npc1',
-    race: 'elf',
-    actions: actions1
-  });
-
-  const comb2 = prepareCombatant({
-    name: 'npc2',
-    race: 'human',
-    actions: actions2
-  });
-
-  const comb3 = prepareCombatant({
-    name: 'npc3',
-    race: 'troll',
-    actions: actions2
-  });
+  const actions1: Action[] = ['heavy', 'block', 'dodge'];
+  const actions2: Action[] = ['block', 'dodge', 'heavy'];
 
   const getGeometry = (N: number, { baseRadius = 208, itemWidth = 226, gap = 0 } = {}) => {
     const C_base = 2 * Math.PI * baseRadius;
@@ -47,12 +30,35 @@
   let lastTimestamp = 0;
   let elapsedMilliseconds = 0;
 
-  let combatants = [comb1, comb2, comb3];
+  let characters: Character[] = [
+    {
+      name: 'npc1',
+      race: 'elf',
+      actions: actions1
+    },
+    {
+      name: 'npc2',
+      race: 'human',
+      actions: actions2
+    },
+    {
+      name: 'npc3',
+      race: 'troll',
+      actions: actions2
+    },
+    {
+      name: 'npc4',
+      race: 'dwarf',
+      actions: actions2
+    }
+  ];
 
   const initializeCombat = () => {
     const nextCombatants = (u: number) =>
       Array.from({ length: combatantCount }, (_, i) => {
-        return combatants[seededRandom(0, combatants.length - 1, `race__${i}_${u}`)];
+        return prepareCombatant(
+          characters[seededRandom(0, characters.length - 1, `race__${i}_${u}`)]
+        ); //  `racdfswjk${i}_${u}` four races
       });
 
     const nextTeams = Array.from({ length: teamCount }, (_, index) => ({
@@ -74,16 +80,15 @@
     const deltaTime = timestamp - lastTimestamp; // time since last frame
     elapsedMilliseconds += deltaTime; // add to running total
     lastTimestamp = timestamp;
-
-    let [action] = $combat.actions;
+    let [event] = app.combat.events;
     // console.log(elapsedMilliseconds, $state.snapshot(action));
 
-    if (elapsedMilliseconds > action?.timestamp) {
+    if (elapsedMilliseconds > event?.timestamp) {
       // console.log('hehue', $state.snapshot(action.teams));
-      teams = action.teams;
+      teams = event.teams;
 
-      const [_, ...newActions] = $combat.actions;
-      $combat.actions = newActions;
+      const [_, ...newEvents] = app.combat.events;
+      app.combat.events = newEvents;
     }
     // while (elapsedMilliseconds > action?.timestamp) {
     //   console.log('here');
@@ -99,7 +104,7 @@
   };
 
   const runCombat = () => {
-    $combat = generateCombat('myseed', $state.snapshot(teams));
+    app.combat = generateCombat('myseed', $state.snapshot(teams));
     startTimestamp = 0; // reset so first loop call sets it
     elapsedMilliseconds = 0;
     loopId = requestAnimationFrame(loop);
@@ -114,8 +119,8 @@
   });
 </script>
 
-<Row class="gap-2 min-h-screen flex-1 pt-20" up>
-  <div class="bg-white/30 w-56 border-gray-400 border rounded p-4">
+<Row class="min-h-screen flex-1 gap-2 pt-20" up>
+  <div class="w-56 rounded border border-gray-400 bg-white/30 p-4">
     left side
     <!-- <code class="text-xs">
       <pre>
@@ -123,11 +128,11 @@
     </pre>
     </code> -->
   </div>
-  <div class="bg-white h-full flex-1 border-gray-400 border rounded">
+  <div class="h-full flex-1 rounded border border-gray-400 bg-white">
     <CombatArena>
       {#if teams.length}
         {#each teams as { combatants }, index (`team_${index}`)}
-          {#each combatants as combatant, c (`combatant_${combatant.id}`)}
+          {#each combatants as combatant, c (`team_${index}_combatant_${combatant.id}`)}
             {@const rot =
               index * rotation +
               270 -
@@ -154,7 +159,7 @@
     </CombatArena>
   </div>
 
-  <div class="bg-white/30 w-56 border-gray-400 border rounded p-4">
+  <div class="w-56 rounded border border-gray-400 bg-white/30 p-4">
     Teams {teamCount}:
     <br /><input type="range" min="1" max="8" bind:value={teamCount} />
     <br />
@@ -163,9 +168,9 @@
     <br />
 
     <Button onclick={runCombat} disabled={!teams.length}>Run combat</Button>
-    <Button onclick={() => cancelAnimationFrame(loopId)} disabled={!teams.length}
-      >Cancel combat</Button
-    >
+    <Button onclick={() => cancelAnimationFrame(loopId)} disabled={!teams.length}>
+      Cancel combat
+    </Button>
   </div>
 </Row>
 

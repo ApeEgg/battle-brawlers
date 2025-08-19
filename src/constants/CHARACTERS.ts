@@ -1,25 +1,52 @@
-import type { Character } from '$src/types/character';
+import type { Character, Race } from '$src/types/character';
 
 export default {
   elf: {
-    prettyName: 'Elf',
+    name: '',
+    race: 'elf',
     combatStats: {
-      maxHealth: 10,
+      maxHealth: 40,
+      currentHealth: 10,
+      maxEnergy: 12,
+      currentEnergy: 6,
       damage: 2
-    }
+    },
+    actions: []
   },
   human: {
-    prettyName: 'Human',
+    name: '',
+    race: 'human',
     combatStats: {
-      maxHealth: 12,
+      maxHealth: 40,
+      currentHealth: 10,
+      maxEnergy: 12,
+      currentEnergy: 6,
       damage: 3
-    }
+    },
+    actions: []
   },
   troll: {
-    prettyName: 'Troll',
+    name: '',
+    race: 'troll',
     combatStats: {
-      maxHealth: 18,
+      maxHealth: 40,
+      currentHealth: 10,
+      maxEnergy: 12,
+      currentEnergy: 6,
       damage: 4
-    }
+    },
+    actions: []
+  },
+  dwarf: {
+    name: '',
+    race: 'dwarf',
+    combatStats: {
+      maxHealth: 40,
+      currentHealth: 10,
+      maxEnergy: 12,
+      currentEnergy: 6,
+      damage: 4
+    },
+    actions: []
   }
-} as Character;
+} as Record<Race, Character>;

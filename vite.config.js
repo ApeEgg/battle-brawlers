@@ -17,7 +17,8 @@ export default defineConfig({
     autoImport({
       components: [{ name: './src/components', flat: true }],
       mapping: {
-        ENV: `import ENV from '$src/constants/ENV_VARS'`
+        ENV: `import ENV from '$src/constants/ENV_VARS'`,
+        app: `import app from '$src/app.svelte'`
       },
       module: {
         svelte: ['onMount', 'onDestroy'],

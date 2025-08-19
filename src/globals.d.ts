@@ -16,6 +16,7 @@ declare const tw: (typeof import('tailwind-merge'))['default'];
 declare const ACTIONS: (typeof import('$src/store/actions'))['default'];
 declare const STORES: (typeof import('$src/store/stores'))['default'];
 declare const ENV: (typeof import('$src/constants/ENV_VARS'))['default'];
+declare const app: (typeof import('$src/app.svelte.ts'))['default'];
 declare const Tooltip: (typeof import('svelte-component-kit'))['Tooltip'];
 declare const onMount: import('svelte').LifecycleHook<void>;
 declare const onDestroy: import('svelte').LifecycleHook<void>;

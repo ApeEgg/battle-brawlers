@@ -1,13 +1,13 @@
 <script lang="ts">
-  let { currentHealth, maxHealth } = $props();
+  let { current, max } = $props();
 </script>
 
-<div class="relative h-7 overflow-hidden rounded bg-red-100">
+<div class="relative h-7 overflow-hidden rounded bg-gray-500">
   <div
-    class="health-bar h-full bg-red-800 transition-all duration-500 ease-in-out"
-    style="width: {Math.max(0, (currentHealth / maxHealth) * 100)}%"
+    class="h-full bg-red-800 transition-all duration-500 ease-in-out"
+    style="width: {Math.max(0, (current / max) * 100)}%"
   ></div>
-  <div class="absolute top-1.5 left-2 text-xs text-white text-shadow-xs">
-    {currentHealth} / {maxHealth}
+  <div class="absolute top-1 left-2 text-sm text-white text-shadow-xs">
+    {current} / {max}
   </div>
 </div>

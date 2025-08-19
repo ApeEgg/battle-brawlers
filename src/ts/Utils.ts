@@ -5,6 +5,7 @@ import type { Team } from '$src/types/team';
 import type { Combatant } from '$src/types/combatant';
 import lodash from 'lodash';
 import { generateID } from '$src/helpers';
+import type { Action } from '$src/types/action';
 const { uniqBy } = lodash;
 
 export const calculateCombatStats = (...args: any) => {
@@ -24,7 +25,7 @@ export const prepareCombatant = ({
 }: {
   name: string;
   race: Race;
-  actions: any[];
+  actions: Action[];
 }): Combatant => {
   const combatStats = calculateCombatStats(characters[race].combatStats);
 
@@ -33,47 +34,60 @@ export const prepareCombatant = ({
   return {
     id: generateID(),
     name,
-    race: characters[race].prettyName,
+    race,
     combatStats,
     actions
   };
 };
 
 export const generateCombat = (seed: string, teams: Team[]) => {
-  let combatants = structuredClone(teams).flatMap((team) =>
+  let combatants = teams.flatMap((team) =>
     team.combatants.map((combatant) => ({
       teamIndex: team.index,
-      nextAction: 1000,
+      nextEvent: 1000,
       ...combatant
     }))
   );
 
-  const actions = [];
+  const events = [];
   let timestamp = 0;
   let i = 0;
 
   teams = structuredClone(teams);
   while (uniqBy(combatants, 'teamIndex').length > 1) {
-    const actionTaker = combatants.reduce((a, b) => (a.nextAction < b.nextAction ? a : b));
-    const targets = combatants.filter(({ teamIndex }) => teamIndex !== actionTaker.teamIndex);
+    const eventTaker = combatants.reduce((a, b) => (a.nextEvent < b.nextEvent ? a : b));
+    const targets = combatants.filter(({ teamIndex }) => teamIndex !== eventTaker.teamIndex);
     const target = targets[seededRandom(0, targets.length - 1, `${seed}_${i}_defender`)];
-    timestamp = actionTaker.nextAction;
+    timestamp = eventTaker.nextEvent;
 
     const damage = {
       result: 0
     };
 
-    damage.result = actionTaker.combatStats.damage;
-    target.combatStats.currentHealth -= damage.result;
+    if (eventTaker.combatStats.currentEnergy >= 8) {
+      eventTaker.combatStats.currentEnergy -= 8;
 
-    const i1 = teams[actionTaker.teamIndex].combatants.findIndex(({ id }) => id === actionTaker.id);
-    teams[actionTaker.teamIndex].combatants[i1] = actionTaker;
+      const [action] = eventTaker.actions;
+      eventTaker.actions = eventTaker.actions.slice(1);
+      eventTaker.actions.push(action);
+    } else {
+      damage.result = eventTaker.combatStats.damage;
+      target.combatStats.currentHealth -= damage.result;
+
+      eventTaker.combatStats.currentEnergy = Math.min(
+        eventTaker.combatStats.maxEnergy,
+        eventTaker.combatStats.currentEnergy + 2
+      );
+    }
+
+    const i1 = teams[eventTaker.teamIndex].combatants.findIndex(({ id }) => id === eventTaker.id);
+    teams[eventTaker.teamIndex].combatants[i1] = eventTaker;
 
     const i2 = teams[target.teamIndex].combatants.findIndex(({ id }) => id === target.id);
     teams[target.teamIndex].combatants[i2] = target;
 
     teams.forEach((team, teamIndex) => {
-      team.combatants.forEach(({ race, id, combatStats: { currentHealth, maxHealth } }) => {
+      team.combatants.forEach(({ id, combatStats: { currentHealth } }) => {
         const combatantIndex = combatants.findIndex((c) => c.id === id);
 
         if (currentHealth <= 0 && combatantIndex !== -1) {
@@ -85,10 +99,10 @@ export const generateCombat = (seed: string, teams: Team[]) => {
       });
     });
 
-    actions.push(
+    events.push(
       structuredClone({
         timestamp,
-        actionTaker,
+        eventTaker,
         teams,
         target,
         log: {
@@ -101,15 +115,15 @@ export const generateCombat = (seed: string, teams: Team[]) => {
     // const removeIndex = seededRandom(0, combatants.length - 1, seed);
     // combatants = [...combatants.slice(0, removeIndex), ...combatants.slice(removeIndex + 1)];
 
-    actionTaker.nextAction = actionTaker.nextAction + 1000;
+    eventTaker.nextEvent = eventTaker.nextEvent + 1000;
 
     i++;
   }
 
-  const duration = actions[actions.length - 1]?.timestamp;
+  const duration = events[events.length - 1]?.timestamp;
 
   return {
-    actions,
+    events,
     teams,
     duration
   };

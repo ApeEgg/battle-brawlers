@@ -1,6 +1,11 @@
-export type Race = 'elf' | 'human' | 'troll';
+import type { Action } from '$src/types/action';
+import type { CombatStats } from '$src/types/combatStats';
 
-export type Character = Record<
-  Race,
-  { prettyName: string; combatStats: { maxHealth: number; damage: number } }
->;
+export type Race = 'elf' | 'human' | 'troll' | 'dwarf';
+
+export type Character = {
+  name: string;
+  race: Race;
+  actions: Action[];
+  combatStats?: CombatStats;
+};

@@ -1,5 +1,7 @@
 export type CombatStats = {
   maxHealth: number;
-  damage: number;
   currentHealth: number;
+  damage: number;
+  maxEnergy: number;
+  currentEnergy: number;
 };
