@@ -1,18 +1,17 @@
 <script lang="ts">
-  import HealthBar from './HealthBar.svelte';
+  import HealthBar from '$src/components/combat/HealthBar.svelte';
   let { name, race, combatStats, actions } = $props();
-  let { currentHealth, maxHealth, damage } = combatStats;
 </script>
 
 <div class="combatant">
-  <HealthBar />
+  <HealthBar currentHealth={combatStats.currentHealth} maxHealth={combatStats.maxHealth} />
   <div class="card">
     <strong>Race:</strong>
     {race} <br />
     <strong>Health:</strong>
-    {currentHealth} / {maxHealth} <br />
+    {combatStats.currentHealth} / {combatStats.maxHealth} <br />
     <strong>Damage:</strong>
-    {damage}
+    {combatStats.damage}
   </div>
   <div class="actions">
     {#each actions as action}

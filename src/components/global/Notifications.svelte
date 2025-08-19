@@ -75,7 +75,7 @@
         <div in:fly={{ x: 50 }}>
           <div
             class={tw(
-              'notification mb-2 pl-3 pr-5 py-3 glass',
+              'notification glass mb-2 py-3 pr-5 pl-3',
               type === 'error' && 'border-red-500',
               type === 'warning' && 'border-orange-500',
               type === 'information' && 'border-blue-500',
@@ -85,18 +85,18 @@
             <Row class="gap-2">
               <Row
                 class={tw(
-                  'icon w-8 h-8 rounded-full',
+                  'icon h-8 w-8 rounded-full',
                   type === 'error' && 'bg-red-500',
                   type === 'warning' && 'bg-orange-500',
                   type === 'information' && 'bg-blue-500',
                   type === 'success' && 'bg-green-500'
                 )}
               >
-                <Icon class="text-white text-lg" name={type} />
+                <Icon class="text-lg text-white" name={type} />
               </Row>
               <div>
-                <strong class="text-gray-800 text-base">{titleByType(type)}</strong>
-                <div class="text-gray-700 max-w-xs first-letter:capitalize">
+                <strong class="text-base text-gray-800">{titleByType(type)}</strong>
+                <div class="max-w-xs text-gray-700 first-letter:capitalize">
                   {message.replace('Error: ', '')}
                 </div>
               </div>

@@ -1,6 +1,7 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import autoImport from 'sveltekit-autoimport';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   build: {
@@ -12,6 +13,7 @@ export default defineConfig({
     }
   },
   plugins: [
+    tailwindcss(),
     autoImport({
       components: [{ name: './src/components', flat: true }],
       mapping: {

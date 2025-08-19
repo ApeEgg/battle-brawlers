@@ -3,6 +3,7 @@
   import '../app.css';
   import '$src/store/settings';
   import type { Snippet } from 'svelte';
+  import Authorization from '$src/components/Authorization.svelte';
   const { token } = STORES;
 
   let { children } = $props<{ children: Snippet }>();
@@ -26,7 +27,9 @@
       isFrontpage ? 'row' : 'row-up-left max-w-7xl w-full'
     )}
   >
-    {@render children()}
+    <Authorization>
+      {@render children()}
+    </Authorization>
   </div>
 </div>
 
