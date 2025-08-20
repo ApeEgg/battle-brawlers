@@ -1,17 +1,44 @@
 <script lang="ts">
-  // import combatStats from '$src/constants/CombatStats.js';
-  // import weaponTypes from '$src/constants/WeaponTypes.js';
+  import { onDestroy } from 'svelte';
   import { prepareCombatant, generateCombat, seededRandom } from '$src/ts/Utils';
   import type { Team } from '$src/types/team';
-  import type { Action } from '$src/types/action';
+  import type { Ability } from '$src/types/ability';
   import type { Character } from '$src/types/character';
+  import ABILITIES from '$src/constants/ABILITIES';
 
   import CombatArena from '$src/components/combat/CombatArena.svelte';
   import CombatantCard from '$src/components/combat/CombatantCard.svelte';
-  import { onDestroy } from 'svelte';
 
-  const actions1: Action[] = ['heavy', 'block', 'dodge'];
-  const actions2: Action[] = ['block', 'dodge', 'heavy'];
+  const abilities1: Ability[] = [
+    ABILITIES.basicAttackSlow,
+    ABILITIES.basicAttackSlow,
+    ABILITIES.basicAttackSlow,
+    ABILITIES.basicAttackSlow
+  ];
+
+  const abilities2: Ability[] = [
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast
+  ];
+
+  const abilities3: Ability[] = [
+    ABILITIES.basicAttackRegular,
+    ABILITIES.basicAttackRegular,
+    ABILITIES.basicAttackRegular,
+    ABILITIES.basicAttackRegular,
+    ABILITIES.basicAttackRegular,
+    ABILITIES.basicAttackRegular
+  ];
 
   const getGeometry = (N: number, { baseRadius = 208, itemWidth = 226, gap = 0 } = {}) => {
     const C_base = 2 * Math.PI * baseRadius;
@@ -34,22 +61,22 @@
     {
       name: 'npc1',
       race: 'elf',
-      actions: actions1
+      abilities: abilities2
     },
     {
       name: 'npc2',
       race: 'human',
-      actions: actions2
+      abilities: abilities3
     },
     {
       name: 'npc3',
       race: 'troll',
-      actions: actions2
+      abilities: abilities1
     },
     {
       name: 'npc4',
       race: 'dwarf',
-      actions: actions2
+      abilities: abilities3
     }
   ];
 

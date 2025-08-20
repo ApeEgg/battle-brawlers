@@ -1,12 +1,13 @@
 <script lang="ts">
   import HealthBar from '$src/components/combat/HealthBar.svelte';
   import EnergyBar from '$src/components/combat/EnergyBar.svelte';
-  let { id, race, combatStats, actions } = $props();
+  let { id, race, name, combatStats, abilities } = $props();
 </script>
 
 <div class="combatant">
   <HealthBar current={combatStats.currentHealth} max={combatStats.maxHealth} />
   <div class="card">
+    {name} <br />
     <strong>Race:</strong>
     {race} <br />
     <strong>Damage:</strong>
@@ -15,11 +16,10 @@
     <span class="text-xs">{id}</span>
   </div>
   <EnergyBar current={combatStats.currentEnergy} max={combatStats.maxEnergy} />
-  <div class="actions">
-    {#each actions as action}
-      <div class="text-center">
-        {action}<br />
-        8
+  <div class="abilities divide-x divide-gray-300 border border-gray-300">
+    {#each abilities as { prettyName, ticks }}
+      <div class="w-{ticks}/12 text-center">
+        <!-- {prettyName}<br /> -->
       </div>
     {/each}
   </div>
@@ -39,19 +39,19 @@
     background: #fafafa;
     padding: 12px;
   }
-  .actions {
+  .abilities {
     display: flex;
     right: 4px;
     bottom: 4px;
-    gap: 4px;
   }
-  .actions > div {
+  .abilities > div {
     display: flex;
+    flex: 1;
+    height: 24px;
     justify-content: center;
     align-items: center;
-    aspect-ratio: 1/1;
+
     font-size: 8px;
-    border: 1px dashed lightblue;
-    padding: 4px 8px;
+    /* padding: 4px 8px; */
   }
 </style>

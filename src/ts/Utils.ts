@@ -1,11 +1,11 @@
-import characters from '$src/constants/CHARACTERS';
+import CHARACTERS from '$src/constants/CHARACTERS';
 import seedRandom from 'seedrandom';
 import type { Race } from '$src/types/character';
 import type { Team } from '$src/types/team';
 import type { Combatant } from '$src/types/combatant';
 import lodash from 'lodash';
 import { generateID } from '$src/helpers';
-import type { Action } from '$src/types/action';
+import type { Ability } from '$src/types/ability';
 const { uniqBy } = lodash;
 
 export const calculateCombatStats = (...args: any) => {
@@ -21,13 +21,13 @@ export const calculateCombatStats = (...args: any) => {
 export const prepareCombatant = ({
   name,
   race,
-  actions
+  abilities
 }: {
   name: string;
   race: Race;
-  actions: Action[];
+  abilities: Ability[];
 }): Combatant => {
-  const combatStats = calculateCombatStats(characters[race].combatStats);
+  const combatStats = calculateCombatStats(CHARACTERS[race].combatStats);
 
   combatStats.currentHealth = combatStats.maxHealth;
 
@@ -36,7 +36,7 @@ export const prepareCombatant = ({
     name,
     race,
     combatStats,
-    actions
+    abilities
   };
 };
 
@@ -67,9 +67,9 @@ export const generateCombat = (seed: string, teams: Team[]) => {
     if (eventTaker.combatStats.currentEnergy >= 8) {
       eventTaker.combatStats.currentEnergy -= 8;
 
-      const [action] = eventTaker.actions;
-      eventTaker.actions = eventTaker.actions.slice(1);
-      eventTaker.actions.push(action);
+      const [ability] = eventTaker.abilities;
+      eventTaker.abilities = eventTaker.abilities.slice(1);
+      eventTaker.abilities.push(ability);
     } else {
       damage.result = eventTaker.combatStats.damage;
       target.combatStats.currentHealth -= damage.result;

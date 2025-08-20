@@ -1,5 +1,3 @@
-@import '../static/icomoon/style.css';
-
 @import 'tailwindcss';
 @plugin '@ape-egg/tailwind-rows-columns';
 @custom-variant dark (&:where(.dark, .dark *));
@@ -18,7 +16,7 @@
 
 @layer utilities {
   .glass {
-    @apply rounded-md backdrop-blur-xl bg-white/50 shadow-lg border border-white/50;
+    @apply rounded-md border border-white/50 bg-white/50 shadow-lg backdrop-blur-xl;
   }
   h1 {
     @apply text-2xl font-medium sm:text-4xl sm:tracking-[-0.0625rem] md:text-5xl md:tracking-[-0.0625rem];

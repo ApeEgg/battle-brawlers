@@ -9,8 +9,7 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --check . && eslint .",
-    "format": "prettier --write .",
-    "svg:generate": "svgo -f ./src/icons -o ./src/icons && node ./scripts/icon.js ./src/icons --generate-types"
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@sveltejs/adapter-vercel": "^5.4.3",
@@ -44,8 +43,7 @@
     "seedrandom": "^3.0.5",
     "svelte-component-kit": "^2.0.2",
     "svelte-global-store": "^1.0.4",
-    "sveltekit-autoimport": "^1.8.1",
-    "svgo": "^3.3.2"
+    "sveltekit-autoimport": "^1.8.1"
   },
   "type": "module"
 }

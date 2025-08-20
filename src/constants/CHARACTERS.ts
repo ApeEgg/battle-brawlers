@@ -11,7 +11,7 @@ export default {
       currentEnergy: 6,
       damage: 2
     },
-    actions: []
+    abilities: []
   },
   human: {
     name: '',
@@ -23,7 +23,7 @@ export default {
       currentEnergy: 6,
       damage: 3
     },
-    actions: []
+    abilities: []
   },
   troll: {
     name: '',
@@ -35,7 +35,7 @@ export default {
       currentEnergy: 6,
       damage: 4
     },
-    actions: []
+    abilities: []
   },
   dwarf: {
     name: '',
@@ -47,6 +47,6 @@ export default {
       currentEnergy: 6,
       damage: 4
     },
-    actions: []
+    abilities: []
   }
 } as Record<Race, Character>;
