@@ -8,6 +8,7 @@
 
   import CombatArena from '$src/components/combat/CombatArena.svelte';
   import CombatantCard from '$src/components/combat/CombatantCard.svelte';
+  import { COMBAT_TICK_TIME } from '$src/constants/APP';
 
   const abilities1: Ability[] = [
     ABILITIES.basicAttackSlow,
@@ -43,13 +44,14 @@
 
   let teams = $state<Team[]>([]);
   let rotation = $state(360);
-  let teamCount = $state(3);
+  let teamCount = $state(2);
   let combatantCount = $state(1);
   let geometry = $derived(getGeometry(combatantCount * teamCount));
   let loopId: any;
   let startTimestamp = $state(0);
   let lastTimestamp = 0;
-  let elapsedMilliseconds = 0;
+  let elapsedMilliseconds = $state(0);
+  let progress = 0;
 
   let characters: Character[] = [
     {
@@ -103,13 +105,16 @@
     lastTimestamp = timestamp;
     let [event] = app.combat.events;
     // console.log(elapsedMilliseconds, $state.snapshot(action));
-
     if (elapsedMilliseconds > event?.timestamp) {
       // console.log('hehue', $state.snapshot(action.teams));
       teams = event.teams;
 
       const [_, ...newEvents] = app.combat.events;
       app.combat.events = newEvents;
+    }
+    if (elapsedMilliseconds > app.combat.duration) {
+      cancelAnimationFrame(loopId);
+      return;
     }
     // while (elapsedMilliseconds > action?.timestamp) {
     //   console.log('here');
@@ -126,6 +131,7 @@
 
   const runCombat = () => {
     app.combat = generateCombat('myseed', $state.snapshot(teams));
+    console.log($state.snapshot(app.combat));
     startTimestamp = 0; // reset so first loop call sets it
     elapsedMilliseconds = 0;
     loopId = requestAnimationFrame(loop);
@@ -152,8 +158,8 @@
   <div class="h-full flex-1 rounded border border-gray-400 bg-white">
     <CombatArena>
       {#if teams.length}
-        {#each teams as { combatants }, index (`team_${index}`)}
-          {#each combatants as combatant, c (`team_${index}_combatant_${combatant.id}`)}
+        {#each teams as { combatants, name }, index (`team_${name}`)}
+          {#each combatants as combatant, c (`team_${name}_combatant_${combatant.id}`)}
             {@const rot =
               index * rotation +
               270 -
@@ -162,12 +168,37 @@
             {@const raw = Math.round(Math.abs(Math.abs(rot - 540) - 180))}
             {@const z = Math.floor((raw / 180) * 9) + 1}
             {@const angleDiff = ((rot - 0 + 540) % 360) - 180}
+            {@const totalTime =
+              combatant.abilities.reduce((acc, { ticks }) => acc + ticks, 0) * COMBAT_TICK_TIME}
+            {@const progress =
+              ((combatant.knockedOut ? combatant.knockedOut : elapsedMilliseconds) / totalTime) % 1}
             <div class="diameter" style={`transform: rotate(${rot}deg); z-index: ${z};`}>
               <div
                 class="edge"
                 style={`transform: scale(${geometry.scale}) translate(-50%, -50%) rotate(-${rot}deg);`}
               >
-                <CombatantCard {...combatant} facingRight={angleDiff < 0}></CombatantCard>
+                <CombatantCard {...combatant} facingRight={angleDiff < 0} {elapsedMilliseconds}>
+                  <div class="relative">
+                    <div
+                      class="absolute top-0 right-full bottom-0 left-0 bg-blue-400"
+                      style="right: {100 - progress * 100}%"
+                    ></div>
+                    <div
+                      class="abilities relative flex w-full divide-x divide-gray-600 border border-gray-600"
+                    >
+                      {#each combatant.abilities as { prettyName, ticks, icon }}
+                        <crow class="flex h-6 flex-1 w-{ticks}/12 relative text-center">
+                          {#if icon === '1h1h'}
+                            <div
+                              class="absolute top-0 bottom-0 left-1/2 w-[0.1px] -translate-x-1/2 bg-gray-400"
+                            ></div>
+                          {/if}
+                          <Icon class="relative" name={icon} />
+                        </crow>
+                      {/each}
+                    </div>
+                  </div>
+                </CombatantCard>
               </div>
             </div>
           {/each}

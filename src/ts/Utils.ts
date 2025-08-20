@@ -6,6 +6,8 @@ import type { Combatant } from '$src/types/combatant';
 import lodash from 'lodash';
 import { generateID } from '$src/helpers';
 import type { Ability } from '$src/types/ability';
+import { COMBAT_TICK_TIME } from '$src/constants/APP';
+import ABILITIES from '$src/constants/ABILITIES';
 const { uniqBy } = lodash;
 
 export const calculateCombatStats = (...args: any) => {
@@ -36,15 +38,24 @@ export const prepareCombatant = ({
     name,
     race,
     combatStats,
-    abilities
+    abilities,
+    knockedOut: 0,
+    animations: []
   };
+};
+
+const bufferAnimation = (eventTaker: Combatant, ability: Ability) => {
+  const timestamp = eventTaker.nextEvent as number;
+  ability.animation.start = timestamp;
+  ability.animation.end = timestamp + ability.animation.duration;
+  eventTaker.animations.push(structuredClone(ability));
 };
 
 export const generateCombat = (seed: string, teams: Team[]) => {
   let combatants = teams.flatMap((team) =>
     team.combatants.map((combatant) => ({
       teamIndex: team.index,
-      nextEvent: combatant.abilities[0].ticks * 300,
+      nextEvent: combatant.abilities[0].ticks * COMBAT_TICK_TIME,
       ...combatant
     }))
   );
@@ -72,7 +83,13 @@ export const generateCombat = (seed: string, teams: Team[]) => {
     //   eventTaker.abilities.push(ability);
     // } else {
     damage.result = eventTaker.combatStats.damage;
+
+    bufferAnimation(eventTaker, ABILITIES.basicAttackRegular);
+
+    // eventTaker.animations.push(bufferAnimation('basicAttackRegular', timestamp));
+
     target.combatStats.currentHealth -= damage.result;
+    // target.animations.push(bufferAnimation('hurt', timestamp));
 
     eventTaker.combatStats.currentEnergy = Math.min(
       eventTaker.combatStats.maxEnergy,
@@ -87,10 +104,11 @@ export const generateCombat = (seed: string, teams: Team[]) => {
     teams[target.teamIndex].combatants[i2] = target;
 
     teams.forEach((team, teamIndex) => {
-      team.combatants.forEach(({ id, combatStats: { currentHealth } }) => {
+      team.combatants.forEach(({ id, combatStats: { currentHealth } }, i) => {
         const combatantIndex = combatants.findIndex((c) => c.id === id);
 
         if (currentHealth <= 0 && combatantIndex !== -1) {
+          teams[teamIndex].combatants[i].knockedOut = timestamp;
           combatants = [
             ...combatants.slice(0, combatantIndex),
             ...combatants.slice(combatantIndex + 1)
@@ -116,7 +134,7 @@ export const generateCombat = (seed: string, teams: Team[]) => {
     // combatants = [...combatants.slice(0, removeIndex), ...combatants.slice(removeIndex + 1)];
 
     const eventTicks = eventTaker.abilities[0].icon === '1h1h' ? 1 : eventTaker.abilities[0].ticks;
-    eventTaker.nextEvent = eventTaker.nextEvent + eventTicks * 300;
+    eventTaker.nextEvent = eventTaker.nextEvent + eventTicks * COMBAT_TICK_TIME;
 
     i++;
   }

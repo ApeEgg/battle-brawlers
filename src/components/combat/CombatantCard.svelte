@@ -1,11 +1,31 @@
 <script lang="ts">
   import HealthBar from '$src/components/combat/HealthBar.svelte';
   import EnergyBar from '$src/components/combat/EnergyBar.svelte';
-  let { id, race, name, combatStats, abilities, facingRight } = $props();
+  import type { Combatant } from '$src/types/combatant';
+  import type { Snippet } from 'svelte';
+
+  let props: Combatant & {
+    children: Snippet;
+    facingRight: boolean;
+    elapsedMilliseconds: number;
+  } = $props();
+
+  let { facingRight, children, race, name } = props;
+
+  let combatStats = $derived(props.combatStats);
+  let animations = $derived(props.animations);
+  let elapsedMilliseconds = $derived(props.elapsedMilliseconds);
 </script>
 
 <div class="combatant bg-[#DACDBF]">
   <crow class="w-full justify-between px-2 py-1">
+    <!-- <code class="text-xs">
+      <pre>
+        
+    {JSON.stringify(animations, null, 2)}
+
+      </pre>
+    </code> -->
     {name}
     <crow right class="gap-1">
       <strong>DMG</strong>
@@ -13,32 +33,35 @@
     </crow>
   </crow>
   <HealthBar current={combatStats.currentHealth} max={combatStats.maxHealth} />
-  <div class="card relative">
+  <div
+    class="card relative"
+    class:attack={animations.some(
+      ({ animation, abilityName }) =>
+        animation.start < elapsedMilliseconds &&
+        animation.end > elapsedMilliseconds &&
+        abilityName === 'basicAttackRegular'
+    )}
+    style="
+      --attack-start-x: {facingRight ? -25 : 25}px;
+      --attack-end-x: {facingRight ? 5 : -5}px;
+      --attack-start-y: 0px;
+      --attack-end-y: 0px;
+    "
+  >
     <div
-      class={tw('absolute inset-0 bg-cover', facingRight && 'scale-x-[-1]')}
+      class={tw(
+        'absolute inset-1 bg-contain bg-center bg-no-repeat',
+        facingRight && 'scale-x-[-1]'
+      )}
       style="background-image: url('/images/races/{race}/01.png')"
     ></div>
     <div class="relative">
-      <strong>Race:</strong>
-      {race} <br />
-
-      <!-- <strong>ID:</strong><br />
-      <span class="text-xs">{id}</span> -->
+      <!-- <strong>Race:</strong>
+      {race} <br /> -->
     </div>
   </div>
   <!-- <EnergyBar current={combatStats.currentEnergy} max={combatStats.maxEnergy} /> -->
-  <div class="abilities divide-x divide-gray-600 border border-gray-600">
-    {#each abilities as { prettyName, ticks, icon }}
-      <div class="w-{ticks}/12 relative text-center">
-        {#if icon === '1h1h'}
-          <div
-            class="absolute top-0 bottom-0 left-1/2 w-[0.1px] -translate-x-1/2 bg-gray-400"
-          ></div>
-        {/if}
-        <Icon class="relative" name={icon} />
-      </div>
-    {/each}
-  </div>
+  {@render children()}
 </div>
 
 <style>
@@ -53,18 +76,18 @@
     aspect-ratio: 1/1.2;
     padding: 12px;
   }
-  .abilities {
-    display: flex;
-    right: 4px;
-    bottom: 4px;
+  .attack {
+    animation: attack 500ms cubic-bezier(0.02, 1.35, 0.53, 1);
   }
-  .abilities > div {
-    display: flex;
-    flex: 1;
-    height: 24px;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px;
-    /* padding: 4px 8px; */
+  @keyframes attack {
+    0% {
+      transform: translate(0px, 0px);
+    }
+    65% {
+      transform: translate(var(--attack-start-x), var(--attack-start-y));
+    }
+    100% {
+      transform: translate(var(--attack-end-x), var(--attack-end-y));
+    }
   }
 </style>
