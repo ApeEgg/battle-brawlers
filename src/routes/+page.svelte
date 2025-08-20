@@ -22,12 +22,6 @@
     ABILITIES.basicAttackFast,
     ABILITIES.basicAttackFast,
     ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
     ABILITIES.basicAttackFast
   ];
 
@@ -49,7 +43,7 @@
 
   let teams = $state<Team[]>([]);
   let rotation = $state(360);
-  let teamCount = $state(2);
+  let teamCount = $state(3);
   let combatantCount = $state(1);
   let geometry = $derived(getGeometry(combatantCount * teamCount));
   let loopId: any;
@@ -167,12 +161,13 @@
               (rotation / (combatants.length + 1)) * (c + 1)}
             {@const raw = Math.round(Math.abs(Math.abs(rot - 540) - 180))}
             {@const z = Math.floor((raw / 180) * 9) + 1}
+            {@const angleDiff = ((rot - 0 + 540) % 360) - 180}
             <div class="diameter" style={`transform: rotate(${rot}deg); z-index: ${z};`}>
               <div
                 class="edge"
                 style={`transform: scale(${geometry.scale}) translate(-50%, -50%) rotate(-${rot}deg);`}
               >
-                <CombatantCard {...combatant}></CombatantCard>
+                <CombatantCard {...combatant} facingRight={angleDiff < 0}></CombatantCard>
               </div>
             </div>
           {/each}

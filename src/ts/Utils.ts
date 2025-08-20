@@ -44,7 +44,7 @@ export const generateCombat = (seed: string, teams: Team[]) => {
   let combatants = teams.flatMap((team) =>
     team.combatants.map((combatant) => ({
       teamIndex: team.index,
-      nextEvent: 1000,
+      nextEvent: combatant.abilities[0].ticks * 300,
       ...combatant
     }))
   );
@@ -64,21 +64,21 @@ export const generateCombat = (seed: string, teams: Team[]) => {
       result: 0
     };
 
-    if (eventTaker.combatStats.currentEnergy >= 8) {
-      eventTaker.combatStats.currentEnergy -= 8;
+    // if (eventTaker.combatStats.currentEnergy >= 8) {
+    //   eventTaker.combatStats.currentEnergy -= 8;
 
-      const [ability] = eventTaker.abilities;
-      eventTaker.abilities = eventTaker.abilities.slice(1);
-      eventTaker.abilities.push(ability);
-    } else {
-      damage.result = eventTaker.combatStats.damage;
-      target.combatStats.currentHealth -= damage.result;
+    //   const [ability] = eventTaker.abilities;
+    //   eventTaker.abilities = eventTaker.abilities.slice(1);
+    //   eventTaker.abilities.push(ability);
+    // } else {
+    damage.result = eventTaker.combatStats.damage;
+    target.combatStats.currentHealth -= damage.result;
 
-      eventTaker.combatStats.currentEnergy = Math.min(
-        eventTaker.combatStats.maxEnergy,
-        eventTaker.combatStats.currentEnergy + 2
-      );
-    }
+    eventTaker.combatStats.currentEnergy = Math.min(
+      eventTaker.combatStats.maxEnergy,
+      eventTaker.combatStats.currentEnergy + 2
+    );
+    // }
 
     const i1 = teams[eventTaker.teamIndex].combatants.findIndex(({ id }) => id === eventTaker.id);
     teams[eventTaker.teamIndex].combatants[i1] = eventTaker;
@@ -115,7 +115,8 @@ export const generateCombat = (seed: string, teams: Team[]) => {
     // const removeIndex = seededRandom(0, combatants.length - 1, seed);
     // combatants = [...combatants.slice(0, removeIndex), ...combatants.slice(removeIndex + 1)];
 
-    eventTaker.nextEvent = eventTaker.nextEvent + 1000;
+    const eventTicks = eventTaker.abilities[0].icon === '1h1h' ? 1 : eventTaker.abilities[0].ticks;
+    eventTaker.nextEvent = eventTaker.nextEvent + eventTicks * 300;
 
     i++;
   }

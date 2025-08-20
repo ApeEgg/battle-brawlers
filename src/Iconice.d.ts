@@ -1,1 +1,1 @@
-export type IconName = 'checkmark' | 'cross' | 'dark' | 'down' | 'error' | 'info' | 'left' | 'light' | 'logo-apeegg-simple' | 'logo-apeegg' | 'menu' | 'right' | 'spinner-circle' | 'spinner-inner' | 'success' | 'up' | 'warning';
+export type IconName = '1h' | '1h1h' | '2h' | 'checkmark' | 'cross' | 'dark' | 'down' | 'info' | 'error' | 'left' | 'light' | 'logo-apeegg-simple' | 'logo-apeegg' | 'menu' | 'right' | 'spinner-circle' | 'success' | 'spinner-inner' | 'warning' | 'up';
