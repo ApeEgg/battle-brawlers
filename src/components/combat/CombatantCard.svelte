@@ -1,67 +1,50 @@
 <script lang="ts">
   import HealthBar from '$src/components/combat/HealthBar.svelte';
-  import EnergyBar from '$src/components/combat/EnergyBar.svelte';
   import type { Combatant } from '$src/types/combatant';
-  import type { Snippet } from 'svelte';
+  import CombatantAbilityBar from '$src/components/combat/CombatantAbilityBar.svelte';
+  import CombatantImage from '$src/components/combat/CombatantImage.svelte';
 
   let props: Combatant & {
-    children: Snippet;
     facingRight: boolean;
     elapsedMilliseconds: number;
+    progress: number;
+    z: number;
   } = $props();
 
-  let { facingRight, children, race, name } = props;
+  let { name } = props;
 
   let combatStats = $derived(props.combatStats);
-  let animations = $derived(props.animations);
-  let elapsedMilliseconds = $derived(props.elapsedMilliseconds);
+  let damage = $derived(combatStats.damage);
+
+  let position = $derived(props.position);
+  let z = $derived(props.z);
+  let x = $derived(position.x);
+  let y = $derived(position.y);
 </script>
 
-<div class="combatant bg-[#DACDBF]">
-  <crow class="w-full justify-between px-2 py-1">
-    <!-- <code class="text-xs">
-      <pre>
-        
-    {JSON.stringify(animations, null, 2)}
+<div
+  class="absolute top-1/2 left-1/2 z-10 h-0 w-0 -translate-x-1/2 -translate-y-1/2"
+  style="z-index:{z};"
+>
+  <div class="absolute" style="left: {x}px; top:{y}px; transform: translate(-50%, -50%);">
+    <div class="absolute" style="transform: scale({1}) translate(-50%, -50%);">
+      <div class="combatant bg-[#D7CEC1]">
+        <crow class="w-full justify-between px-2 py-1">
+          {name}
+          <crow right class="gap-1">
+            <strong>DMG</strong>
+            {damage}
+          </crow>
+        </crow>
 
-      </pre>
-    </code> -->
-    {name}
-    <crow right class="gap-1">
-      <strong>DMG</strong>
-      {combatStats.damage}
-    </crow>
-  </crow>
-  <HealthBar current={combatStats.currentHealth} max={combatStats.maxHealth} />
-  <div
-    class="card relative"
-    class:attack={animations.some(
-      ({ animation, abilityName }) =>
-        animation.start < elapsedMilliseconds &&
-        animation.end > elapsedMilliseconds &&
-        abilityName === 'basicAttackRegular'
-    )}
-    style="
-      --attack-start-x: {facingRight ? -25 : 25}px;
-      --attack-end-x: {facingRight ? 5 : -5}px;
-      --attack-start-y: 0px;
-      --attack-end-y: 0px;
-    "
-  >
-    <div
-      class={tw(
-        'absolute inset-1 bg-contain bg-center bg-no-repeat',
-        facingRight && 'scale-x-[-1]'
-      )}
-      style="background-image: url('/images/races/{race}/01.png')"
-    ></div>
-    <div class="relative">
-      <!-- <strong>Race:</strong>
-      {race} <br /> -->
+        <HealthBar current={combatStats.currentHealth} max={combatStats.maxHealth}></HealthBar>
+        <div class="h-40 w-36"></div>
+        <CombatantAbilityBar {...props} />
+      </div>
     </div>
   </div>
-  <!-- <EnergyBar current={combatStats.currentEnergy} max={combatStats.maxEnergy} /> -->
-  {@render children()}
+
+  <CombatantImage {...props} />
 </div>
 
 <style>
@@ -70,24 +53,5 @@
     transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
-  }
-  .card {
-    width: 140px;
-    aspect-ratio: 1/1.2;
-    padding: 12px;
-  }
-  .attack {
-    animation: attack 500ms cubic-bezier(0.02, 1.35, 0.53, 1);
-  }
-  @keyframes attack {
-    0% {
-      transform: translate(0px, 0px);
-    }
-    65% {
-      transform: translate(var(--attack-start-x), var(--attack-start-y));
-    }
-    100% {
-      transform: translate(var(--attack-end-x), var(--attack-end-y));
-    }
   }
 </style>

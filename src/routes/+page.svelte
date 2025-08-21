@@ -8,7 +8,7 @@
 
   import CombatArena from '$src/components/combat/CombatArena.svelte';
   import CombatantCard from '$src/components/combat/CombatantCard.svelte';
-  import { COMBAT_TICK_TIME } from '$src/constants/APP';
+  import { COMBAT_TICK_TIME, COMBAT_RING_BASE_RADIUS } from '$src/constants/APP';
 
   const abilities1: Ability[] = [
     ABILITIES.basicAttackSlow,
@@ -18,6 +18,12 @@
   ];
 
   const abilities2: Ability[] = [
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.stun,
     ABILITIES.basicAttackFast,
     ABILITIES.basicAttackFast,
     ABILITIES.basicAttackFast,
@@ -35,7 +41,22 @@
     ABILITIES.basicAttackRegular
   ];
 
-  const getGeometry = (N: number, { baseRadius = 208, itemWidth = 226, gap = 0 } = {}) => {
+  const abilities4: Ability[] = [
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast,
+    ABILITIES.basicAttackFast
+  ];
+
+  const getGeometry = (N: number, { baseRadius = 250, itemWidth = 140, gap = 0 } = {}) => {
     const C_base = 2 * Math.PI * baseRadius;
     const C_item = Math.max(1, N) * (itemWidth + gap); // avoid divide-by-zero
     const scale = Math.min(1, C_base / C_item); // 1–2 stay full size, 3+ shrink
@@ -46,7 +67,12 @@
   let rotation = $state(360);
   let teamCount = $state(2);
   let combatantCount = $state(1);
-  let geometry = $derived(getGeometry(combatantCount * teamCount));
+  let geometry = $derived(
+    getGeometry(combatantCount * teamCount, {
+      baseRadius: COMBAT_RING_BASE_RADIUS
+    })
+  );
+
   let loopId: any;
   let startTimestamp = $state(0);
   let lastTimestamp = 0;
@@ -62,7 +88,7 @@
     {
       name: 'npc2',
       race: 'human',
-      abilities: abilities3
+      abilities: abilities4
     },
     {
       name: 'npc3',
@@ -77,10 +103,16 @@
   ];
 
   const initializeCombat = () => {
-    const nextCombatants = (u: number) =>
-      Array.from({ length: combatantCount }, (_, i) => {
+    const nextCombatants = (teamIndex: number) =>
+      Array.from({ length: combatantCount }, (_, combatantIndex) => {
         return prepareCombatant(
-          characters[seededRandom(0, characters.length - 1, `race__${i}_${u}`)]
+          characters[
+            seededRandom(0, characters.length - 1, `race____${combatantIndex}_${teamIndex}`)
+          ],
+          rotation,
+          combatantCount,
+          teamIndex,
+          combatantIndex
         ); //  `racdfswjk${i}_${u}` four races
       });
 
@@ -158,25 +190,20 @@
   <div class="h-full flex-1 rounded border border-gray-400 bg-white">
     <CombatArena>
       {#if teams.length}
-        {#each teams as { combatants, name }, index (`team_${name}`)}
-          {#each combatants as combatant, c (`team_${name}_combatant_${combatant.id}`)}
-            {@const rot =
-              index * rotation +
-              270 -
-              rotation / 2 +
-              (rotation / (combatants.length + 1)) * (c + 1)}
+        {#each teams as { combatants, name }, _index}
+          {#each combatants as combatant, _c}
+            {@const { rot } = combatant.position}
             {@const raw = Math.round(Math.abs(Math.abs(rot - 540) - 180))}
-            {@const z = Math.floor((raw / 180) * 9) + 1}
+            {@const z = 10 - Math.floor((raw / 180) * 9)}
+            <!-- {@const z = Math.floor((raw / 180) * 9) + 1} -->
             {@const angleDiff = ((rot - 0 + 540) % 360) - 180}
             {@const totalTime =
               combatant.abilities.reduce((acc, { ticks }) => acc + ticks, 0) * COMBAT_TICK_TIME}
             {@const progress =
               ((combatant.knockedOut ? combatant.knockedOut : elapsedMilliseconds) / totalTime) % 1}
-            <div class="diameter" style={`transform: rotate(${rot}deg); z-index: ${z};`}>
-              <div
-                class="edge"
-                style={`transform: scale(${geometry.scale}) translate(-50%, -50%) rotate(-${rot}deg);`}
-              >
+
+            <!-- <div class="diameter" style={`transform: rotate(${rot}deg); z-index: ${z};`}>
+              <div class="edge" style={`transform: translate(-50%, -50%) rotate(-${rot}deg);`}>
                 <CombatantCard {...combatant} facingRight={angleDiff < 0} {elapsedMilliseconds}>
                   <div class="relative">
                     <div
@@ -186,21 +213,35 @@
                     <div
                       class="abilities relative flex w-full divide-x divide-gray-600 border border-gray-600"
                     >
-                      {#each combatant.abilities as { prettyName, ticks, icon }}
-                        <crow class="flex h-6 flex-1 w-{ticks}/12 relative text-center">
-                          {#if icon === '1h1h'}
+                      {#each combatant.abilitiesCopied as { prettyName, ticks, icon }, i (`icon_${i}_${prettyName}`)}
+                        <div
+                          class="relative flex h-6 items-center justify-center text-center"
+                          style="width: calc(calc(100% / 12)*{ticks});"
+                        >
+                          {#if icon === '1h1h' && ticks === 2}
                             <div
                               class="absolute top-0 bottom-0 left-1/2 w-[0.1px] -translate-x-1/2 bg-gray-400"
                             ></div>
                           {/if}
-                          <Icon class="relative" name={icon} />
-                        </crow>
+                          <Icon
+                            class={tw('relative text-[8px]', ticks > 1 && 'text-sm')}
+                            name={icon}
+                          />
+                        </div>
                       {/each}
                     </div>
                   </div>
                 </CombatantCard>
               </div>
-            </div>
+            </div> -->
+
+            <CombatantCard
+              {...combatant}
+              facingRight={angleDiff < 0}
+              {elapsedMilliseconds}
+              {progress}
+              {z}
+            />
           {/each}
           <!--<TeamBadge
         {index}
@@ -238,8 +279,8 @@
   }
   .edge {
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: black;
     transition: all 0.5s ease;

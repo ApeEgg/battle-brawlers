@@ -6,8 +6,9 @@ import type { Combatant } from '$src/types/combatant';
 import lodash from 'lodash';
 import { generateID } from '$src/helpers';
 import type { Ability } from '$src/types/ability';
-import { COMBAT_TICK_TIME } from '$src/constants/APP';
-import ABILITIES from '$src/constants/ABILITIES';
+import type { VFX } from '$src/types/vfx';
+import { COMBAT_TICK_TIME, COMBAT_RING_BASE_RADIUS } from '$src/constants/APP';
+import _VFX from '$src/constants/VFX';
 const { uniqBy } = lodash;
 
 export const calculateCombatStats = (...args: any) => {
@@ -20,42 +21,89 @@ export const calculateCombatStats = (...args: any) => {
   return combined;
 };
 
-export const prepareCombatant = ({
-  name,
-  race,
-  abilities
-}: {
-  name: string;
-  race: Race;
-  abilities: Ability[];
-}): Combatant => {
+export const prepareCombatant = (
+  {
+    name,
+    race,
+    abilities
+  }: {
+    name: string;
+    race: Race;
+    abilities: Ability[];
+  },
+  rotation: number,
+  combatantCount: number,
+  teamIndex: number,
+  combatantIndex: number
+): Combatant => {
   const combatStats = calculateCombatStats(CHARACTERS[race].combatStats);
 
   combatStats.currentHealth = combatStats.maxHealth;
+
+  const abilitiesCopied = abilities
+    .reduce<Ability[]>(
+      (a, ability, i) =>
+        ability.abilityName === 'basicAttackFast' &&
+        a[i - 1]?.abilityName === 'basicAttackFast' &&
+        a[i - 1]?.ticks === 1
+          ? [...a.slice(0, -1), { ...a[a.length - 1], ticks: 0 }, { ...ability, ticks: 2 }]
+          : [...a, ability],
+
+      []
+    )
+    .filter(({ abilityName, ticks }) => !(abilityName === 'basicAttackFast' && ticks === 0));
+
+  const radius = COMBAT_RING_BASE_RADIUS;
+
+  const rot =
+    teamIndex * rotation +
+    270 -
+    rotation / 2 +
+    (rotation / (combatantCount + 1)) * (combatantIndex + 1);
+
+  const rotRadians = (rot * Math.PI) / 180;
+  const position = {
+    x: Math.sin(rotRadians) * radius,
+    y: Math.cos(rotRadians) * radius,
+    rot
+  };
 
   return {
     id: generateID(),
     name,
     race,
     combatStats,
-    abilities,
     knockedOut: 0,
-    animations: []
+    animations: [],
+    position,
+    abilities,
+    abilitiesCopied
   };
 };
 
-const bufferAnimation = (eventTaker: Combatant, ability: Ability) => {
-  const timestamp = eventTaker.nextEvent as number;
-  ability.animation.start = timestamp;
-  ability.animation.end = timestamp + ability.animation.duration;
-  eventTaker.animations.push(structuredClone(ability));
+const bufferAnimation = (
+  combatant: Combatant,
+  vfx: VFX,
+  timestamp: number,
+  subtractTicks: number = 0
+) => {
+  if (subtractTicks) {
+    vfx.start = timestamp + subtractTicks * COMBAT_TICK_TIME - vfx.duration;
+    vfx.end = timestamp + subtractTicks * COMBAT_TICK_TIME;
+  } else {
+    vfx.start = timestamp;
+    vfx.end = timestamp + vfx.duration;
+  }
+
+  vfx.id = generateID();
+  combatant.animations.push(structuredClone(vfx)); // Remove structuredClone?
 };
 
 export const generateCombat = (seed: string, teams: Team[]) => {
   let combatants = teams.flatMap((team) =>
     team.combatants.map((combatant) => ({
       teamIndex: team.index,
-      nextEvent: combatant.abilities[0].ticks * COMBAT_TICK_TIME,
+      nextAbilityTimestamp: 0,
       ...combatant
     }))
   );
@@ -66,36 +114,44 @@ export const generateCombat = (seed: string, teams: Team[]) => {
 
   teams = structuredClone(teams);
   while (uniqBy(combatants, 'teamIndex').length > 1) {
-    const eventTaker = combatants.reduce((a, b) => (a.nextEvent < b.nextEvent ? a : b));
+    const eventTaker = combatants.reduce((a, b) =>
+      a.nextAbilityTimestamp < b.nextAbilityTimestamp ? a : b
+    );
+    timestamp = eventTaker.nextAbilityTimestamp;
     const targets = combatants.filter(({ teamIndex }) => teamIndex !== eventTaker.teamIndex);
     const target = targets[seededRandom(0, targets.length - 1, `${seed}_${i}_defender`)];
-    timestamp = eventTaker.nextEvent;
+    const [currentAbility, ...restAbilities] = eventTaker.abilities;
+    const previousAbility = restAbilities[eventTaker.abilities.length - 1];
+    const combatStart = timestamp === 0;
 
     const damage = {
       result: 0
     };
 
-    // if (eventTaker.combatStats.currentEnergy >= 8) {
-    //   eventTaker.combatStats.currentEnergy -= 8;
+    // 1. Resolve previous ability outcome
+    if (!combatStart) {
+      damage.result = eventTaker.combatStats.damage;
 
-    //   const [ability] = eventTaker.abilities;
-    //   eventTaker.abilities = eventTaker.abilities.slice(1);
-    //   eventTaker.abilities.push(ability);
-    // } else {
-    damage.result = eventTaker.combatStats.damage;
+      // eventTaker.animations.push(bufferAnimation('basicAttackRegular', timestamp));
 
-    bufferAnimation(eventTaker, ABILITIES.basicAttackRegular);
+      target.combatStats.currentHealth -= damage.result;
 
-    // eventTaker.animations.push(bufferAnimation('basicAttackRegular', timestamp));
+      bufferAnimation(target, _VFX.hurt, timestamp);
 
-    target.combatStats.currentHealth -= damage.result;
-    // target.animations.push(bufferAnimation('hurt', timestamp));
+      // eventTaker.combatStats.currentEnergy = Math.min(
+      //   eventTaker.combatStats.maxEnergy,
+      //   eventTaker.combatStats.currentEnergy + 2
+      // );
+      // }
+    }
 
-    eventTaker.combatStats.currentEnergy = Math.min(
-      eventTaker.combatStats.maxEnergy,
-      eventTaker.combatStats.currentEnergy + 2
+    // 2. Start current ability animation
+    bufferAnimation(
+      eventTaker,
+      { ...currentAbility.vfx, targetX: target.position.x, targetY: target.position.y },
+      timestamp,
+      currentAbility.ticks
     );
-    // }
 
     const i1 = teams[eventTaker.teamIndex].combatants.findIndex(({ id }) => id === eventTaker.id);
     teams[eventTaker.teamIndex].combatants[i1] = eventTaker;
@@ -133,8 +189,8 @@ export const generateCombat = (seed: string, teams: Team[]) => {
     // const removeIndex = seededRandom(0, combatants.length - 1, seed);
     // combatants = [...combatants.slice(0, removeIndex), ...combatants.slice(removeIndex + 1)];
 
-    const eventTicks = eventTaker.abilities[0].icon === '1h1h' ? 1 : eventTaker.abilities[0].ticks;
-    eventTaker.nextEvent = eventTaker.nextEvent + eventTicks * COMBAT_TICK_TIME;
+    eventTaker.nextAbilityTimestamp = timestamp + currentAbility.ticks * COMBAT_TICK_TIME;
+    eventTaker.abilities = [...restAbilities, currentAbility];
 
     i++;
   }

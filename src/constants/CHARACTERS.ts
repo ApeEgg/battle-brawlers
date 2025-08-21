@@ -5,7 +5,7 @@ export default {
     name: '',
     race: 'elf',
     combatStats: {
-      maxHealth: 20,
+      maxHealth: 40,
       currentHealth: 10,
       maxEnergy: 12,
       currentEnergy: 6,
@@ -17,7 +17,7 @@ export default {
     name: '',
     race: 'human',
     combatStats: {
-      maxHealth: 20,
+      maxHealth: 40,
       currentHealth: 10,
       maxEnergy: 12,
       currentEnergy: 6,
@@ -29,7 +29,7 @@ export default {
     name: '',
     race: 'troll',
     combatStats: {
-      maxHealth: 20,
+      maxHealth: 40,
       currentHealth: 10,
       maxEnergy: 12,
       currentEnergy: 6,
@@ -41,7 +41,7 @@ export default {
     name: '',
     race: 'dwarf',
     combatStats: {
-      maxHealth: 20,
+      maxHealth: 40,
       currentHealth: 10,
       maxEnergy: 12,
       currentEnergy: 6,

@@ -9,7 +9,6 @@
 <style>
   .combat-arena {
     position: relative;
-    border: 1px solid gray;
     background: radial-gradient(rgba(0, 0, 0, 0.5), transparent 75%);
     width: 100%;
     max-width: 500px;
