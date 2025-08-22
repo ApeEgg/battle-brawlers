@@ -12,8 +12,10 @@
 
   let facingRight = $derived(props.facingRight);
   let animations = $derived(props.animations);
+  let statuses = $derived(props.statuses);
   let elapsedMilliseconds = $derived(props.elapsedMilliseconds);
   let position = $derived(props.position);
+  let size = $derived(props.size);
   let y = $derived(position.y);
   let x = $derived(position.x);
 
@@ -57,6 +59,7 @@
   });
 
   const applyAnimationClass = (name: string) =>
+    !statuses.knockedOut &&
     animations.some(
       ({ vfxName, start, end }) =>
         start < elapsedMilliseconds && end > elapsedMilliseconds && vfxName === name
@@ -69,6 +72,7 @@
     class:basicAttackSlow={applyAnimationClass('basicAttackSlow')}
     class:basicAttackRegular={applyAnimationClass('basicAttackRegular')}
     class:basicAttackFast={applyAnimationClass('basicAttackFast')}
+    class:knockedOut={statuses.knockedOut}
     style="
         --position-x: {x}px;
         --position-y: {y}px;
@@ -85,35 +89,53 @@
   >
     <div
       class:hurt={applyAnimationClass('hurt')}
+      class:block={applyAnimationClass('block')}
+      class:attackBlocked={applyAnimationClass('attackBlocked')}
       class="h-40 w-36"
       style="transform: translate(-50%, -50%);"
     >
       <div
-        class={tw(
-          'absolute inset-1 bg-contain bg-center bg-no-repeat',
-          facingRight && 'scale-x-[-1]'
-        )}
-        style="background-image: url('/images/races/{race}/01.png');"
+        class={tw('absolute inset-1 bg-bottom bg-no-repeat', facingRight && 'scale-x-[-1]')}
+        style="background-image: url('/images/races/{race}/01.png'); background-size: auto {100 *
+          size}%;"
       ></div>
       <div
         class={tw('hurt-animation', facingRight && 'scale-x-[-1]')}
         style="
-          -webkit-mask: url('/images/races/{race}/01.png') no-repeat center/contain;
-          mask: url('/images/races/{race}/01.png') no-repeat center/contain;
+          -webkit-mask: url('/images/races/{race}/01.png') no-repeat bottom/auto {100 * size}%;
+          mask: url('/images/races/{race}/01.png') no-repeat bottom/auto {100 * size}%;
         "
       ></div>
+      <crow
+        class={tw(
+          'block-animation text-8xl',
+          facingRight ? 'translate-x-8 scale-x-[-1]' : '-translate-x-8'
+        )}
+      >
+        <!-- <Icon name="block" /> -->
+        <img src="/images/shield.png" width="{60 * size}%" />
+        <div
+          class="attackBlocked-animation"
+          style="
+          -webkit-mask: url('/images/shield.png') no-repeat center/auto {100 * size}%;
+          mask: url('/images/shield.png') no-repeat center/auto {100 * size}%;
+        "
+        ></div>
+      </crow>
     </div>
 
     <!-- <div>
-      <pre>
-    
-    {JSON.stringify(currentAnimation, null, 2)}
-  </pre>
+      <pre>{JSON.stringify(statuses, null, 2)}
+      </pre>
     </div> -->
   </div>
 {/key}
 
 <style>
+  .knockedOut {
+    filter: grayscale(100%);
+  }
+
   .basicAttackFast {
     animation: basicAttackFast var(--attack-duration) cubic-bezier(0.25, 0.1, 0.25, 1);
   }
@@ -123,6 +145,7 @@
     }
     90% {
       transform: translate(calc(var(--attack-start-x)), calc(var(--attack-start-y)));
+      animation-timing-function: cubic-bezier(0.2, 0.8, 0.5, 1.33);
     }
     100% {
       transform: translate(calc(var(--attack-end-x)), calc(var(--attack-end-y)));
@@ -138,6 +161,7 @@
     }
     90% {
       transform: translate(calc(var(--attack-start-x)), calc(var(--attack-start-y)));
+      animation-timing-function: cubic-bezier(0.2, 0.8, 0.5, 1.33);
     }
     100% {
       transform: translate(calc(var(--attack-end-x)), calc(var(--attack-end-y)));
@@ -177,6 +201,44 @@
     }
     25% {
       background-color: rgba(255, 0, 0, 0.4);
+      opacity: 1;
+    }
+    100% {
+      background-color: transparent;
+      opacity: 0;
+    }
+  }
+
+  .block-animation {
+    position: absolute;
+    inset: 0;
+    background-color: transparent;
+    /* mix-blend-mode: multiply; */
+    opacity: 0;
+    filter: grayscale(100%);
+  }
+  .block .block-animation {
+    opacity: 1;
+  }
+
+  .attackBlocked .attackBlocked-animation {
+    position: absolute;
+    inset: 0;
+    background-color: transparent;
+    mix-blend-mode: multiply;
+    opacity: 0;
+    filter: grayscale(100%);
+  }
+  .attackBlocked .attackBlocked-animation {
+    animation: attackBlocked 340ms ease;
+  }
+  @keyframes attackBlocked {
+    0% {
+      background-color: transparent;
+      opacity: 0;
+    }
+    25% {
+      background-color: gray;
       opacity: 1;
     }
     100% {

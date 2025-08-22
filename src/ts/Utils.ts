@@ -1,6 +1,5 @@
 import CHARACTERS from '$src/constants/CHARACTERS';
 import seedRandom from 'seedrandom';
-import type { Race } from '$src/types/character';
 import type { Team } from '$src/types/team';
 import type { Combatant } from '$src/types/combatant';
 import lodash from 'lodash';
@@ -22,31 +21,23 @@ export const calculateCombatStats = (...args: any) => {
 };
 
 export const prepareCombatant = (
-  {
-    name,
-    race,
-    abilities
-  }: {
-    name: string;
-    race: Race;
-    abilities: Ability[];
-  },
+  combatant: Combatant,
   rotation: number,
   combatantCount: number,
   teamIndex: number,
   combatantIndex: number
 ): Combatant => {
-  const combatStats = calculateCombatStats(CHARACTERS[race].combatStats);
+  const combatStats = calculateCombatStats(CHARACTERS[combatant.race].combatStats);
 
   combatStats.currentHealth = combatStats.maxHealth;
 
-  const abilitiesCopied = abilities
+  const abilitiesCopied = combatant.abilities
     .reduce<Ability[]>(
       (a, ability, i) =>
         ability.abilityName === 'basicAttackFast' &&
         a[i - 1]?.abilityName === 'basicAttackFast' &&
-        a[i - 1]?.ticks === 1
-          ? [...a.slice(0, -1), { ...a[a.length - 1], ticks: 0 }, { ...ability, ticks: 2 }]
+        a[i - 1]?.ticks === 2
+          ? [...a.slice(0, -1), { ...a[a.length - 1], ticks: 0 }, { ...ability, ticks: 4 }]
           : [...a, ability],
 
       []
@@ -69,14 +60,15 @@ export const prepareCombatant = (
   };
 
   return {
+    ...combatant,
     id: generateID(),
-    name,
-    race,
     combatStats,
-    knockedOut: 0,
     animations: [],
     position,
-    abilities,
+    statuses: {
+      isBlocking: false,
+      knockedOut: 0
+    },
     abilitiesCopied
   };
 };
@@ -112,36 +104,49 @@ export const generateCombat = (seed: string, teams: Team[]) => {
     const targets = combatants.filter(({ teamIndex }) => teamIndex !== eventTaker.teamIndex);
     const target = targets[seededRandom(0, targets.length - 1, `${seed}_${i}_defender`)];
     const [currentAbility, ...restAbilities] = eventTaker.abilities;
-    const previousAbility = restAbilities[eventTaker.abilities.length - 1];
+    const previousAbility = restAbilities[restAbilities.length - 1];
     const combatStart = timestamp === 0;
 
     const damage = {
       result: 0
     };
 
+    const isAttacking = ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(
+      previousAbility.abilityName
+    );
+    const isBlocking = target.statuses.isBlocking;
+
     // 1. Resolve previous ability outcome
     if (!combatStart) {
       damage.result = eventTaker.combatStats.damage;
 
-      // eventTaker.animations.push(bufferAnimation('basicAttackRegular', timestamp));
-      if (
-        ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(
-          currentAbility.abilityName
-        )
-      ) {
-        target.combatStats.currentHealth -= damage.result;
-
-        bufferAnimation(target, _VFX.hurt, timestamp);
+      if (isAttacking) {
+        if (isBlocking) {
+          bufferAnimation(target, _VFX.attackBlocked, timestamp);
+        } else {
+          target.combatStats.currentHealth -= damage.result;
+          bufferAnimation(target, _VFX.hurt, timestamp);
+        }
       }
-
-      // eventTaker.combatStats.currentEnergy = Math.min(
-      //   eventTaker.combatStats.maxEnergy,
-      //   eventTaker.combatStats.currentEnergy + 2
-      // );
-      // }
     }
 
+    // console.table({
+    //   Round: i,
+    //   Tick: timestamp / COMBAT_TICK_TIME,
+    //   attacker: eventTaker.race,
+    //   damage: damage.result,
+    //   target: target.race,
+    //   isBlocking,
+    //   targetStatuses: target.statuses
+    //   // targetAbilities: target.abilities,
+    //   // targetAbilitiesCopied: target.abilitiesCopied
+    // });
+
     // 2. Start current ability animation
+    eventTaker.statuses.isBlocking = false;
+    if (currentAbility.abilityName === 'block') {
+      eventTaker.statuses.isBlocking = true;
+    }
     bufferAnimation(
       eventTaker,
       { ...currentAbility.vfx, targetX: target.position.x, targetY: target.position.y },
@@ -159,7 +164,8 @@ export const generateCombat = (seed: string, teams: Team[]) => {
         const combatantIndex = combatants.findIndex((c) => c.id === id);
 
         if (currentHealth <= 0 && combatantIndex !== -1) {
-          teams[teamIndex].combatants[i].knockedOut = timestamp;
+          teams[teamIndex].combatants[i].statuses.knockedOut = timestamp;
+          teams[teamIndex].combatants[i].combatStats.currentHealth = 0;
           combatants = [
             ...combatants.slice(0, combatantIndex),
             ...combatants.slice(combatantIndex + 1)

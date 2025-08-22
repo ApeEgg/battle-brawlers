@@ -4,15 +4,15 @@ import type { VFXName, VFX } from '$src/types/vfx';
 export default {
   basicAttackFast: {
     vfxName: 'basicAttackFast',
-    duration: 500
+    duration: 1000
   },
   basicAttackRegular: {
     vfxName: 'basicAttackRegular',
-    duration: 1000
+    duration: 1500
   },
   basicAttackSlow: {
     vfxName: 'basicAttackSlow',
-    duration: 1500
+    duration: 2000
   },
   block: {
     vfxName: 'block',
@@ -22,8 +22,13 @@ export default {
     vfxName: 'stun',
     duration: 500
   },
+  // Status effects
   hurt: {
     vfxName: 'hurt',
     duration: 250
+  },
+  attackBlocked: {
+    vfxName: 'attackBlocked',
+    duration: 500
   }
 } as Record<AbilityName | VFXName, VFX>;

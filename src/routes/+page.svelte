@@ -10,20 +10,13 @@
   import CombatantCard from '$src/components/combat/CombatantCard.svelte';
   import { COMBAT_TICK_TIME, COMBAT_RING_BASE_RADIUS } from '$src/constants/APP';
 
-  const abilities1: Ability[] = [
-    ABILITIES.basicAttackSlow,
+  const defaultBasicAttackSlow: Ability[] = [
     ABILITIES.basicAttackSlow,
     ABILITIES.basicAttackSlow,
     ABILITIES.basicAttackSlow
   ];
 
-  const abilities2: Ability[] = [
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.stun,
+  const defaultBasicAttackFast: Ability[] = [
     ABILITIES.basicAttackFast,
     ABILITIES.basicAttackFast,
     ABILITIES.basicAttackFast,
@@ -32,31 +25,23 @@
     ABILITIES.basicAttackFast
   ];
 
-  const abilities3: Ability[] = [
-    ABILITIES.basicAttackRegular,
-    ABILITIES.basicAttackRegular,
+  const defaultBasicAttackRegular: Ability[] = [
     ABILITIES.basicAttackRegular,
     ABILITIES.basicAttackRegular,
     ABILITIES.basicAttackRegular,
     ABILITIES.basicAttackRegular
   ];
 
-  const abilities4: Ability[] = [
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast,
-    ABILITIES.basicAttackFast
+  const blockAttackHybrid: Ability[] = [
+    ABILITIES.basicAttackRegular,
+    ABILITIES.block,
+    ABILITIES.stun,
+    ABILITIES.basicAttackRegular,
+    ABILITIES.stun,
+    ABILITIES.stun
   ];
 
-  const abilities5: Ability[] = [
+  const standingStill: Ability[] = [
     ABILITIES.stun,
     ABILITIES.stun,
     ABILITIES.stun,
@@ -98,22 +83,26 @@
     {
       name: 'npc1',
       race: 'elf',
-      abilities: abilities2
+      size: 1,
+      abilities: defaultBasicAttackFast
     },
     {
       name: 'npc2',
       race: 'human',
-      abilities: abilities3
+      size: 1,
+      abilities: defaultBasicAttackSlow
     },
     {
       name: 'npc3',
       race: 'troll',
-      abilities: abilities1
+      size: 1,
+      abilities: defaultBasicAttackSlow
     },
     {
       name: 'npc4',
       race: 'dwarf',
-      abilities: abilities4
+      size: 0.75,
+      abilities: blockAttackHybrid
     }
   ];
 
@@ -121,9 +110,7 @@
     const nextCombatants = (teamIndex: number) =>
       Array.from({ length: combatantCount }, (_, combatantIndex) => {
         return prepareCombatant(
-          characters[
-            seededRandom(0, characters.length - 1, `race____${combatantIndex}_${teamIndex}`)
-          ],
+          characters[seededRandom(0, characters.length - 1, `of${combatantIndex}_${teamIndex}`)],
           rotation,
           combatantCount,
           teamIndex,
@@ -160,6 +147,7 @@
       app.combat.events = newEvents;
     }
     if (elapsedMilliseconds > app.combat.duration) {
+      teams = app.combat.events[app.combat.events.length - 1].teams;
       cancelAnimationFrame(loopId);
       return;
     }
@@ -193,31 +181,23 @@
   });
 </script>
 
-<Row class="min-h-screen flex-1 gap-2 pt-20" up>
-  <div class="w-56 rounded border border-gray-400 bg-white/30 p-4">
-    left side
-    <!-- <code class="text-xs">
-      <pre>
-      {JSON.stringify(teams, null, 2)}
-    </pre>
-    </code> -->
-  </div>
-  <div class="h-full flex-1 rounded border border-gray-400 bg-white">
-    <CombatArena>
-      {#if teams.length}
-        {#each teams as { combatants, name }, _index}
-          {#each combatants as combatant, _c}
-            {@const { rot } = combatant.position}
-            {@const raw = Math.round(Math.abs(Math.abs(rot - 540) - 180))}
-            {@const z = 10 - Math.floor((raw / 180) * 9)}
-            <!-- {@const z = Math.floor((raw / 180) * 9) + 1} -->
-            {@const angleDiff = ((rot - 0 + 540) % 360) - 180}
-            {@const totalTime =
-              combatant.abilities.reduce((acc, { ticks }) => acc + ticks, 0) * COMBAT_TICK_TIME}
-            {@const progress =
-              ((combatant.knockedOut ? combatant.knockedOut : elapsedMilliseconds) / totalTime) % 1}
+<CombatArena>
+  {#if teams.length}
+    {#each teams as { combatants, name }, _index}
+      {#each combatants as combatant, _c}
+        {@const { rot } = combatant.position}
+        {@const raw = Math.round(Math.abs(Math.abs(rot - 540) - 180))}
+        {@const z = 10 - Math.floor((raw / 180) * 9)}
+        <!-- {@const z = Math.floor((raw / 180) * 9) + 1} -->
+        {@const angleDiff = ((rot - 0 + 540) % 360) - 180}
+        {@const totalTime =
+          combatant.abilities.reduce((acc, { ticks }) => acc + ticks, 0) * COMBAT_TICK_TIME}
+        {@const progress =
+          ((combatant.statuses.knockedOut ? combatant.statuses.knockedOut : elapsedMilliseconds) /
+            totalTime) %
+          1}
 
-            <!-- <div class="diameter" style={`transform: rotate(${rot}deg); z-index: ${z};`}>
+        <!-- <div class="diameter" style={`transform: rotate(${rot}deg); z-index: ${z};`}>
               <div class="edge" style={`transform: translate(-50%, -50%) rotate(-${rot}deg);`}>
                 <CombatantCard {...combatant} facingRight={angleDiff < 0} {elapsedMilliseconds}>
                   <div class="relative">
@@ -250,39 +230,39 @@
               </div>
             </div> -->
 
-            <CombatantCard
-              {...combatant}
-              facingRight={angleDiff < 0}
-              {elapsedMilliseconds}
-              {progress}
-              {z}
-              scale={geometry.scale}
-            />
-          {/each}
-          <!--<TeamBadge
+        <CombatantCard
+          {...combatant}
+          facingRight={angleDiff < 0}
+          {elapsedMilliseconds}
+          {progress}
+          {z}
+          scale={geometry.scale}
+        />
+      {/each}
+      <!--<TeamBadge
         {index}
         rotation={index * rotation + 270}
         scale={geometry.scale}
       />-->
-        {/each}
-      {/if}
-    </CombatArena>
-  </div>
+    {/each}
+  {/if}
+</CombatArena>
 
-  <div class="w-56 rounded border border-gray-400 bg-white/30 p-4">
-    Teams {teamCount}:
-    <br /><input type="range" min="1" max="8" bind:value={teamCount} />
-    <br />
-    Combatants {combatantCount}:
-    <br /><input type="range" min="1" max="6" bind:value={combatantCount} />
-    <br />
+<!-- <div class="text-xs">
+      Elapsed ms: {elapsedMilliseconds}<br />
+      Duration: {app.combat.duration}
+      <pre>{JSON.stringify(app.combat, null, 2)}</pre>
+    </div> -->
 
-    <Button onclick={runCombat} disabled={!teams.length}>Run combat</Button>
-    <Button onclick={() => cancelAnimationFrame(loopId)} disabled={!teams.length}>
-      Cancel combat
-    </Button>
-  </div>
-</Row>
+Teams {teamCount}:
+<br /><input type="range" min="1" max="8" bind:value={teamCount} />
+<br />
+Combatants {combatantCount}:
+<br /><input type="range" min="1" max="6" bind:value={combatantCount} />
+<br />
+
+<Button onclick={runCombat} disabled={!teams.length}>Run combat</Button>
+<Button onclick={() => cancelAnimationFrame(loopId)} disabled={!teams.length}>Cancel combat</Button>
 
 <style>
   .diameter {

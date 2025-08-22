@@ -5,24 +5,24 @@ export default {
   basicAttackFast: {
     abilityName: 'basicAttackFast',
     prettyName: '1h+1h',
-    ticks: 1,
+    ticks: 2,
     icon: '1h1h',
     vfx: VFX.basicAttackFast
-  },
+  }, // 8 (80% of 10)
   basicAttackRegular: {
     abilityName: 'basicAttackRegular',
     prettyName: '1h+x',
-    ticks: 2,
+    ticks: 3,
     icon: '1h',
     vfx: VFX.basicAttackRegular
-  },
+  }, // 10
   basicAttackSlow: {
     abilityName: 'basicAttackSlow',
     prettyName: '2h',
-    ticks: 3,
+    ticks: 4,
     icon: '2h',
     vfx: VFX.basicAttackSlow
-  },
+  }, // 16 (160% of 10)
   block: {
     abilityName: 'block',
     prettyName: 'block',

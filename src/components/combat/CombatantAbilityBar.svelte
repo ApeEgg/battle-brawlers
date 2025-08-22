@@ -17,7 +17,7 @@
         class="relative flex h-6 items-center justify-center text-center"
         style="width: calc(calc(100% / 12)*{ticks});"
       >
-        {#if icon === '1h1h' && ticks === 2}
+        {#if icon === '1h1h' && ticks === 4}
           <div
             class="absolute top-0 bottom-0 left-1/2 w-[0.1px] -translate-x-1/2 bg-gray-400"
           ></div>

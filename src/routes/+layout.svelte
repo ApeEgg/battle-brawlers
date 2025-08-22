@@ -29,7 +29,23 @@
     )}
   >
     <Authorization>
-      {@render children()}
+      <Row class="min-h-screen flex-1 gap-2 pt-20" up>
+        <div class="w-56 rounded border border-gray-400 bg-white/30 p-4">
+          <crow up left vertical>
+            <a href="/">Start</a>
+            <a href="/creatures">Creatures</a>
+          </crow>
+          <!-- <code class="text-xs">
+      <pre>
+      {JSON.stringify(teams, null, 2)}
+    </pre>
+    </code> -->
+        </div>
+        <div class="h-full flex-1 rounded border border-gray-400 bg-white">
+          {@render children()}
+        </div>
+        <div class="w-56 rounded border border-gray-400 bg-white/30 p-4"></div>
+      </Row>
     </Authorization>
   </div>
 </div>
