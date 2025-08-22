@@ -9,6 +9,7 @@
     elapsedMilliseconds: number;
     progress: number;
     z: number;
+    scale: number;
   } = $props();
 
   let { name } = props;
@@ -20,6 +21,7 @@
   let z = $derived(props.z);
   let x = $derived(position.x);
   let y = $derived(position.y);
+  let scale = $derived(props.scale);
 </script>
 
 <div
@@ -27,7 +29,7 @@
   style="z-index:{z};"
 >
   <div class="absolute" style="left: {x}px; top:{y}px; transform: translate(-50%, -50%);">
-    <div class="absolute" style="transform: scale({1}) translate(-50%, -50%);">
+    <div class="absolute" style="transform: scale(1) translate(-50%, -50%);">
       <div class="combatant bg-[#D7CEC1]">
         <crow class="w-full justify-between px-2 py-1">
           {name}

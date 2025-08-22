@@ -9,7 +9,7 @@ export default {
       currentHealth: 10,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 2
+      damage: 1
     },
     abilities: []
   },
@@ -33,7 +33,7 @@ export default {
       currentHealth: 10,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 4
+      damage: 6
     },
     abilities: []
   },

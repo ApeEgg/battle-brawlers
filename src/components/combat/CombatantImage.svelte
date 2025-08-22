@@ -37,8 +37,12 @@
     const ux = dX / distance;
     const uy = dY / distance;
 
-    const attackReach = 30;
-    const anticipate = Math.min(attackReach * 0.25, distance * 0.33); // small backward lean-in
+    const attackReach = 5;
+
+    let anticipate = 0;
+    if (currentAnimation?.vfxName === 'basicAttackSlow') anticipate = 50;
+    if (currentAnimation?.vfxName === 'basicAttackRegular') anticipate = 30;
+    if (currentAnimation?.vfxName === 'basicAttackFast') anticipate = 10;
 
     // start a bit "behind" (away from the opponent)
     const sX = x - ux * anticipate;
@@ -76,7 +80,7 @@
         --attack-end-x: {nX}px;
         --attack-end-y: {nY}px;
 
-        --attack-duration: {currentAnimation?.duration}ms;
+        --attack-duration: {currentAnimation?.duration || 0}ms;
       "
   >
     <div
@@ -102,8 +106,8 @@
 
     <!-- <div>
       <pre>
-    {JSON.stringify(nX, null, 2)}
-    {JSON.stringify(currentAnimation?.targetX, null, 2)}
+    
+    {JSON.stringify(currentAnimation, null, 2)}
   </pre>
     </div> -->
   </div>
@@ -111,13 +115,13 @@
 
 <style>
   .basicAttackFast {
-    animation: basicAttackFast var(--attack-duration) cubic-bezier(0.02, 1.35, 0.53, 1);
+    animation: basicAttackFast var(--attack-duration) cubic-bezier(0.25, 0.1, 0.25, 1);
   }
   @keyframes basicAttackFast {
     0% {
       transform: translate(var(--position-x), var(--position-y));
     }
-    65% {
+    90% {
       transform: translate(calc(var(--attack-start-x)), calc(var(--attack-start-y)));
     }
     100% {
@@ -126,13 +130,13 @@
   }
 
   .basicAttackRegular {
-    animation: basicAttackRegular var(--attack-duration) cubic-bezier(0.02, 1.35, 0.53, 1);
+    animation: basicAttackRegular var(--attack-duration) cubic-bezier(0.25, 0.1, 0.25, 1);
   }
   @keyframes basicAttackRegular {
     0% {
       transform: translate(var(--position-x), var(--position-y));
     }
-    65% {
+    90% {
       transform: translate(calc(var(--attack-start-x)), calc(var(--attack-start-y)));
     }
     100% {
@@ -141,14 +145,15 @@
   }
 
   .basicAttackSlow {
-    animation: basicAttackSlow var(--attack-duration) cubic-bezier(0.02, 1.35, 0.53, 1);
+    animation: basicAttackSlow var(--attack-duration) cubic-bezier(0.25, 0.1, 0.25, 1);
   }
   @keyframes basicAttackSlow {
     0% {
       transform: translate(var(--position-x), var(--position-y));
     }
-    65% {
+    90% {
       transform: translate(calc(var(--attack-start-x)), calc(var(--attack-start-y)));
+      animation-timing-function: cubic-bezier(0.2, 0.8, 0.5, 1.33);
     }
     100% {
       transform: translate(calc(var(--attack-end-x)), calc(var(--attack-end-y)));

@@ -56,6 +56,21 @@
     ABILITIES.basicAttackFast
   ];
 
+  const abilities5: Ability[] = [
+    ABILITIES.stun,
+    ABILITIES.stun,
+    ABILITIES.stun,
+    ABILITIES.stun,
+    ABILITIES.stun,
+    ABILITIES.stun,
+    ABILITIES.stun,
+    ABILITIES.stun,
+    ABILITIES.stun,
+    ABILITIES.stun,
+    ABILITIES.stun,
+    ABILITIES.stun
+  ];
+
   const getGeometry = (N: number, { baseRadius = 250, itemWidth = 140, gap = 0 } = {}) => {
     const C_base = 2 * Math.PI * baseRadius;
     const C_item = Math.max(1, N) * (itemWidth + gap); // avoid divide-by-zero
@@ -88,7 +103,7 @@
     {
       name: 'npc2',
       race: 'human',
-      abilities: abilities4
+      abilities: abilities3
     },
     {
       name: 'npc3',
@@ -98,7 +113,7 @@
     {
       name: 'npc4',
       race: 'dwarf',
-      abilities: abilities3
+      abilities: abilities4
     }
   ];
 
@@ -241,6 +256,7 @@
               {elapsedMilliseconds}
               {progress}
               {z}
+              scale={geometry.scale}
             />
           {/each}
           <!--<TeamBadge

@@ -81,19 +81,10 @@ export const prepareCombatant = (
   };
 };
 
-const bufferAnimation = (
-  combatant: Combatant,
-  vfx: VFX,
-  timestamp: number,
-  subtractTicks: number = 0
-) => {
-  if (subtractTicks) {
-    vfx.start = timestamp + subtractTicks * COMBAT_TICK_TIME - vfx.duration;
-    vfx.end = timestamp + subtractTicks * COMBAT_TICK_TIME;
-  } else {
-    vfx.start = timestamp;
-    vfx.end = timestamp + vfx.duration;
-  }
+const bufferAnimation = (combatant: Combatant, vfx: VFX, timestamp: number) => {
+  const delay = vfx.duration * 0.1;
+  vfx.start = timestamp + delay;
+  vfx.end = timestamp + delay + vfx.duration;
 
   vfx.id = generateID();
   combatant.animations.push(structuredClone(vfx)); // Remove structuredClone?
@@ -133,10 +124,15 @@ export const generateCombat = (seed: string, teams: Team[]) => {
       damage.result = eventTaker.combatStats.damage;
 
       // eventTaker.animations.push(bufferAnimation('basicAttackRegular', timestamp));
+      if (
+        ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(
+          currentAbility.abilityName
+        )
+      ) {
+        target.combatStats.currentHealth -= damage.result;
 
-      target.combatStats.currentHealth -= damage.result;
-
-      bufferAnimation(target, _VFX.hurt, timestamp);
+        bufferAnimation(target, _VFX.hurt, timestamp);
+      }
 
       // eventTaker.combatStats.currentEnergy = Math.min(
       //   eventTaker.combatStats.maxEnergy,
@@ -149,8 +145,7 @@ export const generateCombat = (seed: string, teams: Team[]) => {
     bufferAnimation(
       eventTaker,
       { ...currentAbility.vfx, targetX: target.position.x, targetY: target.position.y },
-      timestamp,
-      currentAbility.ticks
+      timestamp
     );
 
     const i1 = teams[eventTaker.teamIndex].combatants.findIndex(({ id }) => id === eventTaker.id);
