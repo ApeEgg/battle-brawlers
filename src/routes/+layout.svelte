@@ -34,6 +34,7 @@
           <crow up left vertical>
             <a href="/">Start</a>
             <a href="/creatures">Creatures</a>
+            <a href="/debug">Debug</a>
           </crow>
           <!-- <code class="text-xs">
       <pre>
@@ -41,8 +42,10 @@
     </pre>
     </code> -->
         </div>
-        <div class="h-full flex-1 rounded border border-gray-400 bg-white">
-          {@render children()}
+        <div class="h-full flex-1 rounded border border-gray-400 bg-white p-2">
+          <div>
+            {@render children()}
+          </div>
         </div>
         <div class="w-56 rounded border border-gray-400 bg-white/30 p-4"></div>
       </Row>
