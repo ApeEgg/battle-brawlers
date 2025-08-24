@@ -11,11 +11,11 @@
     style="right: {100 - progress * 100}%"
   ></div>
 
-  <div class="abilities relative flex w-full divide-x divide-gray-600 border border-gray-600">
+  <div class="abilities relative flex w-[144px] divide-x divide-gray-600 border-t border-gray-600">
     {#each abilitiesCopied as { prettyName, ticks, icon }, i (`icon_${i}_${prettyName}`)}
       <div
         class="relative flex h-6 items-center justify-center text-center"
-        style="width: calc(calc(100% / 12)*{ticks});"
+        style="width: calc(calc(100% / 12)*{ticks});min-width: calc(12px * {ticks});"
       >
         {#if icon === '1h1h' && ticks === 4}
           <div

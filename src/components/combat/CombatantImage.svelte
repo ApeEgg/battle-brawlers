@@ -91,7 +91,7 @@
       class:hurt={applyAnimationClass('hurt')}
       class:block={applyAnimationClass('block')}
       class:attackBlocked={applyAnimationClass('attackBlocked')}
-      class="h-40 w-36"
+      class="h-46 w-36"
       style="transform: translate(-50%, -50%);"
     >
       <div
@@ -124,10 +124,10 @@
       </crow>
     </div>
 
-    <!-- <div>
+    <div>
       <pre>{JSON.stringify(statuses, null, 2)}
       </pre>
-    </div> -->
+    </div>
   </div>
 {/key}
 

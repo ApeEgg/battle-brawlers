@@ -1,7 +1,7 @@
 import type { Character, Race } from '$src/types/character';
 import ABILITIES from '$src/constants/ABILITIES';
 
-const DEFAULT_MAX_HP = 20;
+const DEFAULT_MAX_HP = 12;
 
 export default {
   elf: {
@@ -35,7 +35,12 @@ export default {
       currentEnergy: 6,
       damage: 3
     },
-    abilities: [ABILITIES.basicAttackSlow, ABILITIES.basicAttackSlow, ABILITIES.basicAttackSlow]
+    abilities: [
+      ABILITIES.basicAttackRegular,
+      ABILITIES.basicAttackRegular,
+      ABILITIES.basicAttackRegular,
+      ABILITIES.basicAttackRegular
+    ]
   },
   troll: {
     name: 'npc3',
@@ -62,12 +67,11 @@ export default {
       damage: 4
     },
     abilities: [
-      ABILITIES.basicAttackRegular,
       ABILITIES.block,
-      ABILITIES.stun,
       ABILITIES.basicAttackRegular,
       ABILITIES.stun,
-      ABILITIES.stun
+      ABILITIES.basicAttackRegular,
+      ABILITIES.basicAttackFast
     ]
   },
   // Creatures

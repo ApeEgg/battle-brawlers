@@ -15,6 +15,7 @@ export type Combatant = Character & {
   abilitiesCopied: Ability[];
   statuses: {
     isBlocking: boolean;
+    isStunned: boolean;
     knockedOut: number;
   };
   position: {

@@ -13,7 +13,6 @@ import _VFX from '$src/constants/VFX';
 const { uniqBy } = lodash;
 
 const ABILITY_ORDER = ['block', 'basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'];
-const rank = (str: string) => ABILITY_ORDER.indexOf(str);
 
 export const calculateCombatStats = (...args: any) => {
   const combined = args.reduce((acc: any, obj: any) => {
@@ -77,6 +76,7 @@ export const prepareCombatant = (
     position,
     statuses: {
       isBlocking: false,
+      isStunned: false,
       knockedOut: 0
     },
     abilitiesCopied
@@ -184,33 +184,34 @@ export const generateCombat = (seed: string, teams: Team[]) => {
         events
       );
 
-      damage.result = eventTaker.combatStats.damage;
-
       if (isAttacking) {
         if (isBlocking) {
           bufferAnimation(target, _VFX.attackBlocked, eventTaker.eventTimestamp);
         } else {
+          damage.result = eventTaker.combatStats.damage;
           target.combatStats.currentHealth -= damage.result;
           bufferAnimation(target, _VFX.hurt, eventTaker.eventTimestamp);
         }
+      } else if (currentAbility.abilityName === 'stun') {
+        target.statuses.isStunned = true;
       }
 
       eventTaker.statuses.isBlocking = false;
       if (nextAbilities[0].abilityName === 'block') {
         eventTaker.statuses.isBlocking = true;
       }
-    }
 
-    // console.table({
-    //   Round: globalEventIndex,
-    //   Tick: eventTaker.eventTimestamp / COMBAT_TICK_TIME,
-    //   attacker: eventTaker.race,
-    //   ability: currentAbility.abilityName,
-    //   damage: damage.result,
-    //   target: target.race,
-    //   isBlocking,
-    //   targetStatuses: target.statuses
-    // });
+      // console.table({
+      //   Round: globalEventIndex,
+      //   Tick: eventTaker.eventTimestamp / COMBAT_TICK_TIME,
+      //   attacker: eventTaker.race,
+      //   ability: currentAbility.abilityName,
+      //   damage: damage.result,
+      //   target: target.race,
+      //   isBlocking,
+      //   targetStatuses: target.statuses
+      // });
+    }
 
     const i1 = teams[eventTaker.teamIndex].combatants.findIndex(({ id }) => id === eventTaker.id);
     teams[eventTaker.teamIndex].combatants[i1] = eventTaker;
@@ -235,6 +236,7 @@ export const generateCombat = (seed: string, teams: Team[]) => {
 
     events.push(
       structuredClone({
+        currentAbility: currentAbility.abilityName,
         eventTimestamp: eventTaker.eventTimestamp,
         globalEventIndex,
         eventIndex: eventTaker.eventIndex,
@@ -251,16 +253,20 @@ export const generateCombat = (seed: string, teams: Team[]) => {
     // const removeIndex = seededRandom(0, combatants.length - 1, seed);
     // combatants = [...combatants.slice(0, removeIndex), ...combatants.slice(removeIndex + 1)];
 
-    eventTaker.eventTimestamp = eventTaker.eventTimestamp + currentAbility.ticks * COMBAT_TICK_TIME;
-    eventTaker.eventAbility = nextAbilities[0]?.abilityName;
+    let ticksToNext = currentAbility.ticks;
+
     if (!fillerTick) {
+      ticksToNext = nextAbilities[0].ticks;
       eventTaker.abilities = [...nextAbilities, currentAbility];
     }
+
+    eventTaker.eventTimestamp = eventTaker.eventTimestamp + ticksToNext * COMBAT_TICK_TIME;
     eventTaker.eventIndex++;
     globalEventIndex++;
   }
 
   const duration = events[events.length - 1]?.eventTimestamp;
+  teams = events[events.length - 1].teams;
 
   return {
     events,

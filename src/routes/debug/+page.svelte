@@ -73,12 +73,14 @@
     let [event] = app.combat.events;
 
     if (elapsedMilliseconds > event?.eventTimestamp) {
+      console.log($state.snapshot(event));
       teams = event.teams;
 
       const [_, ...newEvents] = app.combat.events;
       app.combat.events = newEvents;
     }
     if (elapsedMilliseconds > app.combat.duration) {
+      teams = app.combat.teams;
       cancelAnimationFrame(loopId);
       return;
     }

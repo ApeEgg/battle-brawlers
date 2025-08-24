@@ -30,7 +30,7 @@
 >
   <div class="absolute" style="left: {x}px; top:{y}px; transform: translate(-50%, -50%);">
     <div class="absolute" style="transform: scale(1) translate(-50%, -50%);">
-      <div class="combatant bg-[#D7CEC1]">
+      <div class="combatant rounded border bg-[#D7CEC1] shadow">
         <crow class="w-full justify-between px-2 py-1">
           {name}
           <crow right class="gap-1">
