@@ -1,7 +1,7 @@
 import type { Combatant } from '$src/types/combatant';
 
 export type Team = {
-  index: number;
   name: string;
+  index: number;
   combatants: Combatant[];
 };

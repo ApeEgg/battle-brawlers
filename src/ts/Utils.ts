@@ -26,11 +26,12 @@ export const calculateCombatStats = (...args: any) => {
 
 export const prepareCombatant = (
   character: Character,
-  rotation: number,
+  teamCount: number,
   combatantCount: number,
   teamIndex: number,
   combatantIndex: number
 ): Combatant => {
+  const rotation = 360 / teamCount;
   const combatStats = calculateCombatStats(CHARACTERS[character.race].combatStats);
 
   combatStats.currentHealth = combatStats.maxHealth;
@@ -127,11 +128,13 @@ const injectAnimation = (
 };
 
 export const generateCombat = (seed: string, teams: Team[]) => {
+  console.log(teams);
   let combatants = teams.flatMap((team) => team.combatants.map((combatant) => combatant));
 
   const events: CombatEvent[] = [];
   let globalEventIndex = 0;
 
+  const teamsStartState = structuredClone(teams);
   teams = structuredClone(teams);
   while (uniqBy(combatants, 'teamIndex').length > 1) {
     // const sortedCombatants = combatants.sort((a, b) => {
@@ -171,20 +174,25 @@ export const generateCombat = (seed: string, teams: Team[]) => {
       currentAbility.abilityName
     );
     const isBlocking = target.statuses.isBlocking;
+    const isStunned = eventTaker.statuses.isStunned;
 
     if (!fillerTick) {
-      injectAnimation(
-        eventTaker,
-        {
-          ...currentAbility.vfx,
-          targetX: target.position.x,
-          targetY: target.position.y
-        },
-        teams,
-        events
-      );
+      if (!isStunned) {
+        injectAnimation(
+          eventTaker,
+          {
+            ...currentAbility.vfx,
+            targetX: target.position.x,
+            targetY: target.position.y
+          },
+          teams,
+          events
+        );
+      }
 
-      if (isAttacking) {
+      if (isStunned) {
+        eventTaker.statuses.isStunned = false;
+      } else if (isAttacking) {
         if (isBlocking) {
           bufferAnimation(target, _VFX.attackBlocked, eventTaker.eventTimestamp);
         } else {
@@ -224,6 +232,8 @@ export const generateCombat = (seed: string, teams: Team[]) => {
         const combatantIndex = combatants.findIndex((c) => c.id === id);
 
         if (currentHealth <= 0 && combatantIndex !== -1) {
+          teams[teamIndex].combatants[i].statuses.isBlocking = false;
+          teams[teamIndex].combatants[i].statuses.isStunned = false;
           teams[teamIndex].combatants[i].statuses.knockedOut = eventTaker.eventTimestamp;
           teams[teamIndex].combatants[i].combatStats.currentHealth = 0;
           combatants = [
@@ -266,11 +276,12 @@ export const generateCombat = (seed: string, teams: Team[]) => {
   }
 
   const duration = events[events.length - 1]?.eventTimestamp;
-  teams = events[events.length - 1].teams;
+  const teamsEndState = events[events.length - 1].teams;
 
   return {
     events,
-    teams,
+    teamsStartState,
+    teamsEndState,
     duration
   };
 };

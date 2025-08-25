@@ -69,9 +69,9 @@
 {#key currentAnimation?.id}
   <div
     class="relative"
-    class:basicAttackSlow={applyAnimationClass('basicAttackSlow')}
-    class:basicAttackRegular={applyAnimationClass('basicAttackRegular')}
-    class:basicAttackFast={applyAnimationClass('basicAttackFast')}
+    class:basicAttackSlow={!statuses.isStunned && applyAnimationClass('basicAttackSlow')}
+    class:basicAttackRegular={!statuses.isStunned && applyAnimationClass('basicAttackRegular')}
+    class:basicAttackFast={!statuses.isStunned && applyAnimationClass('basicAttackFast')}
     class:knockedOut={statuses.knockedOut}
     style="
         --position-x: {x}px;
@@ -91,7 +91,7 @@
       class:hurt={applyAnimationClass('hurt')}
       class:block={applyAnimationClass('block')}
       class:attackBlocked={applyAnimationClass('attackBlocked')}
-      class="h-46 w-36"
+      class="h-40 w-36"
       style="transform: translate(-50%, -50%);"
     >
       <div
@@ -122,6 +122,15 @@
         "
         ></div>
       </crow>
+
+      {#if statuses.isStunned}
+        <crow vertical class="absolute top-9.5 left-[calc(100%-theme(spacing.6))] gap-1">
+          <crow class="gap-4">
+            <Icon name="isStunned" class="animate-spin [animation-direction:reverse]" original />
+            <span class="text-xs">STUNNED</span>
+          </crow>
+        </crow>
+      {/if}
     </div>
 
     <div>

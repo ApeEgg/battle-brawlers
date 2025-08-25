@@ -15,13 +15,15 @@ import type { Combat } from '$src/types/combat';
 //   }
 // };
 
+export const INITIAL_COMBAT: Combat = {
+  teamsStartState: [],
+  teamsEndState: [],
+  events: [],
+  duration: 0
+};
+
 export default new (class {
-  combat: Combat = $state({
-    // start: 0,
-    // seed: '',
-    teams: [],
-    events: []
-  });
+  combat: Combat = $state(INITIAL_COMBAT);
   // notifications: Notification[] = $state([]);
   // workspaces: Workspace[] = $state([INITIAL_WORKSPACE]);
   // currentWorkspace: number = $state(0);

@@ -1,6 +1,8 @@
 import type { Character, Race } from '$src/types/character';
 import ABILITIES from '$src/constants/ABILITIES';
 
+type CharacterKey = Race | 'berserker';
+
 const DEFAULT_MAX_HP = 12;
 
 export default {
@@ -67,10 +69,11 @@ export default {
       damage: 4
     },
     abilities: [
-      ABILITIES.block,
       ABILITIES.basicAttackRegular,
       ABILITIES.stun,
-      ABILITIES.basicAttackRegular,
+      ABILITIES.block,
+      ABILITIES.stun,
+      ABILITIES.basicAttackFast,
       ABILITIES.basicAttackFast
     ]
   },
@@ -95,4 +98,4 @@ export default {
       ABILITIES.stun
     ]
   }
-} as Record<Race, Character>;
+} as Record<CharacterKey, Character>;

@@ -2,6 +2,7 @@
   import CHARACTERS from '$src/constants/CHARACTERS';
 
   const { berserker } = CHARACTERS;
+
   let creatures = [
     { ...berserker, url: 'berserker' },
     { ...berserker, url: 'berserker' }
@@ -14,9 +15,12 @@
     <div class="flex-1 font-bold">Loot</div>
     <div class="flex-1 font-bold">Level</div>
   </crow>
-  {#each creatures as creature}
-    <crow up left class="gap-4 p-2">
-      <crow left class="flex-1">
+  {#each creatures as creature, i}
+    <Clickable
+      href="/creatures/{creature.url}"
+      class="crow left w-full gap-4 p-2 {i % 2 === 0 ? 'bg-gray-100' : 'bg-white'}"
+    >
+      <crow left class="flex-1 gap-2">
         <div class="w-6">
           <div class="overflow-hidden rounded-full">
             <img src="/images/races/dwarf/01.png" />
@@ -27,6 +31,6 @@
       </crow>
       <div class="flex-1">n/a</div>
       <div class="flex-1">1</div>
-    </crow>
+    </Clickable>
   {/each}
 </crow>

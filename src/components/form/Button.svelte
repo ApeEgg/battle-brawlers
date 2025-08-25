@@ -8,7 +8,8 @@
     blur = false,
     class: classes,
     onclick,
-    children
+    children,
+    disabled = false
   } = $props<{ children: Snippet }>();
 
   let inputRef: HTMLButtonElement;
@@ -22,12 +23,14 @@
   {onclick}
   bind:this={inputRef}
   class={tw(
-    'rounded leading-1 px-3 py-2 active:translate-y-px',
+    'rounded px-3 py-2 leading-1 active:enabled:translate-y-px',
     primary && 'bg-blue-500 text-white',
     secondary && 'bg-blue-200 text-blue-500',
-    tertiary && 'text-blue-500 bg-transparent hover:underline',
+    tertiary && 'bg-transparent text-blue-500 hover:underline',
+    disabled && 'bg-gray-400',
     classes
   )}
+  {disabled}
 >
   {@render children()}
 </button>

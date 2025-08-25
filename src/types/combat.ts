@@ -18,7 +18,8 @@ export type CombatEvent = {
 export type Combat = {
   // start: number;
   // seed: string;
-  teams: Team[];
+  teamsStartState: Team[];
+  teamsEndState: Team[];
   events: CombatEvent[];
   duration: number;
 };

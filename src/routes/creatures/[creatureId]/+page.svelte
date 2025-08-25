@@ -4,6 +4,9 @@
   import { page } from '$app/stores';
   import type { Race } from '$src/types/character';
   import { generateCombat, prepareCombatant } from '$src/ts/Utils';
+  import type { Team } from '$src/types/team';
+
+  const { token, overlay } = STORES;
 
   const {
     params: { creatureId }
@@ -12,27 +15,28 @@
   let creature = CHARACTERS[creatureId as Race];
 
   const runCombat = () => {
-    const combatantYou = prepareCombatant(CHARACTERS.elf, 360, 2, 0, 0);
-    const combatantThem = prepareCombatant(CHARACTERS.berserker, 360, 2, 1, 1);
-    console.log(combatantThem);
-    const teams = [
+    const combatantYou = prepareCombatant(CHARACTERS.elf, 2, 1, 0, 0);
+    const combatantThem = prepareCombatant(CHARACTERS.berserker, 2, 1, 1, 0);
+
+    const teams: Team[] = [
       {
-        name: `Team 1`,
+        name: 'Team 0',
         index: 0,
         combatants: [combatantYou]
       },
       {
-        name: `Team 2`,
+        name: 'Team 1',
         index: 1,
         combatants: [combatantThem]
       }
     ];
 
-    app.combat = generateCombat('myseed', $state.snapshot(teams));
+    console.log(teams);
+
+    app.combat = generateCombat('myseed', teams);
     console.log(app.combat);
-    // startTimestamp = 0; // reset so first loop call sets it
-    // elapsedMilliseconds = 0;
-    // loopId = requestAnimationFrame(loop);
+
+    $overlay = 'Combat';
   };
 </script>
 
