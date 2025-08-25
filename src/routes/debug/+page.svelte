@@ -38,7 +38,7 @@
   };
 
   const startCombat = () => {
-    app.combat = generateCombat('myseed', $state.snapshot(teams));
+    app.combat = generateCombat('simon', $state.snapshot(teams));
     console.log($state.snapshot(app.combat));
   };
 

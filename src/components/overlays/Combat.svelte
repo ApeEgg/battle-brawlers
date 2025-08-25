@@ -80,7 +80,7 @@
   let liveTeams = $derived(teams.length ? teams : startTeams);
 </script>
 
-<div class="bg-white">
+<div class="w-full bg-white">
   <Button onclick={pauseCombat} disabled={!loopId}>Pause combat</Button><br />
   <Button
     onclick={resumeCombat}

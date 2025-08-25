@@ -95,12 +95,12 @@
       style="transform: translate(-50%, -50%);"
     >
       <div
-        class={tw('absolute inset-1 bg-bottom bg-no-repeat', facingRight && 'scale-x-[-1]')}
+        class={tw('absolute inset-1 bg-bottom bg-no-repeat', !facingRight && 'scale-x-[-1]')}
         style="background-image: url('/images/races/{race}/01.png'); background-size: auto {100 *
           size}%;"
       ></div>
       <div
-        class={tw('hurt-animation', facingRight && 'scale-x-[-1]')}
+        class={tw('hurt-animation', !facingRight && 'scale-x-[-1]')}
         style="
           -webkit-mask: url('/images/races/{race}/01.png') no-repeat bottom/auto {100 * size}%;
           mask: url('/images/races/{race}/01.png') no-repeat bottom/auto {100 * size}%;
@@ -109,7 +109,7 @@
       <crow
         class={tw(
           'block-animation text-8xl',
-          facingRight ? 'translate-x-8 scale-x-[-1]' : '-translate-x-8'
+          facingRight ? 'translate-x-8' : '-translate-x-8 scale-x-[-1]'
         )}
       >
         <!-- <Icon name="block" /> -->

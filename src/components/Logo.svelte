@@ -10,5 +10,6 @@
   on:mouseleave={({ toElement }: any) =>
     !recursiveLookup(toElement, ['mouse-tracker']) && hideTooltip()}
 >
-  <Icon class="text-7xl text-black dark:text-white" name="logo-apeegg" />
+  <!-- <Icon class="text-7xl text-black dark:text-white" name="logo-apeegg" /> -->
+  Mini fighters
 </a>
