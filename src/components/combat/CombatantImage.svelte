@@ -113,7 +113,7 @@
         )}
       >
         <!-- <Icon name="block" /> -->
-        <img src="/images/shield.png" width="{60 * size}%" />
+        <img src="/images/shield.png" width="{60 * size}%" alt="" />
         <div
           class="attackBlocked-animation"
           style="

@@ -9,6 +9,8 @@
   ];
 </script>
 
+<h1>Creatures</h1>
+
 <crow vertical up left>
   <crow up left class="gap-4 p-2">
     <div class="flex-1 font-bold">Name</div>
@@ -23,7 +25,7 @@
       <crow left class="flex-1 gap-2">
         <div class="w-6">
           <div class="overflow-hidden rounded-full">
-            <img src="/images/races/dwarf/01.png" />
+            <img src="/images/races/{creature.race}/01.png" alt="" />
           </div>
         </div>
 

@@ -40,7 +40,10 @@
   };
 </script>
 
-<Clickable onclick={() => goto('/creatures')}>Go back</Clickable>
+<Clickable class="crow gap-1" onclick={() => goto('/creatures')}>
+  <Icon name="left" class="text-xs" />
+  Go back
+</Clickable>
 
 <h2>{creature.name}</h2>
 

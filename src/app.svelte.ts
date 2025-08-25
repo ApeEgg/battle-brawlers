@@ -2,6 +2,8 @@
 // import type { Workspace } from '$types/workspaces';
 
 import type { Combat } from '$src/types/combat';
+import type { Character } from '$src/types/character';
+import CHARACTERS from '$src/constants/CHARACTERS';
 
 // const INITIAL_WORKSPACE = {
 //   id: 'default',
@@ -15,15 +17,18 @@ import type { Combat } from '$src/types/combat';
 //   }
 // };
 
-export const INITIAL_COMBAT: Combat = {
+export const INITIAL_COMBAT = {
   teamsStartState: [],
   teamsEndState: [],
   events: [],
   duration: 0
 };
 
+const INITIAL_CHARACTERS = [CHARACTERS.elf, CHARACTERS.dwarf];
+
 export default new (class {
   combat: Combat = $state(INITIAL_COMBAT);
+  characters: Character[] = $state(INITIAL_CHARACTERS);
   // notifications: Notification[] = $state([]);
   // workspaces: Workspace[] = $state([INITIAL_WORKSPACE]);
   // currentWorkspace: number = $state(0);
