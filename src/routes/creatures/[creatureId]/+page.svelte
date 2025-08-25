@@ -12,11 +12,12 @@
     params: { creatureId }
   } = $page;
 
-  let creature = CHARACTERS[creatureId as Race];
+  let creature = CHARACTERS[creatureId as Race]();
 
   const runCombat = () => {
-    const combatantYou = prepareCombatant(CHARACTERS.elf, 2, 1, 0, 0);
-    const combatantThem = prepareCombatant(CHARACTERS.berserker, 2, 1, 1, 0);
+    console.log(app.characters[0]);
+    const combatantYou = prepareCombatant($state.snapshot(app.characters[0]), 2, 1, 0, 0);
+    const combatantThem = prepareCombatant(CHARACTERS.berserker(), 2, 1, 1, 0);
 
     const teams: Team[] = [
       {
@@ -48,3 +49,6 @@
 <h2>{creature.name}</h2>
 
 <Button onclick={runCombat}>Fight</Button>
+
+<pre class="text-xs">{JSON.stringify(app.characters, null, 2)}
+</pre>

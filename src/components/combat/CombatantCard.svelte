@@ -12,7 +12,7 @@
     scale: number;
   } = $props();
 
-  let { name } = props;
+  let { name, id } = props;
 
   let combatStats = $derived(props.combatStats);
   let damage = $derived(combatStats.damage);

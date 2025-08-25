@@ -4,7 +4,6 @@ import type { Team } from '$src/types/team';
 import type { Combatant } from '$src/types/combatant';
 import type { Character } from '$src/types/character';
 import lodash from 'lodash';
-import { generateID } from '$src/helpers';
 import type { Ability } from '$src/types/ability';
 import type { CombatEvent } from '$src/types/combat';
 import type { VFX } from '$src/types/vfx';
@@ -24,6 +23,14 @@ export const calculateCombatStats = (...args: any) => {
   return combined;
 };
 
+export const calculateTickStart = (abilities: Ability[], index: number) => {
+  let tickStart = 0;
+  for (let i = 0; i < index; i++) {
+    tickStart += abilities[i].ticks;
+  }
+  return tickStart + abilities[index].ticks;
+};
+
 export const prepareCombatant = (
   character: Character,
   teamCount: number,
@@ -32,11 +39,14 @@ export const prepareCombatant = (
   combatantIndex: number
 ): Combatant => {
   const rotation = 360 / teamCount;
-  const combatStats = calculateCombatStats(CHARACTERS[character.race].combatStats);
+  const combatStats = calculateCombatStats(CHARACTERS[character.race]().combatStats);
 
   combatStats.currentHealth = combatStats.maxHealth;
 
-  const abilitiesCopied = character.abilities
+  const abilitiesCut = character.abilities.filter(
+    (_, i) => calculateTickStart(character.abilities, i) <= 15
+  );
+  const abilitiesCopied = abilitiesCut
     .reduce<Ability[]>(
       (a, ability, i) =>
         ability.abilityName === 'basicAttackFast' &&
@@ -66,10 +76,9 @@ export const prepareCombatant = (
 
   return {
     ...character,
-    id: generateID(),
     teamIndex,
     eventTimestamp: 0,
-    eventAbility: character.abilities[0].abilityName,
+    eventAbility: abilitiesCut[0].abilityName,
     eventIndex: 0,
     combatStats,
     animations: [],
@@ -80,6 +89,7 @@ export const prepareCombatant = (
       isStunned: false,
       knockedOut: 0
     },
+    abilities: abilitiesCut,
     abilitiesCopied
   };
 };
@@ -89,7 +99,7 @@ const bufferAnimation = (combatant: Combatant, vfx: VFX, timestamp: number) => {
   vfx.start = timestamp + delay;
   vfx.end = timestamp + delay + vfx.duration;
 
-  vfx.id = generateID();
+  vfx.id = crypto.randomUUID();
 
   combatant.animations.push(structuredClone(vfx)); // Remove structuredClone?
 };
@@ -111,7 +121,7 @@ const injectAnimation = (
   vfx.end =
     eventTaker.eventTimestamp + delay + vfx.duration - currentAbility.ticks * COMBAT_TICK_TIME;
 
-  vfx.id = generateID();
+  vfx.id = crypto.randomUUID();
 
   eventTaker.injectedAnimations.push(structuredClone(vfx));
 

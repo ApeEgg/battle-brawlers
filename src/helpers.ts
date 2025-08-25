@@ -32,10 +32,10 @@ const compare = (a: any, b: any) => {
   return 0;
 };
 
-const generateID = () =>
-  `_${
-    Number(String(Math.random()).slice(2)) + Date.now() + Math.round(performance.now()).toString(36)
-  }`;
+// const generateID = () =>
+//   `_${
+//     Number(String(Math.random()).slice(2)) + Date.now() + Math.round(performance.now()).toString(36)
+//   }`;
 
 const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
@@ -284,7 +284,7 @@ export {
   emptySlot,
   filledSlot,
   compare,
-  generateID,
+  // generateID,
   sleep,
   getCookie,
   recursiveLookup,

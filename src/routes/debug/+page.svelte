@@ -10,10 +10,11 @@
   let combatantCount = $state(1);
 
   let characters: Character[] = [
-    CHARACTERS.elf,
-    CHARACTERS.human,
-    CHARACTERS.troll,
-    CHARACTERS.dwarf
+    CHARACTERS.elf(),
+    CHARACTERS.human(),
+    CHARACTERS.troll(),
+    CHARACTERS.dwarf(),
+    CHARACTERS.goblin()
   ];
 
   const initializeCombat = () => {

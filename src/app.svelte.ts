@@ -24,7 +24,10 @@ export const INITIAL_COMBAT = {
   duration: 0
 };
 
-const INITIAL_CHARACTERS = [CHARACTERS.elf, CHARACTERS.dwarf];
+const INITIAL_CHARACTERS = [
+  { ...CHARACTERS.elf(), name: 'Elon the Elf' },
+  { ...CHARACTERS.dwarf(), name: 'Danny' }
+];
 
 export default new (class {
   combat: Combat = $state(INITIAL_COMBAT);

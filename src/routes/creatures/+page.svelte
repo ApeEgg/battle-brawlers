@@ -1,7 +1,7 @@
 <script lang="ts">
   import CHARACTERS from '$src/constants/CHARACTERS';
 
-  const { berserker } = CHARACTERS;
+  const berserker = CHARACTERS.berserker();
 
   let creatures = [
     { ...berserker, url: 'berserker' },

@@ -6,7 +6,8 @@ type CharacterKey = Race | 'berserker';
 const DEFAULT_MAX_HP = 12;
 
 export default {
-  elf: {
+  elf: () => ({
+    id: crypto.randomUUID(),
     name: 'npc1',
     race: 'elf',
     size: 1,
@@ -18,15 +19,16 @@ export default {
       damage: 1
     },
     abilities: [
-      ABILITIES.basicAttackFast,
-      ABILITIES.basicAttackFast,
-      ABILITIES.basicAttackFast,
-      ABILITIES.basicAttackFast,
-      ABILITIES.basicAttackFast,
-      ABILITIES.basicAttackFast
+      ABILITIES.basicAttackFast(),
+      ABILITIES.basicAttackFast(),
+      ABILITIES.basicAttackFast(),
+      ABILITIES.basicAttackFast(),
+      ABILITIES.basicAttackFast(),
+      ABILITIES.basicAttackFast()
     ]
-  },
-  human: {
+  }),
+  human: () => ({
+    id: crypto.randomUUID(),
     name: 'npc2',
     race: 'human',
     size: 1,
@@ -38,13 +40,14 @@ export default {
       damage: 3
     },
     abilities: [
-      ABILITIES.basicAttackRegular,
-      ABILITIES.basicAttackRegular,
-      ABILITIES.basicAttackRegular,
-      ABILITIES.basicAttackRegular
+      ABILITIES.basicAttackRegular(),
+      ABILITIES.basicAttackRegular(),
+      ABILITIES.basicAttackRegular(),
+      ABILITIES.basicAttackRegular()
     ]
-  },
-  troll: {
+  }),
+  troll: () => ({
+    id: crypto.randomUUID(),
     name: 'npc3',
     race: 'troll',
     size: 1,
@@ -55,9 +58,14 @@ export default {
       currentEnergy: 6,
       damage: 6
     },
-    abilities: [ABILITIES.basicAttackSlow, ABILITIES.basicAttackSlow, ABILITIES.basicAttackSlow]
-  },
-  dwarf: {
+    abilities: [
+      ABILITIES.basicAttackSlow(),
+      ABILITIES.basicAttackSlow(),
+      ABILITIES.basicAttackSlow()
+    ]
+  }),
+  dwarf: () => ({
+    id: crypto.randomUUID(),
     name: 'npc4',
     race: 'dwarf',
     size: 0.75,
@@ -69,16 +77,36 @@ export default {
       damage: 4
     },
     abilities: [
-      ABILITIES.basicAttackRegular,
-      ABILITIES.stun,
-      ABILITIES.block,
-      ABILITIES.stun,
-      ABILITIES.basicAttackFast,
-      ABILITIES.basicAttackFast
+      ABILITIES.basicAttackRegular(),
+      ABILITIES.basicAttackRegular(),
+      ABILITIES.basicAttackRegular(),
+      ABILITIES.basicAttackRegular()
     ]
-  },
+  }),
+  goblin: () => ({
+    id: crypto.randomUUID(),
+    name: 'npc5',
+    race: 'goblin',
+    size: 0.75,
+    combatStats: {
+      maxHealth: DEFAULT_MAX_HP,
+      currentHealth: DEFAULT_MAX_HP,
+      maxEnergy: 12,
+      currentEnergy: 6,
+      damage: 4
+    },
+    abilities: [
+      ABILITIES.basicAttackFast(),
+      ABILITIES.basicAttackFast(),
+      ABILITIES.basicAttackFast(),
+      ABILITIES.basicAttackFast(),
+      ABILITIES.basicAttackFast(),
+      ABILITIES.basicAttackFast()
+    ]
+  }),
   // Creatures
-  berserker: {
+  berserker: () => ({
+    id: crypto.randomUUID(),
     name: 'Berserker',
     race: 'dwarf',
     size: 0.75,
@@ -90,12 +118,10 @@ export default {
       damage: 4
     },
     abilities: [
-      ABILITIES.basicAttackRegular,
-      ABILITIES.block,
-      ABILITIES.stun,
-      ABILITIES.basicAttackRegular,
-      ABILITIES.stun,
-      ABILITIES.stun
+      ABILITIES.basicAttackRegular(),
+      ABILITIES.basicAttackRegular(),
+      ABILITIES.basicAttackRegular(),
+      ABILITIES.basicAttackRegular()
     ]
-  }
-} as Record<CharacterKey, Character>;
+  })
+} as Record<CharacterKey, () => Character>;

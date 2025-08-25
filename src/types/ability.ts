@@ -11,8 +11,10 @@ export type AbilityName =
 type AbilityTicks = 0 | 1 | 2 | 3 | 4; // 0 is for removal, see `prepareCombatant` in `generateCombat`
 
 export type Ability = {
+  id: string;
   abilityName: AbilityName;
   prettyName: string;
+  description: string;
   ticks: AbilityTicks;
   icon: IconName;
   vfx: VFX;
