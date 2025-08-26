@@ -6,7 +6,7 @@
   import Combat from '$src/components/overlays/Combat.svelte';
 
   let teams = $derived<Team[]>(app.combat.teamsStartState);
-  let teamCount = $state(2);
+  let teamCount = $state(5);
   let combatantCount = $state(1);
 
   let characters: Character[] = [
@@ -40,7 +40,7 @@
 
   const startCombat = () => {
     app.combat = generateCombat('simon', $state.snapshot(teams));
-    console.log($state.snapshot(app.combat));
+    console.info($state.snapshot(app.combat));
   };
 
   $effect(initializeCombat);

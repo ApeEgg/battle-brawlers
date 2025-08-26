@@ -1,11 +1,9 @@
 <script lang="ts">
   import CHARACTERS from '$src/constants/CHARACTERS';
 
-  const berserker = CHARACTERS.berserker();
-
   let creatures = [
-    { ...berserker, url: 'berserker' },
-    { ...berserker, url: 'berserker' }
+    { ...CHARACTERS.berserker(), url: 'berserker' },
+    { ...CHARACTERS.missingo(), url: 'missingo' }
   ];
 </script>
 

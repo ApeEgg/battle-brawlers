@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { untrack } from 'svelte';
   import { flip } from 'svelte/animate';
   import { dndzone } from 'svelte-dnd-action';
   import app from '$src/app.svelte';
@@ -54,15 +55,15 @@
   };
 
   $effect(() => {
-    availableAbilities = Object.values(ABILITIES)
-      .map((fn) => fn())
+    availableAbilities = Object.entries(ABILITIES)
+      .filter(([key]) => !untrack(() => character.abilities.find((a) => a.icon === key))) // fix this to look at ID
+      .map(([_, fn]) => fn())
       .filter(
         (ability) =>
           !['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(
             ability.abilityName
-          ) && !character.abilities.find((a) => a.icon === ability.icon)
+          )
       )
-      // .filter((ability) => !character.abilities.find((a) => a.icon === ability.icon)) // fix this to look at ID
       .sort((a: Ability, b: Ability) => a.prettyName.localeCompare(b.prettyName))
       .sort((a: Ability, b: Ability) => a.ticks - b.ticks);
   });
@@ -133,7 +134,7 @@
       <crow
         up
         left
-        class="crow up left absolute inset-0 w-full rounded-lg"
+        class="absolute inset-0 w-full rounded-lg"
         use:dndzone={{
           items: character.abilities,
           flipDurationMs,

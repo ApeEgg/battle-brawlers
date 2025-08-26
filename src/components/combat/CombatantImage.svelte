@@ -1,21 +1,21 @@
 <script lang="ts">
   import type { Combatant } from '$src/types/combatant';
 
-  let props: Combatant & {
+  let {
+    race,
+    animations,
+    facingRight,
+    statuses,
+    elapsedMilliseconds,
+    position,
+    size
+  }: Combatant & {
     facingRight: boolean;
     elapsedMilliseconds: number;
     progress: number;
     z: number;
   } = $props();
 
-  let { race } = props;
-
-  let facingRight = $derived(props.facingRight);
-  let animations = $derived(props.animations);
-  let statuses = $derived(props.statuses);
-  let elapsedMilliseconds = $derived(props.elapsedMilliseconds);
-  let position = $derived(props.position);
-  let size = $derived(props.size);
   let y = $derived(position.y);
   let x = $derived(position.x);
 

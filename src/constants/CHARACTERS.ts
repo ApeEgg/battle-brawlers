@@ -1,7 +1,7 @@
 import type { Character, Race } from '$src/types/character';
 import ABILITIES from '$src/constants/ABILITIES';
 
-type CharacterKey = Race | 'berserker';
+type CharacterKey = Race | 'berserker' | 'missingo';
 
 const DEFAULT_MAX_HP = 12;
 
@@ -16,7 +16,7 @@ export default {
       currentHealth: DEFAULT_MAX_HP,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 1
+      damage: 4
     },
     abilities: [
       ABILITIES.basicAttackFast(),
@@ -37,7 +37,7 @@ export default {
       currentHealth: DEFAULT_MAX_HP,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 3
+      damage: 4
     },
     abilities: [
       ABILITIES.basicAttackRegular(),
@@ -56,7 +56,7 @@ export default {
       currentHealth: DEFAULT_MAX_HP,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 6
+      damage: 4
     },
     abilities: [
       ABILITIES.basicAttackSlow(),
@@ -122,6 +122,36 @@ export default {
       ABILITIES.basicAttackRegular(),
       ABILITIES.basicAttackRegular(),
       ABILITIES.basicAttackRegular()
+    ]
+  }),
+  missingo: () => ({
+    id: crypto.randomUUID(),
+    name: 'Missingo',
+    race: 'troll',
+    size: 0.75,
+    combatStats: {
+      maxHealth: 100,
+      currentHealth: 100,
+      maxEnergy: 12,
+      currentEnergy: 6,
+      damage: 4
+    },
+    abilities: [
+      ABILITIES.basicAttackFast(),
+      ABILITIES.basicAttackRegular(),
+      ABILITIES.basicAttackSlow(),
+      ABILITIES.stun(),
+      ABILITIES.block(),
+      ABILITIES.basicAttackFast(),
+      ABILITIES.basicAttackRegular(),
+      ABILITIES.basicAttackSlow(),
+      ABILITIES.stun(),
+      ABILITIES.block(),
+      ABILITIES.basicAttackFast(),
+      ABILITIES.basicAttackRegular(),
+      ABILITIES.basicAttackSlow(),
+      ABILITIES.stun(),
+      ABILITIES.block()
     ]
   })
 } as Record<CharacterKey, () => Character>;

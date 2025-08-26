@@ -76,6 +76,7 @@ export const prepareCombatant = (
 
   return {
     ...character,
+    id: crypto.randomUUID(), // this is needed for debug mode
     teamIndex,
     eventTimestamp: 0,
     eventAbility: abilitiesCut[0].abilityName,
@@ -138,7 +139,6 @@ const injectAnimation = (
 };
 
 export const generateCombat = (seed: string, teams: Team[]) => {
-  console.log(teams);
   let combatants = teams.flatMap((team) => team.combatants.map((combatant) => combatant));
 
   const events: CombatEvent[] = [];
@@ -244,8 +244,9 @@ export const generateCombat = (seed: string, teams: Team[]) => {
         if (currentHealth <= 0 && combatantIndex !== -1) {
           teams[teamIndex].combatants[i].statuses.isBlocking = false;
           teams[teamIndex].combatants[i].statuses.isStunned = false;
-          teams[teamIndex].combatants[i].statuses.knockedOut = eventTaker.eventTimestamp;
+          teams[teamIndex].combatants[i].statuses.knockedOut = target.eventTimestamp;
           teams[teamIndex].combatants[i].combatStats.currentHealth = 0;
+
           combatants = [
             ...combatants.slice(0, combatantIndex),
             ...combatants.slice(combatantIndex + 1)
