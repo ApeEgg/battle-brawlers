@@ -7,7 +7,6 @@ type Store = {
 
 export default {
   token: undefined,
-  socket: undefined,
   notifications: new Set(),
   tooltip: {
     tip: '',

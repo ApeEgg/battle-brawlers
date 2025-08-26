@@ -1,8 +1,8 @@
 <script lang="ts">
-  const { token, overlay } = STORES;
+  const { overlay } = STORES;
   const logout = () => {
-    document.cookie = 'token= ; Expires=Thu, 01 Jan 1970 00:00:00 GMT;';
-    $token = undefined;
+    document.cookie = 'token=; path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+    app.token = undefined;
     $overlay = '';
     window.location.href = '/';
   };

@@ -6,7 +6,7 @@
   import { generateCombat, prepareCombatant } from '$src/ts/Utils';
   import type { Team } from '$src/types/team';
 
-  const { token, overlay } = STORES;
+  const { overlay } = STORES;
 
   const {
     params: { creatureId }
@@ -50,5 +50,5 @@
 
 <Button onclick={runCombat}>Fight</Button>
 
-<pre class="text-xs">{JSON.stringify(app.characters, null, 2)}
-</pre>
+<!-- <pre class="text-xs">{JSON.stringify(app.characters, null, 2)}
+</pre> -->

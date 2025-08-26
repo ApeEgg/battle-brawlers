@@ -11,8 +11,6 @@
 
   const flipDurationMs = 300;
 
-  const { token, overlay } = STORES;
-
   let characterIndex = $derived($page.params.characterIndex);
   let character = $derived(app.characters[characterIndex as any]);
   let availableAbilities: Ability[] = $state([]);
@@ -24,6 +22,7 @@
   const finalizeCharacterAbilities = (e: any) => {
     character.abilities = e.detail.items;
   };
+
   const transformDraggedCharacterAbility = (draggedElement: any, data: any, _index: any) => {
     if (['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(data.abilityName)) {
       dropFromOthersDisabled = true;
@@ -40,9 +39,11 @@
       .sort((a: Ability, b: Ability) => a.ticks - b.ticks);
     availableAbilities = e.detail.items;
   };
+
   const finalizeAvailableAbilities = (e: any) => {
     availableAbilities = e.detail.items;
   };
+
   const transformDraggedAvailableAbility = (draggedElement: any, _data: any, _index: any) => {
     const ticks = draggedElement.querySelector('.ticks');
     if (ticks) {

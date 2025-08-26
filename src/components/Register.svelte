@@ -1,5 +1,5 @@
 <script lang="ts">
-  const { keys, socket, settings } = STORES;
+  const { keys, settings } = STORES;
   const { lockKeys, unlockKeys, notify } = ACTIONS;
 
   let email = '';
@@ -7,7 +7,7 @@
 
   const register = async () => {
     try {
-      await $socket.sendAsync('user/register', {
+      await app.socket.sendAsync('user/register', {
         email,
         password
       });
@@ -25,7 +25,7 @@
   $: ({ escape } = $keys);
 </script>
 
-<form class="row gap-2 w-full" on:submit|preventDefault={register}>
+<form class="row w-full gap-2" on:submit|preventDefault={register}>
   <Input
     class="xs:w-full"
     placeholder="Email"

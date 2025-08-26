@@ -1,18 +1,22 @@
 <script lang="ts">
-  import aaw from 'async-await-websockets';
+  import type { AsyncAwaitWebsocket } from 'async-await-websockets';
+  import aaw from 'async-await-websockets/client';
   import { browser } from '$app/environment';
 
   const { WEBSOCKET_CONNECT } = ENV;
-  const { socket } = STORES;
   const { notify } = ACTIONS;
 
-  onMount(() => {
-    if (browser && !window.ws) {
-      const ws = aaw(WEBSOCKET_CONNECT);
-      window.ws = ws;
+  $effect(() => {
+    if (browser && !app.socket) {
+      const ws = aaw(WEBSOCKET_CONNECT) as AsyncAwaitWebsocket;
       ws.on('broadcast', console.info);
-      ws.on('open', () => ($socket = ws), notify({ success: 'Connected to game server' }));
-      ws.on('close', () => notify({ error: `Can't connect to game server` }));
+      ws.on('open', () => {
+        app.socket = ws;
+        notify({ success: 'Connected to game server' });
+      });
+      ws.on('close', () => {
+        notify({ error: `Can't connect to game server` });
+      });
     }
   });
 </script>

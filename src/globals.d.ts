@@ -4,7 +4,7 @@ interface Window {
   ws: any;
 }
 
-declare module 'async-await-websockets';
+declare module 'async-await-websockets/client';
 declare module 'svelte-global-store';
 declare module '$svelte-game-engine';
 declare module 'gl-vec2';

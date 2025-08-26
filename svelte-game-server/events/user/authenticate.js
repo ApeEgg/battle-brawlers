@@ -1,5 +1,8 @@
 import json from '../../package.json' assert { type: 'json' };
 import { isNewerVersion } from '../../helpers';
+import mongodb from 'mongodb';
+const { ObjectId } = mongodb;
+
 const { version: serverVersion } = json;
 
 export default async ({ token, clientVersion, isDev }, { mongo }) => {
@@ -8,14 +11,14 @@ export default async ({ token, clientVersion, isDev }, { mongo }) => {
       `Your client is outdated, please try again soon (${clientVersion} < ${serverVersion})`
     );
 
-  const users = mongo.collection('users');
-
-  const user = await users.findOne({ token });
+  const user = await mongo.collection('users').findOne({ token });
 
   if (!user)
     throw Error(
       "Couldn't fetch gameState, if the problem persists please contact admin on discord"
     );
 
-  return user;
+  const gameState = await mongo.collection('game-states').findOne({ _id: ObjectId(user._id) });
+
+  return gameState || true;
 };

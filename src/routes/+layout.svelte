@@ -5,10 +5,9 @@
   import '$src/store/settings';
   import type { Snippet } from 'svelte';
   import Authorization from '$src/components/Authorization.svelte';
-  const { token } = STORES;
 
   let { children } = $props<{ children: Snippet }>();
-  let isFrontpage = $derived($page.route.id === '/' && !$token);
+  let isFrontpage = $derived($page.route.id === '/' && !app.token);
 </script>
 
 <ConnectSocket />

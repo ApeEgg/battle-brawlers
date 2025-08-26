@@ -1,12 +1,12 @@
 <script lang="ts">
-  const { keys, socket, settings } = STORES;
+  const { keys, settings } = STORES;
   const { lockKeys, unlockKeys, notify } = ACTIONS;
 
   let email = '';
 
   const forgotPassword = async () => {
     try {
-      await $socket.sendAsync('user/password/request-reset', {
+      await app.socket.sendAsync('user/password/request-reset', {
         email,
         url: window.location.origin
       });
@@ -23,7 +23,7 @@
   $: ({ escape } = $keys);
 </script>
 
-<form class="w-full row gap-2" on:submit|preventDefault={forgotPassword}>
+<form class="row w-full gap-2" on:submit|preventDefault={forgotPassword}>
   <Input
     class="xs:w-full"
     placeholder="Email"

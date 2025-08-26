@@ -2,7 +2,7 @@
   import { preventDefault } from '$src/helpers';
   import type { ChangeEvent } from '$src/types/common';
 
-  const { keys, overlay, socket, token } = STORES;
+  const { keys, overlay, token } = STORES;
   const { lockKeys, unlockKeys, notify } = ACTIONS;
   const { IS_DEV, AUTO_EMAIL, AUTO_PASSWORD } = ENV;
 
@@ -19,7 +19,7 @@
       return;
     }
     try {
-      const t = await $socket.sendAsync('user/login', {
+      const t = await app.socket.sendAsync('user/login', {
         email,
         password
       });
@@ -32,7 +32,7 @@
       }
       document.cookie = `token=${t};${expiration}`;
 
-      $token = t;
+      app.token = t;
       notify({ success: 'Logged in successfully' });
     } catch (error) {
       notify(error);
@@ -42,8 +42,8 @@
   const { escape } = $derived($keys);
 </script>
 
-<form class="w-full column-left gap-2" onsubmit={preventDefault(login)}>
-  <Row class="gap-2 w-full">
+<form class="column-left w-full gap-2" onsubmit={preventDefault(login)}>
+  <Row class="w-full gap-2">
     <Input
       class="xs:w-full"
       placeholder="Email"

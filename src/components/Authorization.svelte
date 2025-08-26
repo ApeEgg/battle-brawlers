@@ -3,36 +3,40 @@
   import { version } from '../../package.json';
 
   const { IS_DEV } = ENV;
-  const { socket, token } = STORES;
   const { notify } = ACTIONS;
 
-  let connected = false,
-    authorized = false;
+  onMount(() => (app.token = getCookie()?.token));
 
-  $: !connected && $socket && (connected = true);
+  let authorized: any = $state(false);
+  let connected = $derived(app.socket);
 
-  onMount(() => ($token = getCookie()?.token));
-
-  $: $token && connected
-    ? (async () => {
+  $effect(() => {
+    if (app.token && connected) {
+      (async () => {
         try {
-          authorized = await $socket.sendAsync('user/authenticate', {
-            token: $token,
+          authorized = await app.socket.sendAsync('user/authenticate', {
+            token: app.token,
             clientVersion: version,
             IS_DEV
           });
+          if (authorized !== true) {
+            app.characters = authorized.characters;
+          }
         } catch (e) {
           notify(e);
-          $token = undefined;
+          app.token = undefined;
         }
-      })()
-    : (authorized = false);
+      })();
+    } else {
+      authorized = false;
+    }
+  });
 </script>
 
 {#if !connected}
   <Loader>Connecting to server</Loader>
 {:else if authorized}
   <slot />
-{:else if !$token}
+{:else if !app.token}
   <Unauthorized />
 {/if}

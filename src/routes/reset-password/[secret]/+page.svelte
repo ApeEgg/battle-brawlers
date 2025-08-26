@@ -2,7 +2,6 @@
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
 
-  const { socket } = STORES;
   const { notify } = ACTIONS;
 
   let password = '';
@@ -10,7 +9,7 @@
 
   const reset = async () => {
     try {
-      await $socket.sendAsync('user/password/set-new', {
+      await app.socket.sendAsync('user/password/set-new', {
         secret: $page.params.secret,
         password
       });
@@ -21,10 +20,10 @@
       notify(error);
     }
   };
-  $: $socket &&
+  $effect(() => {
     (async () => {
       try {
-        await $socket.sendAsync('user/password/reset-eligibility', {
+        await app.socket.sendAsync('user/password/reset-eligibility', {
           secret: $page.params.secret
         });
         error = false;
@@ -32,6 +31,7 @@
         error = e.error;
       }
     })();
+  });
 </script>
 
 <h2>Password reset</h2>

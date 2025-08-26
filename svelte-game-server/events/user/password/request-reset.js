@@ -7,6 +7,8 @@ const { SUPPORT_EMAIL_PASSWORD, PASSWORD_RESET_HASH } = process.env;
 const Hashids = new hashids(PASSWORD_RESET_HASH);
 
 export default async ({ email, url }, { mongo }) => {
+  throw Error('Error feature not implemented');
+
   const collection = mongo.collection('users');
 
   const LCemail = email.toLowerCase().trim();

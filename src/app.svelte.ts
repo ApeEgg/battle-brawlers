@@ -1,21 +1,8 @@
-// import type { Notification } from '$types/notifications';
-// import type { Workspace } from '$types/workspaces';
-
 import type { Combat } from '$src/types/combat';
 import type { Character } from '$src/types/character';
 import CHARACTERS from '$src/constants/CHARACTERS';
-
-// const INITIAL_WORKSPACE = {
-//   id: 'default',
-//   name: 'My iconice icons',
-//   svgs: [],
-//   temporary: true,
-//   download: {
-//     iconType: true,
-//     reactHelper: true,
-//     svelteHelper: true
-//   }
-// };
+import type { AsyncAwaitWebsocket } from 'async-await-websockets';
+import app from '$src/app.svelte';
 
 export const INITIAL_COMBAT = {
   teamsStartState: [],
@@ -32,29 +19,28 @@ const INITIAL_CHARACTERS = [
 export default new (class {
   combat: Combat = $state(INITIAL_COMBAT);
   characters: Character[] = $state(INITIAL_CHARACTERS);
-  // notifications: Notification[] = $state([]);
-  // workspaces: Workspace[] = $state([INITIAL_WORKSPACE]);
-  // currentWorkspace: number = $state(0);
-  // saveTimeouts: { [key: string]: ReturnType<typeof setTimeout> } = $state({});
+  socket = $state() as AsyncAwaitWebsocket;
+  token: string | undefined = $state();
 
-  // workspace = $derived(this.workspaces[this.currentWorkspace]);
+  constructor() {
+    $effect.root(() => {
+      $effect(() => {
+        $state.snapshot(this.characters); // Hack to trigger reruns
 
-  // constructor() {
-  //   $effect.root(() => {
-  //     const storedNumbers = localStorage.getItem('workspaces');
+        const saveDebounce = setTimeout(() => {
+          if (app.socket && app.token) {
+            (async () => {
+              await app.socket.sendAsync('store-game-state', {
+                token: app.token,
+                characters: $state.snapshot(this.characters)
+              });
+              console.info('Game state saved');
+            })();
+          }
+        }, 1000);
 
-  //     if (storedNumbers) {
-  //       const parsed = JSON.parse(storedNumbers);
-  //       if (!parsed?.Default && Array.isArray(parsed)) this.workspaces = parsed; // TODO: .Default is old version. Remove this check at the day of release
-  //     }
-
-  //     $effect(() => {
-  //       localStorage.setItem('workspaces', JSON.stringify(this.workspaces));
-  //     });
-  //     $effect(() => {
-  //       if (this.currentWorkspace)
-  //         localStorage.setItem('currentWorkspace', this.currentWorkspace.toString());
-  //     });
-  //   });
-  // }
+        return () => clearTimeout(saveDebounce);
+      });
+    });
+  }
 })();
