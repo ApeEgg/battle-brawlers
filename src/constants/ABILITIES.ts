@@ -46,5 +46,15 @@ export default {
     ticks: 1,
     icon: 'stun',
     vfx: VFX.stun
+  }),
+  spin: () => ({
+    id: crypto.randomUUID(),
+    abilityName: 'spin',
+    prettyName: 'Spin',
+    description: 'Quickly spin and deal damage each tick.',
+    ticks: 10,
+    chainLink: 10,
+    icon: 'spin',
+    vfx: VFX.spin
   })
 } as Record<AbilityName, () => Ability>;

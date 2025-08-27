@@ -37,8 +37,3 @@
     @apply text-xs font-medium sm:text-sm md:text-base;
   }
 }
-
-.tooltip {
-  opacity: 0;
-  pointer-events: none;
-}

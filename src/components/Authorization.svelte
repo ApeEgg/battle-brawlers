@@ -21,6 +21,7 @@
           });
           if (authorized !== true) {
             app.characters = authorized.characters;
+            app.equipment = authorized.equipment;
           }
         } catch (e) {
           notify(e);

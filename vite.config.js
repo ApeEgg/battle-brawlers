@@ -22,8 +22,8 @@ export default defineConfig({
       },
       module: {
         svelte: ['onMount', 'onDestroy'],
-        'svelte-component-kit': ['Tooltip'],
         '$src/store': ['STORES', 'ACTIONS'],
+        '$src/ts/use': ['tooltip'],
         'tailwind-merge': ['twMerge as tw']
       },
       include: ['**/*.svelte']

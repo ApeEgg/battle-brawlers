@@ -6,9 +6,10 @@ export type AbilityName =
   | 'basicAttackRegular'
   | 'basicAttackSlow'
   | 'block'
-  | 'stun';
+  | 'stun'
+  | 'spin';
 
-type AbilityTicks = 0 | 1 | 2 | 3 | 4; // 0 is for removal, see `prepareCombatant` in `generateCombat`
+type AbilityTicks = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12; // 0 is for removal, see `prepareCombatant` in `generateCombat`
 
 export type Ability = {
   id: string;
@@ -16,6 +17,8 @@ export type Ability = {
   prettyName: string;
   description: string;
   ticks: AbilityTicks;
+  chainLink?: number;
+  chainTo?: number;
   icon: IconName;
   vfx: VFX;
 };

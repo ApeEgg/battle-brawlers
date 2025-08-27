@@ -7,8 +7,13 @@
   import { page } from '$app/stores';
   import ABILITIES from '$src/constants/ABILITIES';
   import type { Ability } from '$src/types/ability';
-  import Tooltip from '$src/components/ui/Tooltip.svelte';
-  import { calculateTickStart } from '$src/ts/Utils';
+  import AbilityTooltip from '$src/components/tooltips/Ability.svelte';
+  import AbilityBar from '$src/components/character/AbilityBar.svelte';
+  import { slotsInPrettyName, unequip } from '$src/ts/equipment';
+  import EquipmentLink from '$src/components/EquipmentLink.svelte';
+  import type { EquipmentSlot } from '$src/types/equipment';
+  import EQUIPMENT from '$src/constants/EQUIPMENT';
+  import Button from '$src/components/form/Button.svelte';
 
   const flipDurationMs = 300;
 
@@ -30,7 +35,7 @@
     } else {
       dropFromOthersDisabled = false;
     }
-    draggedElement.classList.remove('group/tooltip');
+    app.tooltip = undefined;
     draggedElement.style['background-color'] = '#fff';
   };
 
@@ -50,7 +55,7 @@
     if (ticks) {
       ticks.remove();
     }
-    draggedElement.classList.remove('group/tooltip');
+    app.tooltip = undefined;
     draggedElement.style['background-color'] = '#fff';
   };
 
@@ -76,100 +81,61 @@
 
 <h2>{character.name}</h2>
 
-<crow vertical class="gap-6">
+<crow vertical class="mt-4 gap-6">
   <crow left up class="gap-4">
     <div class="h-40">
       <img src="/images/races/{character.race}/01.png" alt="" class="h-full" />
     </div>
     <crow vertical up left>
-      <crow class="gap-2">
+      <!-- <crow class="gap-2">
         <div class="font-bold">ID:</div>
         <div>{character.id}</div>
-      </crow>
-      <crow class="gap-2">
-        <div class="font-bold">Name:</div>
-        <div>{character.name}</div>
-      </crow>
+      </crow> -->
       <crow class="gap-2">
         <div class="font-bold">Race:</div>
         <div>{character.race}</div>
       </crow>
       <crow class="gap-2">
-        <div class="font-bold">Health points:</div>
+        <div class="font-bold">Health:</div>
         <div>{character?.combatStats?.maxHealth}</div>
       </crow>
       <crow class="gap-2">
         <div class="font-bold">Damage:</div>
         <div>{character?.combatStats?.damage}</div>
       </crow>
+      <crow class="gap-2">
+        <div class="font-bold">Armor:</div>
+        <div>{character?.combatStats?.armor}</div>
+      </crow>
+    </crow>
+    <crow vertical up left>
+      {#each Object.entries(character.equipment) as [slot, equipment]}
+        <crow class="gap-2">
+          <div class="font-bold">{slotsInPrettyName(slot as EquipmentSlot)}:</div>
+
+          {#if slot === 'offHand' && character.equipment.mainHand !== null && character.equipment.mainHand.slotsIn === 'twoHand'}
+            {EQUIPMENT[character.equipment.mainHand.id]().prettyName}
+          {:else if equipment}
+            <EquipmentLink {...EQUIPMENT[equipment.id]()} />
+            <Button onclick={() => unequip(equipment, slot as EquipmentSlot)}>Unequip</Button>
+          {:else}
+            -
+          {/if}
+        </crow>
+      {/each}
     </crow>
   </crow>
 
-  <crow class="relative w-full gap-2 px-px" vertical left up>
+  <crow class="relative w-full gap-2 overflow-hidden p-1" vertical left up>
     <crow class="w-full !justify-between">
       <h4>Abilities</h4>
     </crow>
-
-    <div class="relative w-[calc((100%/18)*15)]">
-      <crow class="w-full" up>
-        {#each Array(15) as _, i}
-          <crow class="-ml-px aspect-[2/3] flex-1 border border-dashed border-gray-300"></crow>
-        {/each}
-        <div
-          class="absolute -top-2 -bottom-2 left-[calc((100%/15)*12)] w-px border-r border-dashed"
-        >
-          <crow vertical class="absolute bottom-full -translate-x-1/2 text-center text-xs">
-            <strong class="text-black">Min</strong>12&nbsp;ticks
-          </crow>
-        </div>
-        <div
-          class="absolute -top-2 -bottom-2 left-[calc((100%/15)*15)] w-px border-r border-dashed"
-        >
-          <crow vertical class="absolute bottom-full -translate-x-1/2 text-center text-xs">
-            <strong class="text-black">Max</strong>15&nbsp;ticks
-          </crow>
-        </div>
-      </crow>
-
-      <crow
-        up
-        left
-        class="absolute inset-0 w-full rounded-lg"
-        use:dndzone={{
-          items: character.abilities,
-          flipDurationMs,
-          transformDraggedElement: transformDraggedCharacterAbility,
-          dropTargetStyle: { outline: 'rgba(100, 100, 100, 0.5) solid 2px' }
-        }}
-        onconsider={considerCharacterAbilities}
-        onfinalize={finalizeCharacterAbilities}
-      >
-        {#each character.abilities as ability, i (ability.id)}
-          {@const tickStart = calculateTickStart(character.abilities, i)}
-          <crow
-            animate:flip={{ duration: flipDurationMs }}
-            class={tw(
-              'group/tooltip relative -ml-px h-full !flex-none rounded-lg border border-gray-800',
-              tickStart > 15 && 'pointer-events-none border-red-400 text-red-400 opacity-50'
-            )}
-            style="width: calc(((100% / 15)*{ability.ticks}) + 1px);"
-          >
-            <Icon name={ability.icon} />
-            <!-- {ability.id.substring(0, 5)} -->
-
-            <Tooltip class="w-60">
-              <crow class="w-full !justify-between">
-                <strong class="text-black">{ability.prettyName}</strong>
-              </crow>
-              <crow vertical>
-                <div class="text-sm"><strong>Cast time:</strong> {ability.ticks} ticks</div>
-              </crow>
-              <span class="text-sm">{ability.description}</span>
-            </Tooltip>
-          </crow>
-        {/each}
-      </crow>
-    </div>
+    <AbilityBar
+      abilities={character.abilities}
+      {considerCharacterAbilities}
+      {finalizeCharacterAbilities}
+      {transformDraggedCharacterAbility}
+    />
   </crow>
 
   <crow
@@ -187,28 +153,25 @@
   >
     {#each availableAbilities as ability (ability.id)}
       <crow
-        class="group/tooltip relative h-20 w-20 !flex-none gap-2 rounded border border-black bg-white"
+        class="relative h-20 w-20 !flex-none gap-2 rounded border border-black bg-white"
+        use:tooltip={{
+          children: AbilityTooltip,
+          props: ability,
+          direction: 'up',
+          lockInPlace: true
+        }}
         animate:flip={{ duration: flipDurationMs }}
       >
         <div class="ticks">{ability.ticks}</div>
         <Icon name={ability.icon} />
         <!-- {ability.id.substring(0, 5)} -->
-        <Tooltip class="w-60">
-          <crow class="w-full !justify-between">
-            <strong class="text-black">{ability.prettyName}</strong>
-          </crow>
-          <crow vertical>
-            <div class="text-sm"><strong>Cast time:</strong> {ability.ticks} ticks</div>
-          </crow>
-          <span class="text-sm">{ability.description}</span>
-        </Tooltip>
       </crow>
     {/each}
   </crow>
 </crow>
 
 <code class="text-xs">
-  <pre>{JSON.stringify(availableAbilities, null, 2)}
+  <pre>{JSON.stringify(character, null, 2)}
   </pre>
 </code>
 

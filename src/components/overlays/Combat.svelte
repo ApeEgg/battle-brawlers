@@ -140,7 +140,6 @@
                 </CombatantCard>
               </div>
             </div> -->
-
           <CombatantCard
             {...combatant}
             facingRight={angleDiff < 0}

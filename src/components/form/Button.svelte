@@ -10,7 +10,7 @@
     onclick,
     children,
     disabled = false
-  } = $props<{ children: Snippet }>();
+  } = $props<{ children: Snippet } & { class: any; onclick: any }>();
 
   let inputRef: HTMLButtonElement;
 

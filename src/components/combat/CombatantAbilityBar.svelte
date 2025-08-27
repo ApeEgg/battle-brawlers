@@ -16,15 +16,18 @@
     ></div>
 
     <div class="relative flex divide-x divide-gray-600">
-      {#each abilitiesCopied as { prettyName, ticks, icon }, i (`icon_${i}_${prettyName}`)}
+      {#each abilitiesCopied as { prettyName, ticks, icon, chainLink }, i (`icon_${i}_${prettyName}`)}
         <div
           class="relative flex h-6 items-center justify-center text-center"
-          style="min-width: calc(12px * {ticks});"
+          style="min-width: calc(12px*{ticks});"
         >
-          {#if icon === '1h1h' && ticks === 4}
-            <div
-              class="absolute top-0 bottom-0 left-1/2 w-[0.1px] -translate-x-1/2 bg-gray-400"
-            ></div>
+          {#if chainLink}
+            {#each Array(chainLink).fill(0).slice(0, -1) as _, j}
+              <div
+                class="absolute top-0 bottom-0 w-[0.1px] border-r border-dashed border-gray-400"
+                style="left: calc(12px*{j + 1});"
+              ></div>
+            {/each}
           {/if}
           <Icon class={tw('relative text-[8px]', ticks > 1 && 'text-sm')} name={icon} />
         </div>

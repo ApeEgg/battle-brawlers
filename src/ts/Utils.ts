@@ -39,25 +39,47 @@ export const prepareCombatant = (
   combatantIndex: number
 ): Combatant => {
   const rotation = 360 / teamCount;
-  const combatStats = calculateCombatStats(CHARACTERS[character.race]().combatStats);
+
+  const combatStats = calculateCombatStats(character.combatStats);
 
   combatStats.currentHealth = combatStats.maxHealth;
 
   const abilitiesCut = character.abilities.filter(
-    (_, i) => calculateTickStart(character.abilities, i) <= 15
+    (_, i) => calculateTickStart(character.abilities, i) <= character.maxTicks
   );
-  const abilitiesCopied = abilitiesCut
-    .reduce<Ability[]>(
-      (a, ability, i) =>
-        ability.abilityName === 'basicAttackFast' &&
-        a[i - 1]?.abilityName === 'basicAttackFast' &&
-        a[i - 1]?.ticks === 2
-          ? [...a.slice(0, -1), { ...a[a.length - 1], ticks: 0 }, { ...ability, ticks: 4 }]
-          : [...a, ability],
 
-      []
-    )
-    .filter(({ abilityName, ticks }) => !(abilityName === 'basicAttackFast' && ticks === 0));
+  const abilitiesCopied = abilitiesCut;
+  // .reduce<Ability[]>(
+  //   (a, ability, i) =>
+  //     ability.abilityName === 'basicAttackFast' &&
+  //     a[i - 1]?.abilityName === 'basicAttackFast' &&
+  //     a[i - 1]?.ticks === 2
+  //       ? [...a.slice(0, -1), { ...a[a.length - 1], ticks: 0 }, { ...ability, ticks: 4 }]
+  //       : [...a, ability],
+
+  //   []
+  // )
+  // .filter(({ abilityName, ticks }) => !(abilityName === 'basicAttackFast' && ticks === 0));
+
+  const abilities = abilitiesCut.reduce((a, ability) => {
+    return ability?.chainLink
+      ? [
+          ...a,
+          ...Array(ability.chainLink)
+            .fill(0)
+            .map((_, i) => {
+              const { chainLink, ...ab } = ability;
+
+              ab.ticks = (ability.ticks / (ability?.chainLink as number)) as Ability['ticks'];
+              if (i + 1 !== ability.chainLink) {
+                ab.chainTo = i + 1;
+              }
+
+              return ab;
+            })
+        ]
+      : [...a, ability];
+  }, [] as Ability[]);
 
   const radius = COMBAT_RING_BASE_RADIUS;
 
@@ -90,7 +112,7 @@ export const prepareCombatant = (
       isStunned: false,
       knockedOut: 0
     },
-    abilities: abilitiesCut,
+    abilities,
     abilitiesCopied
   };
 };
@@ -115,7 +137,7 @@ const injectAnimation = (
   const [currentAbility] = eventTaker.abilities;
   const cIndex = teams[eventTaker.teamIndex].combatants.findIndex(({ id }) => id === eventTaker.id);
 
-  const delay = vfx.duration * 0.05;
+  const delay = vfx.duration * 0;
 
   vfx.start = eventTaker.eventTimestamp + delay - currentAbility.ticks * COMBAT_TICK_TIME;
 
@@ -180,9 +202,12 @@ export const generateCombat = (seed: string, teams: Team[]) => {
       result: 0
     };
 
-    const isAttacking = ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(
-      currentAbility.abilityName
-    );
+    const isAttacking = [
+      'basicAttackFast',
+      'basicAttackRegular',
+      'basicAttackSlow',
+      'spin'
+    ].includes(currentAbility.abilityName);
     const isBlocking = target.statuses.isBlocking;
     const isStunned = eventTaker.statuses.isStunned;
 
@@ -201,7 +226,9 @@ export const generateCombat = (seed: string, teams: Team[]) => {
       }
 
       if (isStunned) {
-        eventTaker.statuses.isStunned = false;
+        if (!currentAbility.chainTo) {
+          eventTaker.statuses.isStunned = false;
+        }
       } else if (isAttacking) {
         if (isBlocking) {
           bufferAnimation(target, _VFX.attackBlocked, eventTaker.eventTimestamp);

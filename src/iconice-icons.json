@@ -367,5 +367,19 @@
     "widthRatio": 0.97265625,
     "heightRatio": 1,
     "fill": null
+  },
+  "spin": {
+    "elements": [
+      "<path d=\"M256 0C116.6 0 3.3 111.4 0 250 3 129.1 95 32 208 32s208 100.3 208 224 21.5 48 48 48 48-21.5 48-48C512 114.6 397.4 0 256 0m0 512c139.4 0 252.7-111.4 255.9-250-3 120.9-94.9 218-207.9 218S96 379.7 96 256s-21.5-48-48-48-48 21.5-48 48c0 141.4 114.6 256 256 256\"/>"
+    ],
+    "fills": [],
+    "strokes": [],
+    "viewBoxWidth": 512,
+    "viewBoxHeight": 512,
+    "viewBoxLeft": 0,
+    "viewBoxTop": 0,
+    "widthRatio": 1,
+    "heightRatio": 1,
+    "fill": null
   }
 }

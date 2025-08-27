@@ -22,6 +22,10 @@ export default {
     vfxName: 'stun',
     duration: 500
   },
+  spin: {
+    vfxName: 'spin',
+    duration: 500
+  },
   // Status effects
   hurt: {
     vfxName: 'hurt',

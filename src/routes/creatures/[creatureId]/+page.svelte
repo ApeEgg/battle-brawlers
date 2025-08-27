@@ -5,7 +5,7 @@
   import type { Race } from '$src/types/character';
   import { generateCombat, prepareCombatant } from '$src/ts/Utils';
   import type { Team } from '$src/types/team';
-  import Tooltip from '$src/components/ui/Tooltip.svelte';
+  import AbilityBar from '$src/components/character/AbilityBar.svelte';
 
   const { overlay } = STORES;
 
@@ -44,35 +44,25 @@
   Go back
 </Clickable>
 
-<h2>{creature.name}</h2>
-
-<div class="relative w-[calc((100%/18)*15)]">
-  <crow up left class="w-full flex-wrap gap-y-4 rounded-lg">
-    {#each creature.abilities as ability, i (ability.id)}
-      <crow
-        class={tw(
-          'group/tooltip relative -ml-px h-20 !flex-none rounded-lg border border-gray-800'
-        )}
-        style="width: calc(((100% / 15)*{ability.ticks}) + 1px);"
-      >
-        <Icon name={ability.icon} />
-        <!-- {ability.id.substring(0, 5)} -->
-
-        <Tooltip class="w-60">
-          <crow class="w-full !justify-between">
-            <strong class="text-black">{ability.prettyName}</strong>
-          </crow>
-          <crow vertical>
-            <div class="text-sm"><strong>Cast time:</strong> {ability.ticks} ticks</div>
-          </crow>
-          <span class="text-sm">{ability.description}</span>
-        </Tooltip>
-      </crow>
-    {/each}
+<crow up left>
+  <crow up left vertical class="gap-3">
+    <h2>{creature.name}</h2>
+    <div class="text-sm">
+      {@html creature.description}
+    </div>
+    <Button onclick={runCombat}>Fight</Button>
   </crow>
-</div>
+  <crow>
+    <img src="/images/races/{creature.race}/01.png" width="200px" class="-scale-x-[1]" />
+  </crow>
+</crow>
 
-<Button onclick={runCombat}>Fight</Button>
+<crow class="relative w-full gap-2 px-px" vertical left up>
+  <crow class="w-full !justify-between">
+    <h4>Abilities</h4>
+  </crow>
+  <AbilityBar abilities={creature.abilities} dragDisabled={true} />
+</crow>
 
-<!-- <pre class="text-xs">{JSON.stringify(app.characters, null, 2)}
+<!-- <pre class="text-xs">{JSON.stringify(creature, null, 2)}
 </pre> -->

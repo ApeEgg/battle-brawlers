@@ -17,9 +17,9 @@ declare const ACTIONS: (typeof import('$src/store/actions'))['default'];
 declare const STORES: (typeof import('$src/store/stores'))['default'];
 declare const ENV: (typeof import('$src/constants/ENV_VARS'))['default'];
 declare const app: (typeof import('$src/app.svelte.ts'))['default'];
-declare const Tooltip: (typeof import('svelte-component-kit'))['Tooltip'];
 declare const onMount: import('svelte').LifecycleHook<void>;
 declare const onDestroy: import('svelte').LifecycleHook<void>;
+declare const tooltip: (typeof import('$src/ts/use'))['tooltip'];
 
 declare const Clickable: import('svelte').ComponentType<
   (typeof import('$src/components/buttons/Clickable'))['default']
@@ -69,9 +69,6 @@ declare const ConnectSocket: import('svelte').ComponentType<
 declare const Keystrokes: import('svelte').ComponentType<
   (typeof import('$src/components/global/Keystrokes'))['default']
 >;
-declare const MouseTracker: import('svelte').ComponentType<
-  (typeof import('$src/components/global/MouseTracker'))['default']
->;
 declare const Notifications: import('svelte').ComponentType<
   (typeof import('$src/components/global/Notifications'))['default']
 >;
@@ -86,9 +83,6 @@ declare const GameMenu: import('svelte').ComponentType<
 >;
 declare const ReleaseNotes: import('svelte').ComponentType<
   (typeof import('$src/components/overlays/ReleaseNotes'))['default']
->;
-declare const Info: import('svelte').ComponentType<
-  (typeof import('$src/components/tooltips/Info'))['default']
 >;
 declare const Column: import('svelte').ComponentType<
   (typeof import('$src/components/ui/Column'))['default']

@@ -1,10 +1,16 @@
 <script lang="ts">
-  import { page } from '$app/stores';
   import '../app.css';
   import '../crow.css';
   import '$src/store/settings';
+  import { page } from '$app/stores';
   import type { Snippet } from 'svelte';
   import Authorization from '$src/components/Authorization.svelte';
+  import EQUIPMENT from '$src/constants/EQUIPMENT';
+  import Tooltip from '$src/components/ui/Tooltip.svelte';
+  import app from '$src/app.svelte';
+  import Button from '$src/components/form/Button.svelte';
+  import { equip } from '$src/ts/equipment';
+  import EquipmentLink from '$src/components/EquipmentLink.svelte';
 
   let { children } = $props<{ children: Snippet }>();
   let isFrontpage = $derived($page.route.id === '/' && !app.token);
@@ -32,7 +38,7 @@
       <Row class="min-h-screen flex-1 gap-2 pt-20" up>
         <div class="w-56 rounded border border-gray-400 bg-white/30 p-4">
           <h4>My characters</h4>
-          <div class="mt-4">
+          <div class="my-4">
             <crow vertical up left>
               {#each app.characters as character, i}
                 <Clickable
@@ -48,6 +54,18 @@
               {/each}
             </crow>
           </div>
+          <h4>My equipment</h4>
+          <div class="my-4">
+            <crow vertical up left>
+              {#each app.equipment as equipment, i}
+                {@const eq = EQUIPMENT[equipment.id]()}
+                <crow class="w-full !justify-between gap-2 py-1" left>
+                  <EquipmentLink {...eq} />
+                  <Button onclick={() => equip(equipment, i)}>Equip</Button>
+                </crow>
+              {/each}
+            </crow>
+          </div>
         </div>
         <div class="h-full flex-1 rounded border border-gray-400 bg-white p-4">
           <div>
@@ -58,6 +76,7 @@
           <crow up left vertical>
             <a href="/">Start</a>
             <a href="/creatures">Creatures</a>
+            <a href="/equipment">Equipment</a>
             <a href="/debug">Debug</a>
           </crow>
           <!-- <code class="text-xs">
@@ -74,5 +93,8 @@
 <Topbar />
 <Logo />
 <Overlay />
-<MouseTracker />
+
+{#if app.tooltip}
+  <Tooltip {...app.tooltip} />
+{/if}
 <Notifications />

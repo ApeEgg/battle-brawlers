@@ -24,7 +24,7 @@
       ({ start, end, vfxName }) =>
         start < elapsedMilliseconds &&
         end > elapsedMilliseconds &&
-        ['basicAttackRegular', 'basicAttackFast', 'basicAttackSlow'].includes(vfxName)
+        ['basicAttackRegular', 'basicAttackFast', 'basicAttackSlow', 'spin'].includes(vfxName)
     )
   );
 
@@ -91,6 +91,7 @@
       class:hurt={applyAnimationClass('hurt')}
       class:block={applyAnimationClass('block')}
       class:attackBlocked={applyAnimationClass('attackBlocked')}
+      class:spin={applyAnimationClass('spin')}
       class="h-40 w-36"
       style="transform: translate(-50%, -50%);"
     >
@@ -134,7 +135,7 @@
     </div>
 
     <div>
-      <pre>{JSON.stringify(statuses, null, 2)}
+      <pre>{JSON.stringify(currentAnimation, null, 2)}
       </pre>
     </div>
   </div>
@@ -190,6 +191,20 @@
     }
     100% {
       transform: translate(calc(var(--attack-end-x)), calc(var(--attack-end-y)));
+    }
+  }
+  .spin {
+    animation: spin 500ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  @keyframes spin {
+    0% {
+      transform: translate(-50%, -50%) scaleX(1) scaleX(1);
+    }
+    50% {
+      transform: translate(-50%, -50%) scaleX(1) scaleX(-1);
+    }
+    100% {
+      transform: translate(-50%, -50%) scaleX(1) scaleX(1);
     }
   }
 
