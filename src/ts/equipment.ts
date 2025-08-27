@@ -36,16 +36,16 @@ export const equip = (equipment: DBEquipment, index: number) => {
   const slot = character.equipment[slotsIn];
 
   // Remove item from inventory (equipment)
-  app.equipment.splice(index, 1);
+  app.inventory.splice(index, 1);
 
   // If something is already in the slot, push it to inventory
   if (slot !== null) {
-    app.equipment.push(slot);
+    app.inventory.push(slot);
   }
 
   // If two handed weapon is being equipped, check if offHand needs to go to inventory
   if (equipment.slotsIn === 'twoHand' && character.equipment.offHand) {
-    app.equipment.push(character.equipment.offHand);
+    app.inventory.push(character.equipment.offHand);
     character.equipment.offHand = null;
   }
 
@@ -54,7 +54,7 @@ export const equip = (equipment: DBEquipment, index: number) => {
     (slotsIn === 'mainHand' || slotsIn === 'offHand') &&
     character.equipment.mainHand?.slotsIn === 'twoHand'
   ) {
-    app.equipment.push(character.equipment.mainHand);
+    app.inventory.push(character.equipment.mainHand);
     character.equipment.mainHand = null;
   }
 
@@ -68,7 +68,7 @@ export const unequip = (equipment: DBEquipment, slot: EquipmentSlot) => {
 
   const character = app.characters[characterIndex];
 
-  app.equipment.push(equipment);
+  app.inventory.push(equipment);
   character.equipment[slot] = null;
 };
 

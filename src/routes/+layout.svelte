@@ -54,14 +54,14 @@
               {/each}
             </crow>
           </div>
-          <h4>My equipment</h4>
+          <h4>My inventory</h4>
           <div class="my-4">
             <crow vertical up left>
-              {#each app.equipment as equipment, i}
-                {@const eq = EQUIPMENT[equipment.id]()}
+              {#each app.inventory as item, i}
+                {@const eq = EQUIPMENT[item.id]()}
                 <crow class="w-full !justify-between gap-2 py-1" left>
                   <EquipmentLink {...eq} />
-                  <Button onclick={() => equip(equipment, i)}>Equip</Button>
+                  <Button onclick={() => equip(item, i)}>Equip</Button>
                 </crow>
               {/each}
             </crow>

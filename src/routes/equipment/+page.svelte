@@ -15,7 +15,7 @@
   ];
 
   const craftEquipment = (item: Equipment) => {
-    app.equipment.push({
+    app.inventory.push({
       id: item.id,
       slotsIn: item.slotsIn
     });

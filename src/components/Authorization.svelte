@@ -21,7 +21,7 @@
           });
           if (authorized !== true) {
             app.characters = authorized.characters;
-            app.equipment = authorized.equipment;
+            app.inventory = authorized.inventory;
           }
         } catch (e) {
           notify(e);

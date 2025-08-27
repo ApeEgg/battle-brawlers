@@ -21,7 +21,7 @@ const INITIAL_CHARACTERS = [
 export default new (class {
   combat: Combat = $state(INITIAL_COMBAT);
   characters: Character[] = $state(INITIAL_CHARACTERS);
-  equipment: DBEquipment[] = $state([]);
+  inventory: DBEquipment[] = $state([]);
   socket = $state() as AsyncAwaitWebsocket;
   token: string | undefined = $state();
   tooltip?: Tooltip = $state();
@@ -29,15 +29,15 @@ export default new (class {
   constructor() {
     $effect.root(() => {
       $effect(() => {
-        const equipment = $state.snapshot(this.equipment); // Hack to trigger reruns
+        const inventory = $state.snapshot(this.inventory); // Hack to trigger reruns
         const characters = $state.snapshot(this.characters); // Hack to trigger reruns
-        console.log(characters);
+
         const saveDebounce = setTimeout(() => {
           if (app.socket && app.token) {
             (async () => {
               await app.socket.sendAsync('store-game-state', {
                 token: app.token,
-                equipment,
+                inventory,
                 characters
               });
               console.info('Game state saved');
