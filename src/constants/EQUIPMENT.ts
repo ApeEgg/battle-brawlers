@@ -9,7 +9,7 @@ export default {
     description: 'A simple sword.',
     slotsIn: 'oneHand',
     combatStats: {
-      damage: 3
+      damage: 1
     },
     abilities: [ABILITIES.basicAttackFast(), ABILITIES.basicAttackRegular()]
   }),
@@ -19,9 +19,7 @@ export default {
     prettyName: 'Shield',
     description: 'A simple shield.',
     slotsIn: 'offHand',
-    combatStats: {
-      damage: 3
-    },
+    combatStats: {},
     abilities: [ABILITIES.block()]
   }),
   ring: () => ({
@@ -42,7 +40,7 @@ export default {
     description: 'A mighty two-handed sword.',
     slotsIn: 'twoHand',
     combatStats: {
-      damage: 6
+      damage: 3
     },
     abilities: [ABILITIES.basicAttackSlow()]
   }),
@@ -53,7 +51,7 @@ export default {
     description: 'Fine protection.',
     slotsIn: 'armor',
     combatStats: {
-      armor: 2
+      armor: 1
     },
     abilities: []
   }),
@@ -63,9 +61,7 @@ export default {
     prettyName: "Giant's Heart",
     description: 'It still pulsates oddly enough.',
     slotsIn: 'trinket',
-    combatStats: {
-      damage: 1
-    },
+    combatStats: {},
     abilities: [ABILITIES.stun()]
   })
 } as Record<string, () => Equipment>;

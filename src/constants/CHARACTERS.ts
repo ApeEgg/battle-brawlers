@@ -25,7 +25,7 @@ export default {
       currentHealth: DEFAULT_MAX_HP,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 4,
+      damage: 2,
       armor: 0
     },
     maxTicks: 15,
@@ -43,7 +43,7 @@ export default {
       currentHealth: DEFAULT_MAX_HP,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 4,
+      damage: 2,
       armor: 0
     },
     maxTicks: 15,
@@ -66,7 +66,7 @@ export default {
       currentHealth: DEFAULT_MAX_HP,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 4,
+      damage: 2,
       armor: 0
     },
     maxTicks: 15,
@@ -88,7 +88,7 @@ export default {
       currentHealth: DEFAULT_MAX_HP,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 4,
+      damage: 2,
       armor: 0
     },
     maxTicks: 15,
@@ -111,7 +111,7 @@ export default {
       currentHealth: DEFAULT_MAX_HP,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 4,
+      damage: 2,
       armor: 0
     },
     maxTicks: 15,
