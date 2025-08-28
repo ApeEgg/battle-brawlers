@@ -14,8 +14,8 @@ export const INITIAL_COMBAT = {
 };
 
 const INITIAL_CHARACTERS = [
-  { ...CHARACTERS.elf(), name: 'Elon the Elf' },
-  { ...CHARACTERS.dwarf(), name: 'Danny' }
+  { ...CHARACTERS.elf(), name: 'Elon the Elf' }
+  // { ...CHARACTERS.dwarf(), name: 'Danny' }
 ];
 
 export default new (class {

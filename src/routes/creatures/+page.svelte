@@ -2,8 +2,8 @@
   import CHARACTERS from '$src/constants/CHARACTERS';
 
   let creatures = [
-    { ...CHARACTERS.berserker(), url: 'berserker' },
-    { ...CHARACTERS.missingo(), url: 'missingo' }
+    { ...CHARACTERS.berserker(), url: 'berserker' }
+    // { ...CHARACTERS.missingo(), url: 'missingo' }
   ];
 </script>
 
