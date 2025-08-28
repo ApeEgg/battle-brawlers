@@ -134,10 +134,10 @@
       {/if}
     </div>
 
-    <div>
+    <!-- <div>
       <pre>{JSON.stringify(currentAnimation, null, 2)}
       </pre>
-    </div>
+    </div> -->
   </div>
 {/key}
 

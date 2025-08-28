@@ -9,6 +9,7 @@ import type { CombatEvent } from '$src/types/combat';
 import type { VFX } from '$src/types/vfx';
 import { COMBAT_TICK_TIME, COMBAT_RING_BASE_RADIUS } from '$src/constants/APP';
 import _VFX from '$src/constants/VFX';
+import EQUIPMENT from '$src/constants/EQUIPMENT';
 const { uniqBy } = lodash;
 
 const ABILITY_ORDER = ['block', 'basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'];
@@ -21,6 +22,24 @@ export const calculateCombatStats = (...args: any) => {
     return acc;
   }, {});
   return combined;
+};
+
+export const calculateAvailableAbilitiesByCharacter = (character: Character) => {
+  return Object.values(character.equipment)
+    .filter((e) => e !== null)
+    .map((e) => EQUIPMENT[e.id]().abilities)
+    .flat();
+};
+
+export const calculateCombatStatsByCharacter = (character: Character) => {
+  return calculateCombatStats(
+    ...[
+      character.combatStats,
+      ...Object.values(character.equipment)
+        .filter((e) => e !== null)
+        .map((e) => EQUIPMENT[e.id]().combatStats)
+    ]
+  );
 };
 
 export const calculateTickStart = (abilities: Ability[], index: number) => {
@@ -40,7 +59,7 @@ export const prepareCombatant = (
 ): Combatant => {
   const rotation = 360 / teamCount;
 
-  const combatStats = calculateCombatStats(character.combatStats);
+  const combatStats = calculateCombatStatsByCharacter(character);
 
   combatStats.currentHealth = combatStats.maxHealth;
 

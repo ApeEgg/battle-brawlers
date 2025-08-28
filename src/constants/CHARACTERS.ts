@@ -29,14 +29,7 @@ export default {
       armor: 0
     },
     maxTicks: 15,
-    abilities: [
-      ABILITIES.basicAttackFast(),
-      ABILITIES.basicAttackFast(),
-      ABILITIES.basicAttackFast(),
-      ABILITIES.basicAttackFast(),
-      ABILITIES.basicAttackFast(),
-      ABILITIES.basicAttackFast()
-    ]
+    abilities: []
   }),
   human: () => ({
     id: crypto.randomUUID(),

@@ -66,6 +66,6 @@ export default {
     combatStats: {
       damage: 1
     },
-    abilities: [ABILITIES.spin()]
+    abilities: [ABILITIES.stun()]
   })
 } as Record<string, () => Equipment>;

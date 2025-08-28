@@ -5,7 +5,6 @@
   import app from '$src/app.svelte';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
-  import ABILITIES from '$src/constants/ABILITIES';
   import type { Ability } from '$src/types/ability';
   import AbilityTooltip from '$src/components/tooltips/Ability.svelte';
   import AbilityBar from '$src/components/character/AbilityBar.svelte';
@@ -14,6 +13,11 @@
   import type { EquipmentSlot } from '$src/types/equipment';
   import EQUIPMENT from '$src/constants/EQUIPMENT';
   import Button from '$src/components/form/Button.svelte';
+  import {
+    calculateAvailableAbilitiesByCharacter,
+    calculateCombatStatsByCharacter
+  } from '$src/ts/Utils';
+  import ABILITIES from '$src/constants/ABILITIES';
 
   const flipDurationMs = 300;
 
@@ -59,10 +63,62 @@
     draggedElement.style['background-color'] = '#fff';
   };
 
+  const containsAll = (base: Ability[], target: Ability[]) => {
+    if (base.length === 0 || target.length === 0) return false;
+
+    let i = 0;
+    for (const item of target) {
+      if (i < base.length && item.abilityName === base[i].abilityName) {
+        i++;
+      }
+    }
+    return i === base.length;
+  };
+
   $effect(() => {
-    availableAbilities = Object.entries(ABILITIES)
-      .filter(([key]) => !untrack(() => character.abilities.find((a) => a.icon === key))) // fix this to look at ID
-      .map(([_, fn]) => fn())
+    const isDualWielding = !!(
+      character.equipment.mainHand &&
+      character.equipment.offHand &&
+      character.equipment.offHand.slotsIn !== 'offHand'
+    );
+    const isTwoHanded = !!(
+      character.equipment.mainHand && character.equipment.mainHand.slotsIn === 'twoHand'
+    );
+
+    const defaultAbilities = isTwoHanded
+      ? [ABILITIES.basicAttackSlow(), ABILITIES.basicAttackSlow(), ABILITIES.basicAttackSlow()]
+      : isDualWielding
+        ? [
+            ABILITIES.basicAttackFast(),
+            ABILITIES.basicAttackFast(),
+            ABILITIES.basicAttackFast(),
+            ABILITIES.basicAttackFast(),
+            ABILITIES.basicAttackFast(),
+            ABILITIES.basicAttackFast()
+          ]
+        : [
+            ABILITIES.basicAttackRegular(),
+            ABILITIES.basicAttackRegular(),
+            ABILITIES.basicAttackRegular(),
+            ABILITIES.basicAttackRegular()
+          ];
+
+    if (!containsAll(defaultAbilities, character.abilities)) {
+      character.abilities = character.abilities.filter(
+        (a) => !['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(a.abilityName)
+      );
+      character.abilities = [...defaultAbilities, ...untrack(() => character.abilities)];
+    }
+  });
+
+  $effect(() => {
+    $state.snapshot(character.equipment);
+    const abilities = calculateAvailableAbilitiesByCharacter(character);
+
+    // Decide what abilities a character can use
+    availableAbilities = abilities
+      .filter(({ icon }) => !untrack(() => character.abilities.find((a) => a.icon === icon))) // fix this to look at ID
+      // .map(([_, fn]) => fn())
       .filter(
         (ability) =>
           !['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(
@@ -71,7 +127,16 @@
       )
       .sort((a: Ability, b: Ability) => a.prettyName.localeCompare(b.prettyName))
       .sort((a: Ability, b: Ability) => a.ticks - b.ticks);
+
+    // Remove abilities that are no longer available from character
+    character.abilities = untrack(() => character.abilities).filter(
+      (ability) =>
+        abilities.some(({ abilityName }) => abilityName === ability.abilityName) ||
+        ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(ability.abilityName)
+    );
   });
+
+  let combatStats = $derived(calculateCombatStatsByCharacter(character));
 </script>
 
 <Clickable class="crow gap-1" onclick={() => goto('/creatures')}>
@@ -97,15 +162,15 @@
       </crow>
       <crow class="gap-2">
         <div class="font-bold">Health:</div>
-        <div>{character?.combatStats?.maxHealth}</div>
+        <div>{combatStats?.maxHealth}</div>
       </crow>
       <crow class="gap-2">
         <div class="font-bold">Damage:</div>
-        <div>{character?.combatStats?.damage}</div>
+        <div>{combatStats?.damage}</div>
       </crow>
       <crow class="gap-2">
         <div class="font-bold">Armor:</div>
-        <div>{character?.combatStats?.armor}</div>
+        <div>{combatStats?.armor}</div>
       </crow>
     </crow>
     <crow vertical up left>
@@ -170,10 +235,10 @@
   </crow>
 </crow>
 
-<code class="text-xs">
+<!-- <code class="overflow-hidden text-xs">
   <pre>{JSON.stringify(character, null, 2)}
   </pre>
-</code>
+</code> -->
 
 <style>
   :global(.TESTING) {
