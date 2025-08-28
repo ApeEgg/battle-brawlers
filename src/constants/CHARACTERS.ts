@@ -25,7 +25,7 @@ export default {
       currentHealth: DEFAULT_MAX_HP,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 2,
+      damage: 1,
       armor: 0
     },
     maxTicks: 15,
@@ -43,7 +43,7 @@ export default {
       currentHealth: DEFAULT_MAX_HP,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 2,
+      damage: 1,
       armor: 0
     },
     maxTicks: 15,
@@ -66,7 +66,7 @@ export default {
       currentHealth: DEFAULT_MAX_HP,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 2,
+      damage: 1,
       armor: 0
     },
     maxTicks: 15,
@@ -88,7 +88,7 @@ export default {
       currentHealth: DEFAULT_MAX_HP,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 2,
+      damage: 1,
       armor: 0
     },
     maxTicks: 15,
@@ -111,7 +111,7 @@ export default {
       currentHealth: DEFAULT_MAX_HP,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 2,
+      damage: 1,
       armor: 0
     },
     maxTicks: 15,
@@ -134,11 +134,11 @@ export default {
     description:
       'The Berserker is a fearsome warrior whose raw power and unyielding rage make him a deadly foe on the battlefield. Known for his brutal combat style, he thrives in the chaos of close-range encounters.<br /><br />His most terrifying ability is his relentless spinning attack, where he whirls his weapons with terrifying force, striking all who dare stand too close. This savage technique allows him to mow through groups of enemies with devastating efficiency, leaving little room for his opponents to retaliate.',
     combatStats: {
-      maxHealth: 50,
+      maxHealth: 70,
       currentHealth: 50,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 2,
+      damage: 3,
       armor: 0
     },
     maxTicks: Infinity,
