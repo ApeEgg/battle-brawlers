@@ -9,7 +9,7 @@
     EQUIPMENT.sword(),
     EQUIPMENT.shield(),
     EQUIPMENT.ring(),
-    EQUIPMENT.twoHandedSword(),
+    EQUIPMENT.greatsword(),
     EQUIPMENT.leatherArmor(),
     EQUIPMENT.giantsHeart()
   ];

@@ -33,9 +33,9 @@ export default {
     },
     abilities: []
   }),
-  twoHandedSword: () => ({
+  greatsword: () => ({
     uuid: crypto.randomUUID(),
-    id: 'twoHandedSword',
+    id: 'greatsword',
     prettyName: 'Greatsword',
     description: 'A mighty two-handed sword.',
     slotsIn: 'twoHand',

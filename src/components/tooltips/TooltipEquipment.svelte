@@ -31,6 +31,6 @@
   <span class="text-sm">{description}</span>
   {#if abilities.length > 0}
     <h6>Abilities</h6>
-    <AbilityBar {abilities} dragDisabled />
+    <AbilityBar {abilities} dndDisabled />
   {/if}
 </crow>

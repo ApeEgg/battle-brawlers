@@ -5,6 +5,7 @@ import type { AsyncAwaitWebsocket } from 'async-await-websockets';
 import app from '$src/app.svelte';
 import type { DBEquipment } from '$src/types/equipment';
 import type { Tooltip } from '$src/ts/use';
+import EQUIPMENT from './constants/EQUIPMENT';
 
 export const INITIAL_COMBAT = {
   teamsStartState: [],
@@ -14,14 +15,24 @@ export const INITIAL_COMBAT = {
 };
 
 const INITIAL_CHARACTERS = [
-  { ...CHARACTERS.elf(), name: 'Elon the Elf' }
+  {
+    ...CHARACTERS.elf(),
+    name: 'Elon the Elf'
+  }
   // { ...CHARACTERS.dwarf(), name: 'Danny' }
+];
+
+const INITIAL_INVENTORY = [
+  EQUIPMENT.sword(),
+  EQUIPMENT.shield(),
+  EQUIPMENT.greatsword(),
+  EQUIPMENT.giantsHeart()
 ];
 
 export default new (class {
   combat: Combat = $state(INITIAL_COMBAT);
   characters: Character[] = $state(INITIAL_CHARACTERS);
-  inventory: DBEquipment[] = $state([]);
+  inventory: DBEquipment[] = $state(INITIAL_INVENTORY);
   socket = $state() as AsyncAwaitWebsocket;
   token: string | undefined = $state();
   tooltip?: Tooltip = $state();

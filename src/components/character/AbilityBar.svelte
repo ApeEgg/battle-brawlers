@@ -6,19 +6,22 @@
   import type { Ability } from '$src/types/ability';
 
   let flipDurationMs = 300;
+  let dragDisabled = $state(false);
 
   let {
     abilities,
     transformDraggedCharacterAbility,
     considerCharacterAbilities,
     finalizeCharacterAbilities,
-    dragDisabled = false
+    dndDisabled = false,
+    constrainAxisY = false
   }: {
     abilities: Ability[];
     transformDraggedCharacterAbility?: (draggedElement: any, data: any, _index: any) => void;
     considerCharacterAbilities?: (e: any) => void;
     finalizeCharacterAbilities?: (e: any) => void;
-    dragDisabled?: boolean;
+    dndDisabled?: boolean;
+    constrainAxisY?: boolean;
   } = $props();
 </script>
 
@@ -28,7 +31,7 @@
       <crow class="-ml-px aspect-[2/3] flex-1 border border-dashed border-gray-300"></crow>
     {/each}
 
-    {#if !dragDisabled}
+    {#if !dndDisabled}
       <div class="absolute -top-2 -bottom-2 left-[calc((100%/15)*12)] w-px border-r border-dashed">
         <crow vertical class="absolute bottom-full -translate-x-1/2 text-center text-xs">
           <strong class="text-black">Min</strong>12&nbsp;ticks
@@ -37,7 +40,7 @@
     {/if}
     <div class="absolute -top-2 -bottom-2 left-[calc((100%/15)*15)] w-px border-r border-dashed">
       <crow vertical class="absolute bottom-full -translate-x-1/2 text-center text-xs">
-        {#if !dragDisabled}
+        {#if !dndDisabled}
           <strong class="text-black">Max</strong>
         {/if}
         15&nbsp;ticks
@@ -52,9 +55,10 @@
     use:dndzone={{
       items: abilities,
       flipDurationMs,
+      constrainAxisY,
       transformDraggedElement: transformDraggedCharacterAbility,
       dropTargetStyle: { outline: 'rgba(100, 100, 100, 0.5) solid 2px' },
-      dragDisabled
+      dragDisabled: dndDisabled || dragDisabled
     }}
     onconsider={considerCharacterAbilities}
     onfinalize={finalizeCharacterAbilities}
@@ -62,7 +66,19 @@
     {#each abilities as ability, i (ability.id)}
       {@const tickStart = calculateTickStart(abilities, i)}
       <crow
+        role="listitem"
         animate:flip={{ duration: flipDurationMs }}
+        onmouseenter={() => {
+          if (
+            ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(
+              ability.abilityName
+            )
+          )
+            dragDisabled = true;
+        }}
+        onmouseleave={() => {
+          dragDisabled = false;
+        }}
         use:tooltip={{
           children: AbilityTooltip,
           props: ability,

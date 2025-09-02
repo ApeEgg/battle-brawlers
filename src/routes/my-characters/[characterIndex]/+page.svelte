@@ -25,6 +25,7 @@
   let character = $derived(app.characters[characterIndex as any]);
   let availableAbilities: Ability[] = $state([]);
   let dropFromOthersDisabled = $state(false);
+  let constrainAxisY = $state(false);
 
   const considerCharacterAbilities = (e: any) => {
     character.abilities = e.detail.items;
@@ -40,8 +41,10 @@
       )
     ) {
       dropFromOthersDisabled = true;
+      constrainAxisY = true;
     } else {
       dropFromOthersDisabled = false;
+      constrainAxisY = false;
     }
     app.tooltip = undefined;
   };
@@ -217,6 +220,7 @@
       {considerCharacterAbilities}
       {finalizeCharacterAbilities}
       {transformDraggedCharacterAbility}
+      {constrainAxisY}
     />
   </crow>
 

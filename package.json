@@ -46,5 +46,8 @@
     "svelte-global-store": "^1.0.4",
     "sveltekit-autoimport": "^1.8.1"
   },
-  "type": "module"
+  "type": "module",
+  "patchedDependencies": {
+    "svelte-dnd-action@0.9.64": "patches/svelte-dnd-action@0.9.64.patch"
+  }
 }

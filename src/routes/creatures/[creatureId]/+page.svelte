@@ -61,7 +61,7 @@
   <crow class="w-full !justify-between">
     <h4>Abilities</h4>
   </crow>
-  <AbilityBar abilities={creature.abilities} dragDisabled={true} />
+  <AbilityBar abilities={creature.abilities} dndDisabled />
 </crow>
 
 <!-- <pre class="text-xs">{JSON.stringify(creature, null, 2)}
