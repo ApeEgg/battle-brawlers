@@ -8,7 +8,7 @@ export default {
     prettyName: 'Basic attack',
     description: 'Basic one-handed dual-wield attack.',
     ticks: 2,
-    icon: '1h1h',
+    icon: '1h',
     vfx: VFX.basicAttackFast
   }), // 8 (80% of 10)
   basicAttackRegular: () => ({
@@ -26,7 +26,7 @@ export default {
     prettyName: 'Basic attack',
     description: 'Basic two-handed attack.',
     ticks: 4,
-    icon: '2h',
+    icon: '1h',
     vfx: VFX.basicAttackSlow
   }), // 16 (160% of 10)
   block: () => ({
@@ -34,7 +34,7 @@ export default {
     abilityName: 'block',
     prettyName: 'Shield block',
     description: 'Raise your shield to block. Prevent all damage during the duration.',
-    ticks: 3,
+    ticks: 4,
     icon: 'block',
     vfx: VFX.block
   }),

@@ -34,13 +34,16 @@
   };
 
   const transformDraggedCharacterAbility = (draggedElement: any, data: any, _index: any) => {
-    if (['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(data.abilityName)) {
+    if (
+      ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'block'].includes(
+        data.abilityName
+      )
+    ) {
       dropFromOthersDisabled = true;
     } else {
       dropFromOthersDisabled = false;
     }
     app.tooltip = undefined;
-    draggedElement.style['background-color'] = '#fff';
   };
 
   const considerAvailableAbilities = (e: any) => {
@@ -60,52 +63,64 @@
       ticks.remove();
     }
     app.tooltip = undefined;
-    draggedElement.style['background-color'] = '#fff';
   };
 
   const containsAll = (base: Ability[], target: Ability[]) => {
     if (base.length === 0 || target.length === 0) return false;
 
-    let i = 0;
-    for (const item of target) {
-      if (i < base.length && item.abilityName === base[i].abilityName) {
-        i++;
-      }
+    // Build frequency map for target
+    const targetCounts: Record<string, number> = {};
+    for (const t of target) {
+      targetCounts[t.abilityName] = (targetCounts[t.abilityName] ?? 0) + 1;
     }
-    return i === base.length;
+
+    // Check that base requirements are satisfied
+    for (const b of base) {
+      if (!targetCounts[b.abilityName]) {
+        return false; // missing or not enough
+      }
+      targetCounts[b.abilityName]--;
+    }
+
+    return true;
   };
 
   $effect(() => {
-    const isDualWielding = !!(
-      character.equipment.mainHand &&
-      character.equipment.offHand &&
-      character.equipment.offHand.slotsIn !== 'offHand'
-    );
+    // const isDualWielding = !!(
+    //   character.equipment.mainHand &&
+    //   character.equipment.offHand &&
+    //   character.equipment.offHand.slotsIn !== 'offHand'
+    // );
+    const isShield = !!character.equipment.offHand;
     const isTwoHanded = !!(
       character.equipment.mainHand && character.equipment.mainHand.slotsIn === 'twoHand'
     );
 
     const defaultAbilities = isTwoHanded
       ? [ABILITIES.basicAttackSlow(), ABILITIES.basicAttackSlow(), ABILITIES.basicAttackSlow()]
-      : isDualWielding
+      : isShield
         ? [
+            ABILITIES.basicAttackFast(),
+            ABILITIES.basicAttackFast(),
+            ABILITIES.block(),
+            ABILITIES.basicAttackFast(),
+            ABILITIES.basicAttackFast()
+          ]
+        : [
             ABILITIES.basicAttackFast(),
             ABILITIES.basicAttackFast(),
             ABILITIES.basicAttackFast(),
             ABILITIES.basicAttackFast(),
             ABILITIES.basicAttackFast(),
             ABILITIES.basicAttackFast()
-          ]
-        : [
-            ABILITIES.basicAttackRegular(),
-            ABILITIES.basicAttackRegular(),
-            ABILITIES.basicAttackRegular(),
-            ABILITIES.basicAttackRegular()
           ];
 
     if (!containsAll(defaultAbilities, character.abilities)) {
       character.abilities = character.abilities.filter(
-        (a) => !['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(a.abilityName)
+        (a) =>
+          !['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'block'].includes(
+            a.abilityName
+          )
       );
       character.abilities = [...defaultAbilities, ...untrack(() => character.abilities)];
     }
@@ -121,7 +136,7 @@
       // .map(([_, fn]) => fn())
       .filter(
         (ability) =>
-          !['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(
+          !['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'block'].includes(
             ability.abilityName
           )
       )
@@ -132,7 +147,9 @@
     character.abilities = untrack(() => character.abilities).filter(
       (ability) =>
         abilities.some(({ abilityName }) => abilityName === ability.abilityName) ||
-        ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(ability.abilityName)
+        ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'block'].includes(
+          ability.abilityName
+        )
     );
   });
 
