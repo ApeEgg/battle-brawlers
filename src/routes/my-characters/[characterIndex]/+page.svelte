@@ -86,7 +86,8 @@
   $effect(() => {
     const isShield = !!character.equipment.offHand;
     const isTwoHanded = !!(
-      character.equipment.mainHand && EQUIPMENT(character.equipment.mainHand).slotsIn === 'twoHand'
+      character.equipment.mainHand &&
+      EQUIPMENT(character.equipment.mainHand, true).slotsIn === 'twoHand'
     );
 
     const defaultAbilities = isTwoHanded
