@@ -29,7 +29,7 @@
               ></div>
             {/each}
           {/if}
-          <Icon class={tw('relative text-[8px]', ticks > 1 && 'text-sm')} name={icon} />
+          <Icon original class={tw('relative text-[8px]', ticks > 1 && 'text-sm')} name={icon} />
         </div>
       {/each}
     </div>

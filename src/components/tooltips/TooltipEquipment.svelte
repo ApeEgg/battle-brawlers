@@ -16,7 +16,7 @@
 <crow
   left
   vertical
-  class="pointer-events-none !w-60 gap-2 rounded bg-gradient-to-br from-gray-50 to-gray-200 px-2.5 pt-1.5 pb-3 text-sm leading-[18px] text-gray-700"
+  class="pointer-events-none !w-60 gap-2 rounded-md px-2.5 pt-1.5 pb-3 text-sm leading-[18px] text-gray-700 shadow-sm transition-all"
 >
   <crow class="w-full !justify-between">
     <strong class="text-lg text-black">{prettyName}</strong>

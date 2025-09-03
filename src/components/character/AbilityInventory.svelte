@@ -4,6 +4,7 @@
   import { flip } from 'svelte/animate';
   import type { AbilityRef } from '$src/types/ability';
   import ABILITIES from '$src/constants/ABILITIES';
+  import AbilityIcon from '$src/components/character/AbilityIcon.svelte';
 
   let flipDurationMs = 300;
 
@@ -46,7 +47,7 @@
     {#each hydratedAbilities as ability (ability.uuid)}
       <crow
         class={tw(
-          'relative h-20 w-20 !flex-none gap-2 rounded border border-black bg-white',
+          'relative h-20 w-20 !flex-none gap-2 overflow-hidden rounded border-[0.5px] border-gray-400 bg-white',
           small && 'h-10 w-10 gap-1',
           ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(ability.id) &&
             'border-gray-400 bg-gray-100'
@@ -59,12 +60,12 @@
         }}
         animate:flip={{ duration: flipDurationMs }}
       >
-        <div class="ticks">{ability.ticks}</div>
-        <Icon name={ability.icon} />
+        <AbilityIcon {ability} {small} />
+
         <!-- {ability.uuid.substring(0, 5)} -->
       </crow>
     {/each}
   {:else}
-    Abilities from equipped gear will appear here.
+    Abilities from equipped gear will appear here
   {/if}
 </crow>

@@ -5,6 +5,7 @@
   import { flip } from 'svelte/animate';
   import type { AbilityRef } from '$src/types/ability';
   import ABILITIES from '$src/constants/ABILITIES';
+  import AbilityIcon from './AbilityIcon.svelte';
 
   let flipDurationMs = 300;
   let dragDisabled = $state(false);
@@ -85,7 +86,7 @@
           lockInPlace: true
         }}
         class={tw(
-          'relative -ml-px h-full !flex-none rounded border border-gray-800 bg-white',
+          'relative -ml-px h-full !flex-none overflow-hidden rounded border border-gray-800 bg-white',
           ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(ability.id) &&
             !dndDisabled
             ? 'border-gray-400 bg-gray-100'
@@ -94,7 +95,7 @@
         )}
         style="width: calc(((100% / 15)*{ability.ticks}) + 1px);"
       >
-        <Icon name={ability.icon} />
+        <AbilityIcon {ability} hideTickCount />
         <!-- {ability.uuid.substring(0, 5)} -->
       </crow>
     {/each}

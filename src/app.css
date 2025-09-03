@@ -16,7 +16,7 @@
 
 @layer utilities {
   .glass {
-    @apply rounded-md border border-white/50 bg-white/50 shadow-lg backdrop-blur-xl;
+    @apply rounded-md border border-white/50 bg-white/50 shadow-lg backdrop-blur-md;
   }
   h1 {
     @apply text-2xl font-medium sm:text-4xl sm:tracking-[-0.0625rem] md:text-5xl md:tracking-[-0.0625rem];

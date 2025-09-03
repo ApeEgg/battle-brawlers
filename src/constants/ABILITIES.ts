@@ -40,7 +40,7 @@ export const ALL_ABILITIES = {
     type: AbilityType.WindUp,
     description: 'Stun your opponent for the duration of their current ability.',
     ticks: 1,
-    icon: 'stun',
+    icon: 'isStunned',
     vfx: VFX.stun
   },
   spin: {
@@ -57,7 +57,7 @@ export const ALL_ABILITIES = {
     type: AbilityType.WindUp,
     description: 'Add a bleed to your opponent.',
     ticks: 2,
-    icon: '1h1h',
+    icon: 'isBleeding',
     vfx: VFX.basicAttackFast
   }
 };

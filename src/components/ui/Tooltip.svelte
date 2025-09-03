@@ -83,7 +83,7 @@
 
 <div
   class={tw(
-    'pointer-events-none fixed z-100 -translate-y-2 opacity-0 transition-[translate,opacity] duration-300',
+    'glass pointer-events-none fixed z-100 -translate-y-2 !border-[0.5px] !border-black/50 opacity-0 transition-[translate,opacity] duration-300',
     visible && 'translate-y-0 opacity-100'
   )}
   style="left: {tooltipX}px; top: {tooltipY}px;"
@@ -93,7 +93,7 @@
 
   <div
     class={tw(
-      'absolute aspect-square w-4 bg-gray-600',
+      'absolute aspect-square w-4 bg-black',
       !direction && 'hidden',
       direction === 'left' && 'top-0 left-full [clip-path:polygon(0%_0%,50%_50%,0%_100%)]',
       direction === 'right' && 'top-0 right-full [clip-path:polygon(100%_0%,100%_100%,50%_50%)]',
