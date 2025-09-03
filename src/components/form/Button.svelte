@@ -23,10 +23,10 @@
   {onclick}
   bind:this={inputRef}
   class={tw(
-    'rounded px-3 py-2 leading-1 active:enabled:translate-y-px',
-    primary && 'bg-blue-500 text-white',
-    secondary && 'bg-blue-200 text-blue-500',
-    tertiary && 'bg-transparent text-blue-500 hover:underline',
+    'cursor-pointer rounded-sm px-2 py-2 text-xs leading-1 active:enabled:translate-y-px',
+    primary && 'bg-blue-600 text-white',
+    secondary && 'bg-gray-200 text-gray-500',
+    tertiary && 'bg-transparent text-gray-500 hover:underline',
     disabled && 'bg-gray-400',
     classes
   )}

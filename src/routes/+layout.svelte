@@ -11,7 +11,7 @@
   import { equip } from '$src/ts/equipment';
   import EquipmentLink from '$src/components/EquipmentLink.svelte';
   import { overrideItemIdKeyNameBeforeInitialisingDndZones } from 'svelte-dnd-action';
-  import entity from '$src/ts/entity';
+  import EQUIPMENT from '$src/constants/EQUIPMENT';
   overrideItemIdKeyNameBeforeInitialisingDndZones('uuid');
 
   let { children } = $props<{ children: Snippet }>();
@@ -60,10 +60,10 @@
           <div class="my-4">
             <crow vertical up left>
               {#each app.inventory as item, i}
-                {@const equipment = entity.equipment(item, true)}
+                {@const equipment = EQUIPMENT(item, true)}
                 <crow class="w-full !justify-between gap-2 py-1" left>
                   <EquipmentLink {...equipment} />
-                  <Button onclick={() => equip(item, i)}>Equip</Button>
+                  <Button tertiary onclick={() => equip(item, i)}>Equip</Button>
                 </crow>
               {/each}
             </crow>

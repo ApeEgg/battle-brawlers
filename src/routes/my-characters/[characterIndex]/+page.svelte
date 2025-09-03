@@ -14,9 +14,8 @@
     calculateCombatStatsByCharacter
   } from '$src/ts/Utils';
   import AbilityInventory from '$src/components/character/AbilityInventory.svelte';
-
-  import entity from '$src/ts/entity';
-  import abilityEntity from '$src/ts/abilityEntity';
+  import EQUIPMENT from '$src/constants/EQUIPMENT';
+  import ABILITIES from '$src/constants/ABILITIES';
 
   let characterIndex = $derived($page.params.characterIndex);
   let character = $derived(app.characters[characterIndex as any]);
@@ -45,14 +44,9 @@
   const considerAvailableAbilities = (e: any) => {
     e.detail.items
       .sort((a: AbilityRef, b: AbilityRef) =>
-        abilityEntity
-          .ability(a, true)
-          .prettyName.localeCompare(abilityEntity.ability(b, true).prettyName)
+        ABILITIES(a, true).prettyName.localeCompare(ABILITIES(b, true).prettyName)
       )
-      .sort(
-        (a: AbilityRef, b: AbilityRef) =>
-          abilityEntity.ability(a, true).ticks - abilityEntity.ability(b, true).ticks
-      );
+      .sort((a: AbilityRef, b: AbilityRef) => ABILITIES(a, true).ticks - ABILITIES(b, true).ticks);
 
     availableAbilities = e.detail.items;
   };
@@ -92,31 +86,26 @@
   $effect(() => {
     const isShield = !!character.equipment.offHand;
     const isTwoHanded = !!(
-      character.equipment.mainHand &&
-      entity.equipment(character.equipment.mainHand).slotsIn === 'twoHand'
+      character.equipment.mainHand && EQUIPMENT(character.equipment.mainHand).slotsIn === 'twoHand'
     );
 
     const defaultAbilities = isTwoHanded
-      ? [
-          abilityEntity.ability('basicAttackSlow'),
-          abilityEntity.ability('basicAttackSlow'),
-          abilityEntity.ability('basicAttackSlow')
-        ]
+      ? [ABILITIES('basicAttackSlow'), ABILITIES('basicAttackSlow'), ABILITIES('basicAttackSlow')]
       : isShield
         ? [
-            abilityEntity.ability('basicAttackFast'),
-            abilityEntity.ability('basicAttackFast'),
-            abilityEntity.ability('basicAttackFast'),
-            abilityEntity.ability('block'),
-            abilityEntity.ability('basicAttackFast')
+            ABILITIES('basicAttackFast'),
+            ABILITIES('basicAttackFast'),
+            ABILITIES('basicAttackFast'),
+            ABILITIES('block'),
+            ABILITIES('basicAttackFast')
           ]
         : [
-            abilityEntity.ability('basicAttackFast'),
-            abilityEntity.ability('basicAttackFast'),
-            abilityEntity.ability('basicAttackFast'),
-            abilityEntity.ability('basicAttackFast'),
-            abilityEntity.ability('basicAttackFast'),
-            abilityEntity.ability('basicAttackFast')
+            ABILITIES('basicAttackFast'),
+            ABILITIES('basicAttackFast'),
+            ABILITIES('basicAttackFast'),
+            ABILITIES('basicAttackFast'),
+            ABILITIES('basicAttackFast'),
+            ABILITIES('basicAttackFast')
           ];
 
     if (!containsAll(defaultAbilities, character.abilities)) {
@@ -141,14 +130,9 @@
           )
       )
       .sort((a: AbilityRef, b: AbilityRef) =>
-        abilityEntity
-          .ability(a, true)
-          .prettyName.localeCompare(abilityEntity.ability(b, true).prettyName)
+        ABILITIES(a, true).prettyName.localeCompare(ABILITIES(b, true).prettyName)
       )
-      .sort(
-        (a: AbilityRef, b: AbilityRef) =>
-          abilityEntity.ability(a, true).ticks - abilityEntity.ability(b, true).ticks
-      );
+      .sort((a: AbilityRef, b: AbilityRef) => ABILITIES(a, true).ticks - ABILITIES(b, true).ticks);
 
     // Remove abilities that are no longer available from character
     character.abilities = untrack(() => character.abilities).filter(
@@ -197,16 +181,23 @@
     </crow>
     <crow vertical up left>
       {#each Object.entries(character.equipment) as [slot, equipment]}
-        <crow class="gap-2">
-          <div class="font-bold">{slotsInPrettyName(slot as EquipmentSlot)}:</div>
+        <crow left class="w-full !justify-between gap-2">
+          <crow left>
+            <div class="w-20 font-bold">{slotsInPrettyName(slot as EquipmentSlot)}:</div>
 
-          {#if slot === 'offHand' && character.equipment.mainHand && entity.equipment(character.equipment.mainHand, true).slotsIn === 'twoHand'}
-            {entity.equipment(character.equipment.mainHand, true).prettyName}
-          {:else if equipment}
-            <EquipmentLink {...entity.equipment(equipment, true)} />
-            <Button onclick={() => unequip(equipment, slot as EquipmentSlot)}>Unequip</Button>
-          {:else}
-            -
+            {#if slot === 'offHand' && character.equipment.mainHand && EQUIPMENT(character.equipment.mainHand, true).slotsIn === 'twoHand'}
+              {EQUIPMENT(character.equipment.mainHand, true).prettyName}
+            {:else if equipment}
+              <EquipmentLink {...EQUIPMENT(equipment, true)} />
+            {:else}
+              -
+            {/if}
+          </crow>
+
+          {#if equipment}
+            <Button secondary onclick={() => unequip(equipment, slot as EquipmentSlot)}>
+              Unequip
+            </Button>
           {/if}
         </crow>
       {/each}

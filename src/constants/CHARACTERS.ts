@@ -1,5 +1,5 @@
 import type { Character, Race } from '$src/types/character';
-import entity from '$src/ts/abilityEntity';
+import ABILITIES from '$src/constants/ABILITIES';
 
 type CharacterKey = Race | 'berserker' | 'missingo';
 
@@ -30,10 +30,10 @@ export default {
     },
     maxTicks: 15,
     abilities: [
-      entity.ability('basicAttackRegular'),
-      entity.ability('basicAttackRegular'),
-      entity.ability('basicAttackRegular'),
-      entity.ability('basicAttackRegular')
+      ABILITIES('basicAttackRegular'),
+      ABILITIES('basicAttackRegular'),
+      ABILITIES('basicAttackRegular'),
+      ABILITIES('basicAttackRegular')
     ]
   }),
   human: () => ({
@@ -52,11 +52,7 @@ export default {
       armor: 0
     },
     maxTicks: 15,
-    abilities: [
-      entity.ability('basicAttackSlow'),
-      entity.ability('block'),
-      entity.ability('basicAttackSlow')
-    ]
+    abilities: [ABILITIES('basicAttackSlow'), ABILITIES('block'), ABILITIES('basicAttackSlow')]
   }),
   troll: () => ({
     id: crypto.randomUUID(),
@@ -75,9 +71,9 @@ export default {
     },
     maxTicks: 15,
     abilities: [
-      entity.ability('basicAttackSlow'),
-      entity.ability('basicAttackSlow'),
-      entity.ability('basicAttackSlow')
+      ABILITIES('basicAttackSlow'),
+      ABILITIES('basicAttackSlow'),
+      ABILITIES('basicAttackSlow')
     ]
   }),
   dwarf: () => ({
@@ -97,10 +93,10 @@ export default {
     },
     maxTicks: 15,
     abilities: [
-      entity.ability('basicAttackRegular'),
-      entity.ability('basicAttackRegular'),
-      entity.ability('basicAttackRegular'),
-      entity.ability('basicAttackRegular')
+      ABILITIES('basicAttackRegular'),
+      ABILITIES('basicAttackRegular'),
+      ABILITIES('basicAttackRegular'),
+      ABILITIES('basicAttackRegular')
     ]
   }),
   goblin: () => ({
@@ -120,12 +116,12 @@ export default {
     },
     maxTicks: 15,
     abilities: [
-      entity.ability('basicAttackFast'),
-      entity.ability('basicAttackFast'),
-      entity.ability('basicAttackFast'),
-      entity.ability('basicAttackFast'),
-      entity.ability('basicAttackFast'),
-      entity.ability('basicAttackFast')
+      ABILITIES('basicAttackFast'),
+      ABILITIES('basicAttackFast'),
+      ABILITIES('basicAttackFast'),
+      ABILITIES('basicAttackFast'),
+      ABILITIES('basicAttackFast'),
+      ABILITIES('basicAttackFast')
     ]
   }),
   // Creatures
@@ -146,7 +142,7 @@ export default {
       armor: 0
     },
     maxTicks: Infinity,
-    abilities: [entity.ability('basicAttackRegular'), entity.ability('spin')]
+    abilities: [ABILITIES('basicAttackRegular'), ABILITIES('spin')]
   }),
   missingo: () => ({
     id: crypto.randomUUID(),
@@ -164,6 +160,6 @@ export default {
       armor: 0
     },
     maxTicks: Infinity,
-    abilities: [entity.ability('basicAttackFast')]
+    abilities: [ABILITIES('basicAttackFast')]
   })
 } as Record<CharacterKey, () => Character>;

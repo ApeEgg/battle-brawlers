@@ -1,7 +1,8 @@
-import { AbilityType } from '$src/types/ability';
+import { AbilityType, type AbilityRef } from '$src/types/ability';
 import VFX from '$src/constants/VFX';
+import entity from '$src/ts/entity';
 
-export default {
+export const ALL_ABILITIES = {
   basicAttackFast: {
     prettyName: 'Basic attack',
     type: AbilityType.WindUp,
@@ -60,3 +61,11 @@ export default {
     vfx: VFX.basicAttackFast
   }
 };
+
+export default (id: string | AbilityRef, fullBody: boolean = false) =>
+  entity(
+    ALL_ABILITIES,
+    typeof id === 'string' ? id : id.id,
+    typeof id === 'string' ? undefined : id.uuid,
+    fullBody
+  );

@@ -1,12 +1,11 @@
 <script lang="ts">
   import Button from '$src/components/form/Button.svelte';
-  import EQUIPMENT from '$src/constants/EQUIPMENT';
+  import EQUIPMENT, { ALL_EQUIPMENT } from '$src/constants/EQUIPMENT';
   import type { EquipmentRef } from '$src/types/equipment';
   import { slotsInPrettyName } from '$src/ts/equipment';
   import EquipmentLink from '$src/components/EquipmentLink.svelte';
-  import entity from '$src/ts/entity';
 
-  let items = Object.keys(EQUIPMENT).map((key) => entity.equipment(key, true));
+  let items = Object.keys(ALL_EQUIPMENT).map((key) => EQUIPMENT(key, true));
 
   const craftEquipment = (item: EquipmentRef) => app.inventory.push(item);
 </script>
@@ -33,8 +32,8 @@
       </crow>
       <div class="flex-1">{slotsInPrettyName(item.slotsIn)}</div>
       <div class="flex-1">1</div>
-      <div class="w-20">
-        <Button onclick={craftEquipment.bind(undefined, entity.equipment(item))}>Craft</Button>
+      <div class="w-20 text-right">
+        <Button onclick={craftEquipment.bind(undefined, EQUIPMENT(item))}>Craft</Button>
       </div>
     </crow>
   {/each}

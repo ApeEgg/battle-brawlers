@@ -3,7 +3,7 @@ import type { EquipmentRef, EquipmentType, EquipmentSlot } from '$src/types/equi
 import { get } from 'svelte/store';
 import app from '$src/app.svelte';
 import type { Character } from '$src/types/character';
-import entity from '$src/ts/entity';
+import EQUIPMENT from '$src/constants/EQUIPMENT';
 
 const decideEquipmentSlot = (slotsIn: EquipmentType, character: Character) => {
   if (slotsIn === 'oneHand') {
@@ -29,13 +29,13 @@ const decideEquipmentSlot = (slotsIn: EquipmentType, character: Character) => {
 export const equip = (equipmentRef: EquipmentRef, index: number) => {
   const characterIndex = Number(get(page)?.params.characterIndex);
   if (characterIndex === undefined) return;
-  const equipment = entity.equipment(equipmentRef, true);
+  const equipment = EQUIPMENT(equipmentRef, true);
 
   const character = app.characters[characterIndex];
-  const slotsIn = decideEquipmentSlot(equipment.slotsIn, character);
+  let slotsIn = decideEquipmentSlot(equipment.slotsIn, character);
   const slot = character.equipment[slotsIn];
   const mainHand = character.equipment.mainHand
-    ? entity.equipment(character.equipment.mainHand, true)
+    ? EQUIPMENT(character.equipment.mainHand, true)
     : {};
 
   // Remove item from inventory (equipment)
@@ -53,9 +53,15 @@ export const equip = (equipmentRef: EquipmentRef, index: number) => {
   }
 
   // If oneHanded weapon is being equipped, check if mainHand is two hand (thus need to go to inventory)
-  if ((slotsIn === 'mainHand' || slotsIn === 'offHand') && mainHand?.slotsIn === 'twoHand') {
+  if (
+    (slotsIn === 'mainHand' || slotsIn === 'offHand') &&
+    equipment.slotsIn !== 'twoHand' &&
+    mainHand?.slotsIn === 'twoHand' &&
+    character.equipment.mainHand !== null
+  ) {
     app.inventory.push(character.equipment.mainHand);
     character.equipment.mainHand = null;
+    slotsIn = 'mainHand';
   }
 
   // Replace whatever is in the slot

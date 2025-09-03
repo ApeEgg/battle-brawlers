@@ -9,8 +9,8 @@ import type { Ability } from '$src/types/ability';
 // import type { VFX } from '$src/types/vfx';
 import { COMBAT_TICK_TIME, COMBAT_RING_BASE_RADIUS } from '$src/constants/APP';
 import _VFX from '$src/constants/VFX';
-import entity from '$src/ts/entity';
-import abilityEntity from './abilityEntity';
+import EQUIPMENT from '$src/constants/EQUIPMENT';
+import ABILITIES from '$src/constants/ABILITIES';
 // const { uniqBy } = lodash;
 
 // const ABILITY_ORDER = ['block', 'basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'];
@@ -28,7 +28,7 @@ export const calculateCombatStats = (...args: any) => {
 export const calculateAvailableAbilitiesByCharacter = (character: Character) => {
   return Object.values(character.equipment)
     .filter((e) => e !== null)
-    .map((e) => entity.equipment(e, true).abilities)
+    .map((e) => EQUIPMENT(e, true).abilities)
     .flat();
 };
 
@@ -38,7 +38,7 @@ export const calculateCombatStatsByCharacter = (character: Character) => {
       character.combatStats,
       ...Object.values(character.equipment)
         .filter((e) => e !== null)
-        .map((e) => entity.equipment(e, true).combatStats)
+        .map((e) => EQUIPMENT(e, true).combatStats)
     ]
   );
 };
@@ -65,7 +65,7 @@ export const prepareCombatant = (
   combatStats.currentHealth = combatStats.maxHealth;
 
   const abilitiesHydrated = character.abilities.map((ability) =>
-    abilityEntity.ability(ability, true)
+    ABILITIES(ability, true)
   ) as Ability[];
 
   const abilitiesCut = abilitiesHydrated.filter(

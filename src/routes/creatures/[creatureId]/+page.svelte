@@ -7,7 +7,6 @@
   import { generateCombat } from '$src/ts/Combat';
   import type { Team } from '$src/types/team';
   import AbilityBar from '$src/components/character/AbilityBar.svelte';
-  import abilityEntity from '$src/ts/abilityEntity';
 
   const { overlay } = STORES;
 

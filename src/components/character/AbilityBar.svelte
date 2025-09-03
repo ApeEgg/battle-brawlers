@@ -4,7 +4,7 @@
   import { calculateTickStart } from '$src/ts/Utils';
   import { flip } from 'svelte/animate';
   import type { AbilityRef } from '$src/types/ability';
-  import abilityEntity from '$src/ts/abilityEntity';
+  import ABILITIES from '$src/constants/ABILITIES';
 
   let flipDurationMs = 300;
   let dragDisabled = $state(false);
@@ -25,7 +25,7 @@
     constrainAxisY?: boolean;
   } = $props();
 
-  let hydratedAbilities = $derived(abilities.map((a) => abilityEntity.ability(a, true)));
+  let hydratedAbilities = $derived(abilities.map((a) => ABILITIES(a, true)));
 </script>
 
 <div class="relative w-[calc((100%/18)*18)]">

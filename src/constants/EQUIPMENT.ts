@@ -1,6 +1,8 @@
-import entity from '$src/ts/abilityEntity';
+import ABILITIES from '$src/constants/ABILITIES';
+import type { EquipmentRef } from '$src/types/equipment';
+import entity from '$src/ts/entity';
 
-export default {
+export const ALL_EQUIPMENT = {
   sword: {
     prettyName: 'Sword',
     description: 'A simple sword.',
@@ -9,9 +11,9 @@ export default {
       damage: 1
     },
     abilities: [
-      entity.ability('basicAttackFast'),
-      entity.ability('basicAttackFast'),
-      entity.ability('basicAttackFast')
+      ABILITIES('basicAttackFast'),
+      ABILITIES('basicAttackFast'),
+      ABILITIES('basicAttackFast')
     ]
   },
   shield: {
@@ -19,7 +21,7 @@ export default {
     description: 'A simple shield.',
     slotsIn: 'offHand',
     combatStats: {},
-    abilities: [entity.ability('block'), entity.ability('basicAttackFast')]
+    abilities: [ABILITIES('block'), ABILITIES('basicAttackFast')]
   },
   ring: {
     prettyName: 'Ring',
@@ -28,9 +30,9 @@ export default {
     combatStats: {
       maxHealth: 5
     },
-    abilities: [entity.ability('spin')]
+    abilities: [ABILITIES('spin')]
   },
-  greatsword: {
+  greatSword: {
     prettyName: 'Greatsword',
     description: 'A mighty two-handed sword.',
     slotsIn: 'twoHand',
@@ -38,9 +40,9 @@ export default {
       damage: 3
     },
     abilities: [
-      entity.ability('basicAttackSlow'),
-      entity.ability('basicAttackSlow'),
-      entity.ability('basicAttackSlow')
+      ABILITIES('basicAttackSlow'),
+      ABILITIES('basicAttackSlow'),
+      ABILITIES('basicAttackSlow')
     ]
   },
   leatherArmor: {
@@ -57,13 +59,21 @@ export default {
     description: 'It still pulsates oddly enough.',
     slotsIn: 'trinket',
     combatStats: {},
-    abilities: [entity.ability('stun')]
+    abilities: [ABILITIES('stun')]
   },
   dagger: {
     prettyName: 'Heartpiercer',
     description: 'A really sharp dagger.',
     slotsIn: 'oneHand',
     combatStats: {},
-    abilities: [entity.ability('lacerate')]
+    abilities: [ABILITIES('lacerate')]
   }
 };
+
+export default (id: string | EquipmentRef, fullBody: boolean = false) =>
+  entity(
+    ALL_EQUIPMENT,
+    typeof id === 'string' ? id : id.id,
+    typeof id === 'string' ? undefined : id.uuid,
+    fullBody
+  );

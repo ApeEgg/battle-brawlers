@@ -3,7 +3,7 @@
   import TooltipAbility from '$src/components/tooltips/TooltipAbility.svelte';
   import { flip } from 'svelte/animate';
   import type { AbilityRef } from '$src/types/ability';
-  import abilityEntity from '$src/ts/abilityEntity';
+  import ABILITIES from '$src/constants/ABILITIES';
 
   let flipDurationMs = 300;
 
@@ -23,7 +23,7 @@
     small?: boolean;
   } = $props();
 
-  let hydratedAbilities = $derived(availableAbilities.map((a) => abilityEntity.ability(a, true)));
+  let hydratedAbilities = $derived(availableAbilities.map((a) => ABILITIES(a, true)));
 </script>
 
 <crow
