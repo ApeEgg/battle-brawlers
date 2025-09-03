@@ -23,7 +23,7 @@
     const generateCombatants = (teamIndex: number) =>
       Array.from({ length: combatantCount }, (_, combatantIndex) =>
         prepareCombatant(
-          characters[seededRandom(0, characters.length - 1, `ofw${combatantIndex}_${teamIndex}`)],
+          characters[seededRandom(0, characters.length - 1, `f${combatantIndex}_${teamIndex}`)],
           teamCount,
           combatantCount,
           teamIndex,

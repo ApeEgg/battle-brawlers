@@ -1,12 +1,9 @@
 <script lang="ts">
   import { untrack } from 'svelte';
-  import { flip } from 'svelte/animate';
-  import { dndzone } from 'svelte-dnd-action';
   import app from '$src/app.svelte';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import type { Ability } from '$src/types/ability';
-  import AbilityTooltip from '$src/components/tooltips/Ability.svelte';
   import AbilityBar from '$src/components/character/AbilityBar.svelte';
   import { slotsInPrettyName, unequip } from '$src/ts/equipment';
   import EquipmentLink from '$src/components/EquipmentLink.svelte';
@@ -19,8 +16,6 @@
   } from '$src/ts/Utils';
   import ABILITIES from '$src/constants/ABILITIES';
   import AbilityInventory from '$src/components/character/AbilityInventory.svelte';
-
-  const flipDurationMs = 300;
 
   let characterIndex = $derived($page.params.characterIndex);
   let character = $derived(app.characters[characterIndex as any]);

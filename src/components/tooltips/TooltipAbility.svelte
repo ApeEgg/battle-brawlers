@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { Ability } from '$src/types/ability';
+  import { AbilityType, type Ability } from '$src/types/ability';
 
   // let { prettyName, ticks, chainLink, description }: Ability = app.tooltip.props;
-  let { prettyName, ticks, chainLink, description }: Ability = $derived(app.tooltip.props);
+  let { prettyName, ticks, type, description, chainLink }: Ability = $derived(app.tooltip.props);
 </script>
 
 <div
@@ -14,7 +14,7 @@
   <crow vertical left>
     <div class="text-sm">
       <strong>
-        {chainLink ? 'Channel' : 'Cast'} time:
+        {type === AbilityType.Channeling ? 'Duration' : 'Wind up'}:
       </strong>
       {ticks} tick{ticks === 1 ? '' : 's'}
     </div>

@@ -1,4 +1,4 @@
-import type { Ability, AbilityName } from '$src/types/ability';
+import { AbilityType, type Ability, type AbilityName } from '$src/types/ability';
 import VFX from '$src/constants/VFX';
 
 export default {
@@ -6,6 +6,7 @@ export default {
     id: crypto.randomUUID(),
     abilityName: 'basicAttackFast',
     prettyName: 'Basic attack',
+    type: AbilityType.WindUp,
     description: 'Basic one-handed attack.',
     ticks: 2,
     icon: '1h',
@@ -15,6 +16,7 @@ export default {
     id: crypto.randomUUID(),
     abilityName: 'basicAttackRegular',
     prettyName: 'Basic attack',
+    type: AbilityType.WindUp,
     description: 'Basic one-handed attack.',
     ticks: 3,
     icon: '1h',
@@ -24,6 +26,7 @@ export default {
     id: crypto.randomUUID(),
     abilityName: 'basicAttackSlow',
     prettyName: 'Basic attack',
+    type: AbilityType.WindUp,
     description: 'Basic two-handed attack.',
     ticks: 4,
     icon: '1h',
@@ -33,7 +36,8 @@ export default {
     id: crypto.randomUUID(),
     abilityName: 'block',
     prettyName: 'Shield block',
-    description: 'Raise your shield to block. Prevent all damage during the duration.',
+    type: AbilityType.Channeling,
+    description: 'Raise your shield to block. Prevent all damage for the duration.',
     ticks: 4,
     icon: 'block',
     vfx: VFX.block
@@ -42,6 +46,7 @@ export default {
     id: crypto.randomUUID(),
     abilityName: 'stun',
     prettyName: 'Stun',
+    type: AbilityType.WindUp,
     description: 'Stun your opponent for the duration of their current ability.',
     ticks: 1,
     icon: 'stun',
@@ -51,6 +56,7 @@ export default {
     id: crypto.randomUUID(),
     abilityName: 'spin',
     prettyName: 'Spin',
+    type: AbilityType.Channeling,
     description: 'Quickly spin and deal damage each tick.',
     ticks: 10,
     chainLink: 10,
@@ -61,6 +67,7 @@ export default {
     id: crypto.randomUUID(),
     abilityName: 'lacerate',
     prettyName: 'Lacerate',
+    type: AbilityType.WindUp,
     description: 'Add a bleed to your opponent.',
     ticks: 2,
     icon: '1h1h',

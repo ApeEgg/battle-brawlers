@@ -1,6 +1,6 @@
 <script lang="ts">
   import { dndzone } from 'svelte-dnd-action';
-  import AbilityTooltip from '$src/components/tooltips/Ability.svelte';
+  import TooltipAbility from '$src/components/tooltips/TooltipAbility.svelte';
   import { calculateTickStart } from '$src/ts/Utils';
   import { flip } from 'svelte/animate';
   import type { Ability } from '$src/types/ability';
@@ -80,7 +80,7 @@
           dragDisabled = false;
         }}
         use:tooltip={{
-          children: AbilityTooltip,
+          children: TooltipAbility,
           props: ability,
           direction: 'up',
           lockInPlace: true
