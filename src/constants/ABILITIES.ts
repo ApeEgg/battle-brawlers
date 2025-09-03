@@ -6,7 +6,7 @@ export default {
     id: crypto.randomUUID(),
     abilityName: 'basicAttackFast',
     prettyName: 'Basic attack',
-    description: 'Basic one-handed dual-wield attack.',
+    description: 'Basic one-handed attack.',
     ticks: 2,
     icon: '1h',
     vfx: VFX.basicAttackFast
@@ -56,5 +56,14 @@ export default {
     chainLink: 10,
     icon: 'spin',
     vfx: VFX.spin
+  }),
+  lacerate: () => ({
+    id: crypto.randomUUID(),
+    abilityName: 'lacerate',
+    prettyName: 'Lacerate',
+    description: 'Add a bleed to your opponent.',
+    ticks: 2,
+    icon: '1h1h',
+    vfx: VFX.basicAttackFast
   })
 } as Record<AbilityName, () => Ability>;

@@ -123,19 +123,10 @@
         "
         ></div>
       </crow>
-
-      {#if statuses.isStunned}
-        <crow vertical class="absolute top-9.5 left-[calc(100%-theme(spacing.6))] gap-1">
-          <crow class="gap-4">
-            <Icon name="isStunned" class="animate-spin [animation-direction:reverse]" original />
-            <span class="text-xs">STUNNED</span>
-          </crow>
-        </crow>
-      {/if}
     </div>
 
     <!-- <div>
-      <pre>{JSON.stringify(currentAnimation, null, 2)}
+      <pre>{JSON.stringify(statuses, null, 2)}
       </pre>
     </div> -->
   </div>

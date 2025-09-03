@@ -119,7 +119,7 @@
                     <div
                       class="abilities relative flex w-full divide-x divide-gray-600 border border-gray-600"
                     >
-                      {#each combatant.abilitiesCopied as { prettyName, ticks, icon }, i (`icon_${i}_${prettyName}`)}
+                      {#each combatant.abilities as { prettyName, ticks, icon }, i (`icon_${i}_${prettyName}`)}
                         <div
                           class="relative flex h-6 items-center justify-center text-center"
                           style="width: calc(calc(100% / 12)*{ticks});"

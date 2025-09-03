@@ -18,6 +18,7 @@
     calculateCombatStatsByCharacter
   } from '$src/ts/Utils';
   import ABILITIES from '$src/constants/ABILITIES';
+  import AbilityInventory from '$src/components/character/AbilityInventory.svelte';
 
   const flipDurationMs = 300;
 
@@ -105,8 +106,8 @@
         ? [
             ABILITIES.basicAttackFast(),
             ABILITIES.basicAttackFast(),
-            ABILITIES.block(),
             ABILITIES.basicAttackFast(),
+            ABILITIES.block(),
             ABILITIES.basicAttackFast()
           ]
         : [
@@ -213,7 +214,7 @@
 
   <crow class="relative w-full gap-2 overflow-hidden p-1" vertical left up>
     <crow class="w-full !justify-between">
-      <h4>Abilities</h4>
+      <h4>Active abilities</h4>
     </crow>
     <AbilityBar
       abilities={character.abilities}
@@ -224,35 +225,17 @@
     />
   </crow>
 
-  <crow
-    left
-    class="available-abilities min-h-[98px] w-full !flex-none gap-2 rounded-lg border border-gray-300 bg-gray-50 p-2 inset-shadow-sm"
-    use:dndzone={{
-      items: availableAbilities,
-      flipDurationMs,
-      dropFromOthersDisabled,
-      transformDraggedElement: transformDraggedAvailableAbility,
-      dropTargetStyle: {}
-    }}
-    onconsider={considerAvailableAbilities}
-    onfinalize={finalizeAvailableAbilities}
-  >
-    {#each availableAbilities as ability (ability.id)}
-      <crow
-        class="relative h-20 w-20 !flex-none gap-2 rounded border border-black bg-white"
-        use:tooltip={{
-          children: AbilityTooltip,
-          props: ability,
-          direction: 'up',
-          lockInPlace: true
-        }}
-        animate:flip={{ duration: flipDurationMs }}
-      >
-        <div class="ticks">{ability.ticks}</div>
-        <Icon name={ability.icon} />
-        <!-- {ability.id.substring(0, 5)} -->
-      </crow>
-    {/each}
+  <crow class="relative w-full gap-2 overflow-hidden p-1" vertical left up>
+    <crow class="w-full !justify-between">
+      <h4>Available abilities</h4>
+    </crow>
+    <AbilityInventory
+      {availableAbilities}
+      {considerAvailableAbilities}
+      {finalizeAvailableAbilities}
+      {transformDraggedAvailableAbility}
+      {dropFromOthersDisabled}
+    />
   </crow>
 </crow>
 

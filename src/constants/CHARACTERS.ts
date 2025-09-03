@@ -29,7 +29,12 @@ export default {
       armor: 0
     },
     maxTicks: 15,
-    abilities: []
+    abilities: [
+      ABILITIES.basicAttackRegular(),
+      ABILITIES.basicAttackRegular(),
+      ABILITIES.basicAttackRegular(),
+      ABILITIES.basicAttackRegular()
+    ]
   }),
   human: () => ({
     id: crypto.randomUUID(),
@@ -47,12 +52,7 @@ export default {
       armor: 0
     },
     maxTicks: 15,
-    abilities: [
-      ABILITIES.basicAttackRegular(),
-      ABILITIES.basicAttackRegular(),
-      ABILITIES.basicAttackRegular(),
-      ABILITIES.basicAttackRegular()
-    ]
+    abilities: [ABILITIES.basicAttackSlow(), ABILITIES.block(), ABILITIES.basicAttackSlow()]
   }),
   troll: () => ({
     id: crypto.randomUUID(),

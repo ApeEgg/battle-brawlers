@@ -83,7 +83,7 @@
 
 <div
   class={tw(
-    'pointer-events-none fixed -translate-y-2 opacity-0 transition-[translate,opacity] duration-300',
+    'pointer-events-none fixed z-100 -translate-y-2 opacity-0 transition-[translate,opacity] duration-300',
     visible && 'translate-y-0 opacity-100'
   )}
   style="left: {tooltipX}px; top: {tooltipY}px;"

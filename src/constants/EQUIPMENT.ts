@@ -11,7 +11,11 @@ export default {
     combatStats: {
       damage: 1
     },
-    abilities: [ABILITIES.basicAttackFast(), ABILITIES.basicAttackRegular()]
+    abilities: [
+      ABILITIES.basicAttackFast(),
+      ABILITIES.basicAttackFast(),
+      ABILITIES.basicAttackFast()
+    ]
   }),
   shield: () => ({
     uuid: crypto.randomUUID(),
@@ -20,7 +24,7 @@ export default {
     description: 'A simple shield.',
     slotsIn: 'offHand',
     combatStats: {},
-    abilities: [ABILITIES.block()]
+    abilities: [ABILITIES.block(), ABILITIES.basicAttackFast()]
   }),
   ring: () => ({
     uuid: crypto.randomUUID(),
@@ -31,7 +35,7 @@ export default {
     combatStats: {
       maxHealth: 5
     },
-    abilities: []
+    abilities: [ABILITIES.spin()]
   }),
   greatsword: () => ({
     uuid: crypto.randomUUID(),
@@ -42,7 +46,11 @@ export default {
     combatStats: {
       damage: 3
     },
-    abilities: [ABILITIES.basicAttackSlow()]
+    abilities: [
+      ABILITIES.basicAttackSlow(),
+      ABILITIES.basicAttackSlow(),
+      ABILITIES.basicAttackSlow()
+    ]
   }),
   leatherArmor: () => ({
     uuid: crypto.randomUUID(),
@@ -63,5 +71,14 @@ export default {
     slotsIn: 'trinket',
     combatStats: {},
     abilities: [ABILITIES.stun()]
+  }),
+  dagger: () => ({
+    uuid: crypto.randomUUID(),
+    id: 'dagger',
+    prettyName: 'Heartpiercer',
+    description: 'A really sharp dagger.',
+    slotsIn: 'oneHand',
+    combatStats: {},
+    abilities: [ABILITIES.lacerate()]
   })
 } as Record<string, () => Equipment>;

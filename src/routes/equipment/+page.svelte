@@ -5,14 +5,16 @@
   import { slotsInPrettyName } from '$src/ts/equipment';
   import EquipmentLink from '$src/components/EquipmentLink.svelte';
 
-  let items = [
-    EQUIPMENT.sword(),
-    EQUIPMENT.shield(),
-    EQUIPMENT.ring(),
-    EQUIPMENT.greatsword(),
-    EQUIPMENT.leatherArmor(),
-    EQUIPMENT.giantsHeart()
-  ];
+  // let items = [
+  //   EQUIPMENT.sword(),
+  //   EQUIPMENT.shield(),
+  //   EQUIPMENT.ring(),
+  //   EQUIPMENT.greatsword(),
+  //   EQUIPMENT.leatherArmor(),
+  //   EQUIPMENT.giantsHeart()
+  // ];
+
+  let items = Object.values(EQUIPMENT).map((f) => f());
 
   const craftEquipment = (item: Equipment) => {
     app.inventory.push({

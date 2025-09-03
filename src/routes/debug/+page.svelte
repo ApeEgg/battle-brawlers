@@ -1,12 +1,13 @@
 <script lang="ts">
-  import { prepareCombatant, generateCombat, seededRandom } from '$src/ts/Utils';
+  import { prepareCombatant, seededRandom } from '$src/ts/Utils';
+  import { generateCombat } from '$src/ts/Combat';
   import CHARACTERS from '$src/constants/CHARACTERS';
   import type { Team } from '$src/types/team';
   import type { Character } from '$src/types/character';
   import Combat from '$src/components/overlays/Combat.svelte';
 
   let teams = $derived<Team[]>(app.combat.teamsStartState);
-  let teamCount = $state(5);
+  let teamCount = $state(2);
   let combatantCount = $state(1);
 
   let characters: Character[] = [
@@ -34,6 +35,11 @@
       index,
       combatants: generateCombatants(index)
     }));
+
+    // Inject account character
+    generatedTeams[0].combatants = [
+      prepareCombatant(app.characters[0], generatedTeams.length, 1, 0, 0)
+    ];
 
     app.combat.teamsStartState = generatedTeams;
   };

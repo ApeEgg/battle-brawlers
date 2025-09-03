@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Equipment } from '$src/types/equipment';
-  import AbilityBar from '$src/components/character/AbilityBar.svelte';
+  import AbilityInventory from '$src/components/character/AbilityInventory.svelte';
 
   let { prettyName, description, combatStats, abilities }: Equipment = $derived(app.tooltip.props);
 
@@ -20,17 +20,19 @@
   <crow class="w-full !justify-between">
     <strong class="text-lg text-black">{prettyName}</strong>
   </crow>
-  <crow vertical left>
-    {#each Object.entries(combatStats) as [key, value]}
-      <crow class="bg-green w-full !justify-between text-sm">
-        <strong> {prettyCombatStatKey(key)} </strong>
-        {value}
-      </crow>
-    {/each}
-  </crow>
+  {#if Object.entries(combatStats).length > 0}
+    <crow vertical left>
+      {#each Object.entries(combatStats) as [key, value]}
+        <crow class="bg-green w-full !justify-between text-sm">
+          <strong> {prettyCombatStatKey(key)} </strong>
+          {value}
+        </crow>
+      {/each}
+    </crow>
+  {/if}
   <span class="text-sm">{description}</span>
   {#if abilities.length > 0}
     <h6>Abilities</h6>
-    <AbilityBar {abilities} dndDisabled />
+    <AbilityInventory availableAbilities={abilities} small />
   {/if}
 </crow>

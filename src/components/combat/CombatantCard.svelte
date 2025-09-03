@@ -22,6 +22,7 @@
   let x = $derived(position.x);
   let y = $derived(position.y);
   let scale = $derived(props.scale);
+  let statuses = $derived(props.statuses);
 </script>
 
 <div
@@ -42,6 +43,33 @@
         <HealthBar current={combatStats.currentHealth} max={combatStats.maxHealth}></HealthBar>
         <div class="h-40 w-36"></div>
         <CombatantAbilityBar {...props} />
+
+        <crow vertical class="absolute top-16 left-[calc(100%-theme(spacing.5))] gap-2">
+          {#if statuses.isStunned}
+            <crow class="gap-3">
+              <crow class="w-4">
+                <Icon
+                  name="isStunned"
+                  class="animate-spin [animation-direction:reverse]"
+                  original
+                />
+              </crow>
+              <span class="text-xs">STUNNED</span>
+            </crow>
+          {/if}
+          {#if statuses.isBleeding}
+            <crow class="gap-3">
+              <crow class="w-4">
+                <Icon
+                  name="isBleeding"
+                  class="animate-bounce [animation-direction:reverse]"
+                  original
+                />
+              </crow>
+              <span class="text-xs">BLEEDING</span>
+            </crow>
+          {/if}
+        </crow>
       </div>
     </div>
   </div>

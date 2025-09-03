@@ -3,7 +3,8 @@
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import type { Race } from '$src/types/character';
-  import { generateCombat, prepareCombatant } from '$src/ts/Utils';
+  import { prepareCombatant } from '$src/ts/Utils';
+  import { generateCombat } from '$src/ts/Combat';
   import type { Team } from '$src/types/team';
   import AbilityBar from '$src/components/character/AbilityBar.svelte';
 
