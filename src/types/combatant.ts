@@ -1,6 +1,6 @@
 import type { Character } from '$src/types/character';
 import type { EnforcedCombatState } from '$src/types/combatStats';
-import type { Ability, AbilityName } from '$src/types/ability';
+import type { Ability, AbilityId } from '$src/types/ability';
 import type { VFX } from '$src/types/vfx';
 
 export type Combatant = Character & {
@@ -10,7 +10,7 @@ export type Combatant = Character & {
   injectedAnimations: VFX[];
   combatStats: EnforcedCombatState;
   eventTimestamp: number;
-  eventAbility: AbilityName;
+  eventAbility: AbilityId;
   eventIndex: number;
   abilitiesCopied: Ability[];
   statuses: {

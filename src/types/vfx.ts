@@ -1,4 +1,4 @@
-import type { AbilityName } from '$src/types/ability';
+import type { AbilityId } from '$src/types/ability';
 
 export type VFXName =
   | 'hurt'
@@ -12,7 +12,7 @@ export type VFXName =
 
 export type VFX = {
   id?: string;
-  vfxName: AbilityName | VFXName;
+  vfxName: AbilityId | VFXName;
   duration: number;
   start: number;
   end: number;

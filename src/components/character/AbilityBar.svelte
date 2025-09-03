@@ -4,6 +4,7 @@
   import { calculateTickStart } from '$src/ts/Utils';
   import { flip } from 'svelte/animate';
   import type { Ability } from '$src/types/ability';
+  import ABILITIES from '$src/constants/ABILITIES';
 
   let flipDurationMs = 300;
   let dragDisabled = $state(false);
@@ -63,17 +64,13 @@
     onconsider={considerCharacterAbilities}
     onfinalize={finalizeCharacterAbilities}
   >
-    {#each abilities as ability, i (ability.id)}
+    {#each abilities as ability, i (ability.guid)}
       {@const tickStart = calculateTickStart(abilities, i)}
       <crow
         role="listitem"
         animate:flip={{ duration: flipDurationMs }}
         onmouseenter={() => {
-          if (
-            ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(
-              ability.abilityName
-            )
-          )
+          if (['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(ability.id))
             dragDisabled = true;
         }}
         onmouseleave={() => {
@@ -87,9 +84,8 @@
         }}
         class={tw(
           'relative -ml-px h-full !flex-none rounded border border-gray-800 bg-white',
-          ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(
-            ability.abilityName
-          ) && !dndDisabled
+          ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(ability.id) &&
+            !dndDisabled
             ? 'border-gray-400 bg-gray-100'
             : 'z-10',
           tickStart > 15 && 'pointer-events-none border-red-400 bg-red-100 text-red-400 opacity-50'
@@ -97,8 +93,10 @@
         style="width: calc(((100% / 15)*{ability.ticks}) + 1px);"
       >
         <Icon name={ability.icon} />
-        <!-- {ability.id.substring(0, 5)} -->
+        <!-- {ability.guid.substring(0, 5)} -->
       </crow>
     {/each}
   </crow>
 </div>
+
+<!-- <pre class="text-xs">{JSON.stringify(abilities, null, 2)}</pre> -->

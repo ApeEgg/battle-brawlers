@@ -1,4 +1,4 @@
-import type { AbilityName } from '$src/types/ability';
+import type { AbilityId } from '$src/types/ability';
 import type { VFXName, VFX } from '$src/types/vfx';
 
 export default {
@@ -35,4 +35,4 @@ export default {
     vfxName: 'attackBlocked',
     duration: 340
   }
-} as Record<AbilityName | VFXName, VFX>;
+} as Record<AbilityId | VFXName, VFX>;

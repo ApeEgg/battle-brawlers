@@ -1,10 +1,10 @@
-import { AbilityType, type Ability, type AbilityName } from '$src/types/ability';
+import { AbilityType, type Ability, type AbilityId } from '$src/types/ability';
 import VFX from '$src/constants/VFX';
 
 export default {
   basicAttackFast: () => ({
-    id: crypto.randomUUID(),
-    abilityName: 'basicAttackFast',
+    guid: crypto.randomUUID(),
+    id: 'basicAttackFast',
     prettyName: 'Basic attack',
     type: AbilityType.WindUp,
     description: 'Basic one-handed attack.',
@@ -13,8 +13,8 @@ export default {
     vfx: VFX.basicAttackFast
   }), // 8 (80% of 10)
   basicAttackRegular: () => ({
-    id: crypto.randomUUID(),
-    abilityName: 'basicAttackRegular',
+    guid: crypto.randomUUID(),
+    id: 'basicAttackRegular',
     prettyName: 'Basic attack',
     type: AbilityType.WindUp,
     description: 'Basic one-handed attack.',
@@ -23,8 +23,8 @@ export default {
     vfx: VFX.basicAttackRegular
   }), // 10
   basicAttackSlow: () => ({
-    id: crypto.randomUUID(),
-    abilityName: 'basicAttackSlow',
+    guid: crypto.randomUUID(),
+    id: 'basicAttackSlow',
     prettyName: 'Basic attack',
     type: AbilityType.WindUp,
     description: 'Basic two-handed attack.',
@@ -33,8 +33,8 @@ export default {
     vfx: VFX.basicAttackSlow
   }), // 16 (160% of 10)
   block: () => ({
-    id: crypto.randomUUID(),
-    abilityName: 'block',
+    guid: crypto.randomUUID(),
+    id: 'block',
     prettyName: 'Shield block',
     type: AbilityType.Channeling,
     description: 'Raise your shield to block. Prevent all damage for the duration.',
@@ -43,8 +43,8 @@ export default {
     vfx: VFX.block
   }),
   stun: () => ({
-    id: crypto.randomUUID(),
-    abilityName: 'stun',
+    guid: crypto.randomUUID(),
+    id: 'stun',
     prettyName: 'Stun',
     type: AbilityType.WindUp,
     description: 'Stun your opponent for the duration of their current ability.',
@@ -53,8 +53,8 @@ export default {
     vfx: VFX.stun
   }),
   spin: () => ({
-    id: crypto.randomUUID(),
-    abilityName: 'spin',
+    guid: crypto.randomUUID(),
+    id: 'spin',
     prettyName: 'Spin',
     type: AbilityType.Channeling,
     description: 'Quickly spin and deal damage each tick.',
@@ -64,8 +64,8 @@ export default {
     vfx: VFX.spin
   }),
   lacerate: () => ({
-    id: crypto.randomUUID(),
-    abilityName: 'lacerate',
+    guid: crypto.randomUUID(),
+    id: 'lacerate',
     prettyName: 'Lacerate',
     type: AbilityType.WindUp,
     description: 'Add a bleed to your opponent.',
@@ -73,4 +73,4 @@ export default {
     icon: '1h1h',
     vfx: VFX.basicAttackFast
   })
-} as Record<AbilityName, () => Ability>;
+} as Record<AbilityId, () => Ability>;

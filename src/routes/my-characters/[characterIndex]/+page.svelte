@@ -31,11 +31,7 @@
   };
 
   const transformDraggedCharacterAbility = (draggedElement: any, data: any, _index: any) => {
-    if (
-      ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'block'].includes(
-        data.abilityName
-      )
-    ) {
+    if (['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'block'].includes(data.id)) {
       dropFromOthersDisabled = true;
       constrainAxisY = true;
     } else {
@@ -70,15 +66,15 @@
     // Build frequency map for target
     const targetCounts: Record<string, number> = {};
     for (const t of target) {
-      targetCounts[t.abilityName] = (targetCounts[t.abilityName] ?? 0) + 1;
+      targetCounts[t.id] = (targetCounts[t.id] ?? 0) + 1;
     }
 
     // Check that base requirements are satisfied
     for (const b of base) {
-      if (!targetCounts[b.abilityName]) {
+      if (!targetCounts[b.id]) {
         return false; // missing or not enough
       }
-      targetCounts[b.abilityName]--;
+      targetCounts[b.id]--;
     }
 
     return true;
@@ -116,10 +112,7 @@
 
     if (!containsAll(defaultAbilities, character.abilities)) {
       character.abilities = character.abilities.filter(
-        (a) =>
-          !['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'block'].includes(
-            a.abilityName
-          )
+        (a) => !['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'block'].includes(a.id)
       );
       character.abilities = [...defaultAbilities, ...untrack(() => character.abilities)];
     }
@@ -136,7 +129,7 @@
       .filter(
         (ability) =>
           !['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'block'].includes(
-            ability.abilityName
+            ability.id
           )
       )
       .sort((a: Ability, b: Ability) => a.prettyName.localeCompare(b.prettyName))
@@ -145,10 +138,8 @@
     // Remove abilities that are no longer available from character
     character.abilities = untrack(() => character.abilities).filter(
       (ability) =>
-        abilities.some(({ abilityName }) => abilityName === ability.abilityName) ||
-        ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'block'].includes(
-          ability.abilityName
-        )
+        abilities.some(({ id }) => id === ability.id) ||
+        ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'block'].includes(ability.id)
     );
   });
 

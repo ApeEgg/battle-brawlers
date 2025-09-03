@@ -79,8 +79,8 @@ const sortByAbilityPriority = (
     pickAbility(b.abilities, ability, now, startOrEnd)
   ) as Ability;
 
-  const aPriority = ABILITY_PRIORITY.indexOf(aAbility.abilityName);
-  const bPriority = ABILITY_PRIORITY.indexOf(bAbility.abilityName);
+  const aPriority = ABILITY_PRIORITY.indexOf(aAbility.id);
+  const bPriority = ABILITY_PRIORITY.indexOf(bAbility.id);
 
   const normalizedAPriority = aPriority === -1 ? Number.MAX_SAFE_INTEGER : aPriority;
   const normalizedBPriority = bPriority === -1 ? Number.MAX_SAFE_INTEGER : bPriority;
@@ -126,7 +126,7 @@ export const generateCombat = (seed: string, teams: Team[]) => {
       );
       const currentAbility = combatant.abilities[currentAbilityIndex];
 
-      if (currentAbility.abilityName === 'block') {
+      if (currentAbility.id === 'block') {
         combatant.statuses.isBlocking = true;
       }
     });
@@ -159,7 +159,7 @@ export const generateCombat = (seed: string, teams: Team[]) => {
         'basicAttackRegular',
         'basicAttackSlow',
         'spin'
-      ].includes(currentAbility.abilityName);
+      ].includes(currentAbility.id);
       const isStunned = combatant.statuses.isStunned;
       const isBlocking = target.statuses.isBlocking;
 
@@ -180,11 +180,11 @@ export const generateCombat = (seed: string, teams: Team[]) => {
             target.combatStats.currentHealth -= damage.result;
             bufferAnimation(target, _VFX.hurt, now);
           }
-        } else if (currentAbility.abilityName === 'stun') {
+        } else if (currentAbility.id === 'stun') {
           target.statuses.isStunned = true;
-        } else if (currentAbility.abilityName === 'lacerate') {
+        } else if (currentAbility.id === 'lacerate') {
           target.statuses.isBleeding = true;
-        } else if (currentAbility.abilityName === 'block') {
+        } else if (currentAbility.id === 'block') {
           combatant.statuses.isBlocking = false;
         }
       }
@@ -192,7 +192,7 @@ export const generateCombat = (seed: string, teams: Team[]) => {
       // console.table({
       //   Tick: tickCount,
       //   attacker: combatant.race,
-      //   ability: currentAbility.abilityName,
+      //   ability: currentAbility.id,
       //   damage: damage.result,
       //   target: target.race,
       //   isBlocking,

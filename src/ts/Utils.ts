@@ -115,7 +115,7 @@ export const prepareCombatant = (
     id: crypto.randomUUID(), // this is needed for debug mode
     teamIndex,
     eventTimestamp: 0,
-    eventAbility: abilitiesCut[0].abilityName,
+    eventAbility: abilitiesCut[0].id,
     eventIndex: 0,
     combatStats,
     animations: [],
@@ -222,7 +222,7 @@ export const prepareCombatant = (
 //       'basicAttackRegular',
 //       'basicAttackSlow',
 //       'spin'
-//     ].includes(currentAbility.abilityName);
+//     ].includes(currentAbility.id);
 //     const isBlocking = target.statuses.isBlocking;
 //     const isStunned = eventTaker.statuses.isStunned;
 
@@ -252,14 +252,14 @@ export const prepareCombatant = (
 //           target.combatStats.currentHealth -= damage.result;
 //           bufferAnimation(target, _VFX.hurt, eventTaker.eventTimestamp);
 //         }
-//       } else if (currentAbility.abilityName === 'stun') {
+//       } else if (currentAbility.id === 'stun') {
 //         target.statuses.isStunned = true;
-//       } else if (currentAbility.abilityName === 'lacerate') {
+//       } else if (currentAbility.id === 'lacerate') {
 //         target.statuses.isBleeding = true;
 //       }
 
 //       eventTaker.statuses.isBlocking = false;
-//       if (nextAbilities[0].abilityName === 'block') {
+//       if (nextAbilities[0].id === 'block') {
 //         eventTaker.statuses.isBlocking = true;
 //       }
 
@@ -267,7 +267,7 @@ export const prepareCombatant = (
 //       //   Round: globalEventIndex,
 //       //   Tick: eventTaker.eventTimestamp / COMBAT_TICK_TIME,
 //       //   attacker: eventTaker.race,
-//       //   ability: currentAbility.abilityName,
+//       //   ability: currentAbility.id,
 //       //   damage: damage.result,
 //       //   target: target.race,
 //       //   isBlocking,
@@ -301,7 +301,7 @@ export const prepareCombatant = (
 
 //     events.push(
 //       structuredClone({
-//         currentAbility: currentAbility.abilityName,
+//         currentAbility: currentAbility.id,
 //         eventTimestamp: eventTaker.eventTimestamp,
 //         // globalEventIndex,
 //         // eventIndex: eventTaker.eventIndex,

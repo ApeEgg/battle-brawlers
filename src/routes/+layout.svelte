@@ -11,6 +11,8 @@
   import Button from '$src/components/form/Button.svelte';
   import { equip } from '$src/ts/equipment';
   import EquipmentLink from '$src/components/EquipmentLink.svelte';
+  import { overrideItemIdKeyNameBeforeInitialisingDndZones } from 'svelte-dnd-action';
+  overrideItemIdKeyNameBeforeInitialisingDndZones('guid');
 
   let { children } = $props<{ children: Snippet }>();
   let isFrontpage = $derived($page.route.id === '/' && !app.token);

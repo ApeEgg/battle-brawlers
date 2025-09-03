@@ -40,14 +40,13 @@
   onfinalize={finalizeAvailableAbilities}
 >
   {#if availableAbilities.length}
-    {#each availableAbilities as ability (ability.id)}
+    {#each availableAbilities as ability (ability.guid)}
       <crow
         class={tw(
           'relative h-20 w-20 !flex-none gap-2 rounded border border-black bg-white',
           small && 'h-10 w-10 gap-1',
-          ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(
-            ability.abilityName
-          ) && 'border-gray-400 bg-gray-100'
+          ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(ability.id) &&
+            'border-gray-400 bg-gray-100'
         )}
         use:tooltip={{
           children: TooltipAbility,
@@ -59,7 +58,7 @@
       >
         <div class="ticks">{ability.ticks}</div>
         <Icon name={ability.icon} />
-        <!-- {ability.id.substring(0, 5)} -->
+        <!-- {ability.guid.substring(0, 5)} -->
       </crow>
     {/each}
   {:else}
