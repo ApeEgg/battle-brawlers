@@ -1,10 +1,7 @@
-import type { Equipment } from '$src/types/equipment';
-import ABILITIES from '$src/constants/ABILITIES';
+import entity from '$src/ts/abilityEntity';
 
 export default {
-  sword: () => ({
-    uuid: crypto.randomUUID(),
-    id: 'sword',
+  sword: {
     prettyName: 'Sword',
     description: 'A simple sword.',
     slotsIn: 'oneHand',
@@ -12,34 +9,28 @@ export default {
       damage: 1
     },
     abilities: [
-      ABILITIES.basicAttackFast(),
-      ABILITIES.basicAttackFast(),
-      ABILITIES.basicAttackFast()
+      entity.ability('basicAttackFast'),
+      entity.ability('basicAttackFast'),
+      entity.ability('basicAttackFast')
     ]
-  }),
-  shield: () => ({
-    uuid: crypto.randomUUID(),
-    id: 'shield',
+  },
+  shield: {
     prettyName: 'Shield',
     description: 'A simple shield.',
     slotsIn: 'offHand',
     combatStats: {},
-    abilities: [ABILITIES.block(), ABILITIES.basicAttackFast()]
-  }),
-  ring: () => ({
-    uuid: crypto.randomUUID(),
-    id: 'ring',
+    abilities: [entity.ability('block'), entity.ability('basicAttackFast')]
+  },
+  ring: {
     prettyName: 'Ring',
     description: 'A simple ring.',
     slotsIn: 'accessory',
     combatStats: {
       maxHealth: 5
     },
-    abilities: [ABILITIES.spin()]
-  }),
-  greatsword: () => ({
-    uuid: crypto.randomUUID(),
-    id: 'greatsword',
+    abilities: [entity.ability('spin')]
+  },
+  greatsword: {
     prettyName: 'Greatsword',
     description: 'A mighty two-handed sword.',
     slotsIn: 'twoHand',
@@ -47,14 +38,12 @@ export default {
       damage: 3
     },
     abilities: [
-      ABILITIES.basicAttackSlow(),
-      ABILITIES.basicAttackSlow(),
-      ABILITIES.basicAttackSlow()
+      entity.ability('basicAttackSlow'),
+      entity.ability('basicAttackSlow'),
+      entity.ability('basicAttackSlow')
     ]
-  }),
-  leatherArmor: () => ({
-    uuid: crypto.randomUUID(),
-    id: 'leatherArmor',
+  },
+  leatherArmor: {
     prettyName: 'Leather Armor',
     description: 'Fine protection.',
     slotsIn: 'armor',
@@ -62,23 +51,19 @@ export default {
       armor: 1
     },
     abilities: []
-  }),
-  giantsHeart: () => ({
-    uuid: crypto.randomUUID(),
-    id: 'giantsHeart',
+  },
+  giantsHeart: {
     prettyName: "Giant's Heart",
     description: 'It still pulsates oddly enough.',
     slotsIn: 'trinket',
     combatStats: {},
-    abilities: [ABILITIES.stun()]
-  }),
-  dagger: () => ({
-    uuid: crypto.randomUUID(),
-    id: 'dagger',
+    abilities: [entity.ability('stun')]
+  },
+  dagger: {
     prettyName: 'Heartpiercer',
     description: 'A really sharp dagger.',
     slotsIn: 'oneHand',
     combatStats: {},
-    abilities: [ABILITIES.lacerate()]
-  })
-} as Record<string, () => Equipment>;
+    abilities: [entity.ability('lacerate')]
+  }
+};

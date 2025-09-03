@@ -5,14 +5,14 @@
   import { page } from '$app/stores';
   import type { Snippet } from 'svelte';
   import Authorization from '$src/components/Authorization.svelte';
-  import EQUIPMENT from '$src/constants/EQUIPMENT';
   import Tooltip from '$src/components/ui/Tooltip.svelte';
   import app from '$src/app.svelte';
   import Button from '$src/components/form/Button.svelte';
   import { equip } from '$src/ts/equipment';
   import EquipmentLink from '$src/components/EquipmentLink.svelte';
   import { overrideItemIdKeyNameBeforeInitialisingDndZones } from 'svelte-dnd-action';
-  overrideItemIdKeyNameBeforeInitialisingDndZones('guid');
+  import entity from '$src/ts/entity';
+  overrideItemIdKeyNameBeforeInitialisingDndZones('uuid');
 
   let { children } = $props<{ children: Snippet }>();
   let isFrontpage = $derived($page.route.id === '/' && !app.token);
@@ -60,9 +60,9 @@
           <div class="my-4">
             <crow vertical up left>
               {#each app.inventory as item, i}
-                {@const eq = EQUIPMENT[item.id]()}
+                {@const equipment = entity.equipment(item, true)}
                 <crow class="w-full !justify-between gap-2 py-1" left>
-                  <EquipmentLink {...eq} />
+                  <EquipmentLink {...equipment} />
                   <Button onclick={() => equip(item, i)}>Equip</Button>
                 </crow>
               {/each}

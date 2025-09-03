@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Equipment } from '$src/types/equipment';
   import AbilityInventory from '$src/components/character/AbilityInventory.svelte';
+  import abilityEntity from '$src/ts/abilityEntity';
 
   let { prettyName, description, combatStats, abilities }: Equipment = $derived(app.tooltip.props);
 
@@ -33,6 +34,9 @@
   <span class="text-sm">{description}</span>
   {#if abilities.length > 0}
     <h6>Abilities</h6>
-    <AbilityInventory availableAbilities={abilities} small />
+    <AbilityInventory
+      availableAbilities={abilities.map((ability) => abilityEntity.ability(ability, true))}
+      small
+    />
   {/if}
 </crow>

@@ -2,7 +2,8 @@
   import { dndzone } from 'svelte-dnd-action';
   import TooltipAbility from '$src/components/tooltips/TooltipAbility.svelte';
   import { flip } from 'svelte/animate';
-  import type { Ability } from '$src/types/ability';
+  import type { AbilityRef } from '$src/types/ability';
+  import abilityEntity from '$src/ts/abilityEntity';
 
   let flipDurationMs = 300;
 
@@ -14,13 +15,15 @@
     dropFromOthersDisabled = false,
     small = false
   }: {
-    availableAbilities: Ability[];
+    availableAbilities: AbilityRef[];
     transformDraggedAvailableAbility?: (draggedElement: any, data: any, _index: any) => void;
     considerAvailableAbilities?: (e: any) => void;
     finalizeAvailableAbilities?: (e: any) => void;
     dropFromOthersDisabled?: boolean;
     small?: boolean;
   } = $props();
+
+  let hydratedAbilities = $derived(availableAbilities.map((a) => abilityEntity.ability(a, true)));
 </script>
 
 <crow
@@ -39,8 +42,8 @@
   onconsider={considerAvailableAbilities}
   onfinalize={finalizeAvailableAbilities}
 >
-  {#if availableAbilities.length}
-    {#each availableAbilities as ability (ability.guid)}
+  {#if hydratedAbilities.length}
+    {#each hydratedAbilities as ability (ability.uuid)}
       <crow
         class={tw(
           'relative h-20 w-20 !flex-none gap-2 rounded border border-black bg-white',
@@ -58,7 +61,7 @@
       >
         <div class="ticks">{ability.ticks}</div>
         <Icon name={ability.icon} />
-        <!-- {ability.guid.substring(0, 5)} -->
+        <!-- {ability.uuid.substring(0, 5)} -->
       </crow>
     {/each}
   {:else}

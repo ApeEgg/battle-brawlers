@@ -3,23 +3,24 @@
   import app from '$src/app.svelte';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
-  import type { Ability } from '$src/types/ability';
+  import type { AbilityRef } from '$src/types/ability';
   import AbilityBar from '$src/components/character/AbilityBar.svelte';
   import { slotsInPrettyName, unequip } from '$src/ts/equipment';
   import EquipmentLink from '$src/components/EquipmentLink.svelte';
   import type { EquipmentSlot } from '$src/types/equipment';
-  import EQUIPMENT from '$src/constants/EQUIPMENT';
   import Button from '$src/components/form/Button.svelte';
   import {
     calculateAvailableAbilitiesByCharacter,
     calculateCombatStatsByCharacter
   } from '$src/ts/Utils';
-  import ABILITIES from '$src/constants/ABILITIES';
   import AbilityInventory from '$src/components/character/AbilityInventory.svelte';
+
+  import entity from '$src/ts/entity';
+  import abilityEntity from '$src/ts/abilityEntity';
 
   let characterIndex = $derived($page.params.characterIndex);
   let character = $derived(app.characters[characterIndex as any]);
-  let availableAbilities: Ability[] = $state([]);
+  let availableAbilities: AbilityRef[] = $state([]);
   let dropFromOthersDisabled = $state(false);
   let constrainAxisY = $state(false);
 
@@ -43,8 +44,16 @@
 
   const considerAvailableAbilities = (e: any) => {
     e.detail.items
-      .sort((a: Ability, b: Ability) => a.prettyName.localeCompare(b.prettyName))
-      .sort((a: Ability, b: Ability) => a.ticks - b.ticks);
+      .sort((a: AbilityRef, b: AbilityRef) =>
+        abilityEntity
+          .ability(a, true)
+          .prettyName.localeCompare(abilityEntity.ability(b, true).prettyName)
+      )
+      .sort(
+        (a: AbilityRef, b: AbilityRef) =>
+          abilityEntity.ability(a, true).ticks - abilityEntity.ability(b, true).ticks
+      );
+
     availableAbilities = e.detail.items;
   };
 
@@ -60,7 +69,7 @@
     app.tooltip = undefined;
   };
 
-  const containsAll = (base: Ability[], target: Ability[]) => {
+  const containsAll = (base: AbilityRef[], target: AbilityRef[]) => {
     if (base.length === 0 || target.length === 0) return false;
 
     // Build frequency map for target
@@ -81,33 +90,33 @@
   };
 
   $effect(() => {
-    // const isDualWielding = !!(
-    //   character.equipment.mainHand &&
-    //   character.equipment.offHand &&
-    //   character.equipment.offHand.slotsIn !== 'offHand'
-    // );
     const isShield = !!character.equipment.offHand;
     const isTwoHanded = !!(
-      character.equipment.mainHand && character.equipment.mainHand.slotsIn === 'twoHand'
+      character.equipment.mainHand &&
+      entity.equipment(character.equipment.mainHand).slotsIn === 'twoHand'
     );
 
     const defaultAbilities = isTwoHanded
-      ? [ABILITIES.basicAttackSlow(), ABILITIES.basicAttackSlow(), ABILITIES.basicAttackSlow()]
+      ? [
+          abilityEntity.ability('basicAttackSlow'),
+          abilityEntity.ability('basicAttackSlow'),
+          abilityEntity.ability('basicAttackSlow')
+        ]
       : isShield
         ? [
-            ABILITIES.basicAttackFast(),
-            ABILITIES.basicAttackFast(),
-            ABILITIES.basicAttackFast(),
-            ABILITIES.block(),
-            ABILITIES.basicAttackFast()
+            abilityEntity.ability('basicAttackFast'),
+            abilityEntity.ability('basicAttackFast'),
+            abilityEntity.ability('basicAttackFast'),
+            abilityEntity.ability('block'),
+            abilityEntity.ability('basicAttackFast')
           ]
         : [
-            ABILITIES.basicAttackFast(),
-            ABILITIES.basicAttackFast(),
-            ABILITIES.basicAttackFast(),
-            ABILITIES.basicAttackFast(),
-            ABILITIES.basicAttackFast(),
-            ABILITIES.basicAttackFast()
+            abilityEntity.ability('basicAttackFast'),
+            abilityEntity.ability('basicAttackFast'),
+            abilityEntity.ability('basicAttackFast'),
+            abilityEntity.ability('basicAttackFast'),
+            abilityEntity.ability('basicAttackFast'),
+            abilityEntity.ability('basicAttackFast')
           ];
 
     if (!containsAll(defaultAbilities, character.abilities)) {
@@ -124,16 +133,22 @@
 
     // Decide what abilities a character can use
     availableAbilities = abilities
-      .filter(({ icon }) => !untrack(() => character.abilities.find((a) => a.icon === icon))) // fix this to look at ID
-      // .map(([_, fn]) => fn())
+      .filter(({ id }) => !untrack(() => character.abilities.find((a) => a.id === id))) // fix this to look at ID
       .filter(
         (ability) =>
           !['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'block'].includes(
             ability.id
           )
       )
-      .sort((a: Ability, b: Ability) => a.prettyName.localeCompare(b.prettyName))
-      .sort((a: Ability, b: Ability) => a.ticks - b.ticks);
+      .sort((a: AbilityRef, b: AbilityRef) =>
+        abilityEntity
+          .ability(a, true)
+          .prettyName.localeCompare(abilityEntity.ability(b, true).prettyName)
+      )
+      .sort(
+        (a: AbilityRef, b: AbilityRef) =>
+          abilityEntity.ability(a, true).ticks - abilityEntity.ability(b, true).ticks
+      );
 
     // Remove abilities that are no longer available from character
     character.abilities = untrack(() => character.abilities).filter(
@@ -185,10 +200,10 @@
         <crow class="gap-2">
           <div class="font-bold">{slotsInPrettyName(slot as EquipmentSlot)}:</div>
 
-          {#if slot === 'offHand' && character.equipment.mainHand !== null && character.equipment.mainHand.slotsIn === 'twoHand'}
-            {EQUIPMENT[character.equipment.mainHand.id]().prettyName}
+          {#if slot === 'offHand' && character.equipment.mainHand && entity.equipment(character.equipment.mainHand, true).slotsIn === 'twoHand'}
+            {entity.equipment(character.equipment.mainHand, true).prettyName}
           {:else if equipment}
-            <EquipmentLink {...EQUIPMENT[equipment.id]()} />
+            <EquipmentLink {...entity.equipment(equipment, true)} />
             <Button onclick={() => unequip(equipment, slot as EquipmentSlot)}>Unequip</Button>
           {:else}
             -
@@ -226,12 +241,6 @@
 </crow>
 
 <!-- <code class="overflow-hidden text-xs">
-  <pre>{JSON.stringify(character, null, 2)}
+  <pre>{JSON.stringify(availableAbilities, null, 2)}
   </pre>
 </code> -->
-
-<style>
-  :global(.TESTING) {
-    background: black;
-  }
-</style>

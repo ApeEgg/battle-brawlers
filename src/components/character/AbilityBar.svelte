@@ -3,8 +3,8 @@
   import TooltipAbility from '$src/components/tooltips/TooltipAbility.svelte';
   import { calculateTickStart } from '$src/ts/Utils';
   import { flip } from 'svelte/animate';
-  import type { Ability } from '$src/types/ability';
-  import ABILITIES from '$src/constants/ABILITIES';
+  import type { AbilityRef } from '$src/types/ability';
+  import abilityEntity from '$src/ts/abilityEntity';
 
   let flipDurationMs = 300;
   let dragDisabled = $state(false);
@@ -17,13 +17,15 @@
     dndDisabled = false,
     constrainAxisY = false
   }: {
-    abilities: Ability[];
+    abilities: AbilityRef[];
     transformDraggedCharacterAbility?: (draggedElement: any, data: any, _index: any) => void;
     considerCharacterAbilities?: (e: any) => void;
     finalizeCharacterAbilities?: (e: any) => void;
     dndDisabled?: boolean;
     constrainAxisY?: boolean;
   } = $props();
+
+  let hydratedAbilities = $derived(abilities.map((a) => abilityEntity.ability(a, true)));
 </script>
 
 <div class="relative w-[calc((100%/18)*18)]">
@@ -64,8 +66,8 @@
     onconsider={considerCharacterAbilities}
     onfinalize={finalizeCharacterAbilities}
   >
-    {#each abilities as ability, i (ability.guid)}
-      {@const tickStart = calculateTickStart(abilities, i)}
+    {#each hydratedAbilities as ability, i (ability.uuid)}
+      {@const tickStart = calculateTickStart(hydratedAbilities, i)}
       <crow
         role="listitem"
         animate:flip={{ duration: flipDurationMs }}
@@ -93,7 +95,7 @@
         style="width: calc(((100% / 15)*{ability.ticks}) + 1px);"
       >
         <Icon name={ability.icon} />
-        <!-- {ability.guid.substring(0, 5)} -->
+        <!-- {ability.uuid.substring(0, 5)} -->
       </crow>
     {/each}
   </crow>

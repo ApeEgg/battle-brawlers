@@ -1,26 +1,26 @@
-import type { Ability } from '$src/types/ability';
+import type { AbilityRef } from '$src/types/ability';
 import type { CombatStats } from '$src/types/combatStats';
 
 export type EquipmentSlot = 'mainHand' | 'offHand' | 'armor' | 'accessory' | 'trinket';
 export type EquipmentType = EquipmentSlot | 'oneHand' | 'twoHand';
 
-export type DBEquipment = {
+export type EquipmentRef = {
+  uuid?: string;
   id: string;
-  slotsIn: EquipmentType;
 };
 
-export type Equipment = DBEquipment & {
-  uuid: string;
+export type Equipment = EquipmentRef & {
   prettyName: string;
+  slotsIn: EquipmentType;
   description: string;
   combatStats: CombatStats;
-  abilities: Ability[];
+  abilities: AbilityRef[];
 };
 
 export type CharacterEquipment = {
-  mainHand: DBEquipment | null;
-  offHand: DBEquipment | null;
-  armor: DBEquipment | null;
-  accessory: DBEquipment | null;
-  trinket: DBEquipment | null;
+  mainHand: EquipmentRef | null;
+  offHand: EquipmentRef | null;
+  armor: EquipmentRef | null;
+  accessory: EquipmentRef | null;
+  trinket: EquipmentRef | null;
 };

@@ -1,8 +1,9 @@
 import { page } from '$app/stores';
-import type { DBEquipment, EquipmentType, EquipmentSlot } from '$src/types/equipment';
+import type { EquipmentRef, EquipmentType, EquipmentSlot } from '$src/types/equipment';
 import { get } from 'svelte/store';
 import app from '$src/app.svelte';
 import type { Character } from '$src/types/character';
+import entity from '$src/ts/entity';
 
 const decideEquipmentSlot = (slotsIn: EquipmentType, character: Character) => {
   if (slotsIn === 'oneHand') {
@@ -25,15 +26,17 @@ const decideEquipmentSlot = (slotsIn: EquipmentType, character: Character) => {
   return slotsIn;
 };
 
-export const equip = (equipment: DBEquipment, index: number) => {
+export const equip = (equipmentRef: EquipmentRef, index: number) => {
   const characterIndex = Number(get(page)?.params.characterIndex);
   if (characterIndex === undefined) return;
+  const equipment = entity.equipment(equipmentRef, true);
 
   const character = app.characters[characterIndex];
-
   const slotsIn = decideEquipmentSlot(equipment.slotsIn, character);
-
   const slot = character.equipment[slotsIn];
+  const mainHand = character.equipment.mainHand
+    ? entity.equipment(character.equipment.mainHand, true)
+    : {};
 
   // Remove item from inventory (equipment)
   app.inventory.splice(index, 1);
@@ -50,25 +53,22 @@ export const equip = (equipment: DBEquipment, index: number) => {
   }
 
   // If oneHanded weapon is being equipped, check if mainHand is two hand (thus need to go to inventory)
-  if (
-    (slotsIn === 'mainHand' || slotsIn === 'offHand') &&
-    character.equipment.mainHand?.slotsIn === 'twoHand'
-  ) {
+  if ((slotsIn === 'mainHand' || slotsIn === 'offHand') && mainHand?.slotsIn === 'twoHand') {
     app.inventory.push(character.equipment.mainHand);
     character.equipment.mainHand = null;
   }
 
   // Replace whatever is in the slot
-  character.equipment[slotsIn] = equipment;
+  character.equipment[slotsIn] = equipmentRef;
 };
 
-export const unequip = (equipment: DBEquipment, slot: EquipmentSlot) => {
+export const unequip = (equipmentRef: EquipmentRef, slot: EquipmentSlot) => {
   const characterIndex = Number(get(page)?.params.characterIndex);
   if (characterIndex === undefined) return;
 
   const character = app.characters[characterIndex];
 
-  app.inventory.push(equipment);
+  app.inventory.push(equipmentRef);
   character.equipment[slot] = null;
 };
 
