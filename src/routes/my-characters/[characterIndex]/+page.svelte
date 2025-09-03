@@ -145,10 +145,10 @@
   let combatStats = $derived(calculateCombatStatsByCharacter(character));
 </script>
 
-<Clickable class="crow gap-1" onclick={() => goto('/creatures')}>
+<!-- <Clickable class="crow gap-1" onclick={() => goto('/')}>
   <Icon name="left" class="text-xs" />
   Go back
-</Clickable>
+</Clickable> -->
 
 <h2>{character.name}</h2>
 

@@ -78,7 +78,7 @@
           <crow up left vertical>
             <a href="/">Start</a>
             <a href="/creatures">Creatures</a>
-            <a href="/equipment">Equipment</a>
+            <a href="/crafting">Crafting</a>
             <a href="/debug">Debug</a>
           </crow>
           <!-- <code class="text-xs">
