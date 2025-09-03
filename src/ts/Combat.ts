@@ -100,7 +100,7 @@ export const generateCombat = (seed: string, teams: Team[]) => {
   teams = structuredClone(teams);
 
   while (moreThanOneTeamStanding(teams)) {
-    console.info(`--- Tick ${tickCount} at ${now}ms ---`);
+    // console.info(`--- Tick ${tickCount} at ${now}ms ---`);
     const stillStandingCombatants = teams
       .flatMap((team) => team.combatants.map((combatant) => combatant))
       .filter((combatant) => combatant.combatStats.currentHealth > 0);
@@ -112,10 +112,10 @@ export const generateCombat = (seed: string, teams: Team[]) => {
       combatant.abilities.some((ability) => pickAbility(combatant.abilities, ability, now, 'end'))
     );
 
-    const orderedCombatantsStartingAbility = [...combatantsStartingAbility].sort(
+    const orderedCombatantsStartingAbility = combatantsStartingAbility.sort(
       (a: Combatant, b: Combatant) => sortByAbilityPriority(a, b, now, 'start')
     );
-    const orderedCombatantsEndingAbility = [...combatantsEndingAbility].sort(
+    const orderedCombatantsEndingAbility = combatantsEndingAbility.sort(
       (a: Combatant, b: Combatant) => sortByAbilityPriority(a, b, now, 'end')
     );
 
@@ -129,13 +129,6 @@ export const generateCombat = (seed: string, teams: Team[]) => {
       if (currentAbility.abilityName === 'block') {
         combatant.statuses.isBlocking = true;
       }
-
-      // events.push(
-      //   structuredClone({
-      //     eventTimestamp: now,
-      //     teams
-      //   })
-      // );
     });
 
     // END OF ABILITY
@@ -143,7 +136,6 @@ export const generateCombat = (seed: string, teams: Team[]) => {
       const targetableCombatants = stillStandingCombatants.filter(
         ({ teamIndex }) => teamIndex !== combatant.teamIndex
       );
-
       const currentAbilityIndex = combatant.abilities.findIndex((ability) =>
         pickAbility(combatant.abilities, ability, now, 'end')
       );
@@ -154,7 +146,7 @@ export const generateCombat = (seed: string, teams: Team[]) => {
           seededRandom(
             0,
             targetableCombatants.length - 1,
-            `${seed}_${currentAbilityIndex}_${combatant.id}_defender`
+            `${seed}_${currentAbilityIndex}_${now}_defender`
           )
         ];
 

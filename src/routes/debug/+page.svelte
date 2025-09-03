@@ -15,7 +15,8 @@
     CHARACTERS.human(),
     CHARACTERS.troll(),
     CHARACTERS.dwarf(),
-    CHARACTERS.goblin()
+    CHARACTERS.goblin(),
+    CHARACTERS.berserker()
   ];
 
   const initializeCombat = () => {

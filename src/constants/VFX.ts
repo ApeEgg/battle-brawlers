@@ -33,6 +33,6 @@ export default {
   },
   attackBlocked: {
     vfxName: 'attackBlocked',
-    duration: 500
+    duration: 340
   }
 } as Record<AbilityName | VFXName, VFX>;

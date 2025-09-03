@@ -126,7 +126,7 @@
     </div>
 
     <!-- <div>
-      <pre>{JSON.stringify(statuses, null, 2)}
+      <pre>{JSON.stringify(currentAnimation, null, 2)}
       </pre>
     </div> -->
   </div>

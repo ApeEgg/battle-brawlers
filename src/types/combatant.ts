@@ -12,6 +12,7 @@ export type Combatant = Character & {
   eventTimestamp: number;
   eventAbility: AbilityName;
   eventIndex: number;
+  abilitiesCopied: Ability[];
   statuses: {
     isBlocking: boolean;
     isStunned: boolean;

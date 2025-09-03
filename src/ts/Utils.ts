@@ -67,6 +67,8 @@ export const prepareCombatant = (
     (_, i) => calculateTickStart(character.abilities, i) <= character.maxTicks
   );
 
+  const abilitiesCopied = abilitiesCut;
+
   const abilities = abilitiesCut
     .reduce((a, ability) => {
       return ability?.chainLink
@@ -125,7 +127,8 @@ export const prepareCombatant = (
       knockedOut: 0,
       isBleeding: false
     },
-    abilities
+    abilities,
+    abilitiesCopied
   };
 };
 
