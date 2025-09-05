@@ -165,12 +165,16 @@
       }
     }
 
-    if (!containsAll(defaultAbilities, character.abilities)) {
-      character.abilities = character.abilities.filter(
-        (ability) => !ABILITIES(ability, true).basic
-      );
-      character.abilities = [...defaultAbilities, ...untrack(() => character.abilities)];
-    }
+    character.abilities = defaultAbilities.map((ability) => ({
+      ...ABILITIES(ability),
+      uuid: crypto.randomUUID()
+    }));
+    // if (!containsAll(defaultAbilities, character.abilities)) {
+    //   character.abilities = character.abilities.filter(
+    //     (ability) => !ABILITIES(ability, true).basic
+    //   );
+    //   character.abilities = [...defaultAbilities, ...untrack(() => character.abilities)];
+    // }
   });
 
   $effect(() => {
@@ -286,3 +290,5 @@
     />
   </crow>
 </crow>
+
+<Debug data={availableAbilities} />

@@ -25,12 +25,12 @@ export const calculateCombatStats = (...args: any) => {
   return combined;
 };
 
-export const calculateAvailableAbilitiesByCharacter = (character: Character) => {
-  return Object.values(character.equipment)
+export const calculateAvailableAbilitiesByCharacter = (character: Character) =>
+  Object.values(character.equipment)
     .filter((e) => e !== null)
     .map((e) => EQUIPMENT(e, true).abilities)
-    .flat();
-};
+    .flat()
+    .map((a) => ({ ...a, uuid: crypto.randomUUID() }));
 
 export const calculateCombatStatsByCharacter = (character: Character) => {
   return calculateCombatStats(
