@@ -30,7 +30,7 @@
 <crow
   class={tw(
     'available-abilities min-h-[calc(98px*3)] w-full !flex-none gap-2 rounded-lg border border-gray-300 bg-gray-50 p-2',
-    small ? 'min-h-0 gap-1 border-none bg-transparent p-0' : 'inset-shadow-sm',
+    small ? 'min-h-0 w-auto gap-1 border-none bg-transparent p-0' : 'inset-shadow-sm',
     availableAbilities.length ? 'left up' : ''
   )}
   use:dndzone={{

@@ -183,7 +183,7 @@
 
     // Decide what abilities a character can use
     availableAbilities = abilities
-      .filter(({ id }) => !untrack(() => character.abilities.find((a) => a.id === id))) // fix this to look at ID
+      .filter(({ id }) => !untrack(() => character.abilities.find((a) => a.id === id)))
       .filter((ability) => !ABILITIES(ability, true).basic)
       .sort((a: AbilityRef, b: AbilityRef) =>
         ABILITIES(a, true).prettyName.localeCompare(ABILITIES(b, true).prettyName)

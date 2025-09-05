@@ -2,6 +2,7 @@
   import type { Equipment } from '$src/types/equipment';
   import AbilityInventory from '$src/components/character/AbilityInventory.svelte';
   import ABILITIES from '$src/constants/ABILITIES';
+  import AbilityBar from '../character/AbilityBar.svelte';
 
   let { prettyName, description, combatStats, abilities }: Equipment = $derived(app.tooltip.props);
 
@@ -11,6 +12,11 @@
       damage: 'Damage',
       maxHealth: 'Health'
     })[key] || key;
+
+  let activeAbilities = $derived(abilities?.filter((ability) => ABILITIES(ability, true).basic));
+  let availableAbilities = $derived(
+    abilities?.filter((ability) => !ABILITIES(ability, true).basic)
+  );
 </script>
 
 <crow
@@ -25,7 +31,7 @@
     <crow vertical left class="!w-1/2">
       {#each Object.entries(combatStats) as [key, value]}
         <crow class="bg-green w-full !justify-between text-sm">
-          <strong> {prettyCombatStatKey(key)} </strong>
+          <strong class="text-black"> {prettyCombatStatKey(key)} </strong>
           {value}
         </crow>
       {/each}
@@ -34,11 +40,19 @@
   {#if description}
     <span class="text-sm">{@html description}</span>
   {/if}
-  {#if abilities.length > 0}
-    <h6>Abilities</h6>
-    <AbilityInventory
-      availableAbilities={abilities.map((ability) => ABILITIES(ability, true))}
-      small
+
+  {#if activeAbilities.length > 0}
+    <crow left up vertical class="gap-1">
+      <AbilityBar dndDisabled small abilities={activeAbilities} />
+    </crow>
+  {/if}
+  {#if availableAbilities.length > 0}
+    <hr
+      class="my-1 h-px w-full border-none bg-gradient-to-r from-transparent via-gray-400 to-transparent"
     />
+    <crow class="w-full gap-4">
+      <!-- <div class="text-sm text-gray-500">Abilities</div> -->
+      <AbilityInventory {availableAbilities} small />
+    </crow>
   {/if}
 </crow>
