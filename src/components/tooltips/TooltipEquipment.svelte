@@ -22,7 +22,7 @@
     <strong class="text-lg text-black">{prettyName}</strong>
   </crow>
   {#if Object.entries(combatStats).length > 0}
-    <crow vertical left>
+    <crow vertical left class="!w-1/2">
       {#each Object.entries(combatStats) as [key, value]}
         <crow class="bg-green w-full !justify-between text-sm">
           <strong> {prettyCombatStatKey(key)} </strong>
@@ -31,7 +31,9 @@
       {/each}
     </crow>
   {/if}
-  <span class="text-sm">{description}</span>
+  {#if description}
+    <span class="text-sm">{@html description}</span>
+  {/if}
   {#if abilities.length > 0}
     <h6>Abilities</h6>
     <AbilityInventory

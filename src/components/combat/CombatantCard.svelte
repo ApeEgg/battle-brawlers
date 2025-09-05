@@ -3,6 +3,7 @@
   import type { Combatant } from '$src/types/combatant';
   import CombatantAbilityBar from '$src/components/combat/CombatantAbilityBar.svelte';
   import CombatantImage from '$src/components/combat/CombatantImage.svelte';
+  import STATUS_EFFECTS from '$src/constants/STATUS_EFFECTS';
 
   let props: Combatant & {
     facingRight: boolean;
@@ -44,10 +45,25 @@
         <div class="h-40 w-36"></div>
         <CombatantAbilityBar {...props} />
 
-        <crow vertical class="absolute top-16 left-[calc(100%-theme(spacing.5))] gap-2">
-          {#if statuses.isStunned}
+        <crow vertical left class="absolute top-17 left-[calc(100%-theme(spacing.6))] gap-2">
+          {#each Object.entries(statuses) as [key, { ticks }] (key)}
+            {#if ticks}
+              {@const effect = STATUS_EFFECTS?.[key]}
+              <crow class="gap-3">
+                <crow class="w-5">
+                  <Icon
+                    name={effect.icon}
+                    class="{effect.animation} [animation-direction:reverse]"
+                    original
+                  />
+                </crow>
+                <span class="text-xs">{effect.text} {ticks}</span>
+              </crow>
+            {/if}
+          {/each}
+          <!-- {#if statuses.isStunned}
             <crow class="gap-3">
-              <crow class="w-4">
+              <crow class="w-5">
                 <Icon
                   name="isStunned"
                   class="animate-spin [animation-direction:reverse]"
@@ -57,18 +73,18 @@
               <span class="text-xs">STUNNED</span>
             </crow>
           {/if}
-          {#if statuses.isBleeding}
+          {#if statuses.isBleeding.ticks > 0}
             <crow class="gap-3">
-              <crow class="w-4">
+              <crow class="w-5">
                 <Icon
                   name="isBleeding"
                   class="animate-bounce [animation-direction:reverse]"
                   original
                 />
               </crow>
-              <span class="text-xs">BLEEDING</span>
+              <span class="text-xs">BLEEDING&nbsp;{statuses.isBleeding.ticks}</span>
             </crow>
-          {/if}
+          {/if} -->
         </crow>
       </div>
     </div>

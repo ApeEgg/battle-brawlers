@@ -54,7 +54,7 @@
     <Button onclick={runCombat}>Fight</Button>
   </crow>
   <crow>
-    <img src="/images/races/{creature.race}/01.png" width="200px" class="-scale-x-[1]" />
+    <img src="/images/races/{creature.image}" width="200px" class="-scale-x-[1]" alt="" />
   </crow>
 </crow>
 
@@ -64,6 +64,3 @@
   </crow>
   <AbilityBar abilities={creature.abilities} dndDisabled />
 </crow>
-
-<!-- <pre class="text-xs">{JSON.stringify(creature, null, 2)}
-</pre> -->

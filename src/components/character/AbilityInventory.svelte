@@ -47,10 +47,9 @@
     {#each hydratedAbilities as ability (ability.uuid)}
       <crow
         class={tw(
-          'relative h-20 w-20 !flex-none gap-2 overflow-hidden rounded border-[0.5px] border-gray-400 bg-white',
+          'relative h-20 w-20 !flex-none gap-2 rounded border-[0.5px] border-gray-400 bg-white',
           small && 'h-10 w-10 gap-1',
-          ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(ability.id) &&
-            'border-gray-400 bg-gray-100'
+          ability.basic && 'border-gray-300 bg-gray-100'
         )}
         use:tooltip={{
           children: TooltipAbility,

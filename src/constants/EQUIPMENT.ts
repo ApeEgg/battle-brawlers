@@ -1,5 +1,5 @@
 import ABILITIES from '$src/constants/ABILITIES';
-import type { EquipmentRef } from '$src/types/equipment';
+import type { Equipment, EquipmentRef } from '$src/types/equipment';
 import entity from '$src/ts/entity';
 
 export const ALL_EQUIPMENT = {
@@ -10,18 +10,14 @@ export const ALL_EQUIPMENT = {
     combatStats: {
       damage: 1
     },
-    abilities: [
-      ABILITIES('basicAttackFast'),
-      ABILITIES('basicAttackFast'),
-      ABILITIES('basicAttackFast')
-    ]
+    abilities: [ABILITIES('slash'), ABILITIES('slash'), ABILITIES('slash')]
   },
   shield: {
     prettyName: 'Shield',
     description: 'A simple shield.',
     slotsIn: 'offHand',
     combatStats: {},
-    abilities: [ABILITIES('block'), ABILITIES('basicAttackFast')]
+    abilities: [ABILITIES('block'), ABILITIES('block')]
   },
   ring: {
     prettyName: 'Ring',
@@ -32,6 +28,15 @@ export const ALL_EQUIPMENT = {
     },
     abilities: [ABILITIES('spin')]
   },
+  twoHandedHammer: {
+    prettyName: 'Two-handed Hammer',
+    description: "A mighty two-handed hammer.<br />It's slammer time!",
+    slotsIn: 'twoHand',
+    combatStats: {
+      damage: 7
+    },
+    abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
+  },
   greatSword: {
     prettyName: 'Greatsword',
     description: 'A mighty two-handed sword.',
@@ -40,9 +45,9 @@ export const ALL_EQUIPMENT = {
       damage: 3
     },
     abilities: [
-      ABILITIES('basicAttackSlow'),
-      ABILITIES('basicAttackSlow'),
-      ABILITIES('basicAttackSlow')
+      ABILITIES('slash', false, { overrides: { ticks: 4 } }),
+      ABILITIES('slash', false, { overrides: { ticks: 4 } }),
+      ABILITIES('slash', false, { overrides: { ticks: 4 } })
     ]
   },
   leatherArmor: {
@@ -65,8 +70,10 @@ export const ALL_EQUIPMENT = {
     prettyName: 'Heartpiercer',
     description: 'A really sharp dagger.',
     slotsIn: 'oneHand',
-    combatStats: {},
-    abilities: [ABILITIES('lacerate')]
+    combatStats: {
+      damage: 5
+    },
+    abilities: [ABILITIES('stab'), ABILITIES('stab'), ABILITIES('stab'), ABILITIES('lacerate')]
   }
 };
 
@@ -76,4 +83,4 @@ export default (id: string | EquipmentRef, fullBody: boolean = false) =>
     typeof id === 'string' ? id : id.id,
     typeof id === 'string' ? undefined : id.uuid,
     fullBody
-  );
+  ) as Equipment;

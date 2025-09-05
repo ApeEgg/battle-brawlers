@@ -1,5 +1,6 @@
 import type { AbilityRef } from '$src/types/ability';
 import type { CombatStats } from '$src/types/combatStats';
+import type { DynamicObject } from '$src/types/common';
 
 export type EquipmentSlot = 'mainHand' | 'offHand' | 'armor' | 'accessory' | 'trinket';
 export type EquipmentType = EquipmentSlot | 'oneHand' | 'twoHand';
@@ -7,6 +8,7 @@ export type EquipmentType = EquipmentSlot | 'oneHand' | 'twoHand';
 export type EquipmentRef = {
   uuid?: string;
   id: string;
+  overrides?: DynamicObject;
 };
 
 export type Equipment = EquipmentRef & {

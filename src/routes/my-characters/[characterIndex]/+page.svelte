@@ -31,7 +31,7 @@
   };
 
   const transformDraggedCharacterAbility = (draggedElement: any, data: any, _index: any) => {
-    if (['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'block'].includes(data.id)) {
+    if (ABILITIES(data, true).basic) {
       dropFromOthersDisabled = true;
       constrainAxisY = true;
     } else {
@@ -84,34 +84,90 @@
   };
 
   $effect(() => {
-    const isShield = !!character.equipment.offHand;
+    const isShield = !!(
+      character.equipment.offHand &&
+      EQUIPMENT(character.equipment.offHand, true).slotsIn === 'offHand'
+    );
     const isTwoHanded = !!(
       character.equipment.mainHand &&
       EQUIPMENT(character.equipment.mainHand, true).slotsIn === 'twoHand'
     );
+    const isOneHandedMainhand = !!(
+      character.equipment.mainHand &&
+      EQUIPMENT(character.equipment.mainHand, true).slotsIn === 'oneHand'
+    );
+    const isOneHandedOffhand = !!(
+      character.equipment.offHand &&
+      EQUIPMENT(character.equipment.offHand, true).slotsIn === 'oneHand'
+    );
+    const isOneHandedWeapon = isOneHandedMainhand || isOneHandedOffhand;
+    const isDualWielding = isOneHandedMainhand && isOneHandedOffhand;
 
-    const defaultAbilities = isTwoHanded
-      ? [ABILITIES('basicAttackSlow'), ABILITIES('basicAttackSlow'), ABILITIES('basicAttackSlow')]
-      : isShield
-        ? [
-            ABILITIES('basicAttackFast'),
-            ABILITIES('basicAttackFast'),
-            ABILITIES('basicAttackFast'),
-            ABILITIES('block'),
-            ABILITIES('basicAttackFast')
-          ]
-        : [
-            ABILITIES('basicAttackFast'),
-            ABILITIES('basicAttackFast'),
-            ABILITIES('basicAttackFast'),
-            ABILITIES('basicAttackFast'),
-            ABILITIES('basicAttackFast'),
-            ABILITIES('basicAttackFast')
-          ];
+    const mainHandAbilities = character.equipment.mainHand
+      ? EQUIPMENT(character.equipment.mainHand, true)
+          .abilities.map((ability) => ABILITIES(ability, true))
+          .filter(({ basic }) => basic)
+          .map((ability) => ABILITIES(ability))
+      : [];
+
+    const offHandAbilities = character.equipment.offHand
+      ? EQUIPMENT(character.equipment.offHand, true)
+          .abilities.map((ability) => ABILITIES(ability, true))
+          .filter(({ basic }) => basic)
+          .map((ability) => ABILITIES(ability))
+      : [];
+
+    // Unarmed
+    let defaultAbilities = [
+      ABILITIES('basicAttackRegular'),
+      ABILITIES('basicAttackRegular'),
+      ABILITIES('basicAttackRegular'),
+      ABILITIES('basicAttackRegular'),
+      ABILITIES('basicAttackRegular'),
+      ABILITIES('basicAttackRegular')
+    ];
+
+    if (isTwoHanded) {
+      defaultAbilities = mainHandAbilities;
+    } else if (isShield) {
+      defaultAbilities = [];
+
+      if (isOneHandedWeapon) {
+        defaultAbilities.push(...mainHandAbilities);
+      } else {
+        defaultAbilities.push(
+          ABILITIES('basicAttackRegular'),
+          ABILITIES('basicAttackRegular'),
+          ABILITIES('basicAttackRegular')
+        );
+      }
+
+      defaultAbilities.push(...offHandAbilities);
+    } else if (isOneHandedWeapon) {
+      defaultAbilities = [];
+      if (isOneHandedMainhand) {
+        defaultAbilities.push(...mainHandAbilities);
+      } else {
+        defaultAbilities.push(
+          ABILITIES('basicAttackRegular'),
+          ABILITIES('basicAttackRegular'),
+          ABILITIES('basicAttackRegular')
+        );
+      }
+      if (isOneHandedOffhand) {
+        defaultAbilities.push(...offHandAbilities);
+      } else {
+        defaultAbilities.push(
+          ABILITIES('basicAttackRegular'),
+          ABILITIES('basicAttackRegular'),
+          ABILITIES('basicAttackRegular')
+        );
+      }
+    }
 
     if (!containsAll(defaultAbilities, character.abilities)) {
       character.abilities = character.abilities.filter(
-        (a) => !['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'block'].includes(a.id)
+        (ability) => !ABILITIES(ability, true).basic
       );
       character.abilities = [...defaultAbilities, ...untrack(() => character.abilities)];
     }
@@ -124,12 +180,7 @@
     // Decide what abilities a character can use
     availableAbilities = abilities
       .filter(({ id }) => !untrack(() => character.abilities.find((a) => a.id === id))) // fix this to look at ID
-      .filter(
-        (ability) =>
-          !['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'block'].includes(
-            ability.id
-          )
-      )
+      .filter((ability) => !ABILITIES(ability, true).basic)
       .sort((a: AbilityRef, b: AbilityRef) =>
         ABILITIES(a, true).prettyName.localeCompare(ABILITIES(b, true).prettyName)
       )
@@ -137,9 +188,7 @@
 
     // Remove abilities that are no longer available from character
     character.abilities = untrack(() => character.abilities).filter(
-      (ability) =>
-        abilities.some(({ id }) => id === ability.id) ||
-        ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'block'].includes(ability.id)
+      (ability) => abilities.some(({ id }) => id === ability.id) || ABILITIES(ability, true).basic
     );
   });
 
@@ -164,19 +213,19 @@
         <div>{character.id}</div>
       </crow> -->
       <crow class="gap-2">
-        <div class="font-bold">Race:</div>
+        <div class="w-15 font-bold">Race:</div>
         <div>{character.race}</div>
       </crow>
       <crow class="gap-2">
-        <div class="font-bold">Health:</div>
+        <div class="w-15 font-bold">Health:</div>
         <div>{combatStats?.maxHealth}</div>
       </crow>
       <crow class="gap-2">
-        <div class="font-bold">Damage:</div>
+        <div class="w-15 font-bold">Damage:</div>
         <div>{combatStats?.damage}</div>
       </crow>
       <crow class="gap-2">
-        <div class="font-bold">Armor:</div>
+        <div class="w-15 font-bold">Armor:</div>
         <div>{combatStats?.armor}</div>
       </crow>
     </crow>
@@ -186,8 +235,14 @@
           <crow left>
             <div class="w-20 font-bold">{slotsInPrettyName(slot as EquipmentSlot)}:</div>
 
-            {#if slot === 'offHand' && character.equipment.mainHand && EQUIPMENT(character.equipment.mainHand, true).slotsIn === 'twoHand'}
-              {EQUIPMENT(character.equipment.mainHand, true).prettyName}
+            {#if slot === 'mainHand' && !character.equipment.mainHand}
+              <span class="text-gray-400">Fist</span>
+            {:else if slot === 'offHand' && !character.equipment.offHand}
+              <span class="text-gray-400">Fist</span>
+            {:else if slot === 'offHand' && character.equipment.mainHand && EQUIPMENT(character.equipment.mainHand, true).slotsIn === 'twoHand'}
+              <span class="text-gray-400">
+                {EQUIPMENT(character.equipment.mainHand, true).prettyName}
+              </span>
             {:else if equipment}
               <EquipmentLink {...EQUIPMENT(equipment, true)} />
             {:else}
@@ -207,7 +262,7 @@
 
   <crow class="relative w-full gap-2 overflow-hidden p-1" vertical left up>
     <crow class="w-full !justify-between">
-      <h4>Active abilities</h4>
+      <h5>Active abilities</h5>
     </crow>
     <AbilityBar
       abilities={character.abilities}
@@ -220,7 +275,7 @@
 
   <crow class="relative w-full gap-2 overflow-hidden p-1" vertical left up>
     <crow class="w-full !justify-between">
-      <h4>Available abilities</h4>
+      <h5>Available abilities</h5>
     </crow>
     <AbilityInventory
       {availableAbilities}
@@ -231,8 +286,3 @@
     />
   </crow>
 </crow>
-
-<!-- <code class="overflow-hidden text-xs">
-  <pre>{JSON.stringify(availableAbilities, null, 2)}
-  </pre>
-</code> -->

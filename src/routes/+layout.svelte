@@ -19,7 +19,7 @@
 </script>
 
 <ConnectSocket />
-<Keystrokes />
+<!-- <Keystrokes /> -->
 
 <div
   class={tw(
@@ -81,11 +81,6 @@
             <a href="/crafting">Crafting</a>
             <a href="/debug">Debug</a>
           </crow>
-          <!-- <code class="text-xs">
-      <pre>
-      {JSON.stringify(teams, null, 2)}
-    </pre>
-    </code> -->
         </div>
       </Row>
     </Authorization>

@@ -2,7 +2,7 @@
   import type { Combatant } from '$src/types/combatant';
 
   let {
-    race,
+    image,
     animations,
     facingRight,
     statuses,
@@ -24,7 +24,18 @@
       ({ start, end, vfxName }) =>
         start < elapsedMilliseconds &&
         end > elapsedMilliseconds &&
-        ['basicAttackRegular', 'basicAttackFast', 'basicAttackSlow', 'spin'].includes(vfxName)
+        [
+          'slam',
+          'slash',
+          'stab',
+          'basicAttackRegular',
+          'basicAttackFast',
+          'basicAttackSlow',
+          'spin',
+          'slam',
+          'slash',
+          'stab'
+        ].includes(vfxName)
     )
   );
 
@@ -69,9 +80,10 @@
 {#key currentAnimation?.id}
   <div
     class="relative"
-    class:basicAttackSlow={!statuses.isStunned && applyAnimationClass('basicAttackSlow')}
-    class:basicAttackRegular={!statuses.isStunned && applyAnimationClass('basicAttackRegular')}
-    class:basicAttackFast={!statuses.isStunned && applyAnimationClass('basicAttackFast')}
+    class:basicAttackSlow={statuses.isStunned.ticks === 0 && applyAnimationClass('basicAttackSlow')}
+    class:basicAttackRegular={statuses.isStunned.ticks === 0 &&
+      applyAnimationClass('basicAttackRegular')}
+    class:basicAttackFast={statuses.isStunned.ticks === 0 && applyAnimationClass('basicAttackFast')}
     class:knockedOut={statuses.knockedOut}
     style="
         --position-x: {x}px;
@@ -84,7 +96,7 @@
         --attack-end-x: {nX}px;
         --attack-end-y: {nY}px;
 
-        --attack-duration: {currentAnimation?.duration || 0}ms;
+        --attack-duration: {(currentAnimation?.end || 0) - (currentAnimation?.start || 0)}ms;
       "
   >
     <div
@@ -97,14 +109,13 @@
     >
       <div
         class={tw('absolute inset-1 bg-bottom bg-no-repeat', !facingRight && 'scale-x-[-1]')}
-        style="background-image: url('/images/races/{race}/01.png'); background-size: auto {100 *
-          size}%;"
+        style="background-image: url('/images/races/{image}'); background-size: auto {100 * size}%;"
       ></div>
       <div
         class={tw('hurt-animation', !facingRight && 'scale-x-[-1]')}
         style="
-          -webkit-mask: url('/images/races/{race}/01.png') no-repeat bottom/auto {100 * size}%;
-          mask: url('/images/races/{race}/01.png') no-repeat bottom/auto {100 * size}%;
+          -webkit-mask: url('/images/races/{image}') no-repeat bottom/auto {100 * size}%;
+          mask: url('/images/races/{image}') no-repeat bottom/auto {100 * size}%;
         "
       ></div>
       <crow
@@ -125,10 +136,7 @@
       </crow>
     </div>
 
-    <!-- <div>
-      <pre>{JSON.stringify(currentAnimation, null, 2)}
-      </pre>
-    </div> -->
+    <Debug data={currentAnimation} />
   </div>
 {/key}
 

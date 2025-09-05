@@ -5,7 +5,7 @@ import { seededRandom } from '$src/ts/Utils';
 import type { Combatant } from '$src/types/combatant';
 import type { VFX } from '$src/types/vfx';
 import _VFX from '$src/constants/VFX';
-import type { Ability } from '$src/types/ability';
+import { AbilityType, type Ability } from '$src/types/ability';
 
 const moreThanOneTeamStanding = (teams: Team[]) => {
   const teamsStanding = teams.filter((team) =>
@@ -38,8 +38,7 @@ const injectAnimation = (
   const cIndex = teams[combatant.teamIndex].combatants.findIndex(({ id }) => id === combatant.id);
 
   vfx.start = now - currentAbility.ticks * COMBAT_TICK_TIME;
-
-  vfx.end = now - currentAbility.ticks * COMBAT_TICK_TIME + vfx.duration;
+  vfx.end = now;
 
   vfx.id = crypto.randomUUID();
   vfx.targetX = target.position.x;
@@ -73,10 +72,10 @@ const sortByAbilityPriority = (
   startOrEnd: 'start' | 'end'
 ) => {
   const aAbility = a.abilities.find((ability) =>
-    pickAbility(a.abilities, ability, now, startOrEnd)
+    pickAbility(a.abilities, ability as Ability, now, startOrEnd)
   ) as Ability;
   const bAbility = b.abilities.find((ability) =>
-    pickAbility(b.abilities, ability, now, startOrEnd)
+    pickAbility(b.abilities, ability as Ability, now, startOrEnd)
   ) as Ability;
 
   const aPriority = ABILITY_PRIORITY.indexOf(aAbility.id);
@@ -90,6 +89,29 @@ const sortByAbilityPriority = (
   return 0;
 };
 
+const timedAbility = (combatants: Combatant[], now: number, startOrEnd: 'start' | 'end') =>
+  combatants.filter((combatant) =>
+    combatant.abilities.some((ability) =>
+      pickAbility(combatant.abilities, ability as Ability, now, startOrEnd)
+    )
+  );
+
+const prioritySorting = (combatants: Combatant[], now: number, startOrEnd: 'start' | 'end') =>
+  combatants.sort((a: Combatant, b: Combatant) => sortByAbilityPriority(a, b, now, startOrEnd));
+
+const tickStatusEffects = (combatants: Combatant[]) => {
+  combatants.forEach((combatant) => {
+    if (combatant.statuses.isBleeding.ticks > 0) {
+      combatant.combatStats.currentHealth -= combatant.statuses.isBleeding.value; // bleed damage
+      combatant.statuses.isBleeding.ticks -= 1;
+    }
+    if (combatant.statuses.isStunned.ticks > 0) {
+      // combatant.combatStats.currentHealth -= combatant.statuses.isStunned.value; // bleed damage
+      combatant.statuses.isStunned.ticks -= 1;
+    }
+  });
+};
+
 export const generateCombat = (seed: string, teams: Team[]) => {
   const events: CombatEvent[] = [];
 
@@ -100,44 +122,29 @@ export const generateCombat = (seed: string, teams: Team[]) => {
   teams = structuredClone(teams);
 
   while (moreThanOneTeamStanding(teams)) {
-    // console.info(`--- Tick ${tickCount} at ${now}ms ---`);
+    console.info(`--- Tick ${tickCount} at ${now}ms ---`);
     const stillStandingCombatants = teams
       .flatMap((team) => team.combatants.map((combatant) => combatant))
       .filter((combatant) => combatant.combatStats.currentHealth > 0);
 
-    const combatantsStartingAbility = stillStandingCombatants.filter((combatant) =>
-      combatant.abilities.some((ability) => pickAbility(combatant.abilities, ability, now, 'start'))
-    );
-    const combatantsEndingAbility = stillStandingCombatants.filter((combatant) =>
-      combatant.abilities.some((ability) => pickAbility(combatant.abilities, ability, now, 'end'))
-    );
+    // console.log('tick status effect');
+    // if (stillStandingCombatants[1].name === 'Berserker') {
+    //   console.log(structuredClone(stillStandingCombatants[1].statuses.isStunned));
+    // }
+    tickStatusEffects(stillStandingCombatants);
 
-    const orderedCombatantsStartingAbility = combatantsStartingAbility.sort(
-      (a: Combatant, b: Combatant) => sortByAbilityPriority(a, b, now, 'start')
-    );
-    const orderedCombatantsEndingAbility = combatantsEndingAbility.sort(
-      (a: Combatant, b: Combatant) => sortByAbilityPriority(a, b, now, 'end')
-    );
-
-    // START OF ABILITY
-    orderedCombatantsStartingAbility.forEach((combatant) => {
-      const currentAbilityIndex = combatant.abilities.findIndex((ability) =>
-        pickAbility(combatant.abilities, ability, now, 'start')
-      );
-      const currentAbility = combatant.abilities[currentAbilityIndex];
-
-      if (currentAbility.id === 'block') {
-        combatant.statuses.isBlocking = true;
-      }
-    });
+    const combatantsStarting = timedAbility(stillStandingCombatants, now, 'start');
+    const combatantsEnding = timedAbility(stillStandingCombatants, now, 'end');
+    const orderedCombatantsStarting = prioritySorting(combatantsStarting, now, 'start');
+    const orderedCombatantsEnding = prioritySorting(combatantsEnding, now, 'end');
 
     // END OF ABILITY
-    orderedCombatantsEndingAbility.forEach((combatant) => {
+    orderedCombatantsEnding.forEach((combatant) => {
       const targetableCombatants = stillStandingCombatants.filter(
         ({ teamIndex }) => teamIndex !== combatant.teamIndex
       );
       const currentAbilityIndex = combatant.abilities.findIndex((ability) =>
-        pickAbility(combatant.abilities, ability, now, 'end')
+        pickAbility(combatant.abilities, ability as Ability, now, 'end')
       );
       const currentAbility = combatant.abilities[currentAbilityIndex];
 
@@ -154,23 +161,21 @@ export const generateCombat = (seed: string, teams: Team[]) => {
         result: 0
       };
 
-      const isAttacking = [
-        'basicAttackFast',
-        'basicAttackRegular',
-        'basicAttackSlow',
-        'spin'
-      ].includes(currentAbility.id);
+      const isAttacking = currentAbility.type === AbilityType.WindUp;
       const isStunned = combatant.statuses.isStunned;
       const isBlocking = target.statuses.isBlocking;
 
       if (now > 0) {
-        if (!isStunned) {
+        if (isStunned.value === 0) {
           injectAnimation(combatant, target, currentAbility, now, teams, events);
         }
 
-        if (isStunned) {
-          if (!currentAbility.chainTo) {
-            combatant.statuses.isStunned = false;
+        if (isStunned.value === 1) {
+          if (isStunned.ticks === 0) {
+            combatant.statuses.isStunned = {
+              ticks: 0,
+              value: 0
+            };
           }
         } else if (isAttacking) {
           if (isBlocking) {
@@ -181,13 +186,58 @@ export const generateCombat = (seed: string, teams: Team[]) => {
             bufferAnimation(target, _VFX.hurt, now);
           }
         } else if (currentAbility.id === 'stun') {
-          target.statuses.isStunned = true;
+          // My implementation attempt
+          // const targetCurrentAbility = target.abilitiesCopied.find(
+          //   (ability) =>
+          //     ability.start % target.abilitiesCopied[target.abilitiesCopied.length - 1].end! <=
+          //       now % target.abilitiesCopied[target.abilitiesCopied.length - 1].end! &&
+          //     ability.end % target.abilitiesCopied[target.abilitiesCopied.length - 1].end! >
+          //       now % target.abilitiesCopied[target.abilitiesCopied.length - 1].end!
+          // );
+          const total = target.abilitiesCopied[target.abilitiesCopied.length - 1].end!;
+          const t = ((now % total) + total) % total; // normalize now into [0,total)
+
+          const targetCurrentAbility = target.abilitiesCopied.find(
+            (ability) =>
+              ability.end % total > ability.start % total
+                ? t >= ability.start % total && t < ability.end % total // normal segment
+                : ability.end % total < ability.start % total
+                  ? t >= ability.start % total || t < ability.end % total // wraps over end->start
+                  : t === ability.start % total // zero-length segment
+          );
+
+          const endTime = targetCurrentAbility.end % total;
+          const remainingTime =
+            endTime > t
+              ? endTime - t // normal case
+              : total - t + endTime; // wrapped segment case
+          const ticks = remainingTime / COMBAT_TICK_TIME;
+
+          target.statuses.isStunned = {
+            ticks,
+            value: 1
+          };
         } else if (currentAbility.id === 'lacerate') {
-          target.statuses.isBleeding = true;
+          target.statuses.isBleeding = {
+            ticks: target.statuses.isBleeding.ticks + 6,
+            value: Math.ceil(combatant.combatStats.damage * 0.2)
+          };
         } else if (currentAbility.id === 'block') {
           combatant.statuses.isBlocking = false;
         }
       }
+
+      // START OF ABILITY
+      orderedCombatantsStarting.forEach((combatant) => {
+        const currentAbilityIndex = combatant.abilities.findIndex((ability) =>
+          pickAbility(combatant.abilities, ability as Ability, now, 'start')
+        );
+        const currentAbility = combatant.abilities[currentAbilityIndex];
+
+        if (currentAbility.id === 'block') {
+          combatant.statuses.isBlocking = true;
+        }
+      });
 
       // console.table({
       //   Tick: tickCount,
@@ -203,13 +253,20 @@ export const generateCombat = (seed: string, teams: Team[]) => {
         target.statuses.knockedOut = now;
       }
 
-      events.push(
-        structuredClone({
-          eventTimestamp: now,
-          teams
-        })
-      );
+      // events.push(
+      //   structuredClone({
+      //     eventTimestamp: now,
+      //     teams
+      //   })
+      // );
     });
+
+    events.push(
+      structuredClone({
+        eventTimestamp: now,
+        teams
+      })
+    );
 
     now += COMBAT_TICK_TIME;
     tickCount += 1;

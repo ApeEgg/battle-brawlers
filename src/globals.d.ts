@@ -123,3 +123,6 @@ declare const Topbar: import('svelte').ComponentType<
 declare const Unauthorized: import('svelte').ComponentType<
   (typeof import('$src/components/Unauthorized'))['default']
 >;
+declare const Debug: import('svelte').ComponentType<
+  (typeof import('$src/components/Debug'))['default']
+>;

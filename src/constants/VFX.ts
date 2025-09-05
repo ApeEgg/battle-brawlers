@@ -16,7 +16,7 @@ export default {
   },
   block: {
     vfxName: 'block',
-    duration: 2000 + 250 // lingering time
+    duration: 1500 + 250 // lingering time
   },
   stun: {
     vfxName: 'stun',

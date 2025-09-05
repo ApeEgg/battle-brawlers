@@ -26,6 +26,6 @@
     {/if}
   </crow>
   {#if description}
-    <div class="mt-2 text-sm">{description}</div>
+    <div class="mt-2 text-sm">{@html description}</div>
   {/if}
 </div>

@@ -72,13 +72,6 @@
       <crow
         role="listitem"
         animate:flip={{ duration: flipDurationMs }}
-        onmouseenter={() => {
-          if (['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(ability.id))
-            dragDisabled = true;
-        }}
-        onmouseleave={() => {
-          dragDisabled = false;
-        }}
         use:tooltip={{
           children: TooltipAbility,
           props: ability,
@@ -86,20 +79,16 @@
           lockInPlace: true
         }}
         class={tw(
-          'relative -ml-px h-full !flex-none overflow-hidden rounded border border-gray-800 bg-white',
-          ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'].includes(ability.id) &&
-            !dndDisabled
-            ? 'border-gray-400 bg-gray-100'
-            : 'z-10',
+          'relative -ml-px h-full !flex-none rounded border border-gray-500 bg-white',
+          ability.basic ? 'border-gray-300 bg-gray-100' : 'z-10',
           tickStart > 15 && 'pointer-events-none border-red-400 bg-red-100 text-red-400 opacity-50'
         )}
         style="width: calc(((100% / 15)*{ability.ticks}) + 1px);"
       >
         <AbilityIcon {ability} hideTickCount />
-        <!-- {ability.uuid.substring(0, 5)} -->
       </crow>
     {/each}
   </crow>
 </div>
 
-<!-- <pre class="text-xs">{JSON.stringify(abilities, null, 2)}</pre> -->
+<Debug data={hydratedAbilities} />

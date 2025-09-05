@@ -4,7 +4,7 @@ import seedRandom from 'seedrandom';
 import type { Combatant } from '$src/types/combatant';
 import type { Character } from '$src/types/character';
 // import lodash from 'lodash';
-import type { Ability } from '$src/types/ability';
+import { AbilityType, type Ability } from '$src/types/ability';
 // import type { CombatEvent } from '$src/types/combat';
 // import type { VFX } from '$src/types/vfx';
 import { COMBAT_TICK_TIME, COMBAT_RING_BASE_RADIUS } from '$src/constants/APP';
@@ -72,7 +72,11 @@ export const prepareCombatant = (
     (_, i) => calculateTickStart(abilitiesHydrated, i) <= character.maxTicks
   );
 
-  const abilitiesCopied = abilitiesCut;
+  const abilitiesCopied = abilitiesCut.reduce((a, ability, i) => {
+    const start = a[i - 1]?.end || 0;
+    const end = start + ability.ticks * COMBAT_TICK_TIME;
+    return [...a, { ...ability, start, end }];
+  }, [] as Ability[]);
 
   const abilities = abilitiesCut
     .reduce((a, ability) => {
@@ -84,6 +88,7 @@ export const prepareCombatant = (
               .map((_, i) => {
                 const { chainLink, ...ab } = ability;
 
+                ab.type = AbilityType.WindUp;
                 ab.ticks = (ability.ticks / (ability?.chainLink as number)) as Ability['ticks'];
                 if (i + 1 !== ability.chainLink) {
                   ab.chainTo = i + 1;
@@ -128,9 +133,15 @@ export const prepareCombatant = (
     position,
     statuses: {
       isBlocking: false,
-      isStunned: false,
       knockedOut: 0,
-      isBleeding: false
+      isStunned: {
+        ticks: 0,
+        value: 0
+      },
+      isBleeding: {
+        ticks: 0,
+        value: 0
+      }
     },
     abilities,
     abilitiesCopied

@@ -1,7 +1,7 @@
 import type { Character, Race } from '$src/types/character';
 import ABILITIES from '$src/constants/ABILITIES';
 
-type CharacterKey = Race | 'berserker' | 'missingo';
+export type CharacterKey = Race | 'creature';
 
 const DEFAULT_MAX_HP = 12;
 const DEFAULT_EQUIPMENT = {
@@ -17,6 +17,7 @@ export default {
     id: crypto.randomUUID(),
     name: 'npc1',
     race: 'elf',
+    image: 'elf/01.png',
     size: 1,
     equipment: DEFAULT_EQUIPMENT,
     description: '',
@@ -25,21 +26,24 @@ export default {
       currentHealth: DEFAULT_MAX_HP,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 1,
+      damage: 4,
       armor: 0
     },
     maxTicks: 15,
     abilities: [
-      ABILITIES('basicAttackRegular'),
-      ABILITIES('basicAttackRegular'),
-      ABILITIES('basicAttackRegular'),
-      ABILITIES('basicAttackRegular')
+      ABILITIES('basicAttackFast'),
+      ABILITIES('basicAttackFast'),
+      ABILITIES('basicAttackFast'),
+      ABILITIES('basicAttackFast'),
+      ABILITIES('basicAttackFast'),
+      ABILITIES('basicAttackFast')
     ]
   }),
   human: () => ({
     id: crypto.randomUUID(),
     name: 'npc2',
     race: 'human',
+    image: 'human/01.png',
     size: 1,
     equipment: DEFAULT_EQUIPMENT,
     description: '',
@@ -58,6 +62,7 @@ export default {
     id: crypto.randomUUID(),
     name: 'npc3',
     race: 'troll',
+    image: 'troll/01.png',
     size: 1,
     equipment: DEFAULT_EQUIPMENT,
     description: '',
@@ -80,6 +85,7 @@ export default {
     id: crypto.randomUUID(),
     name: 'npc4',
     race: 'dwarf',
+    image: 'dwarf/01.png',
     size: 0.75,
     equipment: DEFAULT_EQUIPMENT,
     description: '',
@@ -103,6 +109,7 @@ export default {
     id: crypto.randomUUID(),
     name: 'npc5',
     race: 'goblin',
+    image: 'goblin/01.png',
     size: 0.75,
     equipment: DEFAULT_EQUIPMENT,
     description: '',
@@ -125,14 +132,15 @@ export default {
     ]
   }),
   // Creatures
-  berserker: () => ({
+  succubus: () => ({
     id: crypto.randomUUID(),
-    name: 'Berserker',
-    race: 'human',
+    name: 'Succubus',
+    race: 'creature',
+    image: 'creature/succubus.png',
     size: 0.75,
     equipment: DEFAULT_EQUIPMENT,
     description:
-      'The Berserker is a fearsome warrior whose raw power and unyielding rage make him a deadly foe on the battlefield. Known for his brutal combat style, he thrives in the chaos of close-range encounters.<br /><br />His most terrifying ability is his relentless spinning attack, where he whirls his weapons with terrifying force, striking all who dare stand too close. This savage technique allows him to mow through groups of enemies with devastating efficiency, leaving little room for his opponents to retaliate.',
+      'The Succubus is a fearsome warrior whose raw power and unyielding rage make her a deadly foe on the battlefield. Known for her brutal combat style, she thrives in the chaos of close-range encounters.<br /><br />Her most terrifying ability is her relentless spinning attack, where she whirls her weapons with terrifying force, striking all who dare stand too close. This savage technique allows her to mow through groups of enemies with devastating efficiency, leaving little room for her opponents to retaliate.',
     combatStats: {
       maxHealth: 70,
       currentHealth: 50,
@@ -144,22 +152,56 @@ export default {
     maxTicks: Infinity,
     abilities: [ABILITIES('basicAttackRegular'), ABILITIES('spin')]
   }),
-  missingo: () => ({
+  rat: () => ({
     id: crypto.randomUUID(),
-    name: 'Missingo',
-    race: 'troll',
+    name: 'Rat',
+    race: 'creature',
+    image: 'creature/rat.png',
     size: 0.75,
     equipment: DEFAULT_EQUIPMENT,
-    description: '',
+    description: 'Snirvel.',
     combatStats: {
-      maxHealth: 50,
+      maxHealth: 20,
       currentHealth: 50,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 4,
+      damage: 3,
       armor: 0
     },
     maxTicks: Infinity,
-    abilities: [ABILITIES('basicAttackFast')]
+    abilities: [
+      ABILITIES('stab'),
+      ABILITIES('stab'),
+      ABILITIES('stab'),
+      ABILITIES('stab'),
+      ABILITIES('stab'),
+      ABILITIES('stab')
+    ]
+  }),
+  undead: () => ({
+    id: crypto.randomUUID(),
+    name: 'Undead',
+    race: 'creature',
+    image: 'creature/undead.png',
+    size: 0.75,
+    equipment: DEFAULT_EQUIPMENT,
+    description: 'ÖÖÖÖh.',
+    combatStats: {
+      maxHealth: 20,
+      currentHealth: 50,
+      maxEnergy: 12,
+      currentEnergy: 6,
+      damage: 3,
+      armor: 0
+    },
+    maxTicks: Infinity,
+    abilities: [
+      ABILITIES('stab'),
+      ABILITIES('stab'),
+      ABILITIES('stab'),
+      ABILITIES('stab'),
+      ABILITIES('stab'),
+      ABILITIES('stab')
+    ]
   })
-} as Record<CharacterKey, () => Character>;
+} as Record<string, () => Character>;

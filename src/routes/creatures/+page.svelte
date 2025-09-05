@@ -2,8 +2,9 @@
   import CHARACTERS from '$src/constants/CHARACTERS';
 
   let creatures = [
-    { ...CHARACTERS.berserker(), url: 'berserker' }
-    // { ...CHARACTERS.missingo(), url: 'missingo' }
+    { ...CHARACTERS.succubus(), url: 'succubus' },
+    { ...CHARACTERS.rat(), url: 'rat' },
+    { ...CHARACTERS.undead(), url: 'undead' }
   ];
 </script>
 
@@ -22,8 +23,8 @@
     >
       <crow left class="flex-1 gap-2">
         <div class="w-6">
-          <div class="overflow-hidden rounded-full">
-            <img src="/images/races/{creature.race}/01.png" alt="" />
+          <div class="h-6 overflow-hidden rounded-full">
+            <img src="/images/races/{creature.image}" alt="" />
           </div>
         </div>
 

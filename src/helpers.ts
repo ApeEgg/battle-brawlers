@@ -17,6 +17,17 @@ const formatProps = (props: any) =>
     ''
   );
 
+const deepMerge = (target: DynamicObject, source: DynamicObject) => {
+  for (const key in source) {
+    if (source[key] instanceof Object && key in target && target[key] instanceof Object) {
+      deepMerge(target[key], source[key]);
+    } else {
+      target[key] = source[key];
+    }
+  }
+  return target;
+};
+
 const range = (end = 0, start = 0) =>
   Array(Math.abs(end - start))
     .fill(0)
@@ -314,5 +325,6 @@ export {
   onlyUnique,
   camelCaseToDashed,
   once,
-  preventDefault
+  preventDefault,
+  deepMerge
 };

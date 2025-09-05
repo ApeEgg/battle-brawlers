@@ -89,8 +89,7 @@
     Resume combat
   </Button><br />
   Elapsed ms: {elapsedMilliseconds}<br />
-  Duration: {app.combat.duration} <br />
-  <!-- <pre>{JSON.stringify(app.combat, null, 2)}</pre> -->
+  Duration: {app.combat.duration}
 
   <CombatArena>
     {#if liveTeams.length}

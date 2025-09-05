@@ -7,36 +7,36 @@
     ability
   }: { small?: boolean; hideTickCount?: boolean; ability: Ability } = $props();
 
-  let { icon, ticks } = $derived(ability);
-  let basicAttack = $derived(
-    ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'block', 'spin'].includes(
-      ability.id
-    )
-  );
+  let { icon, ticks, basic } = $derived(ability);
 </script>
 
-{#if !basicAttack}
+<!-- {#if !basic}
   <Icon
     class={tw('absolute text-[300px] opacity-20', small && 'text-9xl', small)}
     name={icon}
     original
   />
-  <!-- style="--{icon}--fill-color-0: #000;" -->
-{/if}
+{/if} -->
 {#if !hideTickCount}
-  <crow right down class="ticks absolute inset-0">
-    <div class={tw('p-1.5 text-3xl leading-5', small && 'p-0.5 text-lg leading-3.5')}>
+  <crow
+    class={tw(
+      'ticks absolute top-full left-1/2 h-5 w-8 -translate-x-1/2 -translate-y-3/4 rounded-sm border-[0.5px] border-gray-400 bg-white',
+      small && 'h-3 w-5'
+    )}
+  >
+    <div class={tw('text-md leading-0 font-bold', small && 'text-xs')}>
       {ticks}
     </div>
   </crow>
 {/if}
 <Icon
   class={tw(
-    'relative text-5xl',
-    basicAttack && 'text-xl',
-    small && 'text-2xl',
-    small && basicAttack && 'text-xl'
+    'relative text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.5xl))]',
+    basic && 'text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.3xl))] text-gray-400',
+    small && 'text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.2xl))]',
+    small && basic && 'text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.xl))]'
+    // !hideTickCount && '-translate-y-1'
   )}
   name={icon}
-  original
+  original={!basic}
 />
