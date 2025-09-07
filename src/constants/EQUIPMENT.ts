@@ -26,7 +26,21 @@ export const ALL_EQUIPMENT = {
     combatStats: {
       maxHealth: 5
     },
-    abilities: [ABILITIES('whirlwind')]
+    abilities: []
+  },
+  twoHandedAxe: {
+    prettyName: 'Two-handed Axe',
+    description: 'A mighty two-handed axe.',
+    slotsIn: 'twoHand',
+    combatStats: {
+      damage: 3
+    },
+    abilities: [
+      ABILITIES('slash', false, { overrides: { ticks: 4 } }),
+      ABILITIES('slash', false, { overrides: { ticks: 4 } }),
+      ABILITIES('slash', false, { overrides: { ticks: 4 } }),
+      ABILITIES('whirlwind', false, { overrides: { ticks: 4, chainLink: 4 } })
+    ]
   },
   twoHandedHammer: {
     prettyName: 'Two-handed Hammer',
