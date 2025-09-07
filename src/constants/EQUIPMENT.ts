@@ -26,7 +26,7 @@ export const ALL_EQUIPMENT = {
     combatStats: {
       maxHealth: 5
     },
-    abilities: [ABILITIES('spin')]
+    abilities: [ABILITIES('whirlwind')]
   },
   twoHandedHammer: {
     prettyName: 'Two-handed Hammer',

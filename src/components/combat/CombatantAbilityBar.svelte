@@ -16,7 +16,7 @@
     ></div>
 
     <div class="relative flex divide-x divide-gray-600">
-      {#each abilitiesCopied as { prettyName, ticks, icon, chainLink }, i (`icon_${i}_${prettyName}`)}
+      {#each abilitiesCopied as { prettyName, ticks, icon, chainLink, basic }, i (`icon_${i}_${prettyName}`)}
         <div
           class="relative flex h-6 items-center justify-center text-center"
           style="min-width: calc(12px*{ticks});"
@@ -29,7 +29,11 @@
               ></div>
             {/each}
           {/if}
-          <Icon original class={tw('relative text-[8px]', ticks > 1 && 'text-sm')} name={icon} />
+          <Icon
+            original={!basic}
+            class={tw('relative text-[8px]', ticks > 1 && 'text-sm', basic && 'text-[#69655c]')}
+            name={icon}
+          />
         </div>
       {/each}
     </div>

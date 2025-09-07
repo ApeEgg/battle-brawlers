@@ -8,7 +8,7 @@ export type AbilityId =
   | 'basicAttackSlow'
   | 'block'
   | 'stun'
-  | 'spin'
+  | 'whirlwind'
   | 'lacerate';
 
 export enum AbilityType {

@@ -33,7 +33,8 @@ export default {
     maxTicks: 15,
     abilities: [
       ABILITIES('slash'),
-      ABILITIES('slash', false, { overrides: { ticks: 6 } }),
+      ABILITIES('slash', false, { overrides: { ticks: 4 } }),
+      ABILITIES('slash'),
       ABILITIES('slash'),
       ABILITIES('slash')
     ]
@@ -145,7 +146,7 @@ export default {
       currentArmor: 0
     },
     maxTicks: Infinity,
-    abilities: [ABILITIES('slash'), ABILITIES('spin')]
+    abilities: [ABILITIES('slash'), ABILITIES('whirlwind')]
   }),
   rat: () => ({
     id: crypto.randomUUID(),

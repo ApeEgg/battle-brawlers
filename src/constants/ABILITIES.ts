@@ -96,15 +96,15 @@ export const ALL_ABILITIES = {
     vfx: VFX.stun,
     damageCalc
   },
-  spin: {
-    prettyName: 'Spin',
+  whirlwind: {
+    prettyName: 'Whirlwind',
     type: AbilityType.Channeling,
     description: 'Quickly spin and deal damage each tick.',
     ticks: 10,
     chainLink: 10,
     icon: 'spin',
     basic: false,
-    vfx: VFX.spin,
+    vfx: VFX.whirlwind,
     damageCalc
   },
   lacerate: {

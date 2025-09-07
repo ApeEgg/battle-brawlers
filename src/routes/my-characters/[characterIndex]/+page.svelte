@@ -63,26 +63,6 @@
     app.tooltip = undefined;
   };
 
-  const containsAll = (base: AbilityRef[], target: AbilityRef[]) => {
-    if (base.length === 0 || target.length === 0) return false;
-
-    // Build frequency map for target
-    const targetCounts: Record<string, number> = {};
-    for (const t of target) {
-      targetCounts[t.id] = (targetCounts[t.id] ?? 0) + 1;
-    }
-
-    // Check that base requirements are satisfied
-    for (const b of base) {
-      if (!targetCounts[b.id]) {
-        return false; // missing or not enough
-      }
-      targetCounts[b.id]--;
-    }
-
-    return true;
-  };
-
   $effect(() => {
     const isShield = !!(
       character.equipment.offHand &&
@@ -165,16 +145,38 @@
       }
     }
 
-    character.abilities = defaultAbilities.map((ability) => ({
-      ...ABILITIES(ability),
-      uuid: crypto.randomUUID()
-    }));
-    // if (!containsAll(defaultAbilities, character.abilities)) {
-    //   character.abilities = character.abilities.filter(
-    //     (ability) => !ABILITIES(ability, true).basic
-    //   );
-    //   character.abilities = [...defaultAbilities, ...untrack(() => character.abilities)];
-    // }
+    // character.abilities = defaultAbilities.map((ability) => ({
+    //   ...ABILITIES(ability),
+    //   uuid: crypto.randomUUID()
+    // }));
+
+    const currentAbilities = untrack(() => character.abilities).map((ability) =>
+      !ABILITIES(ability, true).basic ? ability : undefined
+    );
+
+    const abs = [
+      ...currentAbilities
+        .map((ability) => {
+          if (ability) return $state.snapshot(ability);
+
+          const defaultAbility = untrack(() => defaultAbilities).shift();
+
+          return defaultAbility;
+        })
+        .filter((a) => a),
+      ...defaultAbilities
+    ];
+
+    if (
+      JSON.stringify(abs.map((a) => a?.id).sort((a, b) => a.localeCompare(b))) !==
+      JSON.stringify(
+        untrack(() => character.abilities)
+          .map((a) => a.id)
+          .sort((a, b) => a.localeCompare(b))
+      )
+    ) {
+      character.abilities = abs;
+    }
   });
 
   $effect(() => {
@@ -269,6 +271,7 @@
       <h5>Active abilities</h5>
     </crow>
     <AbilityBar
+      {character}
       abilities={character.abilities}
       {considerCharacterAbilities}
       {finalizeCharacterAbilities}
@@ -282,6 +285,7 @@
       <h5>Available abilities</h5>
     </crow>
     <AbilityInventory
+      {character}
       {availableAbilities}
       {considerAvailableAbilities}
       {finalizeAvailableAbilities}

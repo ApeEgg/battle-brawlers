@@ -22,8 +22,8 @@ export default {
     vfxName: 'stun',
     duration: 500
   },
-  spin: {
-    vfxName: 'spin',
+  whirlwind: {
+    vfxName: 'whirlwind',
     duration: 500
   },
   // Status effects

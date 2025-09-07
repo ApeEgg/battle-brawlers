@@ -106,7 +106,7 @@ const tickStatusEffects = (combatants: Combatant[]) => {
       combatant.statuses.isBleeding.ticks -= 1;
     }
     if (combatant.statuses.isStunned.ticks > 0) {
-      // combatant.combatStats.currentHealth -= combatant.statuses.isStunned.value; // bleed damage
+      // combatant.combatStats.currentHealth -= combatant.statuses.isStunned.value;
       combatant.statuses.isStunned.ticks -= 1;
     }
   });
@@ -193,43 +193,47 @@ export const generateCombat = (seed: string, teams: Team[]) => {
             target.combatStats.currentHealth -= damage.result;
             bufferAnimation(target, _VFX.hurt, now);
           }
-        } else if (currentAbility.id === 'stun') {
-          // My implementation attempt
-          // const targetCurrentAbility = target.abilitiesCopied.find(
-          //   (ability) =>
-          //     ability.start % target.abilitiesCopied[target.abilitiesCopied.length - 1].end! <=
-          //       now % target.abilitiesCopied[target.abilitiesCopied.length - 1].end! &&
-          //     ability.end % target.abilitiesCopied[target.abilitiesCopied.length - 1].end! >
-          //       now % target.abilitiesCopied[target.abilitiesCopied.length - 1].end!
-          // );
-          const total = target.abilitiesCopied[target.abilitiesCopied.length - 1].end!;
-          const t = ((now % total) + total) % total; // normalize now into [0,total)
 
-          const targetCurrentAbility = target.abilitiesCopied.find(
-            (ability) =>
-              ability.end % total > ability.start % total
-                ? t >= ability.start % total && t < ability.end % total // normal segment
-                : ability.end % total < ability.start % total
-                  ? t >= ability.start % total || t < ability.end % total // wraps over end->start
-                  : t === ability.start % total // zero-length segment
-          );
+          if (currentAbility.id === 'lacerate') {
+            target.statuses.isBleeding = {
+              ticks: target.statuses.isBleeding.ticks + 6,
+              value: Math.ceil(combatant.combatStats.damage * 0.2)
+            };
+          }
 
-          const endTime = targetCurrentAbility.end % total;
-          const remainingTime =
-            endTime > t
-              ? endTime - t // normal case
-              : total - t + endTime; // wrapped segment case
-          const ticks = remainingTime / COMBAT_TICK_TIME;
+          if (currentAbility.id === 'stun') {
+            // My implementation attempt
+            // const targetCurrentAbility = target.abilitiesCopied.find(
+            //   (ability) =>
+            //     ability.start % target.abilitiesCopied[target.abilitiesCopied.length - 1].end! <=
+            //       now % target.abilitiesCopied[target.abilitiesCopied.length - 1].end! &&
+            //     ability.end % target.abilitiesCopied[target.abilitiesCopied.length - 1].end! >
+            //       now % target.abilitiesCopied[target.abilitiesCopied.length - 1].end!
+            // );
+            const total = target.abilitiesCopied[target.abilitiesCopied.length - 1].end!;
+            const t = ((now % total) + total) % total; // normalize now into [0,total)
 
-          target.statuses.isStunned = {
-            ticks,
-            value: 1
-          };
-        } else if (currentAbility.id === 'lacerate') {
-          target.statuses.isBleeding = {
-            ticks: target.statuses.isBleeding.ticks + 6,
-            value: Math.ceil(combatant.combatStats.damage * 0.2)
-          };
+            const targetCurrentAbility = target.abilitiesCopied.find(
+              (ability) =>
+                ability.end % total > ability.start % total
+                  ? t >= ability.start % total && t < ability.end % total // normal segment
+                  : ability.end % total < ability.start % total
+                    ? t >= ability.start % total || t < ability.end % total // wraps over end->start
+                    : t === ability.start % total // zero-length segment
+            );
+
+            const endTime = targetCurrentAbility.end % total;
+            const remainingTime =
+              endTime > t
+                ? endTime - t // normal case
+                : total - t + endTime; // wrapped segment case
+            const ticks = remainingTime / COMBAT_TICK_TIME;
+
+            target.statuses.isStunned = {
+              ticks,
+              value: 1
+            };
+          }
         } else if (currentAbility.id === 'block') {
           combatant.statuses.isBlocking = false;
         }

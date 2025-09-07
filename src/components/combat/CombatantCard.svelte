@@ -4,6 +4,7 @@
   import CombatantAbilityBar from '$src/components/combat/CombatantAbilityBar.svelte';
   import CombatantImage from '$src/components/combat/CombatantImage.svelte';
   import STATUS_EFFECTS from '$src/constants/STATUS_EFFECTS';
+  import { flip } from 'svelte/animate';
 
   let props: Combatant & {
     facingRight: boolean;
@@ -48,21 +49,21 @@
         <div class="h-40 w-36"></div>
         <CombatantAbilityBar {...props} />
 
-        <crow vertical left class="absolute top-17 left-[calc(100%-theme(spacing.6))] gap-2">
-          {#each Object.entries(statuses) as [key, { ticks }] (key)}
-            {#if ticks}
-              {@const effect = STATUS_EFFECTS?.[key]}
-              <crow class="gap-3">
-                <crow class="w-5">
-                  <Icon
-                    name={effect.icon}
-                    class="{effect.animation} [animation-direction:reverse]"
-                    original
-                  />
-                </crow>
-                <span class="text-xs">{effect.text} {ticks}</span>
+        <crow vertical left class="absolute top-8 left-[calc(100%-theme(spacing.6))] gap-2">
+          {#each Object.entries(statuses)
+            .filter(([_, { ticks }]) => ticks)
+            .sort(([a], [b]) => a.ticks - b.ticks) as [key, { ticks }] (key)}
+            {@const effect = STATUS_EFFECTS?.[key]}
+            <crow class="gap-3" animate:flip={{ duration: 250 }}>
+              <crow class="w-5">
+                <Icon
+                  name={effect.icon}
+                  class="{effect.animation} [animation-direction:reverse]"
+                  original
+                />
               </crow>
-            {/if}
+              <span class="text-xs">{effect.text} {ticks}</span>
+            </crow>
           {/each}
           <!-- {#if statuses.isStunned}
             <crow class="gap-3">

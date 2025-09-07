@@ -31,7 +31,7 @@
           'basicAttackRegular',
           'basicAttackFast',
           'basicAttackSlow',
-          'spin',
+          'whirlwind',
           'slam',
           'slash',
           'stab'
@@ -103,7 +103,7 @@
       class:hurt={applyAnimationClass('hurt')}
       class:block={applyAnimationClass('block')}
       class:attackBlocked={applyAnimationClass('attackBlocked')}
-      class:spin={applyAnimationClass('spin')}
+      class:whirlwind={applyAnimationClass('whirlwind')}
       class="h-40 w-36"
       style="transform: translate(-50%, -50%);"
     >
@@ -136,7 +136,7 @@
       </crow>
     </div>
 
-    <Debug data={currentAnimation} />
+    <Debug data={statuses} />
   </div>
 {/key}
 
@@ -192,10 +192,10 @@
       transform: translate(calc(var(--attack-end-x)), calc(var(--attack-end-y)));
     }
   }
-  .spin {
-    animation: spin 500ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  .whirlwind {
+    animation: whirlwind 500ms cubic-bezier(0.25, 0.1, 0.25, 1);
   }
-  @keyframes spin {
+  @keyframes whirlwind {
     0% {
       transform: translate(-50%, -50%) scaleX(1) scaleX(1);
     }

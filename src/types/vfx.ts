@@ -8,7 +8,7 @@ export type VFXName =
   | 'block'
   | 'attackBlocked'
   | 'stun'
-  | 'spin';
+  | 'whirlwind';
 
 export type VFX = {
   id?: string;

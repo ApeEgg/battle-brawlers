@@ -62,5 +62,5 @@
   <crow class="w-full !justify-between">
     <h4>Abilities</h4>
   </crow>
-  <AbilityBar abilities={creature.abilities} dndDisabled />
+  <AbilityBar character={creature} abilities={creature.abilities} dndDisabled />
 </crow>

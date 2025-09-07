@@ -8,7 +8,7 @@
 
   const prettyCombatStatKey = (key: string) =>
     ({
-      armor: 'Armor',
+      maxArmor: 'Armor',
       damage: 'Damage',
       maxHealth: 'Health'
     })[key] || key;

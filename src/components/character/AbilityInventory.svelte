@@ -5,10 +5,12 @@
   import type { AbilityRef } from '$src/types/ability';
   import ABILITIES from '$src/constants/ABILITIES';
   import AbilityIcon from '$src/components/character/AbilityIcon.svelte';
+  import type { Character } from '$src/types/character';
 
   let flipDurationMs = 300;
 
   let {
+    character,
     availableAbilities,
     transformDraggedAvailableAbility,
     considerAvailableAbilities,
@@ -16,6 +18,7 @@
     dropFromOthersDisabled = false,
     small = false
   }: {
+    character: Character;
     availableAbilities: AbilityRef[];
     transformDraggedAvailableAbility?: (draggedElement: any, data: any, _index: any) => void;
     considerAvailableAbilities?: (e: any) => void;
@@ -25,6 +28,9 @@
   } = $props();
 
   let hydratedAbilities = $derived(availableAbilities.map((a) => ABILITIES(a, true)));
+  let hasNonbasicAbilities = $derived(
+    character.abilities?.some((ability) => !ABILITIES(ability, true).basic)
+  );
 </script>
 
 <crow
@@ -53,7 +59,7 @@
         )}
         use:tooltip={{
           children: TooltipAbility,
-          props: ability,
+          props: { ...ability, character },
           direction: 'up',
           lockInPlace: true
         }}
@@ -64,6 +70,8 @@
         <!-- {ability.uuid.substring(0, 5)} -->
       </crow>
     {/each}
+  {:else if hasNonbasicAbilities}
+    <!-- <Button onclick={() => {}}>Reset</Button> -->
   {:else}
     Abilities from equipped gear will appear here
   {/if}

@@ -6,6 +6,6 @@ export const ABILITY_PRIORITY = [
   'basicAttackFast',
   'basicAttackRegular',
   'basicAttackSlow',
-  'spin',
+  'whirlwind',
   'block'
 ];

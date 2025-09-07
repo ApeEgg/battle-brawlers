@@ -69,7 +69,9 @@ export const prepareCombatant = (
     character.abilities.map((ability) => ABILITIES(ability, true)) as Ability[]
   ).map(({ damageCalc, ...ability }) => ({
     ...ability,
-    damage: damageCalc({ ticks: ability.ticks }).result
+    damage: damageCalc({
+      ticks: ability?.chainLink ? ability.ticks / ability.chainLink : ability.ticks
+    }).result
   }));
 
   const abilitiesCut = abilitiesHydrated.filter(
