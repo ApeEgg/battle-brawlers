@@ -4,6 +4,17 @@ import entity from '$src/ts/entity';
 import type { DynamicObject } from '$src/types/common';
 import { deepMerge } from '$src/helpers';
 
+const damageCalc = ({ ticks }: { ticks: number }) => {
+  const baseDamage = ticks / 10;
+  const addedDamage = (ticks - 1) * 0.2;
+  const result = baseDamage + addedDamage;
+  return {
+    baseDamage,
+    addedDamage,
+    result
+  };
+};
+
 export const ALL_ABILITIES = {
   stab: {
     prettyName: 'Stab',
@@ -12,7 +23,8 @@ export const ALL_ABILITIES = {
     ticks: 2,
     icon: 'stab',
     basic: true,
-    vfx: VFX.basicAttackFast
+    vfx: VFX.basicAttackFast,
+    damageCalc
   },
   slash: {
     prettyName: 'Slash',
@@ -21,7 +33,8 @@ export const ALL_ABILITIES = {
     ticks: 2,
     icon: 'slash',
     basic: true,
-    vfx: VFX.basicAttackRegular
+    vfx: VFX.basicAttackRegular,
+    damageCalc
   },
   slam: {
     prettyName: 'Slam',
@@ -30,7 +43,8 @@ export const ALL_ABILITIES = {
     ticks: 4,
     icon: 'slam',
     basic: true,
-    vfx: VFX.basicAttackSlow
+    vfx: VFX.basicAttackSlow,
+    damageCalc
   },
   basicAttackFast: {
     prettyName: 'Basic attack',
@@ -39,7 +53,8 @@ export const ALL_ABILITIES = {
     ticks: 2,
     icon: '1h',
     basic: true,
-    vfx: VFX.basicAttackFast
+    vfx: VFX.basicAttackFast,
+    damageCalc
   }, // 8 (80% of 10)
   basicAttackRegular: {
     prettyName: 'Punch',
@@ -48,7 +63,8 @@ export const ALL_ABILITIES = {
     ticks: 2,
     icon: 'punch',
     basic: true,
-    vfx: VFX.basicAttackFast
+    vfx: VFX.basicAttackFast,
+    damageCalc
   }, // 10
   basicAttackSlow: {
     prettyName: 'Basic attack',
@@ -57,7 +73,8 @@ export const ALL_ABILITIES = {
     ticks: 4,
     icon: '1h',
     basic: true,
-    vfx: VFX.basicAttackSlow
+    vfx: VFX.basicAttackSlow,
+    damageCalc
   }, // 16 (160% of 10)
   block: {
     prettyName: 'Shield block',
@@ -66,7 +83,8 @@ export const ALL_ABILITIES = {
     ticks: 3,
     icon: 'block',
     basic: true,
-    vfx: VFX.block
+    vfx: VFX.block,
+    damageCalc
   },
   stun: {
     prettyName: 'Stun',
@@ -75,7 +93,8 @@ export const ALL_ABILITIES = {
     ticks: 1,
     icon: 'isStunned',
     basic: false,
-    vfx: VFX.stun
+    vfx: VFX.stun,
+    damageCalc
   },
   spin: {
     prettyName: 'Spin',
@@ -85,7 +104,8 @@ export const ALL_ABILITIES = {
     chainLink: 10,
     icon: 'spin',
     basic: false,
-    vfx: VFX.spin
+    vfx: VFX.spin,
+    damageCalc
   },
   lacerate: {
     prettyName: 'Lacerate',
@@ -94,7 +114,8 @@ export const ALL_ABILITIES = {
     ticks: 2,
     icon: 'isBleeding',
     basic: false,
-    vfx: VFX.basicAttackFast
+    vfx: VFX.basicAttackFast,
+    damageCalc
   }
 };
 

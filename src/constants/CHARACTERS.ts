@@ -27,16 +27,15 @@ export default {
       maxEnergy: 12,
       currentEnergy: 6,
       damage: 4,
-      armor: 0
+      maxArmor: 0,
+      currentArmor: 0
     },
     maxTicks: 15,
     abilities: [
-      ABILITIES('basicAttackFast'),
-      ABILITIES('basicAttackFast'),
-      ABILITIES('basicAttackFast'),
-      ABILITIES('basicAttackFast'),
-      ABILITIES('basicAttackFast'),
-      ABILITIES('basicAttackFast')
+      ABILITIES('slash'),
+      ABILITIES('slash', false, { overrides: { ticks: 6 } }),
+      ABILITIES('slash'),
+      ABILITIES('slash')
     ]
   }),
   human: () => ({
@@ -53,7 +52,8 @@ export default {
       maxEnergy: 12,
       currentEnergy: 6,
       damage: 1,
-      armor: 0
+      maxArmor: 0,
+      currentArmor: 0
     },
     maxTicks: 15,
     abilities: [ABILITIES('basicAttackSlow'), ABILITIES('block'), ABILITIES('basicAttackSlow')]
@@ -72,14 +72,11 @@ export default {
       maxEnergy: 12,
       currentEnergy: 6,
       damage: 1,
-      armor: 0
+      maxArmor: 0,
+      currentArmor: 0
     },
     maxTicks: 15,
-    abilities: [
-      ABILITIES('basicAttackSlow'),
-      ABILITIES('basicAttackSlow'),
-      ABILITIES('basicAttackSlow')
-    ]
+    abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
   }),
   dwarf: () => ({
     id: crypto.randomUUID(),
@@ -95,15 +92,11 @@ export default {
       maxEnergy: 12,
       currentEnergy: 6,
       damage: 1,
-      armor: 0
+      maxArmor: 0,
+      currentArmor: 0
     },
     maxTicks: 15,
-    abilities: [
-      ABILITIES('basicAttackRegular'),
-      ABILITIES('basicAttackRegular'),
-      ABILITIES('basicAttackRegular'),
-      ABILITIES('basicAttackRegular')
-    ]
+    abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
   }),
   goblin: () => ({
     id: crypto.randomUUID(),
@@ -119,16 +112,17 @@ export default {
       maxEnergy: 12,
       currentEnergy: 6,
       damage: 1,
-      armor: 0
+      maxArmor: 0,
+      currentArmor: 0
     },
     maxTicks: 15,
     abilities: [
-      ABILITIES('basicAttackFast'),
-      ABILITIES('basicAttackFast'),
-      ABILITIES('basicAttackFast'),
-      ABILITIES('basicAttackFast'),
-      ABILITIES('basicAttackFast'),
-      ABILITIES('basicAttackFast')
+      ABILITIES('stab'),
+      ABILITIES('stab'),
+      ABILITIES('stab'),
+      ABILITIES('stab'),
+      ABILITIES('stab'),
+      ABILITIES('stab')
     ]
   }),
   // Creatures
@@ -146,11 +140,12 @@ export default {
       currentHealth: 50,
       maxEnergy: 12,
       currentEnergy: 6,
-      damage: 3,
-      armor: 0
+      damage: 1,
+      maxArmor: 0,
+      currentArmor: 0
     },
     maxTicks: Infinity,
-    abilities: [ABILITIES('basicAttackRegular'), ABILITIES('spin')]
+    abilities: [ABILITIES('slash'), ABILITIES('spin')]
   }),
   rat: () => ({
     id: crypto.randomUUID(),
@@ -166,7 +161,8 @@ export default {
       maxEnergy: 12,
       currentEnergy: 6,
       damage: 3,
-      armor: 0
+      maxArmor: 0,
+      currentArmor: 0
     },
     maxTicks: Infinity,
     abilities: [
@@ -192,7 +188,8 @@ export default {
       maxEnergy: 12,
       currentEnergy: 6,
       damage: 3,
-      armor: 0
+      maxArmor: 0,
+      currentArmor: 0
     },
     maxTicks: Infinity,
     abilities: [

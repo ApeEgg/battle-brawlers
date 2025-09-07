@@ -1,8 +1,14 @@
 <script lang="ts">
+  import { calculateCombatStatsByCharacter } from '$src/ts/Utils';
   import { AbilityType, type Ability } from '$src/types/ability';
 
   // let { prettyName, ticks, chainLink, description }: Ability = app.tooltip.props;
-  let { prettyName, ticks, type, description, chainLink }: Ability = $derived(app.tooltip.props);
+  let { prettyName, ticks, type, description, chainLink, damageCalc }: Ability = $derived(
+    app.tooltip.props
+  );
+
+  let combatStats = $derived(calculateCombatStatsByCharacter(app.characters[0]));
+  let damage = $derived(damageCalc({ ticks }));
 </script>
 
 <div
@@ -24,6 +30,11 @@
         {ticks / chainLink} tick{ticks / chainLink === 1 ? '' : 's'}
       </div>
     {/if}
+    <div class="text-sm">
+      <strong class="text-black"> Damage: </strong>
+      {Math.ceil(combatStats.damage * damage.result)}
+      ({damage.baseDamage.toFixed(2) * 100}% + {damage.addedDamage.toFixed(2) * 100}% of damage)
+    </div>
   </crow>
   {#if description}
     <div class="mt-2 text-sm">{@html description}</div>

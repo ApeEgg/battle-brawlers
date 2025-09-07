@@ -230,7 +230,7 @@
       </crow>
       <crow class="gap-2">
         <div class="w-15 font-bold">Armor:</div>
-        <div>{combatStats?.armor}</div>
+        <div>{combatStats?.maxArmor}</div>
       </crow>
     </crow>
     <crow vertical up left>
@@ -239,14 +239,14 @@
           <crow left>
             <div class="w-20 font-bold">{slotsInPrettyName(slot as EquipmentSlot)}:</div>
 
-            {#if slot === 'mainHand' && !character.equipment.mainHand}
-              <span class="text-gray-400">Fist</span>
-            {:else if slot === 'offHand' && !character.equipment.offHand}
-              <span class="text-gray-400">Fist</span>
-            {:else if slot === 'offHand' && character.equipment.mainHand && EQUIPMENT(character.equipment.mainHand, true).slotsIn === 'twoHand'}
+            {#if slot === 'offHand' && character.equipment.mainHand && EQUIPMENT(character.equipment.mainHand, true).slotsIn === 'twoHand'}
               <span class="text-gray-400">
                 {EQUIPMENT(character.equipment.mainHand, true).prettyName}
               </span>
+            {:else if slot === 'mainHand' && !character.equipment.mainHand}
+              <span class="text-gray-400">Fist</span>
+            {:else if slot === 'offHand' && !character.equipment.offHand}
+              <span class="text-gray-400">Fist</span>
             {:else if equipment}
               <EquipmentLink {...EQUIPMENT(equipment, true)} />
             {:else}

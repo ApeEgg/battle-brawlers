@@ -61,7 +61,7 @@ export const equip = (equipmentRef: EquipmentRef, index: number) => {
   ) {
     app.inventory.push(character.equipment.mainHand);
     character.equipment.mainHand = null;
-    slotsIn = 'mainHand';
+    if (equipment.slotsIn !== 'offHand') slotsIn = 'mainHand';
   }
 
   // Replace whatever is in the slot

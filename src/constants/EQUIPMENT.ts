@@ -42,7 +42,7 @@ export const ALL_EQUIPMENT = {
     description: 'A mighty two-handed sword.',
     slotsIn: 'twoHand',
     combatStats: {
-      damage: 3
+      damage: 2
     },
     abilities: [
       ABILITIES('slash', false, { overrides: { ticks: 4 } }),
@@ -55,7 +55,7 @@ export const ALL_EQUIPMENT = {
     description: 'Fine protection.',
     slotsIn: 'armor',
     combatStats: {
-      armor: 1
+      maxArmor: 1
     },
     abilities: []
   },
@@ -71,7 +71,7 @@ export const ALL_EQUIPMENT = {
     description: 'A really sharp dagger.',
     slotsIn: 'oneHand',
     combatStats: {
-      damage: 5
+      damage: 1
     },
     abilities: [ABILITIES('stab'), ABILITIES('stab'), ABILITIES('stab'), ABILITIES('lacerate')]
   }

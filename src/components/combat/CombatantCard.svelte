@@ -16,7 +16,7 @@
   let { name, id } = props;
 
   let combatStats = $derived(props.combatStats);
-  let damage = $derived(combatStats.damage);
+  let damage = $derived(props.damage);
 
   let position = $derived(props.position);
   let z = $derived(props.z);
@@ -24,6 +24,9 @@
   let y = $derived(position.y);
   let scale = $derived(props.scale);
   let statuses = $derived(props.statuses);
+  let facingRight = $derived(props.facingRight);
+  let currentArmor = $derived(combatStats.currentArmor);
+  // let currentAbility = $derived(props.abilities.find);
 </script>
 
 <div
@@ -33,13 +36,13 @@
   <div class="absolute" style="left: {x}px; top:{y}px; transform: translate(-50%, -50%);">
     <div class="absolute" style="transform: scale(1) translate(-50%, -50%);">
       <div class="combatant rounded border bg-[#D7CEC1] shadow">
-        <crow class="w-full justify-between px-2 py-1">
+        <!-- <crow class="w-full justify-between px-2 py-1">
           {name}
           <crow right class="gap-1">
             <strong>DMG</strong>
             {damage}
           </crow>
-        </crow>
+        </crow> -->
 
         <HealthBar current={combatStats.currentHealth} max={combatStats.maxHealth}></HealthBar>
         <div class="h-40 w-36"></div>
@@ -85,6 +88,35 @@
               <span class="text-xs">BLEEDING&nbsp;{statuses.isBleeding.ticks}</span>
             </crow>
           {/if} -->
+          <!-- <Debug data={props} /> -->
+        </crow>
+        <crow
+          class={tw(
+            'absolute bottom-6 left-0 aspect-square w-10',
+            facingRight ? 'right-0 left-auto' : ''
+          )}
+        >
+          <Icon name="1h1h" class="text-3xl text-[#b3ad9f]" />
+          <crow
+            class="alfa-slab-one absolute inset-0 text-2xl text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"
+          >
+            {damage}
+          </crow>
+        </crow>
+        <crow
+          class={tw(
+            'absolute right-0 bottom-6 aspect-square w-10',
+            facingRight ? 'right-auto left-0' : ''
+          )}
+        >
+          <Icon name="armor" class="text-3xl text-[#b3ad9f]" />
+          {#if currentArmor > 0}
+            <crow
+              class="alfa-slab-one absolute inset-0 text-2xl text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"
+            >
+              {currentArmor}
+            </crow>
+          {/if}
         </crow>
       </div>
     </div>

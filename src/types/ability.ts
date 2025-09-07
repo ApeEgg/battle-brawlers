@@ -31,6 +31,8 @@ export type Ability = AbilityRef & {
   description: string;
   basic: boolean;
   ticks: AbilityTicks;
+  damageCalc?: any;
+  damage: number;
   chainLink?: number;
   chainTo?: number;
   start?: number;

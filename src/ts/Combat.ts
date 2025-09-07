@@ -181,7 +181,15 @@ export const generateCombat = (seed: string, teams: Team[]) => {
           if (isBlocking) {
             bufferAnimation(target, _VFX.attackBlocked, now);
           } else {
-            damage.result = combatant.combatStats.damage;
+            damage.result = Math.ceil(combatant.combatStats.damage * currentAbility.damage);
+            if (target.combatStats.currentArmor > 0) {
+              target.combatStats.currentArmor -= damage.result;
+              if (target.combatStats.currentArmor < 0) {
+                damage.result = Math.abs(target.combatStats.currentArmor);
+              } else {
+                damage.result = 0;
+              }
+            }
             target.combatStats.currentHealth -= damage.result;
             bufferAnimation(target, _VFX.hurt, now);
           }
@@ -237,6 +245,8 @@ export const generateCombat = (seed: string, teams: Team[]) => {
         if (currentAbility.id === 'block') {
           combatant.statuses.isBlocking = true;
         }
+
+        combatant.damage = Math.ceil(combatant.combatStats.damage * currentAbility.damage);
       });
 
       // console.table({

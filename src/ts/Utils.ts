@@ -63,10 +63,14 @@ export const prepareCombatant = (
   const combatStats = calculateCombatStatsByCharacter(character);
 
   combatStats.currentHealth = combatStats.maxHealth;
+  combatStats.currentArmor = combatStats.maxArmor;
 
-  const abilitiesHydrated = character.abilities.map((ability) =>
-    ABILITIES(ability, true)
-  ) as Ability[];
+  const abilitiesHydrated = (
+    character.abilities.map((ability) => ABILITIES(ability, true)) as Ability[]
+  ).map(({ damageCalc, ...ability }) => ({
+    ...ability,
+    damage: damageCalc({ ticks: ability.ticks }).result
+  }));
 
   const abilitiesCut = abilitiesHydrated.filter(
     (_, i) => calculateTickStart(abilitiesHydrated, i) <= character.maxTicks

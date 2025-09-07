@@ -4,12 +4,14 @@ export type CombatStats = {
   damage?: number;
   maxEnergy?: number;
   currentEnergy?: number;
-  armor?: number;
+  maxArmor?: number;
+  currentArmor?: number;
 };
 
 export type EnforcedCombatState = CombatStats & {
   maxHealth: number;
   currentHealth: number;
   damage: number;
-  armor: number;
+  maxArmor: number;
+  currentArmor: number;
 };

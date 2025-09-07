@@ -12,6 +12,10 @@
   body {
     @apply text-gray-800 dark:text-white;
   }
+  .alfa-slab-one {
+    font-family: 'Alfa Slab One';
+    -webkit-text-stroke: 0.5px black;
+  }
 }
 
 @layer utilities {
