@@ -1,15 +1,19 @@
 <script lang="ts">
   import type { Combatant } from '$src/types/combatant';
+  import type { VFX } from '$src/types/vfx';
 
   let {
     image,
-    animations,
+    currentAnimation,
+    applyAnimationClass,
     facingRight,
     statuses,
     elapsedMilliseconds,
     position,
     size
   }: Combatant & {
+    currentAnimation?: VFX;
+    applyAnimationClass: (name: string) => boolean;
     facingRight: boolean;
     elapsedMilliseconds: number;
     progress: number;
@@ -18,26 +22,6 @@
 
   let y = $derived(position.y);
   let x = $derived(position.x);
-
-  let currentAnimation = $derived(
-    animations.find(
-      ({ start, end, vfxName }) =>
-        start < elapsedMilliseconds &&
-        end > elapsedMilliseconds &&
-        [
-          'slam',
-          'slash',
-          'stab',
-          'basicAttackRegular',
-          'basicAttackFast',
-          'basicAttackSlow',
-          'whirlwind',
-          'slam',
-          'slash',
-          'stab'
-        ].includes(vfxName)
-    )
-  );
 
   let { nX, nY, sX, sY } = $derived.by(() => {
     const tx = currentAnimation?.targetX ?? x;
@@ -68,13 +52,6 @@
 
     return { nX, nY, sX, sY };
   });
-
-  const applyAnimationClass = (name: string) =>
-    !statuses.knockedOut &&
-    animations.some(
-      ({ vfxName, start, end }) =>
-        start < elapsedMilliseconds && end > elapsedMilliseconds && vfxName === name
-    );
 </script>
 
 {#key currentAnimation?.id}

@@ -18,4 +18,5 @@ export type VFX = {
   end: number;
   targetX?: number;
   targetY?: number;
+  amount?: number;
 };

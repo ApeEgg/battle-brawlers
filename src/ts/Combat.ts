@@ -35,6 +35,12 @@ const injectAnimation = (
   events: CombatEvent[] = []
 ) => {
   const vfx = structuredClone(currentAbility.vfx);
+  if (
+    !['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'whirlwind', 'block'].includes(
+      vfx.vfxName
+    )
+  )
+    return;
   const cIndex = teams[combatant.teamIndex].combatants.findIndex(({ id }) => id === combatant.id);
 
   vfx.start = now - currentAbility.ticks * COMBAT_TICK_TIME;
@@ -121,6 +127,8 @@ export const generateCombat = (seed: string, teams: Team[]) => {
   const teamsStartState = structuredClone(teams);
   teams = structuredClone(teams);
 
+  let healingEfficiency = 1;
+
   while (moreThanOneTeamStanding(teams)) {
     console.info(`--- Tick ${tickCount} at ${now}ms ---`);
     const stillStandingCombatants = teams
@@ -181,11 +189,20 @@ export const generateCombat = (seed: string, teams: Team[]) => {
             };
           }
         } else if (isWindUp) {
-          combatant.combatStats.currentHealth = Math.min(
-            combatant.combatStats.maxHealth,
-            combatant.combatStats.currentHealth +
-              Math.ceil(combatant.combatStats.maxHealth * currentAbility.healing)
+          const healingAmount = Math.ceil(
+            combatant.combatStats.maxHealth * currentAbility.healing * healingEfficiency
           );
+
+          const missingHealth =
+            combatant.combatStats.maxHealth - combatant.combatStats.currentHealth;
+          const actualHealingDone = Math.min(healingAmount, missingHealth);
+
+          combatant.combatStats.currentHealth += actualHealingDone;
+
+          if (actualHealingDone > 0) {
+            bufferAnimation(combatant, { ..._VFX.heal, amount: actualHealingDone }, now);
+          }
+
           if (isBlocking) {
             bufferAnimation(target, _VFX.attackBlocked, now);
           } else {
@@ -228,7 +245,7 @@ export const generateCombat = (seed: string, teams: Team[]) => {
                   : ability.end % total < ability.start % total
                     ? t >= ability.start % total || t < ability.end % total // wraps over end->start
                     : t === ability.start % total // zero-length segment
-            );
+            ) as Required<Ability>;
 
             const endTime = targetCurrentAbility.end % total;
             const remainingTime =
@@ -271,16 +288,15 @@ export const generateCombat = (seed: string, teams: Team[]) => {
       //   targetStatuses: target.statuses
       // });
 
-      if (target.combatStats.currentHealth <= 0) {
-        target.statuses.knockedOut = now;
-      }
-
-      // events.push(
-      //   structuredClone({
-      //     eventTimestamp: now,
-      //     teams
-      //   })
-      // );
+      teams.forEach((team) =>
+        team.combatants.forEach((c) => {
+          if (c.combatStats.currentHealth <= 0 && !c.statuses.knockedOut) {
+            c.statuses.knockedOut = now;
+            c.statuses.isBleeding = { ticks: 0, value: 0 };
+            c.statuses.isStunned = { ticks: 0, value: 0 };
+          }
+        })
+      );
     });
 
     events.push(
@@ -289,6 +305,11 @@ export const generateCombat = (seed: string, teams: Team[]) => {
         teams
       })
     );
+
+    if (tickCount % 12 === 0 && tickCount !== 0) {
+      healingEfficiency = Math.max(0, healingEfficiency - 0.05);
+      console.log(healingEfficiency);
+    }
 
     now += COMBAT_TICK_TIME;
     tickCount += 1;

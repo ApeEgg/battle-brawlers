@@ -37,6 +37,7 @@ export type Ability = AbilityRef & {
   damageCalc: any;
   healingCalc: any;
   damage: number;
+  healing: number;
   chainLink?: number;
   chainTo?: number;
   start?: number;

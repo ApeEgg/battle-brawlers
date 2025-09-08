@@ -25,8 +25,6 @@ export default {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      maxEnergy: 12,
-      currentEnergy: 6,
       damage: 4,
       maxArmor: 0,
       currentArmor: 0
@@ -51,8 +49,6 @@ export default {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      maxEnergy: 12,
-      currentEnergy: 6,
       damage: 1,
       maxArmor: 0,
       currentArmor: 0
@@ -71,13 +67,11 @@ export default {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      maxEnergy: 12,
-      currentEnergy: 6,
       damage: 1,
       maxArmor: 0,
       currentArmor: 0
     },
-    maxTicks: 15,
+    maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
   }),
   dwarf: () => ({
@@ -91,8 +85,6 @@ export default {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      maxEnergy: 12,
-      currentEnergy: 6,
       damage: 1,
       maxArmor: 0,
       currentArmor: 0
@@ -111,8 +103,6 @@ export default {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      maxEnergy: 12,
-      currentEnergy: 6,
       damage: 1,
       maxArmor: 0,
       currentArmor: 0
@@ -140,8 +130,6 @@ export default {
     combatStats: {
       maxHealth: 70,
       currentHealth: 50,
-      maxEnergy: 12,
-      currentEnergy: 6,
       damage: 1,
       maxArmor: 0,
       currentArmor: 0
@@ -160,14 +148,12 @@ export default {
     combatStats: {
       maxHealth: 50,
       currentHealth: 50,
-      maxEnergy: 12,
-      currentEnergy: 6,
       damage: 3,
       maxArmor: 0,
       currentArmor: 0
     },
     maxTicks: Infinity,
-    abilities: [ABILITIES('bite', false, { overrides: { ticks: 3 } }), ABILITIES('cheesyTactics')]
+    abilities: [ABILITIES('bite'), ABILITIES('cheesyTactics'), ABILITIES('bite')]
   }),
   undead: () => ({
     id: crypto.randomUUID(),
@@ -180,8 +166,6 @@ export default {
     combatStats: {
       maxHealth: 20,
       currentHealth: 50,
-      maxEnergy: 12,
-      currentEnergy: 6,
       damage: 3,
       maxArmor: 0,
       currentArmor: 0

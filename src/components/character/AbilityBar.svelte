@@ -62,9 +62,11 @@
           <strong class="text-black">Ability&nbsp;sequence</strong>{lastTick}&nbsp;ticks
         </crow> -->
       </div>
+    {/if}
+    {#if !small}
       <div
         class={tw(
-          'absolute -top-2 -bottom-4 z-10 w-px -translate-x-px border-r border-dashed transition-all duration-200'
+          'absolute -top-2 -bottom-2 z-10 w-px -translate-x-px border-r border-dashed transition-all duration-200'
         )}
         style="left:calc((100%/{small ? 12 : 15})*{lastTick});"
       >
@@ -118,11 +120,11 @@
         class={tw(
           'relative -ml-px h-full !flex-none rounded border border-gray-500 bg-white',
           ability.basic ? 'border-gray-300 bg-gray-100' : 'z-10',
-          tickStart > 11 && 'border-red-300 bg-red-100'
+          !dndDisabled && tickStart > 11 && 'border-red-300 bg-red-100'
         )}
         style="width: calc(((100%/{small ? 12 : 15})*{ability.ticks}) + 1px);"
       >
-        <AbilityIcon {ability} hideTickCount {small} disabled={tickStart > 11} />
+        <AbilityIcon {ability} hideTickCount {small} disabled={!dndDisabled && tickStart > 11} />
       </crow>
     {/each}
   </crow>

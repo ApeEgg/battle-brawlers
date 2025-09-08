@@ -27,7 +27,39 @@
   let statuses = $derived(props.statuses);
   let facingRight = $derived(props.facingRight);
   let currentArmor = $derived(combatStats.currentArmor);
+  let animations = $derived(props.animations);
+  let elapsedMilliseconds = $derived(props.elapsedMilliseconds);
   // let currentAbility = $derived(props.abilities.find);
+
+  let currentAnimation = $derived(
+    animations.find(
+      ({ start, end, vfxName }) =>
+        start < elapsedMilliseconds &&
+        end > elapsedMilliseconds &&
+        [
+          'slam',
+          'slash',
+          'stab',
+          'basicAttackRegular',
+          'basicAttackFast',
+          'basicAttackSlow',
+          'whirlwind'
+        ].includes(vfxName)
+    )
+  );
+  let isHealing = $derived(
+    animations.find(
+      ({ start, end, vfxName }) =>
+        start < elapsedMilliseconds && end > elapsedMilliseconds && vfxName === 'heal'
+    )
+  );
+
+  const applyAnimationClass = (name: string) =>
+    !statuses.knockedOut &&
+    animations.some(
+      ({ vfxName, start, end }) =>
+        start < elapsedMilliseconds && end > elapsedMilliseconds && vfxName === name
+    );
 </script>
 
 <div
@@ -47,7 +79,12 @@
           </crow> -->
         </crow>
 
-        <HealthBar current={combatStats.currentHealth} max={combatStats.maxHealth}></HealthBar>
+        <HealthBar
+          current={combatStats.currentHealth}
+          max={combatStats.maxHealth}
+          currentAnimation={isHealing}
+          {applyAnimationClass}
+        ></HealthBar>
         <div class="h-40 w-36"></div>
         <CombatantAbilityBar {...props} />
 
@@ -83,9 +120,7 @@
         >
           <Icon name="1h1h" class="text-3xl text-[#b3ad9f]" />
           {#if damage > 0}
-            <crow
-              class="alfa-slab-one absolute inset-0 text-2xl text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"
-            >
+            <crow class="alfa-slab-one fat-number absolute inset-0 text-2xl text-white">
               {damage}
             </crow>
           {/if}
@@ -98,9 +133,7 @@
         >
           <Icon name="armor" class="text-3xl text-[#b3ad9f]" />
           {#if currentArmor > 0}
-            <crow
-              class="alfa-slab-one absolute inset-0 text-2xl text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"
-            >
+            <crow class="alfa-slab-one fat-number absolute inset-0 text-2xl text-white">
               {currentArmor}
             </crow>
           {/if}
@@ -109,7 +142,7 @@
     </div>
   </div>
 
-  <CombatantImage {...props} />
+  <CombatantImage {...props} {currentAnimation} {applyAnimationClass} />
 </div>
 
 <style>

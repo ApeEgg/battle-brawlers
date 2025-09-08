@@ -4,7 +4,7 @@ import seedRandom from 'seedrandom';
 import type { Combatant } from '$src/types/combatant';
 import type { Character } from '$src/types/character';
 // import lodash from 'lodash';
-import { AbilityType, type Ability } from '$src/types/ability';
+import { AbilityType, type Ability, type AbilityRef } from '$src/types/ability';
 // import type { CombatEvent } from '$src/types/combat';
 // import type { VFX } from '$src/types/vfx';
 import { COMBAT_TICK_TIME, COMBAT_RING_BASE_RADIUS } from '$src/constants/APP';
@@ -31,7 +31,7 @@ export const calculateAvailableAbilitiesByCharacter = (character: Character) =>
     const equipment = EQUIPMENT(eq, true);
 
     return equipment.abilities.map((a: any, abilityIndex: number) => {
-      const instanceKey = `${slot}::${equipment.id}::${a.id}::${abilityIndex}`;
+      const instanceKey = `${character.id}::${slot}::${equipment.id}::${a.id}::${abilityIndex}`;
       return {
         ...a,
         uuid: instanceKey

@@ -1,6 +1,6 @@
 import type { Character } from '$src/types/character';
-import type { EnforcedCombatState } from '$src/types/combatStats';
-import type { Ability, AbilityId } from '$src/types/ability';
+import type { CombatStats } from '$src/types/combatStats';
+import type { Ability } from '$src/types/ability';
 import type { VFX } from '$src/types/vfx';
 
 type StatusEffect = {
@@ -13,12 +13,11 @@ export type Combatant = Character & {
   teamIndex: number;
   animations: VFX[];
   injectedAnimations: VFX[];
-  combatStats: EnforcedCombatState;
+  combatStats: Required<CombatStats>;
   eventTimestamp: number;
-  eventAbility: AbilityId;
-  eventIndex: number;
-  abilities: Ability[];
-  abilitiesCopied: Ability[];
+  abilities: Required<Ability>[];
+  abilitiesCopied: Required<Ability>[];
+  damage: number;
   statuses: {
     isBlocking: boolean;
     knockedOut: number;

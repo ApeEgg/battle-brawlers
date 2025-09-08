@@ -16,7 +16,8 @@
     CHARACTERS.troll(),
     CHARACTERS.dwarf(),
     CHARACTERS.goblin(),
-    CHARACTERS.succubus()
+    CHARACTERS.succubus(),
+    CHARACTERS.rat()
   ];
 
   const initializeCombat = () => {

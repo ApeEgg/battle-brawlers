@@ -14,7 +14,10 @@
   }
   .alfa-slab-one {
     font-family: 'Alfa Slab One';
+  }
+  .fat-number {
     -webkit-text-stroke: 0.5px black;
+    @apply drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)];
   }
 }
 

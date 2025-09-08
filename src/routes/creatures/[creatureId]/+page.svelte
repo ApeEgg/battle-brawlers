@@ -58,9 +58,11 @@
   </crow>
 </crow>
 
+<div class="h-6"></div>
+
 <crow class="relative w-full gap-2 px-px" vertical left up>
   <crow class="w-full !justify-between">
-    <h4>Abilities</h4>
+    <h5>Abilities</h5>
   </crow>
   <AbilityBar character={creature} abilities={creature.abilities} dndDisabled />
 </crow>
