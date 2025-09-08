@@ -99,7 +99,7 @@ export const ALL_ABILITIES = {
     damageCalc: () => ({ result: 0 }) // No healing
   }, // 16 (160% of 10)
   block: {
-    prettyName: 'Shield block',
+    prettyName: 'Block',
     type: AbilityType.Channeling,
     description: 'Raise your shield to block. Prevent all damage for the duration.',
     ticks: 3,
@@ -107,6 +107,18 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: [],
     vfx: VFX.block,
+    damageCalc: () => ({ result: 0 }), // No damage
+    healingCalc: () => ({ result: 0 }) // No healing
+  },
+  shieldBash: {
+    prettyName: 'Shield Bash',
+    type: AbilityType.WindUp,
+    description: 'Lunge forward and bash your opponent with your shield.',
+    ticks: 3,
+    icon: 'shieldBash',
+    basic: true,
+    statusEffects: [],
+    vfx: VFX.basicAttackRegular,
     damageCalc,
     healingCalc: () => ({ result: 0 }) // No healing
   },
@@ -144,6 +156,18 @@ export const ALL_ABILITIES = {
     basic: false,
     statusEffects: ['isBleeding'],
     vfx: VFX.basicAttackFast,
+    damageCalc,
+    healingCalc: () => ({ result: 0 }) // No healing
+  },
+  bowshot: {
+    prettyName: 'Bow Shot',
+    type: AbilityType.WindUp,
+    description: 'Shoot an arrow at your opponent.',
+    ticks: 3,
+    icon: 'bowshot',
+    basic: true,
+    statusEffects: [],
+    vfx: VFX.basicAttackSlow,
     damageCalc,
     healingCalc: () => ({ result: 0 }) // No healing
   },

@@ -87,14 +87,14 @@
       ? EQUIPMENT(character.equipment.mainHand, true)
           .abilities.map((ability) => ABILITIES(ability, true))
           .filter(({ basic }) => basic)
-          .map((ability) => ABILITIES(ability))
+          .map((ability) => ({ ...ABILITIES(ability), uuid: crypto.randomUUID() }))
       : [];
 
     const offHandAbilities = character.equipment.offHand
       ? EQUIPMENT(character.equipment.offHand, true)
           .abilities.map((ability) => ABILITIES(ability, true))
           .filter(({ basic }) => basic)
-          .map((ability) => ABILITIES(ability))
+          .map((ability) => ({ ...ABILITIES(ability), uuid: crypto.randomUUID() }))
       : [];
 
     // Unarmed
@@ -185,7 +185,7 @@
 
     // Decide what abilities a character can use
     availableAbilities = abilities
-      .filter(({ id }) => !untrack(() => character.abilities.find((a) => a.id === id)))
+      .filter(({ uuid }) => !untrack(() => character.abilities.find((a) => a.uuid === uuid)))
       .filter((ability) => !ABILITIES(ability, true).basic)
       .sort((a: AbilityRef, b: AbilityRef) =>
         ABILITIES(a, true).prettyName.localeCompare(ABILITIES(b, true).prettyName)
@@ -194,7 +194,8 @@
 
     // Remove abilities that are no longer available from character
     character.abilities = untrack(() => character.abilities).filter(
-      (ability) => abilities.some(({ id }) => id === ability.id) || ABILITIES(ability, true).basic
+      (ability) =>
+        abilities.some(({ uuid }) => uuid === ability.uuid) || ABILITIES(ability, true).basic
     );
   });
 

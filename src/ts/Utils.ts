@@ -26,11 +26,18 @@ export const calculateCombatStats = (...args: any) => {
 };
 
 export const calculateAvailableAbilitiesByCharacter = (character: Character) =>
-  Object.values(character.equipment)
-    .filter((e) => e !== null)
-    .map((e) => EQUIPMENT(e, true).abilities)
-    .flat()
-    .map((a) => ({ ...a, uuid: crypto.randomUUID() }));
+  Object.entries(character.equipment).flatMap(([slot, eq]) => {
+    if (!eq) return [];
+    const equipment = EQUIPMENT(eq, true);
+
+    return equipment.abilities.map((a: any, abilityIndex: number) => {
+      const instanceKey = `${slot}::${equipment.id}::${a.id}::${abilityIndex}`;
+      return {
+        ...a,
+        uuid: instanceKey
+      } as AbilityRef;
+    });
+  });
 
 export const calculateCombatStatsByCharacter = (character: Character) => {
   return calculateCombatStats(

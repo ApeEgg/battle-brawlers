@@ -25,6 +25,7 @@ const INITIAL_CHARACTERS = [
 const INITIAL_INVENTORY = [
   EQUIPMENT('sword'),
   EQUIPMENT('dagger'),
+  EQUIPMENT('dagger'),
   EQUIPMENT('shield'),
   EQUIPMENT('greatSword'),
   EQUIPMENT('leatherBoots')

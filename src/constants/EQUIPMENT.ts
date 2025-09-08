@@ -17,7 +17,7 @@ export const ALL_EQUIPMENT = {
     description: 'A simple shield.',
     slotsIn: 'offHand',
     combatStats: {},
-    abilities: [ABILITIES('block'), ABILITIES('block')]
+    abilities: [ABILITIES('block'), ABILITIES('shieldBash')]
   },
   ring: {
     prettyName: 'Ring',
@@ -62,6 +62,20 @@ export const ALL_EQUIPMENT = {
       ABILITIES('slash', false, { overrides: { ticks: 4 } }),
       ABILITIES('slash', false, { overrides: { ticks: 4 } }),
       ABILITIES('slash', false, { overrides: { ticks: 4 } })
+    ]
+  },
+  bow: {
+    prettyName: 'Bow',
+    description: 'A simple bow.',
+    slotsIn: 'twoHand',
+    combatStats: {
+      damage: 6
+    },
+    abilities: [
+      ABILITIES('bowshot'),
+      ABILITIES('bowshot'),
+      ABILITIES('bowshot'),
+      ABILITIES('bowshot')
     ]
   },
   leatherBoots: {
