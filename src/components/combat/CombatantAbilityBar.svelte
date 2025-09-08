@@ -7,7 +7,7 @@
 
 <div class="w-[144px]">
   <div
-    class="relative -mx-px -mb-px rounded-xs border border-gray-800 bg-[#D7CEC1]"
+    class="relative -mx-[0.5px] -mb-[0.5px] border-[0.5px] border-gray-500 bg-[#eae1d4] shadow"
     style="width: calc((12px*{abilitiesCopied.reduce((acc, { ticks }) => acc + ticks, 0)}) + 2px);"
   >
     <div
@@ -15,7 +15,7 @@
       style="right: {100 - progress * 100}%"
     ></div>
 
-    <div class="relative flex divide-x divide-gray-600">
+    <div class="relative flex divide-x-[0.5px] divide-gray-600">
       {#each abilitiesCopied as { prettyName, ticks, icon, chainLink, basic }, i (`icon_${i}_${prettyName}`)}
         <div
           class="relative flex h-6 items-center justify-center text-center"
@@ -29,11 +29,7 @@
               ></div>
             {/each}
           {/if}
-          <Icon
-            original={!basic}
-            class={tw('relative text-[8px]', ticks > 1 && 'text-sm', basic && 'text-[#69655c]')}
-            name={icon}
-          />
+          <Icon original={false} class={tw('relative text-sm text-[#69655c]')} name={icon} />
         </div>
       {/each}
     </div>

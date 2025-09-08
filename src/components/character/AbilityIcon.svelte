@@ -4,8 +4,9 @@
   let {
     small,
     hideTickCount,
-    ability
-  }: { small?: boolean; hideTickCount?: boolean; ability: Ability } = $props();
+    ability,
+    disabled = false
+  }: { small?: boolean; hideTickCount?: boolean; ability: Ability; disabled?: boolean } = $props();
 
   let { icon, ticks, basic, statusEffects } = $derived(ability);
 </script>
@@ -34,12 +35,14 @@
     'relative text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.5xl))]',
     basic && 'text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.3xl))] text-gray-400',
     small && 'text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.2xl))]',
-    small && basic && 'text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.xl))]'
+    small && basic && 'text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.xl))]',
+    disabled && 'text-red-300'
     // !hideTickCount && '-translate-y-1'
   )}
   name={icon}
-  original={!basic}
+  original={!basic && !disabled}
 />
+
 {#if statusEffects && statusEffects.length > 0}
   <crow class={tw('absolute bottom-1 left-1', small && 'bottom-px left-px')}>
     {#each statusEffects as effect}

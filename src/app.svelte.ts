@@ -18,6 +18,10 @@ const INITIAL_CHARACTERS = [
   {
     ...CHARACTERS.elf(),
     name: 'Elon the Elf'
+  },
+  {
+    ...CHARACTERS.troll(),
+    name: 'Trollet Ture'
   }
 ];
 

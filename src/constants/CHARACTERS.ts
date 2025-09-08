@@ -11,6 +11,7 @@ const DEFAULT_EQUIPMENT = {
   accessory: null,
   trinket: null
 };
+const DEFAULT_MAX_TICKS = 12;
 
 export default {
   elf: () => ({
@@ -30,7 +31,7 @@ export default {
       maxArmor: 0,
       currentArmor: 0
     },
-    maxTicks: 15,
+    maxTicks: DEFAULT_MAX_TICKS,
     abilities: [
       ABILITIES('slash'),
       ABILITIES('slash', false, { overrides: { ticks: 4 } }),
@@ -56,7 +57,7 @@ export default {
       maxArmor: 0,
       currentArmor: 0
     },
-    maxTicks: 15,
+    maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('basicAttackSlow'), ABILITIES('block'), ABILITIES('basicAttackSlow')]
   }),
   troll: () => ({
@@ -96,7 +97,7 @@ export default {
       maxArmor: 0,
       currentArmor: 0
     },
-    maxTicks: 15,
+    maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
   }),
   goblin: () => ({
@@ -116,7 +117,7 @@ export default {
       maxArmor: 0,
       currentArmor: 0
     },
-    maxTicks: 15,
+    maxTicks: DEFAULT_MAX_TICKS,
     abilities: [
       ABILITIES('stab'),
       ABILITIES('stab'),

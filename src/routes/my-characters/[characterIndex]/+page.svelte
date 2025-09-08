@@ -267,7 +267,7 @@
     </crow>
   </crow>
 
-  <crow class="relative w-full gap-2 overflow-hidden p-1" vertical left up>
+  <crow class="relative w-full gap-2 overflow-hidden px-1 py-2" vertical left up>
     <crow class="w-full !justify-between">
       <h5>Active abilities</h5>
     </crow>

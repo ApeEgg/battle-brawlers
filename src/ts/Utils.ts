@@ -55,7 +55,7 @@ export const calculateTickStart = (abilities: Ability[], index: number) => {
   for (let i = 0; i < index; i++) {
     tickStart += abilities[i].ticks;
   }
-  return tickStart + abilities[index].ticks;
+  return tickStart;
 };
 
 export const prepareCombatant = (
@@ -85,7 +85,7 @@ export const prepareCombatant = (
   }));
 
   const abilitiesCut = abilitiesHydrated.filter(
-    (_, i) => calculateTickStart(abilitiesHydrated, i) <= character.maxTicks
+    (_, i) => calculateTickStart(abilitiesHydrated, i) < character.maxTicks
   );
 
   const abilitiesCopied = abilitiesCut.reduce((a, ability, i) => {

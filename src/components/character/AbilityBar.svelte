@@ -32,6 +32,17 @@
   } = $props();
 
   let hydratedAbilities = $derived(abilities.map((a) => ABILITIES(a, true)));
+
+  const lastTick = $derived(
+    hydratedAbilities
+      .map((ability, i) => {
+        const tickStart = calculateTickStart(hydratedAbilities, i);
+        const tickEnd = tickStart + ability.ticks;
+        return { ...ability, tickStart, tickEnd };
+      })
+      .filter(({ tickStart }) => tickStart < character.maxTicks)
+      .at(-1)?.tickEnd
+  );
 </script>
 
 <div class="relative w-[calc((100%/18)*18)]">
@@ -43,16 +54,26 @@
     {#if !dndDisabled}
       <div
         class={tw(
-          'absolute -top-2 -bottom-2 left-[calc((100%/15)*12)] w-px border-r border-dashed',
-          small && 'left-[calc((100%/12)*12)]'
+          'absolute -top-2 -bottom-4 w-px -translate-x-px border-r border-solid transition-all duration-200'
         )}
+        style="left:calc((100%/{small ? 12 : 15})*12);"
+      >
+        <!-- <crow vertical right class="absolute bottom-full text-center text-xs">
+          <strong class="text-black">Ability&nbsp;sequence</strong>{lastTick}&nbsp;ticks
+        </crow> -->
+      </div>
+      <div
+        class={tw(
+          'absolute -top-2 -bottom-4 z-10 w-px -translate-x-px border-r border-dashed transition-all duration-200'
+        )}
+        style="left:calc((100%/{small ? 12 : 15})*{lastTick});"
       >
         <crow vertical right class="absolute bottom-full text-center text-xs">
-          <strong class="text-black">Min</strong>12&nbsp;ticks
+          <strong class="text-black">Ability&nbsp;sequence</strong>{lastTick}&nbsp;ticks
         </crow>
       </div>
     {/if}
-    {#if !small}
+    <!-- {#if !small}
       <div
         class={tw(
           'absolute -top-2 -bottom-2 left-[calc((100%/15)*15)] w-px border-r border-dashed'
@@ -65,7 +86,7 @@
           15&nbsp;ticks
         </crow>
       </div>
-    {/if}
+    {/if} -->
   </crow>
 
   <crow
@@ -97,11 +118,11 @@
         class={tw(
           'relative -ml-px h-full !flex-none rounded border border-gray-500 bg-white',
           ability.basic ? 'border-gray-300 bg-gray-100' : 'z-10',
-          tickStart > 15 && 'pointer-events-none border-red-400 bg-red-100 text-red-400 opacity-50'
+          tickStart > 11 && 'border-red-300 bg-red-100'
         )}
         style="width: calc(((100%/{small ? 12 : 15})*{ability.ticks}) + 1px);"
       >
-        <AbilityIcon {ability} hideTickCount {small} />
+        <AbilityIcon {ability} hideTickCount {small} disabled={tickStart > 11} />
       </crow>
     {/each}
   </crow>
