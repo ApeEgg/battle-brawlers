@@ -7,7 +7,7 @@
     ability
   }: { small?: boolean; hideTickCount?: boolean; ability: Ability } = $props();
 
-  let { icon, ticks, basic } = $derived(ability);
+  let { icon, ticks, basic, statusEffects } = $derived(ability);
 </script>
 
 <!-- {#if !basic}
@@ -40,3 +40,10 @@
   name={icon}
   original={!basic}
 />
+{#if statusEffects && statusEffects.length > 0}
+  <crow class={tw('absolute bottom-1 left-1', small && 'bottom-px left-px')}>
+    {#each statusEffects as effect}
+      <Icon name={effect} class={tw('text-md', small && 'text-[10px]')} original />
+    {/each}
+  </crow>
+{/if}

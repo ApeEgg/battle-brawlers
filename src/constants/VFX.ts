@@ -18,8 +18,8 @@ export default {
     vfxName: 'block',
     duration: 1500 + 250 // lingering time
   },
-  stun: {
-    vfxName: 'stun',
+  kick: {
+    vfxName: 'kick',
     duration: 500
   },
   whirlwind: {
@@ -34,5 +34,9 @@ export default {
   attackBlocked: {
     vfxName: 'attackBlocked',
     duration: 340
+  },
+  heal: {
+    vfxName: 'heal',
+    duration: 500
   }
 } as Record<AbilityId | VFXName, VFX>;

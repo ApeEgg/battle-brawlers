@@ -67,9 +67,12 @@ export const prepareCombatant = (
 
   const abilitiesHydrated = (
     character.abilities.map((ability) => ABILITIES(ability, true)) as Ability[]
-  ).map(({ damageCalc, ...ability }) => ({
+  ).map(({ damageCalc, healingCalc, ...ability }) => ({
     ...ability,
     damage: damageCalc({
+      ticks: ability?.chainLink ? ability.ticks / ability.chainLink : ability.ticks
+    }).result,
+    healing: healingCalc({
       ticks: ability?.chainLink ? ability.ticks / ability.chainLink : ability.ticks
     }).result
   }));

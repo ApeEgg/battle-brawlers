@@ -7,7 +7,7 @@ export type VFXName =
   | 'basicAttackSlow'
   | 'block'
   | 'attackBlocked'
-  | 'stun'
+  | 'kick'
   | 'whirlwind';
 
 export type VFX = {

@@ -25,7 +25,7 @@
             {#each Array(chainLink).fill(0).slice(0, -1) as _, j}
               <div
                 class="absolute top-0 bottom-0 w-[0.1px] border-r border-dashed border-gray-400"
-                style="left: calc(12px*{j + 1});"
+                style="left: calc(((100% / {chainLink}) * ({j + 1})));"
               ></div>
             {/each}
           {/if}

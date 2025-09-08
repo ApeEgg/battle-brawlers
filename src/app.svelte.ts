@@ -27,7 +27,7 @@ const INITIAL_INVENTORY = [
   EQUIPMENT('dagger'),
   EQUIPMENT('shield'),
   EQUIPMENT('greatSword'),
-  EQUIPMENT('leatherArmor')
+  EQUIPMENT('leatherBoots')
 ];
 
 export default new (class {

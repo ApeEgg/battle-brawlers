@@ -160,8 +160,11 @@ export const generateCombat = (seed: string, teams: Team[]) => {
       const damage = {
         result: 0
       };
+      const heal = {
+        result: 0
+      };
 
-      const isAttacking = currentAbility.type === AbilityType.WindUp;
+      const isWindUp = currentAbility.type === AbilityType.WindUp;
       const isStunned = combatant.statuses.isStunned;
       const isBlocking = target.statuses.isBlocking;
 
@@ -177,7 +180,12 @@ export const generateCombat = (seed: string, teams: Team[]) => {
               value: 0
             };
           }
-        } else if (isAttacking) {
+        } else if (isWindUp) {
+          combatant.combatStats.currentHealth = Math.min(
+            combatant.combatStats.maxHealth,
+            combatant.combatStats.currentHealth +
+              Math.ceil(combatant.combatStats.maxHealth * currentAbility.healing)
+          );
           if (isBlocking) {
             bufferAnimation(target, _VFX.attackBlocked, now);
           } else {
@@ -194,14 +202,14 @@ export const generateCombat = (seed: string, teams: Team[]) => {
             bufferAnimation(target, _VFX.hurt, now);
           }
 
-          if (currentAbility.id === 'lacerate') {
+          if (currentAbility.statusEffects.includes('isBleeding')) {
             target.statuses.isBleeding = {
               ticks: target.statuses.isBleeding.ticks + 6,
               value: Math.ceil(combatant.combatStats.damage * 0.2)
             };
           }
 
-          if (currentAbility.id === 'stun') {
+          if (currentAbility.id === 'kick') {
             // My implementation attempt
             // const targetCurrentAbility = target.abilitiesCopied.find(
             //   (ability) =>

@@ -7,15 +7,18 @@ export type AbilityId =
   | 'basicAttackRegular'
   | 'basicAttackSlow'
   | 'block'
-  | 'stun'
+  | 'kick'
   | 'whirlwind'
-  | 'lacerate';
+  | 'lacerate'
+  | 'heal';
 
 export enum AbilityType {
   WindUp = 'windUp',
   WindDown = 'windDown',
   Channeling = 'channeling'
 }
+
+export type StatusEffect = 'isBleeding' | 'isHealed' | 'isStunned';
 
 type AbilityTicks = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12; // 0 is for removal, see `prepareCombatant` in `generateCombat`
 
@@ -31,7 +34,8 @@ export type Ability = AbilityRef & {
   description: string;
   basic: boolean;
   ticks: AbilityTicks;
-  damageCalc?: any;
+  damageCalc: any;
+  healingCalc: any;
   damage: number;
   chainLink?: number;
   chainTo?: number;
@@ -39,4 +43,5 @@ export type Ability = AbilityRef & {
   end?: number;
   icon: IconName;
   vfx: VFX;
+  statusEffects: StatusEffect[];
 };

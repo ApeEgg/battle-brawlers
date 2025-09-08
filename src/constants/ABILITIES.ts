@@ -15,6 +15,17 @@ const damageCalc = ({ ticks }: { ticks: number }) => {
   };
 };
 
+const healingCalc = ({ ticks }: { ticks: number }) => {
+  const baseHealing = ticks / 10;
+  const addedHealing = (ticks - 1) * 0.2;
+  const result = (baseHealing + addedHealing) / 10;
+  return {
+    baseHealing,
+    addedHealing,
+    result
+  };
+};
+
 export const ALL_ABILITIES = {
   stab: {
     prettyName: 'Stab',
@@ -23,8 +34,10 @@ export const ALL_ABILITIES = {
     ticks: 2,
     icon: 'stab',
     basic: true,
+    statusEffects: [],
     vfx: VFX.basicAttackFast,
-    damageCalc
+    damageCalc,
+    healingCalc: () => ({ result: 0 }) // No healing
   },
   slash: {
     prettyName: 'Slash',
@@ -33,8 +46,10 @@ export const ALL_ABILITIES = {
     ticks: 2,
     icon: 'slash',
     basic: true,
+    statusEffects: [],
     vfx: VFX.basicAttackRegular,
-    damageCalc
+    damageCalc,
+    healingCalc: () => ({ result: 0 }) // No healing
   },
   slam: {
     prettyName: 'Slam',
@@ -43,8 +58,10 @@ export const ALL_ABILITIES = {
     ticks: 4,
     icon: 'slam',
     basic: true,
+    statusEffects: [],
     vfx: VFX.basicAttackSlow,
-    damageCalc
+    damageCalc,
+    healingCalc: () => ({ result: 0 }) // No healing
   },
   basicAttackFast: {
     prettyName: 'Basic attack',
@@ -53,8 +70,10 @@ export const ALL_ABILITIES = {
     ticks: 2,
     icon: '1h',
     basic: true,
+    statusEffects: [],
     vfx: VFX.basicAttackFast,
-    damageCalc
+    damageCalc,
+    healingCalc: () => ({ result: 0 }) // No healing
   }, // 8 (80% of 10)
   basicAttackRegular: {
     prettyName: 'Punch',
@@ -63,8 +82,10 @@ export const ALL_ABILITIES = {
     ticks: 2,
     icon: 'punch',
     basic: true,
+    statusEffects: [],
     vfx: VFX.basicAttackFast,
-    damageCalc
+    damageCalc,
+    healingCalc: () => ({ result: 0 }) // No healing
   }, // 10
   basicAttackSlow: {
     prettyName: 'Basic attack',
@@ -73,8 +94,9 @@ export const ALL_ABILITIES = {
     ticks: 4,
     icon: '1h',
     basic: true,
+    statusEffects: [],
     vfx: VFX.basicAttackSlow,
-    damageCalc
+    damageCalc: () => ({ result: 0 }) // No healing
   }, // 16 (160% of 10)
   block: {
     prettyName: 'Shield block',
@@ -83,18 +105,22 @@ export const ALL_ABILITIES = {
     ticks: 3,
     icon: 'block',
     basic: true,
+    statusEffects: [],
     vfx: VFX.block,
-    damageCalc
+    damageCalc,
+    healingCalc: () => ({ result: 0 }) // No healing
   },
-  stun: {
-    prettyName: 'Stun',
+  kick: {
+    prettyName: 'Kick',
     type: AbilityType.WindUp,
-    description: 'Stun your opponent for the duration of their current ability.',
+    description: 'Kick your opponent, stunning them for the duration of their current ability.',
     ticks: 1,
-    icon: 'isStunned',
+    icon: 'kick',
     basic: false,
-    vfx: VFX.stun,
-    damageCalc
+    statusEffects: ['isStunned'],
+    vfx: VFX.kick,
+    damageCalc: () => ({ result: 0 }), // No damage
+    healingCalc: () => ({ result: 0 }) // No healing
   },
   whirlwind: {
     prettyName: 'Whirlwind',
@@ -102,20 +128,49 @@ export const ALL_ABILITIES = {
     description: 'Quickly spin and deal damage each tick.',
     ticks: 10,
     chainLink: 10,
-    icon: 'spin',
+    icon: 'whirlwind',
     basic: false,
+    statusEffects: [],
     vfx: VFX.whirlwind,
-    damageCalc
+    damageCalc,
+    healingCalc: () => ({ result: 0 }) // No healing
   },
   lacerate: {
     prettyName: 'Lacerate',
     type: AbilityType.WindUp,
     description: 'Bleeds your opponent for 20% of your total damage for 6 ticks.',
     ticks: 2,
-    icon: 'isBleeding',
+    icon: 'lacerate',
     basic: false,
+    statusEffects: ['isBleeding'],
     vfx: VFX.basicAttackFast,
-    damageCalc
+    damageCalc,
+    healingCalc: () => ({ result: 0 }) // No healing
+  },
+  cheesyTactics: {
+    prettyName: 'Cheesy Tactics',
+    type: AbilityType.Channeling,
+    description: 'Restores some health.',
+    ticks: 9,
+    chainLink: 3,
+    icon: 'cheese',
+    basic: true,
+    statusEffects: [],
+    vfx: VFX.heal,
+    damageCalc: () => ({ result: 0 }), // No damage
+    healingCalc
+  },
+  bite: {
+    prettyName: 'Bite',
+    type: AbilityType.WindUp,
+    description: 'A vicious bite that causes bleeding.',
+    ticks: 2,
+    icon: 'bite',
+    basic: true,
+    statusEffects: ['isBleeding'],
+    vfx: VFX.basicAttackFast,
+    damageCalc,
+    healingCalc: () => ({ result: 0 }) // No healing
   }
 };
 

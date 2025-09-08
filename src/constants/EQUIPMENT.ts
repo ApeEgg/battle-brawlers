@@ -64,21 +64,25 @@ export const ALL_EQUIPMENT = {
       ABILITIES('slash', false, { overrides: { ticks: 4 } })
     ]
   },
-  leatherArmor: {
-    prettyName: 'Leather Armor',
+  leatherBoots: {
+    prettyName: 'Leather Boots',
     description: 'Fine protection.',
     slotsIn: 'armor',
     combatStats: {
       maxArmor: 1
     },
-    abilities: []
+    abilities: [ABILITIES('kick')]
   },
   giantsHeart: {
     prettyName: "Giant's Heart",
     description: 'It still pulsates oddly enough.',
     slotsIn: 'trinket',
-    combatStats: {},
-    abilities: [ABILITIES('stun')]
+    combatStats: {
+      maxHealth: 1,
+      damage: 1,
+      maxArmor: 1
+    },
+    abilities: []
   },
   dagger: {
     prettyName: 'Heartpiercer',

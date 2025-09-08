@@ -150,14 +150,14 @@ export default {
   }),
   rat: () => ({
     id: crypto.randomUUID(),
-    name: 'Rat',
+    name: 'Fat rat',
     race: 'creature',
     image: 'creature/rat.png',
     size: 0.75,
     equipment: DEFAULT_EQUIPMENT,
     description: 'Snirvel.',
     combatStats: {
-      maxHealth: 20,
+      maxHealth: 100,
       currentHealth: 50,
       maxEnergy: 12,
       currentEnergy: 6,
@@ -166,14 +166,7 @@ export default {
       currentArmor: 0
     },
     maxTicks: Infinity,
-    abilities: [
-      ABILITIES('stab'),
-      ABILITIES('stab'),
-      ABILITIES('stab'),
-      ABILITIES('stab'),
-      ABILITIES('stab'),
-      ABILITIES('stab')
-    ]
+    abilities: [ABILITIES('bite', false, { overrides: { ticks: 3 } }), ABILITIES('cheesyTactics')]
   }),
   undead: () => ({
     id: crypto.randomUUID(),

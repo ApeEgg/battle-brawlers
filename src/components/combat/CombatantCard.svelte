@@ -36,61 +36,43 @@
 >
   <div class="absolute" style="left: {x}px; top:{y}px; transform: translate(-50%, -50%);">
     <div class="absolute" style="transform: scale(1) translate(-50%, -50%);">
-      <div class="combatant rounded border bg-[#D7CEC1] shadow">
-        <!-- <crow class="w-full justify-between px-2 py-1">
+      <div class="combatant rounded border-[0.5px] bg-[#D7CEC1] shadow">
+        <crow class="w-full justify-between px-2 py-1 font-bold text-[#b3ad9f] uppercase">
           {name}
-          <crow right class="gap-1">
+          <!-- <crow right class="gap-1">
             <strong>DMG</strong>
             {damage}
-          </crow>
-        </crow> -->
+          </crow> -->
+        </crow>
 
         <HealthBar current={combatStats.currentHealth} max={combatStats.maxHealth}></HealthBar>
         <div class="h-40 w-36"></div>
         <CombatantAbilityBar {...props} />
 
-        <crow vertical left class="absolute top-8 left-[calc(100%-theme(spacing.6))] gap-2">
+        <crow
+          vertical
+          class={tw(
+            'absolute top-17 left-[calc(100%-theme(spacing.5))] gap-2',
+            facingRight ? 'right right-[calc(100%-theme(spacing.5))] left-auto' : 'left'
+          )}
+        >
           {#each Object.entries(statuses)
             .filter(([_, { ticks }]) => ticks)
             .sort(([a], [b]) => a.ticks - b.ticks) as [key, { ticks }] (key)}
             {@const effect = STATUS_EFFECTS?.[key]}
-            <crow class="gap-3" animate:flip={{ duration: 250 }}>
-              <crow class="w-5">
+            <crow class="gap-2" animate:flip={{ duration: 250 }}>
+              <crow class={tw('w-5', facingRight && 'order-1')}>
                 <Icon
                   name={effect.icon}
                   class="{effect.animation} [animation-direction:reverse]"
                   original
                 />
               </crow>
-              <span class="text-xs">{effect.text} {ticks}</span>
+              <span class="text-xs">{effect.text}&nbsp;{ticks}</span>
             </crow>
           {/each}
-          <!-- {#if statuses.isStunned}
-            <crow class="gap-3">
-              <crow class="w-5">
-                <Icon
-                  name="isStunned"
-                  class="animate-spin [animation-direction:reverse]"
-                  original
-                />
-              </crow>
-              <span class="text-xs">STUNNED</span>
-            </crow>
-          {/if}
-          {#if statuses.isBleeding.ticks > 0}
-            <crow class="gap-3">
-              <crow class="w-5">
-                <Icon
-                  name="isBleeding"
-                  class="animate-bounce [animation-direction:reverse]"
-                  original
-                />
-              </crow>
-              <span class="text-xs">BLEEDING&nbsp;{statuses.isBleeding.ticks}</span>
-            </crow>
-          {/if} -->
-          <!-- <Debug data={props} /> -->
         </crow>
+
         <crow
           class={tw(
             'absolute bottom-6 left-0 aspect-square w-10',
@@ -98,11 +80,13 @@
           )}
         >
           <Icon name="1h1h" class="text-3xl text-[#b3ad9f]" />
-          <crow
-            class="alfa-slab-one absolute inset-0 text-2xl text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"
-          >
-            {damage}
-          </crow>
+          {#if damage > 0}
+            <crow
+              class="alfa-slab-one absolute inset-0 text-2xl text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"
+            >
+              {damage}
+            </crow>
+          {/if}
         </crow>
         <crow
           class={tw(
