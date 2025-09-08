@@ -200,13 +200,13 @@ export const generateCombat = (seed: string, teams: Team[]) => {
             }
             target.combatStats.currentHealth -= damage.result;
             bufferAnimation(target, _VFX.hurt, now);
-          }
 
-          if (currentAbility.statusEffects.includes('isBleeding')) {
-            target.statuses.isBleeding = {
-              ticks: target.statuses.isBleeding.ticks + 6,
-              value: Math.ceil(combatant.combatStats.damage * 0.2)
-            };
+            if (currentAbility.statusEffects.includes('isBleeding')) {
+              target.statuses.isBleeding = {
+                ticks: target.statuses.isBleeding.ticks + 6,
+                value: Math.ceil(combatant.combatStats.damage * 0.2)
+              };
+            }
           }
 
           if (currentAbility.id === 'kick') {

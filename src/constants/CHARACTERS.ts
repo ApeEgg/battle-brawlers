@@ -157,7 +157,7 @@ export default {
     equipment: DEFAULT_EQUIPMENT,
     description: 'Snirvel.',
     combatStats: {
-      maxHealth: 100,
+      maxHealth: 50,
       currentHealth: 50,
       maxEnergy: 12,
       currentEnergy: 6,
