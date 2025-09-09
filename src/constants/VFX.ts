@@ -1,6 +1,3 @@
-import type { AbilityId } from '$src/types/ability';
-import type { VFXName, VFX } from '$src/types/vfx';
-
 export default {
   basicAttackFast: {
     vfxName: 'basicAttackFast',
@@ -16,7 +13,7 @@ export default {
   },
   block: {
     vfxName: 'block',
-    duration: 1500 + 250 // lingering time
+    duration: 2000 + 250 // lingering time
   },
   kick: {
     vfxName: 'kick',
@@ -39,4 +36,4 @@ export default {
     vfxName: 'heal',
     duration: 500
   }
-} as Record<AbilityId | VFXName, VFX>;
+};

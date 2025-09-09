@@ -113,7 +113,7 @@
       </crow>
     </div>
 
-    <Debug data={statuses} />
+    <Debug data={currentAnimation} />
   </div>
 {/key}
 

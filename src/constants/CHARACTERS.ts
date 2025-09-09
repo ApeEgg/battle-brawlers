@@ -54,7 +54,7 @@ export default {
       currentArmor: 0
     },
     maxTicks: DEFAULT_MAX_TICKS,
-    abilities: [ABILITIES('basicAttackSlow'), ABILITIES('block'), ABILITIES('basicAttackSlow')]
+    abilities: [ABILITIES('slam'), ABILITIES('block'), ABILITIES('slam')]
   }),
   troll: () => ({
     id: crypto.randomUUID(),
@@ -123,7 +123,7 @@ export default {
     name: 'Succubus',
     race: 'creature',
     image: 'creature/succubus.png',
-    size: 0.75,
+    size: 1,
     equipment: DEFAULT_EQUIPMENT,
     description:
       'The Succubus is a fearsome warrior whose raw power and unyielding rage make her a deadly foe on the battlefield. Known for her brutal combat style, she thrives in the chaos of close-range encounters.<br /><br />Her most terrifying ability is her relentless spinning attack, where she whirls her weapons with terrifying force, striking all who dare stand too close. This savage technique allows her to mow through groups of enemies with devastating efficiency, leaving little room for her opponents to retaliate.',
@@ -142,7 +142,7 @@ export default {
     name: 'Fat rat',
     race: 'creature',
     image: 'creature/rat.png',
-    size: 0.75,
+    size: 0.9,
     equipment: DEFAULT_EQUIPMENT,
     description: 'Snirvel.',
     combatStats: {
@@ -160,7 +160,7 @@ export default {
     name: 'Undead',
     race: 'creature',
     image: 'creature/undead.png',
-    size: 0.75,
+    size: 1,
     equipment: DEFAULT_EQUIPMENT,
     description: 'ÖÖÖÖh.',
     combatStats: {

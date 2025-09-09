@@ -129,5 +129,3 @@
     {/each}
   </crow>
 </div>
-
-<!-- <Debug data={hydratedAbilities} /> -->

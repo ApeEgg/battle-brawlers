@@ -2,16 +2,6 @@ import type { IconName } from '$src/Iconice';
 import type { VFX } from '$src/types/vfx';
 import type { DynamicObject } from '$src/types/common';
 
-export type AbilityId =
-  | 'basicAttackFast'
-  | 'basicAttackRegular'
-  | 'basicAttackSlow'
-  | 'block'
-  | 'kick'
-  | 'whirlwind'
-  | 'lacerate'
-  | 'heal';
-
 export enum AbilityType {
   WindUp = 'windUp',
   WindDown = 'windDown',
@@ -34,10 +24,6 @@ export type Ability = AbilityRef & {
   description: string;
   basic: boolean;
   ticks: AbilityTicks;
-  damageCalc: any;
-  healingCalc: any;
-  damage: number;
-  healing: number;
   chainLink?: number;
   chainTo?: number;
   start?: number;
@@ -45,4 +31,13 @@ export type Ability = AbilityRef & {
   icon: IconName;
   vfx: VFX;
   statusEffects: StatusEffect[];
+
+  damage: number;
+  healing: number;
+  damageModifier: number;
+  healingModifier: number;
+  calc: {
+    damage: any;
+    healing: any;
+  };
 };

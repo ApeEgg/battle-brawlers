@@ -23,28 +23,18 @@
   let z = $derived(props.z);
   let x = $derived(position.x);
   let y = $derived(position.y);
-  let scale = $derived(props.scale);
   let statuses = $derived(props.statuses);
   let facingRight = $derived(props.facingRight);
   let currentArmor = $derived(combatStats.currentArmor);
   let animations = $derived(props.animations);
   let elapsedMilliseconds = $derived(props.elapsedMilliseconds);
-  // let currentAbility = $derived(props.abilities.find);
 
   let currentAnimation = $derived(
     animations.find(
       ({ start, end, vfxName }) =>
         start < elapsedMilliseconds &&
         end > elapsedMilliseconds &&
-        [
-          'slam',
-          'slash',
-          'stab',
-          'basicAttackRegular',
-          'basicAttackFast',
-          'basicAttackSlow',
-          'whirlwind'
-        ].includes(vfxName)
+        ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'whirlwind'].includes(vfxName)
     )
   );
   let isHealing = $derived(

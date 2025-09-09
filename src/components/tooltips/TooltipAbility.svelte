@@ -4,19 +4,13 @@
   import type { Character } from '$src/types/character';
 
   // let { prettyName, ticks, chainLink, description }: Ability = app.tooltip.props;
-  let {
-    prettyName,
-    ticks,
-    type,
-    description,
-    chainLink,
-    damageCalc,
-    healingCalc,
-    character
-  }: Ability & { character: Character } = $derived(app.tooltip.props);
+  let props: Ability & { character: Character } = $derived(app.tooltip.props);
 
-  let calculatedDamage = $derived(damageCalc({ ticks: chainLink ? ticks / chainLink : ticks }));
-  let calculatedHealing = $derived(healingCalc({ ticks: chainLink ? ticks / chainLink : ticks }));
+  let { prettyName, ticks, type, description, chainLink, character } = $derived(props);
+
+  let calculatedDamage = $derived(props.calc.damage());
+  let calculatedHealing = $derived(props.calc.healing());
+
   let combatStats = $derived(character ? calculateCombatStatsByCharacter(character) : {});
 </script>
 
@@ -39,7 +33,7 @@
         {ticks / chainLink} tick{ticks / chainLink === 1 ? '' : 's'}
       </div>
     {/if}
-    {#if calculatedDamage.result}
+    {#if calculatedDamage?.result}
       <div class="text-sm">
         <strong class="text-black"> Damage: </strong>
         {Math.ceil(combatStats?.damage * calculatedDamage.result)}
@@ -48,7 +42,7 @@
         ({Math.ceil(calculatedDamage.result * 100)}% of damage)
       </div>
     {/if}
-    {#if calculatedHealing.result}
+    {#if calculatedHealing?.result}
       <div class="text-sm">
         <strong class="text-black"> Heal: </strong>
         {Math.ceil(combatStats?.maxHealth * calculatedHealing.result)}

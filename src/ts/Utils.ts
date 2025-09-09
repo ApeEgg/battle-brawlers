@@ -1,19 +1,10 @@
-// import CHARACTERS from '$src/constants/CHARACTERS';
 import seedRandom from 'seedrandom';
-// import type { Team } from '$src/types/team';
 import type { Combatant } from '$src/types/combatant';
 import type { Character } from '$src/types/character';
-// import lodash from 'lodash';
 import { AbilityType, type Ability, type AbilityRef } from '$src/types/ability';
-// import type { CombatEvent } from '$src/types/combat';
-// import type { VFX } from '$src/types/vfx';
 import { COMBAT_TICK_TIME, COMBAT_RING_BASE_RADIUS } from '$src/constants/APP';
-import _VFX from '$src/constants/VFX';
 import EQUIPMENT from '$src/constants/EQUIPMENT';
 import ABILITIES from '$src/constants/ABILITIES';
-// const { uniqBy } = lodash;
-
-// const ABILITY_ORDER = ['block', 'basicAttackFast', 'basicAttackRegular', 'basicAttackSlow'];
 
 export const calculateCombatStats = (...args: any) => {
   const combined = args.reduce((acc: any, obj: any) => {
@@ -74,15 +65,15 @@ export const prepareCombatant = (
 
   const abilitiesHydrated = (
     character.abilities.map((ability) => ABILITIES(ability, true)) as Ability[]
-  ).map(({ damageCalc, healingCalc, ...ability }) => ({
-    ...ability,
-    damage: damageCalc({
-      ticks: ability?.chainLink ? ability.ticks / ability.chainLink : ability.ticks
-    }).result,
-    healing: healingCalc({
-      ticks: ability?.chainLink ? ability.ticks / ability.chainLink : ability.ticks
-    }).result
-  }));
+  ).map((ability) => {
+    const { calc, ...rest } = ability;
+
+    return {
+      ...rest,
+      damage: ability.calc.damage()?.result || 0,
+      healing: ability.calc.healing()?.result || 0
+    };
+  });
 
   const abilitiesCut = abilitiesHydrated.filter(
     (_, i) => calculateTickStart(abilitiesHydrated, i) < character.maxTicks
@@ -163,216 +154,6 @@ export const prepareCombatant = (
     abilitiesCopied
   };
 };
-
-// const bufferAnimation = (combatant: Combatant, vfx: VFX, timestamp: number) => {
-//   const delay = vfx.duration * 0.05;
-//   vfx.start = timestamp + delay;
-//   vfx.end = timestamp + delay + vfx.duration;
-
-//   vfx.id = crypto.randomUUID();
-
-//   combatant.animations.push(structuredClone(vfx)); // Remove structuredClone?
-// };
-
-// // TODO: refine this, right now it adds more animations than needed
-// const injectAnimation = (
-//   eventTaker: Combatant,
-//   vfx: VFX,
-//   teams: Team[],
-//   events: CombatEvent[] = []
-// ) => {
-//   const [currentAbility] = eventTaker.abilities;
-//   const cIndex = teams[eventTaker.teamIndex].combatants.findIndex(({ id }) => id === eventTaker.id);
-
-//   const delay = vfx.duration * 0;
-
-//   vfx.start = eventTaker.eventTimestamp + delay - currentAbility.ticks * COMBAT_TICK_TIME;
-
-//   vfx.end =
-//     eventTaker.eventTimestamp + delay + vfx.duration - currentAbility.ticks * COMBAT_TICK_TIME;
-
-//   vfx.id = crypto.randomUUID();
-
-//   eventTaker.injectedAnimations.push(structuredClone(vfx));
-
-//   events.forEach((event) => {
-//     if (
-//       event.eventTimestamp >=
-//       eventTaker.eventTimestamp - currentAbility.ticks * COMBAT_TICK_TIME * 2
-//     ) {
-//       event.teams[eventTaker.teamIndex].combatants[cIndex].animations.push(
-//         ...eventTaker.injectedAnimations
-//       );
-//     }
-//   });
-// };
-
-// export const generateCombat = (seed: string, teams: Team[]) => {
-//   let combatants = teams.flatMap((team) => team.combatants.map((combatant) => combatant));
-
-//   const events: CombatEvent[] = [];
-//   let globalEventIndex = 0;
-
-//   const teamsStartState = structuredClone(teams);
-//   teams = structuredClone(teams);
-//   while (uniqBy(combatants, 'teamIndex').length > 1) {
-//     // const sortedCombatants = combatants.sort((a, b) => {
-//     //   const t = a.eventTimestamp - b.eventTimestamp;
-//     //   if (t !== 0) return t;
-
-//     //   // rank via indexOf; push unknowns last
-//     //   const ra = ABILITY_ORDER.indexOf(a.eventAbility);
-//     //   const rb = ABILITY_ORDER.indexOf(b.eventAbility);
-//     //   const r =
-//     //     (ra === -1 ? Number.POSITIVE_INFINITY : ra) - (rb === -1 ? Number.POSITIVE_INFINITY : rb);
-//     //   if (r !== 0) return r;
-
-//     //   // optional final tiebreaker (see below)
-//     //   return a.id.localeCompare(b.id);
-//     // });
-//     // const [eventTaker] = sortedCombatants;
-//     const eventTaker = combatants.reduce((a, b) => (a.eventTimestamp < b.eventTimestamp ? a : b));
-
-//     const fillerTick = eventTaker.eventTimestamp === 0;
-//     const targets = combatants.filter(({ teamIndex }) => teamIndex !== eventTaker.teamIndex);
-//     const target =
-//       targets[
-//         seededRandom(
-//           0,
-//           targets.length - 1,
-//           `${seed}_${eventTaker.eventIndex + (fillerTick ? 1 : 0)}_defender`
-//         )
-//       ];
-//     const [currentAbility, ...nextAbilities] = eventTaker.abilities;
-
-//     const damage = {
-//       result: 0
-//     };
-
-//     const isAttacking = [
-//       'basicAttackFast',
-//       'basicAttackRegular',
-//       'basicAttackSlow',
-//       'spin'
-//     ].includes(currentAbility.id);
-//     const isBlocking = target.statuses.isBlocking;
-//     const isStunned = eventTaker.statuses.isStunned;
-
-//     if (!fillerTick) {
-//       if (!isStunned) {
-//         injectAnimation(
-//           eventTaker,
-//           {
-//             ...currentAbility.vfx,
-//             targetX: target.position.x,
-//             targetY: target.position.y
-//           },
-//           teams,
-//           events
-//         );
-//       }
-
-//       if (isStunned) {
-//         if (!currentAbility.chainTo) {
-//           eventTaker.statuses.isStunned = false;
-//         }
-//       } else if (isAttacking) {
-//         if (isBlocking) {
-//           bufferAnimation(target, _VFX.attackBlocked, eventTaker.eventTimestamp);
-//         } else {
-//           damage.result = eventTaker.combatStats.damage;
-//           target.combatStats.currentHealth -= damage.result;
-//           bufferAnimation(target, _VFX.hurt, eventTaker.eventTimestamp);
-//         }
-//       } else if (currentAbility.id === 'stun') {
-//         target.statuses.isStunned = true;
-//       } else if (currentAbility.id === 'lacerate') {
-//         target.statuses.isBleeding = true;
-//       }
-
-//       eventTaker.statuses.isBlocking = false;
-//       if (nextAbilities[0].id === 'block') {
-//         eventTaker.statuses.isBlocking = true;
-//       }
-
-//       // console.table({
-//       //   Round: globalEventIndex,
-//       //   Tick: eventTaker.eventTimestamp / COMBAT_TICK_TIME,
-//       //   attacker: eventTaker.race,
-//       //   ability: currentAbility.id,
-//       //   damage: damage.result,
-//       //   target: target.race,
-//       //   isBlocking,
-//       //   targetStatuses: target.statuses
-//       // });
-//     }
-
-//     const i1 = teams[eventTaker.teamIndex].combatants.findIndex(({ id }) => id === eventTaker.id);
-//     teams[eventTaker.teamIndex].combatants[i1] = eventTaker;
-
-//     const i2 = teams[target.teamIndex].combatants.findIndex(({ id }) => id === target.id);
-//     teams[target.teamIndex].combatants[i2] = target;
-
-//     teams.forEach((team, teamIndex) => {
-//       team.combatants.forEach(({ id, combatStats: { currentHealth } }, i) => {
-//         const combatantIndex = combatants.findIndex((c) => c.id === id);
-
-//         if (currentHealth <= 0 && combatantIndex !== -1) {
-//           teams[teamIndex].combatants[i].statuses.isBlocking = false;
-//           teams[teamIndex].combatants[i].statuses.isStunned = false;
-//           teams[teamIndex].combatants[i].statuses.knockedOut = eventTaker.eventTimestamp;
-//           teams[teamIndex].combatants[i].combatStats.currentHealth = 0;
-
-//           combatants = [
-//             ...combatants.slice(0, combatantIndex),
-//             ...combatants.slice(combatantIndex + 1)
-//           ];
-//         }
-//       });
-//     });
-
-//     events.push(
-//       structuredClone({
-//         currentAbility: currentAbility.id,
-//         eventTimestamp: eventTaker.eventTimestamp,
-//         // globalEventIndex,
-//         // eventIndex: eventTaker.eventIndex,
-//         // eventTaker,
-//         teams
-//         // target,
-//         // log: {
-//         //   damage
-//         // }
-//       })
-//     );
-
-//     // Temporary to exit loop
-//     // const removeIndex = seededRandom(0, combatants.length - 1, seed);
-//     // combatants = [...combatants.slice(0, removeIndex), ...combatants.slice(removeIndex + 1)];
-
-//     let ticksToNext = currentAbility.ticks;
-
-//     if (!fillerTick) {
-//       ticksToNext = nextAbilities[0].ticks;
-//       eventTaker.abilities = [...nextAbilities, currentAbility];
-//     }
-
-//     eventTaker.eventTimestamp = eventTaker.eventTimestamp + ticksToNext * COMBAT_TICK_TIME;
-//     eventTaker.eventIndex++;
-
-//     globalEventIndex++;
-//   }
-
-//   const duration = events[events.length - 1]?.eventTimestamp;
-//   const teamsEndState = events[events.length - 1].teams;
-
-//   return {
-//     events,
-//     teamsStartState,
-//     teamsEndState,
-//     duration
-//   };
-// };
 
 export const seededRandom = (min: number, max: number, string: string) =>
   random(min, max, seedRandom(string)());

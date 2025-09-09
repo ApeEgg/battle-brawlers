@@ -99,12 +99,12 @@
 
     // Unarmed
     let defaultAbilities = [
-      ABILITIES('basicAttackRegular'),
-      ABILITIES('basicAttackRegular'),
-      ABILITIES('basicAttackRegular'),
-      ABILITIES('basicAttackRegular'),
-      ABILITIES('basicAttackRegular'),
-      ABILITIES('basicAttackRegular')
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch')
     ];
 
     if (isTwoHanded) {
@@ -115,11 +115,7 @@
       if (isOneHandedWeapon) {
         defaultAbilities.push(...mainHandAbilities);
       } else {
-        defaultAbilities.push(
-          ABILITIES('basicAttackRegular'),
-          ABILITIES('basicAttackRegular'),
-          ABILITIES('basicAttackRegular')
-        );
+        defaultAbilities.push(ABILITIES('punch'), ABILITIES('punch'), ABILITIES('punch'));
       }
 
       defaultAbilities.push(...offHandAbilities);
@@ -128,27 +124,14 @@
       if (isOneHandedMainhand) {
         defaultAbilities.push(...mainHandAbilities);
       } else {
-        defaultAbilities.push(
-          ABILITIES('basicAttackRegular'),
-          ABILITIES('basicAttackRegular'),
-          ABILITIES('basicAttackRegular')
-        );
+        defaultAbilities.push(ABILITIES('punch'), ABILITIES('punch'), ABILITIES('punch'));
       }
       if (isOneHandedOffhand) {
         defaultAbilities.push(...offHandAbilities);
       } else {
-        defaultAbilities.push(
-          ABILITIES('basicAttackRegular'),
-          ABILITIES('basicAttackRegular'),
-          ABILITIES('basicAttackRegular')
-        );
+        defaultAbilities.push(ABILITIES('punch'), ABILITIES('punch'), ABILITIES('punch'));
       }
     }
-
-    // character.abilities = defaultAbilities.map((ability) => ({
-    //   ...ABILITIES(ability),
-    //   uuid: crypto.randomUUID()
-    // }));
 
     const currentAbilities = untrack(() => character.abilities).map((ability) =>
       !ABILITIES(ability, true).basic ? ability : undefined
@@ -296,4 +279,4 @@
   </crow>
 </crow>
 
-<Debug data={availableAbilities} />
+<Debug data={character.abilities} />

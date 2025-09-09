@@ -4,29 +4,7 @@ import entity from '$src/ts/entity';
 import type { DynamicObject } from '$src/types/common';
 import { deepMerge } from '$src/helpers';
 
-const damageCalc = ({ ticks }: { ticks: number }) => {
-  const baseDamage = ticks / 10;
-  const addedDamage = (ticks - 1) * 0.2;
-  const result = baseDamage + addedDamage;
-  return {
-    baseDamage,
-    addedDamage,
-    result
-  };
-};
-
-const healingCalc = ({ ticks }: { ticks: number }) => {
-  const baseHealing = ticks / 10;
-  const addedHealing = (ticks - 1) * 0.2;
-  const result = (baseHealing + addedHealing) / 10;
-  return {
-    baseHealing,
-    addedHealing,
-    result
-  };
-};
-
-export const ALL_ABILITIES = {
+const ALL_ABILITIES = {
   stab: {
     prettyName: 'Stab',
     type: AbilityType.WindUp,
@@ -36,8 +14,8 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: [],
     vfx: VFX.basicAttackFast,
-    damageCalc,
-    healingCalc: () => ({ result: 0 }) // No healing
+    damageModifier: 0,
+    healingModifier: null
   },
   slash: {
     prettyName: 'Slash',
@@ -48,8 +26,8 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: [],
     vfx: VFX.basicAttackRegular,
-    damageCalc,
-    healingCalc: () => ({ result: 0 }) // No healing
+    damageModifier: 0,
+    healingModifier: null
   },
   slam: {
     prettyName: 'Slam',
@@ -60,22 +38,10 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: [],
     vfx: VFX.basicAttackSlow,
-    damageCalc,
-    healingCalc: () => ({ result: 0 }) // No healing
+    damageModifier: 0,
+    healingModifier: null
   },
-  basicAttackFast: {
-    prettyName: 'Basic attack',
-    type: AbilityType.WindUp,
-    description: 'Basic one-handed attack.',
-    ticks: 2,
-    icon: '1h',
-    basic: true,
-    statusEffects: [],
-    vfx: VFX.basicAttackFast,
-    damageCalc,
-    healingCalc: () => ({ result: 0 }) // No healing
-  }, // 8 (80% of 10)
-  basicAttackRegular: {
+  punch: {
     prettyName: 'Punch',
     type: AbilityType.WindUp,
     description: 'Throw a punch at your opponent.',
@@ -84,31 +50,20 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: [],
     vfx: VFX.basicAttackFast,
-    damageCalc,
-    healingCalc: () => ({ result: 0 }) // No healing
-  }, // 10
-  basicAttackSlow: {
-    prettyName: 'Basic attack',
-    type: AbilityType.WindUp,
-    description: 'Basic two-handed attack.',
-    ticks: 4,
-    icon: '1h',
-    basic: true,
-    statusEffects: [],
-    vfx: VFX.basicAttackSlow,
-    damageCalc: () => ({ result: 0 }) // No healing
-  }, // 16 (160% of 10)
+    damageModifier: -0.2,
+    healingModifier: null
+  },
   block: {
     prettyName: 'Block',
     type: AbilityType.Channeling,
     description: 'Raise your shield to block. Prevent all damage for the duration.',
-    ticks: 3,
+    ticks: 4,
     icon: 'block',
     basic: true,
     statusEffects: [],
     vfx: VFX.block,
-    damageCalc: () => ({ result: 0 }), // No damage
-    healingCalc: () => ({ result: 0 }) // No healing
+    damageModifier: null,
+    healingModifier: null
   },
   shieldBash: {
     prettyName: 'Shield Bash',
@@ -119,8 +74,8 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: [],
     vfx: VFX.basicAttackRegular,
-    damageCalc,
-    healingCalc: () => ({ result: 0 }) // No healing
+    damageModifier: 0,
+    healingModifier: null
   },
   kick: {
     prettyName: 'Kick',
@@ -131,8 +86,8 @@ export const ALL_ABILITIES = {
     basic: false,
     statusEffects: ['isStunned'],
     vfx: VFX.kick,
-    damageCalc: () => ({ result: 0 }), // No damage
-    healingCalc: () => ({ result: 0 }) // No healing
+    damageModifier: null,
+    healingModifier: null
   },
   whirlwind: {
     prettyName: 'Whirlwind',
@@ -144,8 +99,8 @@ export const ALL_ABILITIES = {
     basic: false,
     statusEffects: [],
     vfx: VFX.whirlwind,
-    damageCalc,
-    healingCalc: () => ({ result: 0 }) // No healing
+    damageModifier: 0,
+    healingModifier: null
   },
   lacerate: {
     prettyName: 'Lacerate',
@@ -156,8 +111,8 @@ export const ALL_ABILITIES = {
     basic: false,
     statusEffects: ['isBleeding'],
     vfx: VFX.basicAttackFast,
-    damageCalc,
-    healingCalc: () => ({ result: 0 }) // No healing
+    damageModifier: 0,
+    healingModifier: null
   },
   bowshot: {
     prettyName: 'Bow Shot',
@@ -168,8 +123,8 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: [],
     vfx: VFX.basicAttackSlow,
-    damageCalc,
-    healingCalc: () => ({ result: 0 }) // No healing
+    damageModifier: 0,
+    healingModifier: null
   },
   cheesyTactics: {
     prettyName: 'Cheesy Tactics',
@@ -181,8 +136,8 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: [],
     vfx: VFX.heal,
-    damageCalc: () => ({ result: 0 }), // No damage
-    healingCalc
+    damageModifier: null,
+    healingModifier: 0
   },
   bite: {
     prettyName: 'Bite',
@@ -193,10 +148,48 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: ['isBleeding'],
     vfx: VFX.basicAttackFast,
-    damageCalc,
-    healingCalc: () => ({ result: 0 }) // No healing
+    damageModifier: 0,
+    healingModifier: null
   }
 };
+
+const scalingCalc = (ticks: number, modifier: number = 0) => {
+  if (modifier === null) return;
+
+  const base = ticks / 10;
+  const added = (ticks - 1) * 0.2 + modifier;
+  const result = base + added; // divide by 10 for healing
+
+  return {
+    base,
+    added,
+    result
+  };
+};
+
+function damageCalc(this: Ability) {
+  const ticks = this.chainLink || this.ticks;
+  const scaled = scalingCalc(ticks, this.damageModifier);
+  return scaled;
+}
+
+function healingCalc(this: Ability) {
+  const ticks = this.chainLink || this.ticks;
+  const scaled = scalingCalc(ticks, this.healingModifier);
+  return scaled;
+}
+
+for (const ability of Object.values(ALL_ABILITIES)) {
+  Object.defineProperty(ability, 'calc', {
+    enumerable: true,
+    get() {
+      return {
+        damage: damageCalc.bind(this),
+        healing: healingCalc.bind(this)
+      };
+    }
+  });
+}
 
 export default (id: string | AbilityRef, fullBody: boolean = false, meta?: DynamicObject) =>
   entity(

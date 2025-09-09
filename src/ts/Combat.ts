@@ -135,10 +135,6 @@ export const generateCombat = (seed: string, teams: Team[]) => {
       .flatMap((team) => team.combatants.map((combatant) => combatant))
       .filter((combatant) => combatant.combatStats.currentHealth > 0);
 
-    // console.log('tick status effect');
-    // if (stillStandingCombatants[1].name === 'Berserker') {
-    //   console.log(structuredClone(stillStandingCombatants[1].statuses.isStunned));
-    // }
     tickStatusEffects(stillStandingCombatants);
 
     const combatantsStarting = timedAbility(stillStandingCombatants, now, 'start');
@@ -308,7 +304,6 @@ export const generateCombat = (seed: string, teams: Team[]) => {
 
     if (tickCount % 12 === 0 && tickCount !== 0) {
       healingEfficiency = Math.max(0, healingEfficiency - 0.05);
-      console.log(healingEfficiency);
     }
 
     now += COMBAT_TICK_TIME;
