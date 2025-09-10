@@ -6,6 +6,7 @@ import app from '$src/app.svelte';
 import type { EquipmentRef } from '$src/types/equipment';
 import type { Tooltip } from '$src/ts/use';
 import EQUIPMENT from '$src/constants/EQUIPMENT';
+import ABILITIES from '$src/constants/ABILITIES';
 
 export const INITIAL_COMBAT = {
   teamsStartState: [],
@@ -14,16 +15,34 @@ export const INITIAL_COMBAT = {
   duration: 0
 };
 
+const DEFAULT_ABILITIES = [
+  ABILITIES('punch'),
+  ABILITIES('punch'),
+  ABILITIES('punch'),
+  ABILITIES('punch'),
+  ABILITIES('punch'),
+  ABILITIES('punch')
+];
+
 const INITIAL_CHARACTERS = [
   CHARACTERS('elf', false, {
     overrides: {
-      name: 'Elon the Elf',
+      name: 'Evasive Elon',
       equipment: { ...DEFAULT_EQUIPMENT },
-      abilities: []
+      abilities: DEFAULT_ABILITIES
     }
   }),
   CHARACTERS('troll', false, {
-    overrides: { name: 'Trollet Ture', equipment: DEFAULT_EQUIPMENT, abilities: [] }
+    overrides: { name: 'Tanky Tom', equipment: DEFAULT_EQUIPMENT, abilities: DEFAULT_ABILITIES }
+  }),
+  CHARACTERS('goblin', false, {
+    overrides: { name: 'Greedy Gerald', equipment: DEFAULT_EQUIPMENT, abilities: DEFAULT_ABILITIES }
+  }),
+  CHARACTERS('human', false, {
+    overrides: { name: 'Humble Hans', equipment: DEFAULT_EQUIPMENT, abilities: DEFAULT_ABILITIES }
+  }),
+  CHARACTERS('dwarf', false, {
+    overrides: { name: 'Dense Darrin', equipment: DEFAULT_EQUIPMENT, abilities: DEFAULT_ABILITIES }
   })
 ];
 

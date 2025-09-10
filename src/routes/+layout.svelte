@@ -13,23 +13,23 @@
   import { overrideItemIdKeyNameBeforeInitialisingDndZones } from 'svelte-dnd-action';
   import EQUIPMENT from '$src/constants/EQUIPMENT';
   import CHARACTERS from '$src/constants/CHARACTERS';
+  import CombatantAbilityBar from '$src/components/combat/CombatantAbilityBar.svelte';
+  import ABILITIES from '$src/constants/ABILITIES';
+  import { calculateTickStart } from '$src/ts/Utils';
+  import Accordion from '$src/components/Accordion.svelte';
   overrideItemIdKeyNameBeforeInitialisingDndZones('uuid');
 
   let { children } = $props<{ children: Snippet }>();
   let isFrontpage = $derived($page.route.id === '/' && !app.token);
+  let activePage = $derived($page.route.id?.split('/')[1] || 'start');
+  let characterIndex = $derived($page.params.characterIndex);
+  let creatureId = $derived($page.params.creatureId);
+
+  let showSequence = $state(false);
 </script>
 
 <ConnectSocket />
 <Keystrokes />
-
-<svelte:head>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Aoboshi+One&family=Archivo+Black&family=Fira+Sans+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-    rel="stylesheet"
-  />
-</svelte:head>
 
 <div
   class={tw(
@@ -49,27 +49,122 @@
     <Authorization>
       <Row class="min-h-screen flex-1 gap-2 pt-20" up>
         <div class="w-56 rounded border border-gray-400 bg-white/30 p-4">
-          <h4>My characters</h4>
-          <div class="my-4">
+          <h5>MY BRAWLERS</h5>
+          <div
+            class="-mx-4 my-3"
+            onmouseenter={() => (showSequence = true)}
+            onmouseleave={() => (showSequence = false)}
+            role="none"
+          >
             <crow vertical up left>
-              {#each app.characters as char, i}
+              {#each app.characters as char, i (char.uuid)}
                 {@const character = CHARACTERS(char, true)}
-
+                {@const abilitiesHydrated = character.abilities.map((ability) =>
+                  ABILITIES(ability, true)
+                )}
+                {@const isActive = parseInt(characterIndex, 10) === i}
                 <Clickable
-                  href="/my-characters/{i}"
-                  class="crow left w-full gap-2 bg-gray-100/50"
+                  href="/brawlers/{i}"
+                  class={tw('crow vertical w-full', isActive && 'glass !border-none')}
                   left
                 >
-                  <div class="h-6 w-6 overflow-hidden bg-white">
-                    <img src="/images/races/{character.race}/01.png" alt="" />
-                  </div>
-                  <div class="p-2">{character.name}</div>
+                  <crow class="w-full" left>
+                    <div class="h-16 w-16 overflow-hidden p-1">
+                      <img src="/images/races/{character.race}/01-faceshot.png" alt="" />
+                    </div>
+                    <crow vertical left class="overflow-x-hidden px-1.5 py-1">
+                      <span class="">{character.name}</span>
+                      <Accordion
+                        isOpen={showSequence ||
+                          creatureId !== undefined ||
+                          characterIndex !== undefined}
+                      >
+                        <CombatantAbilityBar
+                          abilitiesCopied={abilitiesHydrated.filter(
+                            (_, i) => calculateTickStart(abilitiesHydrated, i) < character.maxTicks
+                          )}
+                        />
+                      </Accordion>
+                    </crow>
+                  </crow>
                 </Clickable>
               {/each}
             </crow>
           </div>
-          <h4>My inventory</h4>
-          <div class="my-4">
+        </div>
+        <crow vertical class="h-full flex-1">
+          <div class="grid h-full w-full">
+            <crow
+              up
+              left
+              class="h-auto rounded border border-gray-400 bg-white p-4 [grid-area:1/1]"
+            >
+              <div class="w-full">
+                {@render children()}
+              </div>
+            </crow>
+
+            <crow up right class="-mt-7 !h-7 !flex-none gap-1 px-1 [grid-area:1/1]">
+              <a
+                class={tw(
+                  'border border-b-0 border-transparent px-2 py-0.5',
+                  activePage === 'start' && 'rounded-t-sm border-gray-400 bg-white'
+                )}
+                href="/"
+              >
+                Start
+              </a>
+              <a
+                class={tw(
+                  'border border-b-0 border-transparent px-2 py-0.5',
+                  activePage === 'creatures' && 'rounded-t-sm border-gray-400 bg-white'
+                )}
+                href="/creatures"
+              >
+                Creatures
+              </a>
+              <a
+                class={tw(
+                  'border border-b-0 border-transparent px-2 py-0.5',
+                  activePage === 'crafting' && 'rounded-t-sm border-gray-400 bg-white'
+                )}
+                href="/crafting"
+              >
+                Crafting
+              </a>
+              <a
+                class={tw(
+                  'border border-b-0 border-transparent px-2 py-0.5',
+                  activePage === 'brawlers' && 'rounded-t-sm border-gray-400 bg-white'
+                )}
+                href="/brawlers"
+              >
+                Brawlers
+              </a>
+              <a
+                class={tw(
+                  'border border-b-0 border-transparent px-2 py-0.5',
+                  activePage === 'debug' && 'rounded-t-sm border-gray-400 bg-white'
+                )}
+                href="/debug"
+              >
+                Debug
+              </a>
+              <a
+                class={tw(
+                  'border border-b-0 border-transparent px-2 py-0.5',
+                  activePage === 'scaling' && 'rounded-t-sm border-gray-400 bg-white'
+                )}
+                href="/scaling"
+              >
+                Scaling
+              </a>
+            </crow>
+          </div>
+        </crow>
+        <div class="w-56 rounded border border-gray-400 bg-white/30 p-4">
+          <h5>INVENTORY</h5>
+          <div class="my-3">
             <crow vertical up left>
               {#each app.inventory as item, i (item.uuid)}
                 {@const equipment = EQUIPMENT(item, true)}
@@ -81,19 +176,6 @@
               {/each}
             </crow>
           </div>
-        </div>
-        <div class="h-full flex-1 rounded border border-gray-400 bg-white p-4">
-          <div>
-            {@render children()}
-          </div>
-        </div>
-        <div class="w-56 rounded border border-gray-400 bg-white/30 p-4">
-          <crow up left vertical>
-            <a href="/">Start</a>
-            <a href="/creatures">Creatures</a>
-            <a href="/crafting">Crafting</a>
-            <a href="/debug">Debug</a>
-          </crow>
         </div>
       </Row>
     </Authorization>

@@ -18,14 +18,14 @@
 
 <div
   class={tw(
-    'input relative inline-block border-none bg-none outline-none text-gray-800 dark:text-white',
+    'input relative inline-block border-none bg-none text-gray-800 outline-none dark:text-white',
     _class
   )}
   class:active={value}
   class:small
 >
   <input
-    class="p-2 rounded bg-white dark:bg-black w-full"
+    class="w-full rounded bg-white p-2 dark:bg-black"
     type="text"
     {...props}
     autocomplete="off"
@@ -38,7 +38,7 @@
 
   {#if placeholder}
     <div
-      class="placeholder absolute transition-[bottom,left] bottom-1/2 left-2 rounded translate-y-1/2 pointer-events-none px-1.5 pt-px text-gray-600 dark:text-gray-400 bg-white dark:bg-black"
+      class="placeholder pointer-events-none absolute bottom-1/2 left-2 translate-y-1/2 rounded bg-white px-1.5 pt-px text-gray-600 transition-[bottom,left] dark:bg-black dark:text-gray-400"
     >
       {placeholder}
     </div>

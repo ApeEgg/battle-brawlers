@@ -10,17 +10,17 @@
   const craftEquipment = (item: EquipmentRef) => app.inventory.push(item);
 </script>
 
-<h1>Crafting</h1>
+<Headline text="crafting" />
 
-<crow vertical up left>
-  <crow up left class="gap-4 p-2">
+<crow vertical up left class="-mx-4 !w-auto">
+  <crow up left class="gap-4 px-6 py-2">
     <div class="flex-1 font-bold">Name</div>
     <div class="flex-1 font-bold">Slots in</div>
     <div class="flex-1 font-bold">Level</div>
     <div class="w-20 font-bold"></div>
   </crow>
   {#each items as item, i}
-    <crow left class="w-full gap-4 p-2 {i % 2 === 0 ? 'bg-gray-100' : 'bg-white'}">
+    <crow left class="w-full gap-4 px-6 py-2 {i % 2 === 0 ? 'bg-[#faf7f2]' : 'bg-white'}">
       <crow left class="flex-1 gap-2">
         <!-- <div class="w-6">
           <div class="overflow-hidden rounded-full">

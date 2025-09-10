@@ -6,7 +6,10 @@ import { deepMerge } from '$src/helpers';
 
 export type CharacterKey = Race | 'creature';
 
-const DEFAULT_MAX_HP = 12;
+const DEFAULT_MAX_HP = 24;
+const DEFAULT_DAMAGE = 10;
+const DEFAULT_MAX_TICKS = 12;
+
 export const DEFAULT_EQUIPMENT = {
   mainHand: null,
   offHand: null,
@@ -14,7 +17,10 @@ export const DEFAULT_EQUIPMENT = {
   accessory: null,
   trinket: null
 };
-const DEFAULT_MAX_TICKS = 12;
+
+// !!!IMPORTANT!!!
+// Don't use { overrides } here, it breaks playable characters
+// inheriting. If "creatures" need overrides, add them to the specific creature.
 
 export const ALL_CHARACTERS = {
   elf: {
@@ -31,14 +37,14 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      damage: 8,
+      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [
       ABILITIES('swing'),
-      ABILITIES('swing', false, { overrides: { ticks: 4 } }),
+      ABILITIES('swing'),
       ABILITIES('swing'),
       ABILITIES('swing'),
       ABILITIES('swing')
@@ -54,7 +60,7 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      damage: 1,
+      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0
     },
@@ -71,7 +77,7 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      damage: 1,
+      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0
     },
@@ -88,7 +94,7 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      damage: 1,
+      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0
     },
@@ -105,7 +111,7 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      damage: 1,
+      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0
     },
@@ -131,12 +137,12 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: 70,
       currentHealth: 50,
-      damage: 1,
+      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0
     },
     maxTicks: Infinity,
-    abilities: [ABILITIES('swing'), ABILITIES('whirlwind')]
+    abilities: [ABILITIES('swing'), ABILITIES('whirlwind', false, { overrides: { basic: true } })]
   },
   rat: {
     name: 'Fat rat',
@@ -148,7 +154,7 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: 50,
       currentHealth: 50,
-      damage: 3,
+      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0
     },
@@ -165,7 +171,7 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: 20,
       currentHealth: 50,
-      damage: 3,
+      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0
     },
@@ -189,7 +195,7 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: 50,
       currentHealth: 50,
-      damage: 3,
+      damage: DEFAULT_DAMAGE,
       maxArmor: 100,
       currentArmor: 100
     },

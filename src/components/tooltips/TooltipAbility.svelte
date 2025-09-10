@@ -30,7 +30,7 @@
     </div>
     {#if chainLink}
       <div class="text-sm">
-        <strong>Triggers each:</strong>
+        <strong class="text-black">Triggers each:</strong>
         {ticks / chainLink} tick{ticks / chainLink === 1 ? '' : 's'}
       </div>
     {/if}

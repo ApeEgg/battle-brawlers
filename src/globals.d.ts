@@ -57,11 +57,17 @@ declare const Button: import('svelte').ComponentType<
 declare const Checkbox: import('svelte').ComponentType<
   (typeof import('$src/components/form/Checkbox'))['default']
 >;
+declare const Headline: import('svelte').ComponentType<
+  (typeof import('$src/components/Headline'))['default']
+>;
 declare const Dropdown: import('svelte').ComponentType<
   (typeof import('$src/components/form/Dropdown'))['default']
 >;
 declare const Input: import('svelte').ComponentType<
   (typeof import('$src/components/form/Input'))['default']
+>;
+declare const Accordion: import('svelte').ComponentType<
+  (typeof import('$src/components/Accordion'))['default']
 >;
 declare const ConnectSocket: import('svelte').ComponentType<
   (typeof import('$src/components/global/ConnectSocket'))['default']

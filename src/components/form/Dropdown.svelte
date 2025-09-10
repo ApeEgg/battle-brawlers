@@ -12,8 +12,8 @@
   export let options: Option[] = [];
 </script>
 
-<div class="relative">
-  <select class="absolute w-full h-full inset-0 opacity-0" bind:value on:change>
+<div class="relative rounded-sm border border-gray-200">
+  <select class="absolute inset-0 h-full w-full opacity-0" bind:value on:change>
     <optgroup label="Choose one">
       {#each options as option, i}
         {#if typeof option === 'string'}

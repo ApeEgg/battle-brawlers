@@ -11,13 +11,13 @@
   let combatantCount = $state(1);
 
   let characters: Character[] = [
-    CHARACTERS('elf', true),
-    CHARACTERS('human', true),
-    CHARACTERS('troll', true),
-    CHARACTERS('dwarf', true),
-    CHARACTERS('goblin', true),
-    CHARACTERS('succubus', true),
-    CHARACTERS('rat', true)
+    CHARACTERS('elf'),
+    CHARACTERS('human'),
+    CHARACTERS('troll'),
+    CHARACTERS('dwarf'),
+    CHARACTERS('goblin'),
+    CHARACTERS('succubus'),
+    CHARACTERS('rat')
   ];
 
   const initializeCombat = () => {
@@ -53,6 +53,8 @@
 
   $effect(initializeCombat);
 </script>
+
+<Headline text="debug" />
 
 <div>
   Teams {teamCount}:

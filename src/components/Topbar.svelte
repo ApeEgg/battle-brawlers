@@ -11,9 +11,9 @@
 </script>
 
 <Row class="fixed inset-0 bottom-auto" right>
-  <Clickable class="row h-8 w-8 hover:bg-black/5 dark:hidden" onclick={toggleDarkMode}>
+  <!-- <Clickable class="row h-8 w-8 hover:bg-black/5 dark:hidden" onclick={toggleDarkMode}>
     <Icon class="text-yellow-500" name="light" />
-  </Clickable>
+  </Clickable> -->
   <Clickable
     class="dark:row hidden h-8 w-8 -translate-y-px hover:bg-black/5"
     onclick={toggleDarkMode}

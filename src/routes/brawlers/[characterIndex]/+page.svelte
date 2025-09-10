@@ -194,9 +194,9 @@
 
 <crow vertical class="mt-4 gap-6">
   <crow left up class="gap-4">
-    <div class="h-40">
+    <crow class="aspect-square w-40 !flex-none">
       <img src="/images/races/{character.race}/01.png" alt="" class="h-full" />
-    </div>
+    </crow>
     <crow vertical up left>
       <crow class="gap-2">
         <div class="w-15 font-bold">Race:</div>

@@ -4,7 +4,7 @@ import entity from '$src/ts/entity';
 import type { DynamicObject } from '$src/types/common';
 import { deepMerge } from '$src/helpers';
 
-const ALL_ABILITIES = {
+export const ALL_ABILITIES = {
   stab: {
     prettyName: 'Stab',
     type: AbilityType.WindUp,
@@ -168,7 +168,7 @@ const ALL_ABILITIES = {
 const scalingCalc = (ticks: number, modifier: number = 0) => {
   if (modifier === null) return;
 
-  const base = 0.1 * ticks;
+  const base = 0.1 * (ticks + 1);
   const added = modifier; // ticks * (0.2 + modifier);
   const result = (base + added).toFixed(2); // divide by 10 for healing
 
@@ -180,14 +180,14 @@ const scalingCalc = (ticks: number, modifier: number = 0) => {
 };
 
 function damageCalc(this: Ability) {
-  const ticks = this.chainLink || this.ticks;
+  const ticks = this.chainLink ? this.ticks / this.chainLink : this.ticks;
 
   const scaled = scalingCalc(ticks, this.damageModifier);
   return scaled;
 }
 
 function healingCalc(this: Ability) {
-  const ticks = this.chainLink || this.ticks;
+  const ticks = this.chainLink ? this.ticks / this.chainLink : this.ticks;
   const scaled = scalingCalc(ticks, this.healingModifier);
   return scaled;
 }

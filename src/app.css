@@ -4,20 +4,29 @@
 
 @layer base {
   html {
-    font-family:
-      Fira Sans Condensed,
-      Trebuchet MS,
-      sans-serif;
+    font-family: 'Fira Sans Condensed', 'Trebuchet MS', 'sans-serif';
+    @apply overflow-x-hidden overflow-y-scroll;
   }
   body {
     @apply text-gray-800 dark:text-white;
   }
   .alfa-slab-one {
-    font-family: 'Alfa Slab One';
+    @apply font-['Alfa_Slab_One'];
+  }
+  .cinzel {
+    @apply font-['Cinzel'];
   }
   .fat-number {
     -webkit-text-stroke: 0.5px black;
     @apply drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)];
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-['Cinzel'];
   }
 }
 
