@@ -1,3 +1,5 @@
+import type { VFX } from '$src/types/vfx';
+
 export default {
   basicAttackFast: {
     vfxName: 'basicAttackFast',
@@ -36,4 +38,4 @@ export default {
     vfxName: 'heal',
     duration: 500
   }
-};
+} as Record<string, VFX>;

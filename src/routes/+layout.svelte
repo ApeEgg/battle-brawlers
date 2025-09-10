@@ -71,7 +71,7 @@
           <h4>My inventory</h4>
           <div class="my-4">
             <crow vertical up left>
-              {#each app.inventory as item, i}
+              {#each app.inventory as item, i (item.uuid)}
                 {@const equipment = EQUIPMENT(item, true)}
                 <crow class="w-full !justify-between gap-2 py-1" left>
                   <EquipmentLink {...equipment} />

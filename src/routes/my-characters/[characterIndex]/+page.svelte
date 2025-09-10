@@ -216,7 +216,7 @@
       </crow>
     </crow>
     <crow vertical up left>
-      {#each Object.entries(character.equipment) as [slot, equipment]}
+      {#each Object.entries(character.equipment) as [slot, equipment] (`${character.uuid}-${slot}-${equipment?.uuid}`)}
         <crow left class="w-full !justify-between gap-2">
           <crow left>
             <div class="w-20 font-bold">{slotsInPrettyName(slot as EquipmentSlot)}:</div>

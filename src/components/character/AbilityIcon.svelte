@@ -33,8 +33,8 @@
 {/if}
 <Icon
   class={tw(
-    'relative text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.5xl))]',
-    basic && 'text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.3xl))] text-gray-400',
+    'relative text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.3xl))]',
+    basic && 'text-gray-400',
     small && 'text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.2xl))]',
     small && basic && 'text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.xl))]',
     disabled && 'text-red-300'
