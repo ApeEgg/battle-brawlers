@@ -180,32 +180,34 @@
   });
 </script>
 
-<crow class="relative w-full gap-2 overflow-hidden px-1 py-2" vertical left up>
-  <crow class="w-full !justify-between">
-    <h5>Active abilities</h5>
+<crow vertical class="w-full gap-2">
+  <crow class="relative w-full gap-2 overflow-hidden px-1 py-2" vertical left up>
+    <crow class="w-full !justify-between">
+      <h5>Active abilities</h5>
+    </crow>
+    <AbilityBar
+      {character}
+      abilities={character.overrides.abilities}
+      {considerCharacterAbilities}
+      {finalizeCharacterAbilities}
+      {transformDraggedCharacterAbility}
+      {constrainAxisY}
+    />
   </crow>
-  <AbilityBar
-    {character}
-    abilities={character.overrides.abilities}
-    {considerCharacterAbilities}
-    {finalizeCharacterAbilities}
-    {transformDraggedCharacterAbility}
-    {constrainAxisY}
-  />
-</crow>
 
-<crow class="relative w-full gap-2 overflow-hidden p-1" vertical left up>
-  <crow class="w-full !justify-between">
-    <h5>Available abilities</h5>
+  <crow class="relative w-full gap-2 overflow-hidden p-1" vertical left up>
+    <crow class="w-full !justify-between">
+      <h5>Available abilities</h5>
+    </crow>
+    <AbilityInventory
+      {character}
+      {availableAbilities}
+      {considerAvailableAbilities}
+      {finalizeAvailableAbilities}
+      {transformDraggedAvailableAbility}
+      {dropFromOthersDisabled}
+    />
   </crow>
-  <AbilityInventory
-    {character}
-    {availableAbilities}
-    {considerAvailableAbilities}
-    {finalizeAvailableAbilities}
-    {transformDraggedAvailableAbility}
-    {dropFromOthersDisabled}
-  />
 </crow>
 
 <!-- <Debug data={character} /> -->

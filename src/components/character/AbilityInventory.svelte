@@ -73,8 +73,8 @@
       </crow>
     {/each}
   {:else if hasNonbasicAbilities}
-    Abilities from equipped gear will appear here
+    <span class="text-gray-400">Abilities from equipped gear will appear here</span>
   {:else}
-    Abilities from equipped gear will appear here
+    <span class="text-gray-400">Abilities from equipped gear will appear here</span>
   {/if}
 </crow>

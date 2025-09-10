@@ -16,9 +16,9 @@
   let combatStats = $derived(calculateCombatStatsByCharacter(character));
 </script>
 
-<h2>{character.name}</h2>
+<Headline text={character.name} />
 
-<crow vertical class="mt-4 gap-6">
+<crow vertical class="mt-4 gap-4">
   <crow left up class="gap-4">
     <crow class="aspect-square w-40 !flex-none">
       <img src="/images/races/{character.race}/01.png" alt="" class="h-full" />

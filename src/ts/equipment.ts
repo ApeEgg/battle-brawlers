@@ -35,7 +35,7 @@ export const equip = (equipmentRef: EquipmentRef, index: number) => {
 
   const characterRef = app.characters[characterIndex];
   const character = CHARACTERS(characterRef, true);
-  const slotsIn = decideEquipmentSlot(equipment.slotsIn, character);
+  let slotsIn = decideEquipmentSlot(equipment.slotsIn, character);
   const slot = character.equipment[slotsIn];
   const mainHand = character.equipment.mainHand
     ? EQUIPMENT(character.equipment.mainHand, true)
@@ -64,7 +64,8 @@ export const equip = (equipmentRef: EquipmentRef, index: number) => {
   ) {
     app.inventory.push(character.equipment.mainHand);
     characterRef.overrides.equipment.mainHand = null;
-    // if (equipment.slotsIn !== 'offHand') slotsIn = 'mainHand';
+
+    if (equipment.slotsIn !== 'offHand') slotsIn = 'mainHand';
   }
 
   // Replace whatever is in the slot

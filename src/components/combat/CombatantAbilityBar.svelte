@@ -5,7 +5,7 @@
   let progress = $derived(props.progress);
 </script>
 
-<div class="w-[144px]">
+<div class="w-[145px]">
   <div
     class="relative -mx-[0.5px] -mb-[0.5px] border-[0.5px] border-gray-500 bg-[#eae1d4] shadow"
     style="width: calc((12px*{abilitiesCopied.reduce((acc, { ticks }) => acc + ticks, 0)}) + 2px);"

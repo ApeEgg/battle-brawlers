@@ -57,6 +57,7 @@
       <Row class="min-h-screen flex-1 gap-2 pt-20" up>
         <div class="w-56 rounded border border-gray-400 bg-white/30 p-4">
           <h5>MY BRAWLERS</h5>
+          <Hr left />
           <div
             class="-mx-4 my-3"
             onmouseenter={() => (showSequence = true)}
@@ -74,16 +75,22 @@
                   (creatureId !== undefined && app.selectedBrawlers.includes(char.uuid))}
                 <Clickable
                   href="/brawlers/{i}"
-                  class={tw('crow vertical w-full', isActive && 'glass !border-none')}
+                  class={tw('crow vertical w-full')}
                   left
                   onclick={(e: Event) => selectBrawler(e, char.uuid)}
                 >
-                  <crow class="w-full" left>
+                  <crow
+                    left
+                    class={tw(
+                      isActive &&
+                        'glass -mx-1.5 -my-1 w-auto !rounded-sm !border-none px-1.5 py-1 transition-all duration-75'
+                    )}
+                  >
                     <div class="h-16 w-16 overflow-hidden p-1">
                       <img src="/images/races/{character.race}/01-faceshot.png" alt="" />
                     </div>
                     <crow vertical left class="overflow-x-hidden px-1 py-1">
-                      <span class="">{character.name}</span>
+                      <div class="text-md text-gray-600">{character.name}</div>
                       <Accordion
                         isOpen={showSequence ||
                           creatureId !== undefined ||
@@ -120,8 +127,8 @@
             <crow up right class="-mt-7 !h-7 !flex-none gap-1 px-1 [grid-area:1/1]">
               <a
                 class={tw(
-                  'border border-b-0 border-transparent px-2 py-0.5',
-                  activePage === 'start' && 'rounded-t-sm border-gray-400 bg-white'
+                  'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+                  activePage === 'start' && 'rounded-t-sm border-gray-400 bg-white text-black'
                 )}
                 href="/"
               >
@@ -129,8 +136,8 @@
               </a>
               <a
                 class={tw(
-                  'border border-b-0 border-transparent px-2 py-0.5',
-                  activePage === 'creatures' && 'rounded-t-sm border-gray-400 bg-white'
+                  'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+                  activePage === 'creatures' && 'rounded-t-sm border-gray-400 bg-white text-black'
                 )}
                 href="/creatures"
               >
@@ -138,8 +145,8 @@
               </a>
               <a
                 class={tw(
-                  'border border-b-0 border-transparent px-2 py-0.5',
-                  activePage === 'crafting' && 'rounded-t-sm border-gray-400 bg-white'
+                  'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+                  activePage === 'crafting' && 'rounded-t-sm border-gray-400 bg-white text-black'
                 )}
                 href="/crafting"
               >
@@ -147,8 +154,8 @@
               </a>
               <a
                 class={tw(
-                  'border border-b-0 border-transparent px-2 py-0.5',
-                  activePage === 'brawlers' && 'rounded-t-sm border-gray-400 bg-white'
+                  'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+                  activePage === 'brawlers' && 'rounded-t-sm border-gray-400 bg-white text-black'
                 )}
                 href="/brawlers"
               >
@@ -156,8 +163,8 @@
               </a>
               <a
                 class={tw(
-                  'border border-b-0 border-transparent px-2 py-0.5',
-                  activePage === 'debug' && 'rounded-t-sm border-gray-400 bg-white'
+                  'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+                  activePage === 'debug' && 'rounded-t-sm border-gray-400 bg-white text-black'
                 )}
                 href="/debug"
               >
@@ -165,8 +172,8 @@
               </a>
               <a
                 class={tw(
-                  'border border-b-0 border-transparent px-2 py-0.5',
-                  activePage === 'scaling' && 'rounded-t-sm border-gray-400 bg-white'
+                  'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+                  activePage === 'scaling' && 'rounded-t-sm border-gray-400 bg-white text-black'
                 )}
                 href="/scaling"
               >
@@ -177,6 +184,7 @@
         </crow>
         <div class="w-56 rounded border border-gray-400 bg-white/30 p-4">
           <h5>INVENTORY</h5>
+          <Hr left />
           <div class="my-3">
             <crow vertical up left>
               {#each app.inventory as item, i (item.uuid)}

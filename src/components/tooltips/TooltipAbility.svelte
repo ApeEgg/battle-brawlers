@@ -18,8 +18,9 @@
 <div
   class="pointer-events-none w-60 gap-1 rounded-md px-2.5 pt-1.5 pb-3 text-sm leading-[18px] text-gray-700 shadow-sm"
 >
-  <crow class="w-full !justify-between">
-    <strong class="text-lg text-black">{prettyName}</strong>
+  <crow vertical left class="w-full !justify-between">
+    <div class="text-lg text-black">{prettyName}</div>
+    <Hr />
   </crow>
   <crow vertical left>
     <div class="text-sm">
@@ -52,6 +53,6 @@
     {/if}
   </crow>
   {#if description}
-    <div class="mt-2 text-sm">{@html description}</div>
+    <div class="mt-2 text-sm italic">{@html description}</div>
   {/if}
 </div>

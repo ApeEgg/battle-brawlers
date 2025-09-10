@@ -82,9 +82,7 @@
   <AbilityBar character={creature} abilities={creature.abilities} dndDisabled />
 </crow>
 
-<hr
-  class="my-6 h-px w-full border-none bg-gradient-to-r from-transparent via-gray-200 to-transparent"
-/>
+<Hr class="mt-6 mb-3" />
 
 {#if selectedBrawlers.length > 0}
   {#each selectedBrawlers as brawler (brawler.uuid)}

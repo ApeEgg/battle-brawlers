@@ -69,6 +69,7 @@ declare const Input: import('svelte').ComponentType<
 declare const Accordion: import('svelte').ComponentType<
   (typeof import('$src/components/Accordion'))['default']
 >;
+declare const Hr: import('svelte').ComponentType<(typeof import('$src/components/Hr'))['default']>;
 declare const ConnectSocket: import('svelte').ComponentType<
   (typeof import('$src/components/global/ConnectSocket'))['default']
 >;

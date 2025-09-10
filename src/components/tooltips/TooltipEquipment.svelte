@@ -31,8 +31,9 @@
   vertical
   class="pointer-events-none !w-60 gap-2 rounded-md px-2.5 pt-1.5 pb-3 text-sm leading-[18px] text-gray-700 shadow-sm transition-all"
 >
-  <crow class="w-full !justify-between">
-    <strong class="text-lg text-black">{prettyName}</strong>
+  <crow vertical left class="w-full !justify-between">
+    <div class="text-lg text-black">{prettyName}</div>
+    <Hr class="mb-0" />
   </crow>
   {#if Object.entries(combatStats).length > 0}
     <crow vertical left class="!w-1/2">
@@ -45,7 +46,7 @@
     </crow>
   {/if}
   {#if description}
-    <span class="text-sm">{@html description}</span>
+    <span class="text-sm italic">{@html description}</span>
   {/if}
 
   {#if activeAbilities.length > 0}
@@ -54,9 +55,7 @@
     </crow>
   {/if}
   {#if availableAbilities.length > 0}
-    <hr
-      class="my-1 h-px w-full border-none bg-gradient-to-r from-transparent via-gray-400 to-transparent"
-    />
+    <Hr class="mb-0.5" />
     <crow class="w-full gap-4">
       <!-- <div class="text-sm text-gray-500">Abilities</div> -->
       <AbilityInventory {character} {availableAbilities} small />

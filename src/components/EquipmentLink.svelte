@@ -8,7 +8,7 @@
 </script>
 
 <div
-  class="cursor-pointer border-b border-transparent leading-4 text-blue-500 hover:border-blue-500"
+  class="cursor-pointer border-b border-transparent leading-4 text-stone-500 hover:border-stone-500"
   use:tooltip={{
     children: TooltipEquipment,
     props: { ...props, character: CHARACTERS(character, true) },
