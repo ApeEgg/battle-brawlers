@@ -8,8 +8,9 @@
 
   let { prettyName, ticks, type, description, chainLink, character } = $derived(props);
 
-  let calculatedDamage = $derived(props.calc.damage());
-  let calculatedHealing = $derived(props.calc.healing());
+  let calc = $derived(props.calc);
+  let calculatedDamage = $derived(calc.damage());
+  let calculatedHealing = $derived(calc.healing());
 
   let combatStats = $derived(character ? calculateCombatStatsByCharacter(character) : {});
 </script>
@@ -37,9 +38,7 @@
       <div class="text-sm">
         <strong class="text-black"> Damage: </strong>
         {Math.ceil(combatStats?.damage * calculatedDamage.result)}
-        <!-- ({calculatedDamage.baseDamage.toFixed(2) * 100}% + {calculatedDamage.addedDamage.toFixed(2) *
-        100}% of damage) -->
-        ({Math.ceil(calculatedDamage.result * 100)}% of damage)
+        ({Math.ceil(calculatedDamage.result * 100)}% of total damage)
       </div>
     {/if}
     {#if calculatedHealing?.result}
@@ -48,7 +47,7 @@
         {Math.ceil(combatStats?.maxHealth * calculatedHealing.result)}
         <!-- ({calculatedHealing.baseDamage.toFixed(2) * 100}% + {calculatedHealing.addedDamage.toFixed(2) *
         100}% of damage) -->
-        ({Math.ceil(calculatedHealing.result * 100)}% of health)
+        ({Math.ceil(calculatedHealing.result * 100)}% of max health)
       </div>
     {/if}
   </crow>

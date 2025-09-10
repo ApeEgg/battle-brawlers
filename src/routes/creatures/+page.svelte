@@ -1,11 +1,12 @@
 <script lang="ts">
-  import CHARACTERS from '$src/constants/CHARACTERS';
+  import { ALL_CHARACTERS } from '$src/constants/CHARACTERS';
 
-  let creatures = [
-    { ...CHARACTERS.succubus(), url: 'succubus' },
-    { ...CHARACTERS.rat(), url: 'rat' },
-    { ...CHARACTERS.undead(), url: 'undead' }
-  ];
+  let creatures = Object.entries(ALL_CHARACTERS)
+    .map(([key, value]) => ({
+      ...value(),
+      url: key
+    }))
+    .filter(({ image }) => image.startsWith('creature'));
 </script>
 
 <h1>Creatures</h1>

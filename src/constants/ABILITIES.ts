@@ -14,14 +14,14 @@ const ALL_ABILITIES = {
     basic: true,
     statusEffects: [],
     vfx: VFX.basicAttackFast,
-    damageModifier: 0,
+    damageModifier: -0.05,
     healingModifier: null
   },
-  slash: {
-    prettyName: 'Slash',
+  swing: {
+    prettyName: 'Swing',
     type: AbilityType.WindUp,
     description: 'Swing your weapon in a wide arc.',
-    ticks: 2,
+    ticks: 3,
     icon: 'slash',
     basic: true,
     statusEffects: [],
@@ -38,7 +38,7 @@ const ALL_ABILITIES = {
     basic: true,
     statusEffects: [],
     vfx: VFX.basicAttackSlow,
-    damageModifier: 0,
+    damageModifier: 0.05,
     healingModifier: null
   },
   punch: {
@@ -50,14 +50,14 @@ const ALL_ABILITIES = {
     basic: true,
     statusEffects: [],
     vfx: VFX.basicAttackFast,
-    damageModifier: -0.2,
+    damageModifier: -0.1,
     healingModifier: null
   },
   block: {
     prettyName: 'Block',
     type: AbilityType.Channeling,
     description: 'Raise your shield to block. Prevent all damage for the duration.',
-    ticks: 4,
+    ticks: 3,
     icon: 'block',
     basic: true,
     statusEffects: [],
@@ -150,15 +150,27 @@ const ALL_ABILITIES = {
     vfx: VFX.basicAttackFast,
     damageModifier: 0,
     healingModifier: null
+  },
+  harden: {
+    prettyName: 'Harden',
+    type: AbilityType.WindUp,
+    description: "If armor isn't depleted regain all armor.",
+    ticks: 1,
+    icon: 'fillArmor',
+    basic: true,
+    statusEffects: [],
+    vfx: VFX.heal,
+    damageModifier: null,
+    healingModifier: null
   }
 };
 
 const scalingCalc = (ticks: number, modifier: number = 0) => {
   if (modifier === null) return;
 
-  const base = ticks / 10;
-  const added = (ticks - 1) * 0.2 + modifier;
-  const result = base + added; // divide by 10 for healing
+  const base = 0.1 * ticks;
+  const added = modifier; // ticks * (0.2 + modifier);
+  const result = (base + added).toFixed(2); // divide by 10 for healing
 
   return {
     base,
@@ -169,6 +181,7 @@ const scalingCalc = (ticks: number, modifier: number = 0) => {
 
 function damageCalc(this: Ability) {
   const ticks = this.chainLink || this.ticks;
+
   const scaled = scalingCalc(ticks, this.damageModifier);
   return scaled;
 }
@@ -179,20 +192,33 @@ function healingCalc(this: Ability) {
   return scaled;
 }
 
-for (const ability of Object.values(ALL_ABILITIES)) {
-  Object.defineProperty(ability, 'calc', {
+// for (const ability of Object.values(ALL_ABILITIES)) {
+//   Object.defineProperty(ability, 'calc', {
+//     enumerable: true,
+//     get() {
+//       return {
+//         damage: damageCalc.bind(this),
+//         healing: healingCalc.bind(this)
+//       };
+//     }
+//   });
+// }
+
+function attachCalcs(a: Ability) {
+  Object.defineProperty(a, 'calc', {
     enumerable: true,
     get() {
       return {
-        damage: damageCalc.bind(this),
-        healing: healingCalc.bind(this)
+        damage: damageCalc.bind(a),
+        healing: healingCalc.bind(a)
       };
     }
   });
+  return a;
 }
 
-export default (id: string | AbilityRef, fullBody: boolean = false, meta?: DynamicObject) =>
-  entity(
+export default (id: string | AbilityRef, fullBody: boolean = false, meta?: DynamicObject) => {
+  const ent = entity(
     ALL_ABILITIES,
     typeof id === 'string' ? id : id.id,
     typeof id === 'string' ? undefined : id.uuid,
@@ -203,3 +229,6 @@ export default (id: string | AbilityRef, fullBody: boolean = false, meta?: Dynam
         ? deepMerge(id.overrides || {}, meta.overrides || {})
         : id.overrides
   ) as Ability;
+
+  return fullBody ? attachCalcs(ent) : ent;
+};

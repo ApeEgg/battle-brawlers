@@ -6,7 +6,7 @@ export const ABILITY_PRIORITY = [
   'stab',
   'punch',
   'slam',
-  'slash',
+  'swing',
   'whirlwind',
   'block'
 ];

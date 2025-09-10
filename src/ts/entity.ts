@@ -13,9 +13,9 @@ export default (
       {
         uuid: uuid || crypto.randomUUID(),
         id,
-        ...(fullBody ? entities[id] : fullBody)
+        ...(fullBody ? entities[id] : undefined) // undefined was false. Undefined makes more sense
       },
-      overrides
+      fullBody ? overrides : {}
     ),
     overrides
   };

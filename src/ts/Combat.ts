@@ -222,6 +222,12 @@ export const generateCombat = (seed: string, teams: Team[]) => {
             }
           }
 
+          if (currentAbility.id === 'harden') {
+            if (combatant.combatStats.currentArmor > 0) {
+              combatant.combatStats.currentArmor = combatant.combatStats.maxArmor;
+            }
+          }
+
           if (currentAbility.id === 'kick') {
             // My implementation attempt
             // const targetCurrentAbility = target.abilitiesCopied.find(

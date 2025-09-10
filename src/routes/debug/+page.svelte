@@ -1,7 +1,7 @@
 <script lang="ts">
   import { prepareCombatant, seededRandom } from '$src/ts/Utils';
   import { generateCombat } from '$src/ts/Combat';
-  import CHARACTERS from '$src/constants/CHARACTERS';
+  import { ALL_CHARACTERS } from '$src/constants/CHARACTERS';
   import type { Team } from '$src/types/team';
   import type { Character } from '$src/types/character';
   import Combat from '$src/components/overlays/Combat.svelte';
@@ -11,13 +11,13 @@
   let combatantCount = $state(1);
 
   let characters: Character[] = [
-    CHARACTERS.elf(),
-    CHARACTERS.human(),
-    CHARACTERS.troll(),
-    CHARACTERS.dwarf(),
-    CHARACTERS.goblin(),
-    CHARACTERS.succubus(),
-    CHARACTERS.rat()
+    ALL_CHARACTERS.elf(),
+    ALL_CHARACTERS.human(),
+    ALL_CHARACTERS.troll(),
+    ALL_CHARACTERS.dwarf(),
+    ALL_CHARACTERS.goblin(),
+    ALL_CHARACTERS.succubus(),
+    ALL_CHARACTERS.rat()
   ];
 
   const initializeCombat = () => {

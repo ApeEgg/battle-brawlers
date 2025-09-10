@@ -10,7 +10,11 @@ export const ALL_EQUIPMENT = {
     combatStats: {
       damage: 1
     },
-    abilities: [ABILITIES('slash'), ABILITIES('slash'), ABILITIES('slash')]
+    abilities: [
+      ABILITIES('swing'),
+      ABILITIES('swing'),
+      ABILITIES('stab', false, { overrides: { basic: false, ticks: 1 } })
+    ]
   },
   shield: {
     prettyName: 'Shield',
@@ -36,9 +40,9 @@ export const ALL_EQUIPMENT = {
       damage: 3
     },
     abilities: [
-      ABILITIES('slash', false, { overrides: { ticks: 4 } }),
-      ABILITIES('slash', false, { overrides: { ticks: 4 } }),
-      ABILITIES('slash', false, { overrides: { ticks: 4 } }),
+      ABILITIES('swing', false, { overrides: { ticks: 4 } }),
+      ABILITIES('swing', false, { overrides: { ticks: 4 } }),
+      ABILITIES('swing', false, { overrides: { ticks: 4 } }),
       ABILITIES('whirlwind', false, { overrides: { ticks: 4, chainLink: 4 } })
     ]
   },
@@ -59,9 +63,9 @@ export const ALL_EQUIPMENT = {
       damage: 2
     },
     abilities: [
-      ABILITIES('slash', false, { overrides: { ticks: 4 } }),
-      ABILITIES('slash', false, { overrides: { ticks: 4 } }),
-      ABILITIES('slash', false, { overrides: { ticks: 4 } })
+      ABILITIES('swing', false, { overrides: { ticks: 4 } }),
+      ABILITIES('swing', false, { overrides: { ticks: 4 } }),
+      ABILITIES('swing', false, { overrides: { ticks: 4 } })
     ]
   },
   bow: {

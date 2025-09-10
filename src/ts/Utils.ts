@@ -44,7 +44,7 @@ export const calculateCombatStatsByCharacter = (character: Character) => {
 export const calculateTickStart = (abilities: Ability[], index: number) => {
   let tickStart = 0;
   for (let i = 0; i < index; i++) {
-    tickStart += abilities[i].ticks;
+    tickStart += abilities[i]?.ticks || 0; // dunno why ?. and || 0 is needed
   }
   return tickStart;
 };

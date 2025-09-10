@@ -1,5 +1,5 @@
 <script lang="ts">
-  import CHARACTERS from '$src/constants/CHARACTERS';
+  import { ALL_CHARACTERS } from '$src/constants/CHARACTERS';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import type { Race } from '$src/types/character';
@@ -14,7 +14,7 @@
     params: { creatureId }
   } = $page;
 
-  let creature = CHARACTERS[creatureId as Race]();
+  let creature = ALL_CHARACTERS[creatureId as Race]();
 
   const runCombat = () => {
     const combatantYou = prepareCombatant($state.snapshot(app.characters[0]), 2, 1, 0, 0);

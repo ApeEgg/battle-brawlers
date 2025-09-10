@@ -13,7 +13,7 @@ const DEFAULT_EQUIPMENT = {
 };
 const DEFAULT_MAX_TICKS = 12;
 
-export default {
+export const ALL_CHARACTERS = {
   elf: () => ({
     id: crypto.randomUUID(),
     name: 'npc1',
@@ -22,20 +22,24 @@ export default {
     size: 1,
     equipment: DEFAULT_EQUIPMENT,
     description: '',
+    woundLimit: 8,
+    concussionLimit: 8,
+    comboLimit: 8,
+    exosedLimit: 8,
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      damage: 4,
+      damage: 8,
       maxArmor: 0,
       currentArmor: 0
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [
-      ABILITIES('slash'),
-      ABILITIES('slash', false, { overrides: { ticks: 4 } }),
-      ABILITIES('slash'),
-      ABILITIES('slash'),
-      ABILITIES('slash')
+      ABILITIES('swing'),
+      ABILITIES('swing', false, { overrides: { ticks: 4 } }),
+      ABILITIES('swing'),
+      ABILITIES('swing'),
+      ABILITIES('swing')
     ]
   }),
   human: () => ({
@@ -135,7 +139,7 @@ export default {
       currentArmor: 0
     },
     maxTicks: Infinity,
-    abilities: [ABILITIES('slash'), ABILITIES('whirlwind')]
+    abilities: [ABILITIES('swing'), ABILITIES('whirlwind')]
   }),
   rat: () => ({
     id: crypto.randomUUID(),
@@ -179,5 +183,23 @@ export default {
       ABILITIES('stab'),
       ABILITIES('stab')
     ]
+  }),
+  golem: () => ({
+    id: crypto.randomUUID(),
+    name: 'Golem',
+    race: 'creature',
+    image: 'creature/golem.png',
+    size: 1,
+    equipment: DEFAULT_EQUIPMENT,
+    description: '...',
+    combatStats: {
+      maxHealth: 50,
+      currentHealth: 50,
+      damage: 3,
+      maxArmor: 100,
+      currentArmor: 100
+    },
+    maxTicks: Infinity,
+    abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam'), ABILITIES('harden')]
   })
 } as Record<string, () => Character>;

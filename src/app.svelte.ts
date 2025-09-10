@@ -1,6 +1,6 @@
 import type { Combat } from '$src/types/combat';
 import type { Character } from '$src/types/character';
-import CHARACTERS from '$src/constants/CHARACTERS';
+import { ALL_CHARACTERS } from '$src/constants/CHARACTERS';
 import type { AsyncAwaitWebsocket } from 'async-await-websockets';
 import app from '$src/app.svelte';
 import type { EquipmentRef } from '$src/types/equipment';
@@ -16,11 +16,11 @@ export const INITIAL_COMBAT = {
 
 const INITIAL_CHARACTERS = [
   {
-    ...CHARACTERS.elf(),
+    ...ALL_CHARACTERS.elf(),
     name: 'Elon the Elf'
   },
   {
-    ...CHARACTERS.troll(),
+    ...ALL_CHARACTERS.troll(),
     name: 'Trollet Ture'
   }
 ];
