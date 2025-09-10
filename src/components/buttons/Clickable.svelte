@@ -5,7 +5,7 @@
 </script>
 
 {#if href}
-  <a {href} class={tw('border-0 bg-none outline-none', classes)}>
+  <a {href} {onclick} class={tw('border-0 bg-none outline-none', classes)}>
     {@render children()}
   </a>
 {:else}

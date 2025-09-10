@@ -63,6 +63,7 @@ export default new (class {
   socket = $state() as AsyncAwaitWebsocket;
   token: string | undefined = $state();
   tooltip?: Tooltip = $state();
+  selectedBrawlers: string[] = $state([]);
 
   constructor() {
     $effect.root(() => {

@@ -26,8 +26,8 @@
     'cursor-pointer rounded-sm px-2 py-2 text-xs leading-1 active:enabled:translate-y-px',
     primary && 'bg-blue-600 text-white',
     secondary && 'bg-gray-200 text-gray-500',
-    tertiary && 'bg-transparent text-gray-500 hover:underline',
-    disabled && 'bg-gray-400',
+    tertiary && 'bg-transparent text-gray-500 hover:enabled:underline',
+    disabled && !tertiary && 'bg-gray-400 text-white',
     classes
   )}
   {disabled}

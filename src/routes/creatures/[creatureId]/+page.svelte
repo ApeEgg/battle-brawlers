@@ -6,6 +6,7 @@
   import { generateCombat } from '$src/ts/Combat';
   import type { Team } from '$src/types/team';
   import AbilityBar from '$src/components/character/AbilityBar.svelte';
+  import CharacterSheet from '$src/components/character/CharacterSheet.svelte';
 
   const { overlay } = STORES;
 
@@ -14,9 +15,23 @@
   } = $page;
 
   let creature = CHARACTERS(creatureId, true);
+  let selectedBrawlers = $derived<Character[]>(
+    app.selectedBrawlers.map((id) =>
+      CHARACTERS(
+        app.characters.find((c) => c.uuid === id),
+        true
+      )
+    )
+  );
 
   const runCombat = () => {
-    const combatantYou = prepareCombatant($state.snapshot(app.characters[0]), 2, 1, 0, 0);
+    const combatantYou = prepareCombatant(
+      $state.snapshot(app.characters.find((c) => c.uuid === app.selectedBrawlers[0])),
+      2,
+      1,
+      0,
+      0
+    );
     const combatantThem = prepareCombatant(creature, 2, 1, 1, 0);
 
     const teams: Team[] = [
@@ -71,11 +86,32 @@
   class="my-6 h-px w-full border-none bg-gradient-to-r from-transparent via-gray-200 to-transparent"
 />
 
-<crow vertical class="h-60 border border-dashed border-gray-300 text-center">
-  <strong>Pick your brawler</strong>
-  (Work in progress: right now Evasive Elon is always chosen)
+{#if selectedBrawlers.length > 0}
+  {#each selectedBrawlers as brawler (brawler.uuid)}
+    <CharacterSheet character={brawler} />
+  {/each}
+{:else}
+  <crow vertical class="h-[465px] border border-dashed border-gray-300 text-center">
+    <strong>Select your brawler</strong>
+  </crow>
+{/if}
+
+<crow right class="gap-2">
+  <Button
+    secondary
+    disabled={selectedBrawlers.length === 0}
+    onclick={() => (app.selectedBrawlers = [])}
+    class="mt-4 px-4 py-2 text-sm"
+  >
+    Reset
+  </Button>
+  <Button
+    disabled={selectedBrawlers.length === 0}
+    onclick={runCombat}
+    class="mt-4 px-4 py-2 text-sm"
+  >
+    Fight
+  </Button>
 </crow>
 
-<crow right>
-  <Button onclick={runCombat} class="mt-4 bg-black px-4 py-2 text-sm">Fight</Button>
-</crow>
+<!-- <Debug data={selectedBrawlers} /> -->

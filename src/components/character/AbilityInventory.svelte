@@ -46,6 +46,7 @@
     dropFromOthersDisabled,
     transformDraggedElement: transformDraggedAvailableAbility,
     dropTargetStyle: {}
+    // type: 'character'
   }}
   onconsider={considerAvailableAbilities}
   onfinalize={finalizeAvailableAbilities}
@@ -72,7 +73,7 @@
       </crow>
     {/each}
   {:else if hasNonbasicAbilities}
-    <!-- <Button onclick={() => {}}>Reset</Button> -->
+    Abilities from equipped gear will appear here
   {:else}
     Abilities from equipped gear will appear here
   {/if}

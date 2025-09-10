@@ -26,6 +26,13 @@
   let creatureId = $derived($page.params.creatureId);
 
   let showSequence = $state(false);
+
+  const selectBrawler = (e: Event, id: string) => {
+    if (creatureId !== undefined) {
+      e.preventDefault();
+      app.selectedBrawlers = [id];
+    }
+  };
 </script>
 
 <ConnectSocket />
@@ -62,28 +69,34 @@
                 {@const abilitiesHydrated = character.abilities.map((ability) =>
                   ABILITIES(ability, true)
                 )}
-                {@const isActive = parseInt(characterIndex, 10) === i}
+                {@const isActive =
+                  parseInt(characterIndex, 10) === i ||
+                  (creatureId !== undefined && app.selectedBrawlers.includes(char.uuid))}
                 <Clickable
                   href="/brawlers/{i}"
                   class={tw('crow vertical w-full', isActive && 'glass !border-none')}
                   left
+                  onclick={(e: Event) => selectBrawler(e, char.uuid)}
                 >
                   <crow class="w-full" left>
                     <div class="h-16 w-16 overflow-hidden p-1">
                       <img src="/images/races/{character.race}/01-faceshot.png" alt="" />
                     </div>
-                    <crow vertical left class="overflow-x-hidden px-1.5 py-1">
+                    <crow vertical left class="overflow-x-hidden px-1 py-1">
                       <span class="">{character.name}</span>
                       <Accordion
                         isOpen={showSequence ||
                           creatureId !== undefined ||
                           characterIndex !== undefined}
                       >
-                        <CombatantAbilityBar
-                          abilitiesCopied={abilitiesHydrated.filter(
-                            (_, i) => calculateTickStart(abilitiesHydrated, i) < character.maxTicks
-                          )}
-                        />
+                        <div class="p-px">
+                          <CombatantAbilityBar
+                            abilitiesCopied={abilitiesHydrated.filter(
+                              (_, i) =>
+                                calculateTickStart(abilitiesHydrated, i) < character.maxTicks
+                            )}
+                          />
+                        </div>
                       </Accordion>
                     </crow>
                   </crow>

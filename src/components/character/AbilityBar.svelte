@@ -102,7 +102,8 @@
       constrainAxisY,
       transformDraggedElement: transformDraggedCharacterAbility,
       dropTargetStyle: { outline: 'rgba(100, 100, 100, 0.5) solid 2px' },
-      dragDisabled: dndDisabled || dragDisabled
+      dragDisabled: dndDisabled || dragDisabled,
+      ...(dndDisabled ? { type: 'creature' } : {})
     }}
     onconsider={considerCharacterAbilities}
     onfinalize={finalizeCharacterAbilities}
