@@ -6,6 +6,7 @@
   import ABILITIES from '$src/constants/ABILITIES';
   import AbilityIcon from '$src/components/character/AbilityIcon.svelte';
   import type { Character } from '$src/types/character';
+  import CHARACTERS from '$src/constants/CHARACTERS';
 
   let flipDurationMs = 300;
 
@@ -59,7 +60,7 @@
         )}
         use:tooltip={{
           children: TooltipAbility,
-          props: { ...ability, character },
+          props: { ...ability, character: CHARACTERS(character, true) },
           direction: 'up',
           lockInPlace: true
         }}

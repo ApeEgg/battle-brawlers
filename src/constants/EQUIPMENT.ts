@@ -103,7 +103,7 @@ export const ALL_EQUIPMENT = {
     abilities: []
   },
   dagger: {
-    prettyName: 'Heartpiercer',
+    prettyName: 'Dagger',
     description: 'A really sharp dagger.',
     slotsIn: 'oneHand',
     combatStats: {

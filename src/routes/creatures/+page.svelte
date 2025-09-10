@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { ALL_CHARACTERS } from '$src/constants/CHARACTERS';
+  import CHARACTERS, { ALL_CHARACTERS } from '$src/constants/CHARACTERS';
 
   let creatures = Object.entries(ALL_CHARACTERS)
-    .map(([key, value]) => ({
-      ...value(),
+    .map(([key]) => ({
+      ...CHARACTERS(key, true),
       url: key
     }))
     .filter(({ image }) => image.startsWith('creature'));

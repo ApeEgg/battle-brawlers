@@ -2,9 +2,16 @@
   import type { Equipment } from '$src/types/equipment';
   import AbilityInventory from '$src/components/character/AbilityInventory.svelte';
   import ABILITIES from '$src/constants/ABILITIES';
-  import AbilityBar from '../character/AbilityBar.svelte';
+  import AbilityBar from '$src/components/character/AbilityBar.svelte';
+  import type { Character } from '$src/types/character';
 
-  let { prettyName, description, combatStats, abilities }: Equipment = $derived(app.tooltip.props);
+  let {
+    prettyName,
+    description,
+    combatStats,
+    abilities,
+    character
+  }: Equipment & { character: Character } = $derived(app.tooltip.props);
 
   const prettyCombatStatKey = (key: string) =>
     ({
@@ -43,7 +50,7 @@
 
   {#if activeAbilities.length > 0}
     <crow left up vertical class="gap-1">
-      <AbilityBar dndDisabled small abilities={activeAbilities} />
+      <AbilityBar {character} dndDisabled small abilities={activeAbilities} />
     </crow>
   {/if}
   {#if availableAbilities.length > 0}
@@ -52,7 +59,7 @@
     />
     <crow class="w-full gap-4">
       <!-- <div class="text-sm text-gray-500">Abilities</div> -->
-      <AbilityInventory {availableAbilities} small />
+      <AbilityInventory {character} {availableAbilities} small />
     </crow>
   {/if}
 </crow>

@@ -13,10 +13,10 @@ export default (
       {
         uuid: uuid || crypto.randomUUID(),
         id,
-        ...(fullBody ? entities[id] : undefined) // undefined was false. Undefined makes more sense
+        ...(fullBody ? structuredClone(entities[id]) : undefined)
       },
       fullBody ? overrides : {}
     ),
-    overrides
+    ...(JSON.stringify(overrides) !== '{}' ? { overrides } : {})
   };
 };

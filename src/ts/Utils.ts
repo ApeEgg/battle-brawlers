@@ -5,6 +5,7 @@ import { AbilityType, type Ability, type AbilityRef } from '$src/types/ability';
 import { COMBAT_TICK_TIME, COMBAT_RING_BASE_RADIUS } from '$src/constants/APP';
 import EQUIPMENT from '$src/constants/EQUIPMENT';
 import ABILITIES from '$src/constants/ABILITIES';
+import CHARACTERS from '$src/constants/CHARACTERS';
 
 export const calculateCombatStats = (...args: any) => {
   const combined = args.reduce((acc: any, obj: any) => {
@@ -56,6 +57,8 @@ export const prepareCombatant = (
   teamIndex: number,
   combatantIndex: number
 ): Combatant => {
+  character = CHARACTERS(character, true); // ensure full character
+
   const rotation = 360 / teamCount;
 
   const combatStats = calculateCombatStatsByCharacter(character);

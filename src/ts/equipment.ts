@@ -4,6 +4,7 @@ import { get } from 'svelte/store';
 import app from '$src/app.svelte';
 import type { Character } from '$src/types/character';
 import EQUIPMENT from '$src/constants/EQUIPMENT';
+import CHARACTERS, { DEFAULT_EQUIPMENT } from '$src/constants/CHARACTERS';
 
 const decideEquipmentSlot = (slotsIn: EquipmentType, character: Character) => {
   if (slotsIn === 'oneHand') {
@@ -27,11 +28,13 @@ const decideEquipmentSlot = (slotsIn: EquipmentType, character: Character) => {
 };
 
 export const equip = (equipmentRef: EquipmentRef, index: number) => {
-  const characterIndex = Number(get(page)?.params.characterIndex);
+  const characterIndex = Number(get(page)?.params.characterIndex) || 0;
   if (characterIndex === undefined) return;
+
   const equipment = EQUIPMENT(equipmentRef, true);
 
-  const character = app.characters[characterIndex];
+  const characterRef = app.characters[characterIndex];
+  const character = CHARACTERS(characterRef, true);
   const slotsIn = decideEquipmentSlot(equipment.slotsIn, character);
   const slot = character.equipment[slotsIn];
   const mainHand = character.equipment.mainHand
@@ -49,7 +52,7 @@ export const equip = (equipmentRef: EquipmentRef, index: number) => {
   // If two handed weapon is being equipped, check if offHand needs to go to inventory
   if (equipment.slotsIn === 'twoHand' && character.equipment.offHand) {
     app.inventory.push(character.equipment.offHand);
-    character.equipment.offHand = null;
+    characterRef.overrides.equipment.offHand = null;
   }
 
   // If oneHanded weapon is being equipped, check if mainHand is two hand (thus need to go to inventory)
@@ -60,22 +63,22 @@ export const equip = (equipmentRef: EquipmentRef, index: number) => {
     character.equipment.mainHand !== null
   ) {
     app.inventory.push(character.equipment.mainHand);
-    character.equipment.mainHand = null;
+    characterRef.overrides.equipment.mainHand = null;
     // if (equipment.slotsIn !== 'offHand') slotsIn = 'mainHand';
   }
 
   // Replace whatever is in the slot
-  character.equipment[slotsIn] = equipmentRef;
+  characterRef.overrides.equipment[slotsIn] = equipmentRef;
 };
 
 export const unequip = (equipmentRef: EquipmentRef, slot: EquipmentSlot) => {
   const characterIndex = Number(get(page)?.params.characterIndex);
   if (characterIndex === undefined) return;
 
-  const character = app.characters[characterIndex];
+  const characterRef = app.characters[characterIndex];
 
   app.inventory.push(equipmentRef);
-  character.equipment[slot] = null;
+  characterRef.overrides.equipment[slot] = null;
 };
 
 export const slotsInPrettyName = (slotsIn: EquipmentType) =>

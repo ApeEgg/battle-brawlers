@@ -1,9 +1,8 @@
 <script lang="ts">
   import { untrack } from 'svelte';
   import app from '$src/app.svelte';
-  import { goto } from '$app/navigation';
   import { page } from '$app/stores';
-  import type { AbilityRef } from '$src/types/ability';
+  import type { Ability, AbilityRef } from '$src/types/ability';
   import AbilityBar from '$src/components/character/AbilityBar.svelte';
   import { slotsInPrettyName, unequip } from '$src/ts/equipment';
   import EquipmentLink from '$src/components/EquipmentLink.svelte';
@@ -16,18 +15,21 @@
   import AbilityInventory from '$src/components/character/AbilityInventory.svelte';
   import EQUIPMENT from '$src/constants/EQUIPMENT';
   import ABILITIES from '$src/constants/ABILITIES';
+  import CHARACTERS from '$src/constants/CHARACTERS';
 
   let characterIndex = $derived($page.params.characterIndex);
-  let character = $derived(app.characters[characterIndex as any]);
+  let characterRef = $derived(app.characters[characterIndex as any]);
   let availableAbilities: AbilityRef[] = $state([]);
   let dropFromOthersDisabled = $state(false);
   let constrainAxisY = $state(false);
+  let character = $derived(CHARACTERS(characterRef, true));
+  let characterEquipment = $derived(character.overrides.equipment);
 
   const considerCharacterAbilities = (e: any) => {
-    character.abilities = e.detail.items;
+    character.overrides.abilities = e.detail.items;
   };
   const finalizeCharacterAbilities = (e: any) => {
-    character.abilities = e.detail.items;
+    character.overrides.abilities = e.detail.items;
   };
 
   const transformDraggedCharacterAbility = (draggedElement: any, data: any, _index: any) => {
@@ -63,35 +65,34 @@
     app.tooltip = undefined;
   };
 
-  $effect(() => {
+  const ensureDefaultAbilities = () => {
     const isShield = !!(
-      character.equipment.offHand &&
-      EQUIPMENT(character.equipment.offHand, true).slotsIn === 'offHand'
+      characterEquipment.offHand &&
+      EQUIPMENT(characterEquipment.offHand, true).slotsIn === 'offHand'
     );
     const isTwoHanded = !!(
-      character.equipment.mainHand &&
-      EQUIPMENT(character.equipment.mainHand, true).slotsIn === 'twoHand'
+      characterEquipment.mainHand &&
+      EQUIPMENT(characterEquipment.mainHand, true).slotsIn === 'twoHand'
     );
     const isOneHandedMainhand = !!(
-      character.equipment.mainHand &&
-      EQUIPMENT(character.equipment.mainHand, true).slotsIn === 'oneHand'
+      characterEquipment.mainHand &&
+      EQUIPMENT(characterEquipment.mainHand, true).slotsIn === 'oneHand'
     );
     const isOneHandedOffhand = !!(
-      character.equipment.offHand &&
-      EQUIPMENT(character.equipment.offHand, true).slotsIn === 'oneHand'
+      characterEquipment.offHand &&
+      EQUIPMENT(characterEquipment.offHand, true).slotsIn === 'oneHand'
     );
     const isOneHandedWeapon = isOneHandedMainhand || isOneHandedOffhand;
-    const isDualWielding = isOneHandedMainhand && isOneHandedOffhand;
 
-    const mainHandAbilities = character.equipment.mainHand
-      ? EQUIPMENT(character.equipment.mainHand, true)
+    const mainHandAbilities = characterEquipment.mainHand
+      ? EQUIPMENT(characterEquipment.mainHand, true)
           .abilities.map((ability) => ABILITIES(ability, true))
           .filter(({ basic }) => basic)
           .map((ability) => ({ ...ABILITIES(ability), uuid: crypto.randomUUID() }))
       : [];
 
-    const offHandAbilities = character.equipment.offHand
-      ? EQUIPMENT(character.equipment.offHand, true)
+    const offHandAbilities = characterEquipment.offHand
+      ? EQUIPMENT(characterEquipment.offHand, true)
           .abilities.map((ability) => ABILITIES(ability, true))
           .filter(({ basic }) => basic)
           .map((ability) => ({ ...ABILITIES(ability), uuid: crypto.randomUUID() }))
@@ -133,7 +134,7 @@
       }
     }
 
-    const currentAbilities = untrack(() => character.abilities).map((ability) =>
+    const currentAbilities = character.abilities.map((ability) =>
       !ABILITIES(ability, true).basic ? ability : undefined
     );
 
@@ -142,33 +143,28 @@
         .map((ability) => {
           if (ability) return $state.snapshot(ability);
 
-          const defaultAbility = untrack(() => defaultAbilities).shift();
+          const defaultAbility = defaultAbilities.shift();
 
           return defaultAbility;
         })
         .filter((a) => a),
       ...defaultAbilities
-    ];
+    ] as Ability[];
 
     if (
       JSON.stringify(abs.map((a) => a?.id).sort((a, b) => a.localeCompare(b))) !==
-      JSON.stringify(
-        untrack(() => character.abilities)
-          .map((a) => a.id)
-          .sort((a, b) => a.localeCompare(b))
-      )
+      JSON.stringify(character.abilities.map((a) => a.id).sort((a, b) => a.localeCompare(b)))
     ) {
-      character.abilities = abs;
+      character.overrides.abilities = abs;
     }
-  });
+  };
 
-  $effect(() => {
-    $state.snapshot(character.equipment);
+  const ensureAvailableAbilities = () => {
     const abilities = calculateAvailableAbilitiesByCharacter(character);
 
     // Decide what abilities a character can use
     availableAbilities = abilities
-      .filter(({ uuid }) => !untrack(() => character.abilities.find((a) => a.uuid === uuid)))
+      .filter(({ uuid }) => !character.overrides.abilities.find((a) => a.uuid === uuid))
       .filter((ability) => !ABILITIES(ability, true).basic)
       .sort((a: AbilityRef, b: AbilityRef) =>
         ABILITIES(a, true).prettyName.localeCompare(ABILITIES(b, true).prettyName)
@@ -176,19 +172,23 @@
       .sort((a: AbilityRef, b: AbilityRef) => ABILITIES(a, true).ticks - ABILITIES(b, true).ticks);
 
     // Remove abilities that are no longer available from character
-    character.abilities = untrack(() => character.abilities).filter(
+    character.overrides.abilities = character.overrides.abilities.filter(
       (ability) =>
         abilities.some(({ uuid }) => uuid === ability.uuid) || ABILITIES(ability, true).basic
     );
+  };
+
+  $effect(() => {
+    $state.snapshot(characterEquipment);
+
+    untrack(() => {
+      ensureDefaultAbilities();
+      ensureAvailableAbilities();
+    });
   });
 
   let combatStats = $derived(calculateCombatStatsByCharacter(character));
 </script>
-
-<!-- <Clickable class="crow gap-1" onclick={() => goto('/')}>
-  <Icon name="left" class="text-xs" />
-  Go back
-</Clickable> -->
 
 <h2>{character.name}</h2>
 
@@ -198,10 +198,6 @@
       <img src="/images/races/{character.race}/01.png" alt="" class="h-full" />
     </div>
     <crow vertical up left>
-      <!-- <crow class="gap-2">
-        <div class="font-bold">ID:</div>
-        <div>{character.id}</div>
-      </crow> -->
       <crow class="gap-2">
         <div class="w-15 font-bold">Race:</div>
         <div>{character.race}</div>
@@ -256,7 +252,7 @@
     </crow>
     <AbilityBar
       {character}
-      abilities={character.abilities}
+      abilities={character.overrides.abilities}
       {considerCharacterAbilities}
       {finalizeCharacterAbilities}
       {transformDraggedCharacterAbility}
@@ -279,4 +275,4 @@
   </crow>
 </crow>
 
-<Debug data={character.abilities} />
+<Debug data={character} />

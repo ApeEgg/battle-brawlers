@@ -1,10 +1,13 @@
-import type { Character, Race } from '$src/types/character';
+import type { Character, CharacterRef, Race } from '$src/types/character';
 import ABILITIES from '$src/constants/ABILITIES';
+import type { DynamicObject } from '$src/types/common';
+import entity from '$src/ts/entity';
+import { deepMerge } from '$src/helpers';
 
 export type CharacterKey = Race | 'creature';
 
 const DEFAULT_MAX_HP = 12;
-const DEFAULT_EQUIPMENT = {
+export const DEFAULT_EQUIPMENT = {
   mainHand: null,
   offHand: null,
   armor: null,
@@ -14,18 +17,17 @@ const DEFAULT_EQUIPMENT = {
 const DEFAULT_MAX_TICKS = 12;
 
 export const ALL_CHARACTERS = {
-  elf: () => ({
-    id: crypto.randomUUID(),
+  elf: {
     name: 'npc1',
     race: 'elf',
     image: 'elf/01.png',
     size: 1,
     equipment: DEFAULT_EQUIPMENT,
     description: '',
-    woundLimit: 8,
-    concussionLimit: 8,
-    comboLimit: 8,
-    exosedLimit: 8,
+    // woundLimit: 8,
+    // concussionLimit: 8,
+    // comboLimit: 8,
+    // exosedLimit: 8,
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
@@ -41,9 +43,8 @@ export const ALL_CHARACTERS = {
       ABILITIES('swing'),
       ABILITIES('swing')
     ]
-  }),
-  human: () => ({
-    id: crypto.randomUUID(),
+  },
+  human: {
     name: 'npc2',
     race: 'human',
     image: 'human/01.png',
@@ -59,9 +60,8 @@ export const ALL_CHARACTERS = {
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('slam'), ABILITIES('block'), ABILITIES('slam')]
-  }),
-  troll: () => ({
-    id: crypto.randomUUID(),
+  },
+  troll: {
     name: 'npc3',
     race: 'troll',
     image: 'troll/01.png',
@@ -77,9 +77,8 @@ export const ALL_CHARACTERS = {
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
-  }),
-  dwarf: () => ({
-    id: crypto.randomUUID(),
+  },
+  dwarf: {
     name: 'npc4',
     race: 'dwarf',
     image: 'dwarf/01.png',
@@ -95,9 +94,8 @@ export const ALL_CHARACTERS = {
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
-  }),
-  goblin: () => ({
-    id: crypto.randomUUID(),
+  },
+  goblin: {
     name: 'npc5',
     race: 'goblin',
     image: 'goblin/01.png',
@@ -120,10 +118,9 @@ export const ALL_CHARACTERS = {
       ABILITIES('stab'),
       ABILITIES('stab')
     ]
-  }),
+  },
   // Creatures
-  succubus: () => ({
-    id: crypto.randomUUID(),
+  succubus: {
     name: 'Succubus',
     race: 'creature',
     image: 'creature/succubus.png',
@@ -140,9 +137,8 @@ export const ALL_CHARACTERS = {
     },
     maxTicks: Infinity,
     abilities: [ABILITIES('swing'), ABILITIES('whirlwind')]
-  }),
-  rat: () => ({
-    id: crypto.randomUUID(),
+  },
+  rat: {
     name: 'Fat rat',
     race: 'creature',
     image: 'creature/rat.png',
@@ -158,9 +154,8 @@ export const ALL_CHARACTERS = {
     },
     maxTicks: Infinity,
     abilities: [ABILITIES('bite'), ABILITIES('cheesyTactics'), ABILITIES('bite')]
-  }),
-  undead: () => ({
-    id: crypto.randomUUID(),
+  },
+  undead: {
     name: 'Undead',
     race: 'creature',
     image: 'creature/undead.png',
@@ -183,9 +178,8 @@ export const ALL_CHARACTERS = {
       ABILITIES('stab'),
       ABILITIES('stab')
     ]
-  }),
-  golem: () => ({
-    id: crypto.randomUUID(),
+  },
+  golem: {
     name: 'Golem',
     race: 'creature',
     image: 'creature/golem.png',
@@ -201,5 +195,18 @@ export const ALL_CHARACTERS = {
     },
     maxTicks: Infinity,
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam'), ABILITIES('harden')]
-  })
-} as Record<string, () => Character>;
+  }
+};
+
+export default (id: string | CharacterRef, fullBody: boolean = false, meta?: DynamicObject) =>
+  entity(
+    ALL_CHARACTERS,
+    typeof id === 'string' ? id : id.id,
+    typeof id === 'string' ? undefined : id.uuid,
+    fullBody,
+    typeof id === 'string'
+      ? meta?.overrides
+      : meta?.overrides
+        ? deepMerge(id.overrides || {}, meta.overrides || {})
+        : id.overrides
+  ) as Character;

@@ -1,6 +1,6 @@
 import type { Combat } from '$src/types/combat';
 import type { Character } from '$src/types/character';
-import { ALL_CHARACTERS } from '$src/constants/CHARACTERS';
+import CHARACTERS, { DEFAULT_EQUIPMENT } from '$src/constants/CHARACTERS';
 import type { AsyncAwaitWebsocket } from 'async-await-websockets';
 import app from '$src/app.svelte';
 import type { EquipmentRef } from '$src/types/equipment';
@@ -15,14 +15,16 @@ export const INITIAL_COMBAT = {
 };
 
 const INITIAL_CHARACTERS = [
-  {
-    ...ALL_CHARACTERS.elf(),
-    name: 'Elon the Elf'
-  },
-  {
-    ...ALL_CHARACTERS.troll(),
-    name: 'Trollet Ture'
-  }
+  CHARACTERS('elf', false, {
+    overrides: {
+      name: 'Elon the Elf',
+      equipment: { ...DEFAULT_EQUIPMENT },
+      abilities: []
+    }
+  }),
+  CHARACTERS('troll', false, {
+    overrides: { name: 'Trollet Ture', equipment: DEFAULT_EQUIPMENT, abilities: [] }
+  })
 ];
 
 // const INITIAL_INVENTORY = [EQUIPMENT('sword'), EQUIPMENT('giantsHeart'), EQUIPMENT('dagger')];

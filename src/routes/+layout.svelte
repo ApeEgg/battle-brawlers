@@ -12,6 +12,7 @@
   import EquipmentLink from '$src/components/EquipmentLink.svelte';
   import { overrideItemIdKeyNameBeforeInitialisingDndZones } from 'svelte-dnd-action';
   import EQUIPMENT from '$src/constants/EQUIPMENT';
+  import CHARACTERS from '$src/constants/CHARACTERS';
   overrideItemIdKeyNameBeforeInitialisingDndZones('uuid');
 
   let { children } = $props<{ children: Snippet }>();
@@ -51,7 +52,9 @@
           <h4>My characters</h4>
           <div class="my-4">
             <crow vertical up left>
-              {#each app.characters as character, i}
+              {#each app.characters as char, i}
+                {@const character = CHARACTERS(char, true)}
+
                 <Clickable
                   href="/my-characters/{i}"
                   class="crow left w-full gap-2 bg-gray-100/50"
@@ -74,6 +77,7 @@
                   <EquipmentLink {...equipment} />
                   <Button tertiary onclick={() => equip(item, i)}>Equip</Button>
                 </crow>
+                <!-- <Debug data={equipment} /> -->
               {/each}
             </crow>
           </div>
