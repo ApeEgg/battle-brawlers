@@ -119,66 +119,71 @@
               left
               class="h-auto rounded border border-gray-400 bg-white p-4 [grid-area:1/1]"
             >
-              <div class="w-full">
+              <div class="relative w-full">
                 {@render children()}
               </div>
             </crow>
 
-            <crow up right class="-mt-7 !h-7 !flex-none gap-1 px-1 [grid-area:1/1]">
-              <a
-                class={tw(
-                  'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
-                  activePage === 'start' && 'rounded-t-sm border-gray-400 bg-white text-black'
-                )}
-                href="/"
-              >
-                Start
-              </a>
-              <a
-                class={tw(
-                  'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
-                  activePage === 'creatures' && 'rounded-t-sm border-gray-400 bg-white text-black'
-                )}
-                href="/creatures"
-              >
-                Creatures
-              </a>
-              <a
-                class={tw(
-                  'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
-                  activePage === 'crafting' && 'rounded-t-sm border-gray-400 bg-white text-black'
-                )}
-                href="/crafting"
-              >
-                Crafting
-              </a>
-              <a
-                class={tw(
-                  'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
-                  activePage === 'brawlers' && 'rounded-t-sm border-gray-400 bg-white text-black'
-                )}
-                href="/brawlers"
-              >
-                Brawlers
-              </a>
-              <a
-                class={tw(
-                  'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
-                  activePage === 'debug' && 'rounded-t-sm border-gray-400 bg-white text-black'
-                )}
-                href="/debug"
-              >
-                Debug
-              </a>
-              <a
-                class={tw(
-                  'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
-                  activePage === 'scaling' && 'rounded-t-sm border-gray-400 bg-white text-black'
-                )}
-                href="/scaling"
-              >
-                Scaling
-              </a>
+            <crow up right class="-mt-7 !h-7 !flex-none !justify-between px-1 [grid-area:1/1]">
+              <!-- <Clickable class="crow left gap-1" onclick={() => goto('/creatures')}>
+                ‹ Go back
+              </Clickable> -->
+              <crow up right class="gap-1">
+                <a
+                  class={tw(
+                    'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+                    activePage === 'start' && 'rounded-t-sm border-gray-400 bg-white text-black'
+                  )}
+                  href="/"
+                >
+                  Start
+                </a>
+                <a
+                  class={tw(
+                    'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+                    activePage === 'creatures' && 'rounded-t-sm border-gray-400 bg-white text-black'
+                  )}
+                  href="/creatures"
+                >
+                  Creatures
+                </a>
+                <a
+                  class={tw(
+                    'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+                    activePage === 'crafting' && 'rounded-t-sm border-gray-400 bg-white text-black'
+                  )}
+                  href="/crafting"
+                >
+                  Crafting
+                </a>
+                <a
+                  class={tw(
+                    'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+                    activePage === 'brawlers' && 'rounded-t-sm border-gray-400 bg-white text-black'
+                  )}
+                  href="/brawlers"
+                >
+                  Brawlers
+                </a>
+                <a
+                  class={tw(
+                    'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+                    activePage === 'debug' && 'rounded-t-sm border-gray-400 bg-white text-black'
+                  )}
+                  href="/debug"
+                >
+                  Debug
+                </a>
+                <a
+                  class={tw(
+                    'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+                    activePage === 'scaling' && 'rounded-t-sm border-gray-400 bg-white text-black'
+                  )}
+                  href="/scaling"
+                >
+                  Scaling
+                </a>
+              </crow>
             </crow>
           </div>
         </crow>

@@ -1,7 +1,10 @@
 <script lang="ts">
-  let { onclick }: any = $props();
+  let { onclick, class: classes }: any = $props();
 </script>
 
-<button {onclick} class="close row absolute top-0 right-0 w-8 h-8 active:translate-y-px">
-  <Icon class="text-red-500" name="cross" />
+<button
+  {onclick}
+  class={tw('close row absolute -top-2 -right-2 h-8 w-8 active:translate-y-px', classes)}
+>
+  <Icon name="cross" />
 </button>

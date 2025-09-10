@@ -1,12 +1,12 @@
 <script lang="ts">
   import CHARACTERS from '$src/constants/CHARACTERS';
-  import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import { prepareCombatant } from '$src/ts/Utils';
   import { generateCombat } from '$src/ts/Combat';
   import type { Team } from '$src/types/team';
   import AbilityBar from '$src/components/character/AbilityBar.svelte';
   import CharacterSheet from '$src/components/character/CharacterSheet.svelte';
+  import { goto } from '$app/navigation';
 
   const { overlay } = STORES;
 
@@ -54,14 +54,12 @@
   };
 </script>
 
-<Clickable class="crow gap-1" onclick={() => goto('/creatures')}>
-  <Icon name="left" class="text-xs" />
-  Go back
-</Clickable>
+<Headline text={creature.name} />
+
+<Close onclick={() => goto('/creatures')} />
 
 <crow up left>
   <crow up left vertical class="!flex-3 gap-3">
-    <h2>{creature.name}</h2>
     <div class="text-sm">
       {@html creature.description}
     </div>

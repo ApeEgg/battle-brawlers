@@ -8,6 +8,7 @@
   import type { EquipmentSlot } from '$src/types/equipment';
   import EquipmentLink from '$src/components/EquipmentLink.svelte';
   import { calculateCombatStatsByCharacter } from '$src/ts/Utils';
+  import { goto } from '$app/navigation';
 
   let characterIndex = $derived($page.params.characterIndex);
   let characterRef = $derived(app.characters[characterIndex as any]);
@@ -17,6 +18,7 @@
 </script>
 
 <Headline text={character.name} />
+<Close onclick={() => goto('/brawlers')} />
 
 <crow vertical class="mt-4 gap-4">
   <crow left up class="gap-4">
