@@ -2,7 +2,7 @@
   import Button from '$src/components/form/Button.svelte';
   import EQUIPMENT, { ALL_EQUIPMENT } from '$src/constants/EQUIPMENT';
   import type { EquipmentRef } from '$src/types/equipment';
-  import { slotsInPrettyName } from '$src/ts/equipment
+  import { slotsInPrettyName } from '$src/ts/equipment';
   import EquipmentLink from '$src/components/EquipmentLink.svelte';
 
   let items = Object.keys(ALL_EQUIPMENT).map((key) => EQUIPMENT(key, true));
