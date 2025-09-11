@@ -28,7 +28,7 @@
   let showSequence = $state(false);
 
   const selectBrawler = (e: Event, id: string) => {
-    if (creatureId !== undefined) {
+    if (creatureId !== undefined && !app.selectedBrawlers.includes(id)) {
       e.preventDefault();
       app.selectedBrawlers = [id];
     }
@@ -98,6 +98,7 @@
                       >
                         <div class="p-px">
                           <CombatantAbilityBar
+                            preview
                             abilitiesCopied={abilitiesHydrated.filter(
                               (_, i) =>
                                 calculateTickStart(abilitiesHydrated, i) < character.maxTicks

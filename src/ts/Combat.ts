@@ -107,13 +107,24 @@ const prioritySorting = (combatants: Combatant[], now: number, startOrEnd: 'star
 
 const tickStatusEffects = (combatants: Combatant[]) => {
   combatants.forEach((combatant) => {
-    if (combatant.statuses.isBleeding.ticks > 0) {
-      combatant.combatStats.currentHealth -= combatant.statuses.isBleeding.value; // bleed damage
-      combatant.statuses.isBleeding.ticks -= 1;
-    }
     if (combatant.statuses.isStunned.ticks > 0) {
       // combatant.combatStats.currentHealth -= combatant.statuses.isStunned.value;
       combatant.statuses.isStunned.ticks -= 1;
+    }
+
+    if (combatant.statuses.isVulnerable.ticks > 0) {
+      combatant.statuses.isVulnerable.ticks -= 1;
+    } else {
+      combatant.statuses.isVulnerable.value = 0;
+    }
+
+    if (combatant.statuses.isBleeding.ticks > 0) {
+      const bleedDamage = combatant.statuses.isBleeding.value;
+      const weakenedDamage = (1 + combatant.statuses.isVulnerable.value) * bleedDamage;
+      combatant.combatStats.currentHealth -= Math.ceil(weakenedDamage);
+      combatant.statuses.isBleeding.ticks -= 1;
+    } else {
+      combatant.statuses.isBleeding.value = 0;
     }
   });
 };
@@ -202,7 +213,9 @@ export const generateCombat = (seed: string, teams: Team[]) => {
           if (isBlocking) {
             bufferAnimation(target, _VFX.attackBlocked, now);
           } else {
-            damage.result = Math.ceil(combatant.combatStats.damage * currentAbility.damage);
+            const abilityDamage = combatant.combatStats.damage * currentAbility.damage;
+            const weakenedDamage = abilityDamage * (1 + target.statuses.isVulnerable.value);
+            damage.result = Math.ceil(weakenedDamage);
             if (target.combatStats.currentArmor > 0) {
               target.combatStats.currentArmor -= damage.result;
               if (target.combatStats.currentArmor < 0) {
@@ -214,10 +227,70 @@ export const generateCombat = (seed: string, teams: Team[]) => {
             target.combatStats.currentHealth -= damage.result;
             bufferAnimation(target, _VFX.hurt, now);
 
+            if (currentAbility.statusEffects.includes('isExposed')) {
+              target.statuses.isExposed.value += currentAbility.ticks;
+
+              if (target.statuses.isExposed.value >= target.statuses.isExposed.max) {
+                const overflow = target.statuses.isExposed.value - target.statuses.isExposed.max;
+                target.statuses.isExposed.value = 0;
+                target.statuses.isVulnerable = {
+                  ticks: target.statuses.isVulnerable.ticks + 4 + overflow,
+                  value: 0.5
+                };
+              }
+            }
+
+            if (currentAbility.statusEffects.includes('isConcussed')) {
+              target.statuses.isConcussed.value += currentAbility.ticks;
+              if (target.statuses.isConcussed.value >= target.statuses.isConcussed.max) {
+                const overflow =
+                  target.statuses.isConcussed.value - target.statuses.isConcussed.max;
+                target.statuses.isConcussed.value = 0;
+                target.statuses.isStunned = {
+                  ticks: target.statuses.isStunned.value + 3 + overflow,
+                  value: 1
+                };
+              }
+            }
+
+            if (currentAbility.statusEffects.includes('isWounded')) {
+              target.statuses.isWounded.value += currentAbility.ticks;
+
+              if (target.statuses.isWounded.value >= target.statuses.isWounded.max) {
+                const tickDamage = currentAbility?.damage
+                  ? combatant.combatStats.damage * currentAbility.damage * 0.3
+                  : combatant.combatStats.damage * 0.2;
+
+                const value = Math.ceil(tickDamage);
+                const overflow = target.statuses.isWounded.value - target.statuses.isWounded.max;
+                target.statuses.isWounded.value = 0;
+                target.statuses.isBleeding = {
+                  ticks: target.statuses.isBleeding.value + 4 + overflow,
+                  value
+                };
+              }
+            }
+
             if (currentAbility.statusEffects.includes('isBleeding')) {
+              const tickDamage = currentAbility?.damage
+                ? combatant.combatStats.damage * currentAbility.damage * 0.3
+                : combatant.combatStats.damage * 0.2;
+
+              const value = Math.ceil(tickDamage);
+
               target.statuses.isBleeding = {
-                ticks: target.statuses.isBleeding.ticks + 6,
-                value: Math.ceil(combatant.combatStats.damage * 0.2)
+                ticks: target.statuses.isBleeding.ticks + currentAbility.duration,
+                value:
+                  target.statuses.isBleeding.value > value
+                    ? target.statuses.isBleeding.value
+                    : value
+              };
+            }
+
+            if (currentAbility.statusEffects.includes('isVulnerable')) {
+              target.statuses.isVulnerable = {
+                ticks: target.statuses.isVulnerable.ticks + currentAbility.duration,
+                value: 0.5
               };
             }
           }
@@ -296,6 +369,10 @@ export const generateCombat = (seed: string, teams: Team[]) => {
             c.statuses.knockedOut = now;
             c.statuses.isBleeding = { ticks: 0, value: 0 };
             c.statuses.isStunned = { ticks: 0, value: 0 };
+            c.statuses.isVulnerable = { ticks: 0, value: 0 };
+            c.statuses.isWounded = { max: 0, value: 0 };
+            c.statuses.isConcussed = { max: 0, value: 0 };
+            c.statuses.isExposed = { max: 0, value: 0 };
           }
         })
       );

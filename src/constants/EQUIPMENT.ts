@@ -12,8 +12,8 @@ export const ALL_EQUIPMENT = {
     },
     abilities: [
       ABILITIES('swing'),
-      ABILITIES('swing'),
-      ABILITIES('stab', false, { overrides: { basic: false, ticks: 1 } })
+      ABILITIES('swing')
+      // ABILITIES('stab', false, { overrides: { basic: false, ticks: 1 } })
     ]
   },
   shield: {
@@ -28,7 +28,8 @@ export const ALL_EQUIPMENT = {
     description: 'A simple ring.',
     slotsIn: 'accessory',
     combatStats: {
-      maxHealth: 5
+      maxHealth: 5,
+      damage: 1
     },
     abilities: []
   },
@@ -100,7 +101,7 @@ export const ALL_EQUIPMENT = {
       damage: 1,
       maxArmor: 1
     },
-    abilities: []
+    abilities: [ABILITIES('demoralizingShout')]
   },
   dagger: {
     prettyName: 'Dagger',

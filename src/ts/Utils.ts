@@ -6,6 +6,7 @@ import { COMBAT_TICK_TIME, COMBAT_RING_BASE_RADIUS } from '$src/constants/APP';
 import EQUIPMENT from '$src/constants/EQUIPMENT';
 import ABILITIES from '$src/constants/ABILITIES';
 import CHARACTERS from '$src/constants/CHARACTERS';
+import { deepAdd } from '$src/helpers';
 
 export const calculateCombatStats = (...args: any) => {
   const combined = args.reduce((acc: any, obj: any) => {
@@ -31,15 +32,27 @@ export const calculateAvailableAbilitiesByCharacter = (character: Character) =>
     });
   });
 
+// export const calculateCombatStatsByCharacter = (character: Character) => {
+//   return calculateCombatStats(
+//     ...[
+//       character.combatStats,
+//       ...Object.values(character.equipment)
+//         .filter((e) => e !== null)
+//         .map((e) => EQUIPMENT(e, true).combatStats)
+//     ]
+//   );
+// };
+
 export const calculateCombatStatsByCharacter = (character: Character) => {
-  return calculateCombatStats(
-    ...[
-      character.combatStats,
-      ...Object.values(character.equipment)
-        .filter((e) => e !== null)
-        .map((e) => EQUIPMENT(e, true).combatStats)
-    ]
-  );
+  const parts = [
+    character.combatStats,
+    ...Object.values(character.equipment)
+      .filter((e): e is Equipment => e !== null)
+      .map((e) => EQUIPMENT(e, true)?.combatStats ?? {})
+  ];
+
+  // start from a copy so we don't mutate character.combatStats
+  return parts.reduce((acc, cur) => deepAdd(acc, cur), {} as DynamicObject);
 };
 
 export const calculateTickStart = (abilities: Ability[], index: number) => {
@@ -60,7 +73,7 @@ export const prepareCombatant = (
   character = CHARACTERS(character, true); // ensure full character
 
   const rotation = 360 / teamCount;
-
+  console.log(character);
   const combatStats = calculateCombatStatsByCharacter(character);
 
   combatStats.currentHealth = combatStats.maxHealth;
@@ -74,7 +87,8 @@ export const prepareCombatant = (
     return {
       ...rest,
       damage: ability.calc.damage()?.result || 0,
-      healing: ability.calc.healing()?.result || 0
+      healing: ability.calc.healing()?.result || 0,
+      duration: ability.calc.duration()?.result || 0
     };
   });
 
@@ -150,6 +164,22 @@ export const prepareCombatant = (
       },
       isBleeding: {
         ticks: 0,
+        value: 0
+      },
+      isVulnerable: {
+        ticks: 0,
+        value: 0
+      },
+      isWounded: {
+        max: combatStats.limits.wounded,
+        value: 0
+      },
+      isConcussed: {
+        max: combatStats.limits.concussed,
+        value: 0
+      },
+      isExposed: {
+        max: combatStats.limits.exposed,
         value: 0
       }
     },

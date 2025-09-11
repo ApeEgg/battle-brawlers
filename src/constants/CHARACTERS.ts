@@ -39,7 +39,12 @@ export const ALL_CHARACTERS = {
       currentHealth: DEFAULT_MAX_HP,
       damage: DEFAULT_DAMAGE,
       maxArmor: 0,
-      currentArmor: 0
+      currentArmor: 0,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [
@@ -62,7 +67,12 @@ export const ALL_CHARACTERS = {
       currentHealth: DEFAULT_MAX_HP,
       damage: DEFAULT_DAMAGE,
       maxArmor: 0,
-      currentArmor: 0
+      currentArmor: 0,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('slam'), ABILITIES('block'), ABILITIES('slam')]
@@ -79,7 +89,12 @@ export const ALL_CHARACTERS = {
       currentHealth: DEFAULT_MAX_HP,
       damage: DEFAULT_DAMAGE,
       maxArmor: 0,
-      currentArmor: 0
+      currentArmor: 0,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
@@ -96,7 +111,12 @@ export const ALL_CHARACTERS = {
       currentHealth: DEFAULT_MAX_HP,
       damage: DEFAULT_DAMAGE,
       maxArmor: 0,
-      currentArmor: 0
+      currentArmor: 0,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
@@ -113,7 +133,12 @@ export const ALL_CHARACTERS = {
       currentHealth: DEFAULT_MAX_HP,
       damage: DEFAULT_DAMAGE,
       maxArmor: 0,
-      currentArmor: 0
+      currentArmor: 0,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [
@@ -139,7 +164,12 @@ export const ALL_CHARACTERS = {
       currentHealth: 50,
       damage: DEFAULT_DAMAGE,
       maxArmor: 0,
-      currentArmor: 0
+      currentArmor: 0,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
     },
     maxTicks: Infinity,
     abilities: [ABILITIES('swing'), ABILITIES('whirlwind', false, { overrides: { basic: true } })]
@@ -156,7 +186,12 @@ export const ALL_CHARACTERS = {
       currentHealth: 50,
       damage: DEFAULT_DAMAGE,
       maxArmor: 0,
-      currentArmor: 0
+      currentArmor: 0,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
     },
     maxTicks: Infinity,
     abilities: [ABILITIES('bite'), ABILITIES('cheesyTactics'), ABILITIES('bite')]
@@ -173,7 +208,12 @@ export const ALL_CHARACTERS = {
       currentHealth: 50,
       damage: DEFAULT_DAMAGE,
       maxArmor: 0,
-      currentArmor: 0
+      currentArmor: 0,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
     },
     maxTicks: Infinity,
     abilities: [
@@ -197,7 +237,12 @@ export const ALL_CHARACTERS = {
       currentHealth: 50,
       damage: DEFAULT_DAMAGE,
       maxArmor: 100,
-      currentArmor: 100
+      currentArmor: 100,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
     },
     maxTicks: Infinity,
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam'), ABILITIES('harden')]

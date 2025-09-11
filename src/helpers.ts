@@ -28,6 +28,28 @@ const deepMerge = (target: DynamicObject, source: DynamicObject) => {
   return target;
 };
 
+const deepAdd = (target: DynamicObject, source: DynamicObject): DynamicObject => {
+  for (const key in source) {
+    if (
+      source[key] instanceof Object &&
+      key in target &&
+      target[key] instanceof Object &&
+      !Array.isArray(source[key]) &&
+      !Array.isArray(target[key])
+    ) {
+      // If both are objects, recurse
+      deepAdd(target[key], source[key]);
+    } else if (typeof source[key] === 'number' && typeof target[key] === 'number') {
+      // If both are numbers, add
+      target[key] += source[key];
+    } else {
+      // Otherwise, just set/overwrite
+      target[key] = source[key];
+    }
+  }
+  return target;
+};
+
 const range = (end = 0, start = 0) =>
   Array(Math.abs(end - start))
     .fill(0)
@@ -326,5 +348,6 @@ export {
   camelCaseToDashed,
   once,
   preventDefault,
-  deepMerge
+  deepMerge,
+  deepAdd
 };

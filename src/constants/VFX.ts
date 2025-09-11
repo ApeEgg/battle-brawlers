@@ -37,5 +37,9 @@ export default {
   heal: {
     vfxName: 'heal',
     duration: 500
+  },
+  filler: {
+    vfxName: 'filler',
+    duration: 500
   }
 } as Record<string, VFX>;

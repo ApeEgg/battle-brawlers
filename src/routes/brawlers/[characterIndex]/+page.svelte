@@ -18,7 +18,7 @@
 </script>
 
 <Headline text={character.name} />
-<Close onclick={() => goto('/brawlers')} />
+<Close onclick={() => history.back()} />
 
 <crow vertical class="mt-4 gap-4">
   <crow left up class="gap-4">

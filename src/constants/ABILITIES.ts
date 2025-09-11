@@ -8,50 +8,54 @@ export const ALL_ABILITIES = {
   stab: {
     prettyName: 'Stab',
     type: AbilityType.WindUp,
-    description: "Thrust with your weapon's sharp end.",
+    description: '', //"Thrust with your weapon's sharp end.",
     ticks: 2,
     icon: 'stab',
     basic: true,
-    statusEffects: [],
+    statusEffects: ['isWounded'],
     vfx: VFX.basicAttackFast,
     damageModifier: -0.05,
-    healingModifier: null
+    healingModifier: null,
+    durationModifier: null
   },
   swing: {
     prettyName: 'Swing',
     type: AbilityType.WindUp,
-    description: 'Swing your weapon in a wide arc.',
+    description: '', // 'Swing your weapon in a wide arc.',
     ticks: 3,
     icon: 'slash',
     basic: true,
-    statusEffects: [],
+    statusEffects: ['isExposed'],
     vfx: VFX.basicAttackRegular,
     damageModifier: 0,
-    healingModifier: null
+    healingModifier: null,
+    durationModifier: null
   },
   slam: {
     prettyName: 'Slam',
     type: AbilityType.WindUp,
-    description: 'Attack your opponent with a devestating slam.',
+    description: '', //'Attack your opponent with a devestating slam.',
     ticks: 4,
     icon: 'slam',
     basic: true,
-    statusEffects: [],
+    statusEffects: ['isConcussed'],
     vfx: VFX.basicAttackSlow,
     damageModifier: 0.05,
-    healingModifier: null
+    healingModifier: null,
+    durationModifier: null
   },
   punch: {
     prettyName: 'Punch',
     type: AbilityType.WindUp,
-    description: 'Throw a punch at your opponent.',
+    description: '', //'Throw a punch at your opponent.',
     ticks: 2,
     icon: 'punch',
     basic: true,
-    statusEffects: [],
+    statusEffects: ['isConcussed'],
     vfx: VFX.basicAttackFast,
     damageModifier: -0.1,
-    healingModifier: null
+    healingModifier: null,
+    durationModifier: null
   },
   block: {
     prettyName: 'Block',
@@ -63,7 +67,8 @@ export const ALL_ABILITIES = {
     statusEffects: [],
     vfx: VFX.block,
     damageModifier: null,
-    healingModifier: null
+    healingModifier: null,
+    durationModifier: 0
   },
   shieldBash: {
     prettyName: 'Shield Bash',
@@ -75,7 +80,8 @@ export const ALL_ABILITIES = {
     statusEffects: [],
     vfx: VFX.basicAttackRegular,
     damageModifier: 0,
-    healingModifier: null
+    healingModifier: null,
+    durationModifier: null
   },
   kick: {
     prettyName: 'Kick',
@@ -87,7 +93,8 @@ export const ALL_ABILITIES = {
     statusEffects: ['isStunned'],
     vfx: VFX.kick,
     damageModifier: null,
-    healingModifier: null
+    healingModifier: null,
+    durationModifier: Infinity
   },
   whirlwind: {
     prettyName: 'Whirlwind',
@@ -97,34 +104,50 @@ export const ALL_ABILITIES = {
     chainLink: 10,
     icon: 'whirlwind',
     basic: false,
-    statusEffects: [],
+    statusEffects: ['isWounded'],
     vfx: VFX.whirlwind,
     damageModifier: 0,
-    healingModifier: null
+    healingModifier: null,
+    durationModifier: 0
   },
   lacerate: {
     prettyName: 'Lacerate',
     type: AbilityType.WindUp,
-    description: 'Bleeds your opponent for 20% of your total damage for 6 ticks.',
+    description: 'Bleeds your opponent for 20% of your total damage.',
     ticks: 2,
     icon: 'lacerate',
     basic: false,
     statusEffects: ['isBleeding'],
     vfx: VFX.basicAttackFast,
-    damageModifier: 0,
-    healingModifier: null
+    damageModifier: null,
+    healingModifier: null,
+    durationModifier: 1
+  },
+  demoralizingShout: {
+    prettyName: 'Demoralizing Shout',
+    type: AbilityType.WindUp,
+    description: 'Weakens your opponent. They take 50% more damage for the duration of the effect.',
+    ticks: 2,
+    icon: 'demoShout',
+    basic: false,
+    statusEffects: ['isVulnerable'],
+    vfx: VFX.filler,
+    damageModifier: null,
+    healingModifier: null,
+    durationModifier: 2
   },
   bowshot: {
     prettyName: 'Bow Shot',
     type: AbilityType.WindUp,
-    description: 'Shoot an arrow at your opponent.',
+    description: 'Fire an arrow at your foe.',
     ticks: 3,
     icon: 'bowshot',
     basic: true,
     statusEffects: [],
     vfx: VFX.basicAttackSlow,
     damageModifier: 0,
-    healingModifier: null
+    healingModifier: null,
+    durationModifier: null
   },
   cheesyTactics: {
     prettyName: 'Cheesy Tactics',
@@ -137,19 +160,21 @@ export const ALL_ABILITIES = {
     statusEffects: [],
     vfx: VFX.heal,
     damageModifier: null,
-    healingModifier: 0
+    healingModifier: 0,
+    durationModifier: 0
   },
   bite: {
     prettyName: 'Bite',
     type: AbilityType.WindUp,
-    description: 'A vicious bite that causes bleeding.',
+    description: 'A vicious bite.<br />',
     ticks: 2,
     icon: 'bite',
     basic: true,
     statusEffects: ['isBleeding'],
     vfx: VFX.basicAttackFast,
     damageModifier: 0,
-    healingModifier: null
+    healingModifier: null,
+    durationModifier: 4
   },
   harden: {
     prettyName: 'Harden',
@@ -161,7 +186,8 @@ export const ALL_ABILITIES = {
     statusEffects: [],
     vfx: VFX.heal,
     damageModifier: null,
-    healingModifier: null
+    healingModifier: null,
+    durationModifier: null
   }
 };
 
@@ -192,6 +218,15 @@ function healingCalc(this: Ability) {
   return scaled;
 }
 
+function durationCalc(this: Ability) {
+  if (this.durationModifier === null) return;
+  const ticks = this.ticks;
+
+  return {
+    result: ticks * (1 + this.durationModifier)
+  };
+}
+
 // for (const ability of Object.values(ALL_ABILITIES)) {
 //   Object.defineProperty(ability, 'calc', {
 //     enumerable: true,
@@ -210,7 +245,8 @@ function attachCalcs(a: Ability) {
     get() {
       return {
         damage: damageCalc.bind(a),
-        healing: healingCalc.bind(a)
+        healing: healingCalc.bind(a),
+        duration: durationCalc.bind(a)
       };
     }
   });

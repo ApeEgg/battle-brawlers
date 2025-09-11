@@ -58,9 +58,7 @@
 >
   <div class="absolute" style="left: {x}px; top:{y}px; transform: translate(-50%, -50%);">
     <div class="absolute" style="transform: scale(1) translate(-50%, -50%);">
-      <div
-        class="combatant rounded border-[0.5px] bg-gradient-to-br from-[#D7CEC1] to-[#ddd7cd] shadow"
-      >
+      <div class="combatant rounded border-[0.5px] border-transparent bg-[#ddd7cd] shadow">
         <crow class="w-full justify-between px-2 py-1 font-bold text-[#b3ad9f] uppercase">
           {name}
           <!-- <crow right class="gap-1">
@@ -81,30 +79,79 @@
         <crow
           vertical
           class={tw(
-            'absolute top-17 left-[calc(100%-theme(spacing.5))] gap-2',
-            facingRight ? 'right right-[calc(100%-theme(spacing.5))] left-auto' : 'left'
+            'absolute top-17 left-[calc(100%-theme(spacing.6))] gap-2',
+            facingRight && 'right-[calc(100%-theme(spacing.6))] left-auto !items-end',
+            !facingRight && '!items-start'
           )}
         >
           {#each Object.entries(statuses)
             .filter(([_, { ticks }]) => ticks)
-            .sort(([a], [b]) => a.ticks - b.ticks) as [key, { ticks }] (key)}
+            .sort(([_, a], [__, b]) => a.ticks - b.ticks) as [key, { ticks }] (key)}
             {@const effect = STATUS_EFFECTS?.[key]}
-            <crow class="gap-2" animate:flip={{ duration: 250 }}>
-              <crow class={tw('w-5', facingRight && 'order-1')}>
+            <crow class={tw('left')} animate:flip={{ duration: 250 }}>
+              <crow class={tw('!grid w-6 !flex-none', facingRight && 'order-1')}>
                 <Icon
                   name={effect.icon}
-                  class="{effect.animation} [animation-direction:reverse]"
+                  class="{effect.animation} scale-[110%] text-xl text-black/80 [animation-direction:reverse] [grid-area:1/1]"
+                />
+                <Icon
+                  name={effect.icon}
+                  class="{effect.animation} text-xl [animation-direction:reverse] [grid-area:1/1]"
                   original
                 />
               </crow>
-              <span class="text-xs">{effect.text}&nbsp;{ticks}</span>
+              <crow class={tw('text-sm text-gray-400', facingRight ? 'right' : 'left')}>
+                {#if !facingRight}
+                  <crow class="w-6 !flex-none -translate-y-px text-xl leading-[0] text-gray-500">
+                    {ticks}
+                  </crow>
+                {/if}
+                <div class="text-xs">{effect.text}</div>
+                {#if facingRight}
+                  <crow class="w-6 !flex-none -translate-y-px text-xl leading-[0] text-gray-500">
+                    {ticks}
+                  </crow>
+                {/if}
+              </crow>
+            </crow>
+          {/each}
+          {#each Object.entries(statuses)
+            .filter(([_, { max, value }]) => max && value)
+            .sort(([_, a], [__, b]) => b.value - a.value) as [key, { max, value }] (key)}
+            {@const effect = STATUS_EFFECTS?.[key]}
+            <crow class={tw('left gap-2')} animate:flip={{ duration: 250 }}>
+              <crow class={tw('!grid w-6 !flex-none', facingRight && 'order-1')}>
+                <!-- <Icon
+                  name={effect.icon}
+                  class="{effect.animation} scale-[110%] text-xl text-black/80 [animation-direction:reverse] [grid-area:1/1]"
+                /> -->
+                <Icon
+                  name={effect.icon}
+                  class="{effect.animation} text-sm [animation-direction:reverse] [grid-area:1/1]"
+                  original
+                />
+              </crow>
+              <crow class={tw('gap-2 text-sm text-gray-400', facingRight ? 'right' : 'left')}>
+                {#if !facingRight}
+                  <crow class="!flex-none text-sm text-gray-500">
+                    {value}/{max}
+                  </crow>
+                {/if}
+                <div class="text-xs">{effect.text}</div>
+                {#if facingRight}
+                  <crow class="!flex-none text-sm text-gray-500">
+                    {value}/{max}
+                  </crow>
+                {/if}
+              </crow>
             </crow>
           {/each}
         </crow>
+        <!-- <Debug data={statuses} /> -->
 
         <crow
           class={tw(
-            'absolute bottom-6 left-0 aspect-square w-10',
+            'absolute bottom-7 left-0 aspect-square w-10',
             facingRight ? 'right-0 left-auto' : ''
           )}
         >
@@ -117,7 +164,7 @@
         </crow>
         <crow
           class={tw(
-            'absolute right-0 bottom-6 aspect-square w-10',
+            'absolute right-0 bottom-7 aspect-square w-10',
             facingRight ? 'right-auto left-0' : ''
           )}
         >
@@ -129,6 +176,7 @@
           {/if}
         </crow>
       </div>
+      <!-- <Debug data={statuses} /> -->
     </div>
   </div>
 
