@@ -63,10 +63,9 @@
       </div>
     {/if}
   </crow>
-  {#if description || statusEffects.length > 0}
-    <div class="mt-2 text-sm italic">
-      {@html description}
 
+  {#if statusEffects.length > 0}
+    <div class="mt-2 text-sm">
       {#each statusEffects as statusEffect (statusEffect)}
         {@const { singleWord, icon, convertsInto } = STATUS_EFFECTS[statusEffect]}
         This ability inflicts <strong>{singleWord}</strong> ( <Icon
@@ -81,6 +80,12 @@
             original
           /> ){/if}.
       {/each}
+    </div>
+  {/if}
+
+  {#if description}
+    <div class="mt-2 text-sm italic">
+      {@html description}
 
       <!-- {#if statusEffects.includes('isConcussed')}
         <br /><br />This ability inflicts <strong>concussion</strong> (<Icon

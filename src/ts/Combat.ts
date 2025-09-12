@@ -44,7 +44,8 @@ const injectAnimation = (
   const cIndex = teams[combatant.teamIndex].combatants.findIndex(({ id }) => id === combatant.id);
 
   vfx.start = now - currentAbility.ticks * COMBAT_TICK_TIME;
-  vfx.end = now;
+  const lingeringTime = vfx.vfxName === 'block' ? 250 : 0;
+  vfx.end = now + lingeringTime;
 
   vfx.id = crypto.randomUUID();
   vfx.targetX = target.position.x;
@@ -152,6 +153,21 @@ export const generateCombat = (seed: string, teams: Team[]) => {
     const combatantsEnding = timedAbility(stillStandingCombatants, now, 'end');
     const orderedCombatantsStarting = prioritySorting(combatantsStarting, now, 'start');
     const orderedCombatantsEnding = prioritySorting(combatantsEnding, now, 'end');
+
+    // START OF ABILITY
+    // Put this there so that block actually blocks at start of ability
+    orderedCombatantsStarting.forEach((combatant) => {
+      const currentAbilityIndex = combatant.abilities.findIndex((ability) =>
+        pickAbility(combatant.abilities, ability as Ability, now, 'start')
+      );
+      const currentAbility = combatant.abilities[currentAbilityIndex];
+
+      if (currentAbility.id === 'block') {
+        combatant.statuses.isBlocking = true;
+      }
+
+      combatant.damage = Math.ceil(combatant.combatStats.damage * currentAbility.damage);
+    });
 
     // END OF ABILITY
     orderedCombatantsEnding.forEach((combatant) => {
@@ -301,6 +317,13 @@ export const generateCombat = (seed: string, teams: Team[]) => {
             }
           }
 
+          if (currentAbility.id === 'shieldBash') {
+            target.statuses.isStunned = {
+              ticks: target.statuses.isStunned.ticks + 3,
+              value: 1
+            };
+          }
+
           if (currentAbility.id === 'kick') {
             // My implementation attempt
             // const targetCurrentAbility = target.abilitiesCopied.find(
@@ -338,20 +361,6 @@ export const generateCombat = (seed: string, teams: Team[]) => {
           combatant.statuses.isBlocking = false;
         }
       }
-
-      // START OF ABILITY
-      orderedCombatantsStarting.forEach((combatant) => {
-        const currentAbilityIndex = combatant.abilities.findIndex((ability) =>
-          pickAbility(combatant.abilities, ability as Ability, now, 'start')
-        );
-        const currentAbility = combatant.abilities[currentAbilityIndex];
-
-        if (currentAbility.id === 'block') {
-          combatant.statuses.isBlocking = true;
-        }
-
-        combatant.damage = Math.ceil(combatant.combatStats.damage * currentAbility.damage);
-      });
 
       // console.table({
       //   Tick: tickCount,

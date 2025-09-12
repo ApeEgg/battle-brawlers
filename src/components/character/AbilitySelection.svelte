@@ -9,11 +9,12 @@
   import ABILITIES from '$src/constants/ABILITIES';
   import type { Character } from '$src/types/character';
 
-  let { character }: { character: Character } = $props<{ character: Character }>();
+  let { character, renderSides }: { character: Character; renderSides: boolean } = $props();
 
   let availableAbilities: AbilityRef[] = $state([]);
   let dropFromOthersDisabled = $state(false);
   let constrainAxisY = $state(false);
+  let showAvailableAbilities = $state(false);
 
   let characterEquipment = $derived(character.overrides.equipment);
 
@@ -181,33 +182,66 @@
 </script>
 
 <crow vertical class="w-full gap-2">
-  <crow class="relative w-full gap-2 overflow-hidden px-1 py-2" vertical left up>
-    <crow class="w-full !justify-between">
-      <h5>Active abilities</h5>
+  <crow left class="!items-stretch !justify-stretch overflow-hidden">
+    {#if renderSides}
+      <crow
+        class={tw(
+          'pointer-events-none relative w-40 !flex-none bg-contain bg-center bg-no-repeat transition-all duration-200',
+          renderSides && 'w-20'
+        )}
+        style="background-image: urlllll(/images/races/{character.image});"
+      >
+        <img src="/images/races/{character.image}" class="absolute top-0 right-0 left-0" alt="" />
+      </crow>
+    {/if}
+
+    <crow class="relative w-full" vertical left up>
+      {#if !renderSides}
+        <crow class="w-full !justify-between">
+          <h5>Active abilities</h5>
+        </crow>
+      {/if}
+      <AbilityBar
+        {character}
+        abilities={character.overrides.abilities}
+        {considerCharacterAbilities}
+        {finalizeCharacterAbilities}
+        {transformDraggedCharacterAbility}
+        {constrainAxisY}
+        minimalistic={renderSides}
+      />
     </crow>
-    <AbilityBar
-      {character}
-      abilities={character.overrides.abilities}
-      {considerCharacterAbilities}
-      {finalizeCharacterAbilities}
-      {transformDraggedCharacterAbility}
-      {constrainAxisY}
-    />
+
+    {#if renderSides}
+      <crow class={tw('w-0 !flex-none transition-all duration-200', renderSides && 'w-20')}>
+        <Button
+          onclick={() => (showAvailableAbilities = !showAvailableAbilities)}
+          secondary
+          class="px-2"
+        >
+          <Icon name="down" class={tw(showAvailableAbilities && '-scale-y-[1]')} />
+        </Button>
+      </crow>
+    {/if}
   </crow>
 
-  <crow class="relative w-full gap-2 overflow-hidden p-1" vertical left up>
-    <crow class="w-full !justify-between">
-      <h5>Available abilities</h5>
-    </crow>
-    <AbilityInventory
-      {character}
-      {availableAbilities}
-      {considerAvailableAbilities}
-      {finalizeAvailableAbilities}
-      {transformDraggedAvailableAbility}
-      {dropFromOthersDisabled}
-    />
-  </crow>
+  <Accordion isOpen={!renderSides || showAvailableAbilities}>
+    <div>
+      <crow class="relative w-full gap-2 overflow-hidden p-1" vertical left up>
+        <crow class="w-full !justify-between">
+          <h5>Available abilities</h5>
+        </crow>
+        <AbilityInventory
+          {character}
+          {availableAbilities}
+          {considerAvailableAbilities}
+          {finalizeAvailableAbilities}
+          {transformDraggedAvailableAbility}
+          {dropFromOthersDisabled}
+        />
+      </crow>
+    </div>
+  </Accordion>
 </crow>
 
 <!-- <Debug data={character} /> -->

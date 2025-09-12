@@ -5,8 +5,10 @@
   import { generateCombat } from '$src/ts/Combat';
   import type { Team } from '$src/types/team';
   import AbilityBar from '$src/components/character/AbilityBar.svelte';
-  import CharacterSheet from '$src/components/character/CharacterSheet.svelte';
+  import AbilitySelection from '$src/components/character/AbilitySelection.svelte';
   import { goto } from '$app/navigation';
+  import Accordion from '$src/components/Accordion.svelte';
+  import Icon from '$src/components/ui/Icon.svelte';
 
   const { overlay } = STORES;
 
@@ -52,62 +54,89 @@
 
     $overlay = 'Combat';
   };
+
+  let brawlersSelected = $derived(selectedBrawlers.length > 0);
 </script>
 
-<Headline text={creature.name} />
+<Headline text={creature.name}>
+  <crow class="!flex-none translate-y-px gap-2 text-xl text-gray-600" left>
+    <crow class="gap-1">
+      <Icon name="health" original />
+      {creature.combatStats?.maxHealth}
+    </crow>
+    <span class="text-gray-300">/</span>
+    <crow class="gap-1">
+      <Icon name="armor" original />
+      {creature.combatStats?.maxArmor}
+    </crow>
+    <span class="text-gray-300">/</span>
+    <crow class="gap-1">
+      <Icon name="damage" original />
+      {creature.combatStats?.damage}
+    </crow>
+  </crow>
+</Headline>
 
 <Close onclick={() => goto('/creatures')} />
 
-<crow up left>
-  <crow up left vertical class="!flex-3 gap-3">
-    <div class="text-sm">
-      {@html creature.description}
-    </div>
+<crow left class="!items-stretch !justify-stretch overflow-hidden">
+  <crow class={tw('w-0 !flex-none transition-all duration-200', brawlersSelected && 'w-20')}></crow>
+
+  <crow up left vertical>
+    <Accordion isOpen={!brawlersSelected}>
+      <div class="min-h-54 text-sm">
+        {@html creature.description}
+      </div>
+    </Accordion>
+    <crow class="relative w-full" vertical left up>
+      <Accordion isOpen={!brawlersSelected}>
+        <crow class="w-full !justify-between">
+          <h5>Abilities</h5>
+        </crow>
+      </Accordion>
+      <AbilityBar character={creature} abilities={creature.abilities} dndDisabled minimalistic />
+    </crow>
   </crow>
-  <crow class="h-70 !flex-2 -translate-y-5">
-    <img
-      src="/images/races/{creature.image}"
-      class="pointer-events-none max-h-full max-w-48 -scale-x-[1]"
-      alt=""
-    />
+
+  <crow
+    class={tw(
+      'pointer-events-none relative w-40 !flex-none -scale-x-[1] bg-contain bg-center bg-no-repeat transition-all duration-200',
+      brawlersSelected && 'w-20'
+    )}
+    style="background-image: urlllll(/images/races/{creature.image});"
+  >
+    <img src="/images/races/{creature.image}" class="absolute top-0 right-0 left-0" alt="" />
   </crow>
 </crow>
 
-<crow class="relative w-full gap-2 px-px" vertical left up>
-  <crow class="w-full !justify-between">
-    <h5>Abilities</h5>
-  </crow>
-  <AbilityBar character={creature} abilities={creature.abilities} dndDisabled />
-</crow>
+<Hr class="mt-6 mb-6" />
 
-<Hr class="mt-6 mb-3" />
-
-{#if selectedBrawlers.length > 0}
+{#if brawlersSelected}
   {#each selectedBrawlers as brawler (brawler.uuid)}
-    <CharacterSheet character={brawler} />
+    <AbilitySelection character={brawler} renderSides />
   {/each}
 {:else}
-  <crow vertical class="h-[465px] border border-dashed border-gray-300 text-center">
-    <strong>Select your brawler</strong>
+  <crow vertical class="h-[100px] border border-dashed border-gray-300 text-center">
+    <h5>Choose your brawler</h5>
   </crow>
 {/if}
 
-<crow right class="gap-2">
-  <Button
-    secondary
-    disabled={selectedBrawlers.length === 0}
-    onclick={() => (app.selectedBrawlers = [])}
-    class="mt-4 px-4 py-2 text-sm"
-  >
-    Reset
-  </Button>
-  <Button
-    disabled={selectedBrawlers.length === 0}
-    onclick={runCombat}
-    class="mt-4 px-4 py-2 text-sm"
-  >
-    Fight
-  </Button>
-</crow>
+{#if brawlersSelected}
+  <Hr class="mt-4 mb-3" />
+
+  <crow>
+    <Button
+      tertiary
+      disabled={!brawlersSelected}
+      onclick={() => (app.selectedBrawlers = [])}
+      class="mt-4 px-4 py-2 text-sm"
+    >
+      Cancel
+    </Button>
+    <Button disabled={!brawlersSelected} onclick={runCombat} class="mt-4 px-4 py-2 text-sm">
+      Fight
+    </Button>
+  </crow>
+{/if}
 
 <!-- <Debug data={selectedBrawlers} /> -->

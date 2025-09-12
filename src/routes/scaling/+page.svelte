@@ -30,7 +30,7 @@
 />
 
 {#each abilitiesPool as abilities, i (i)}
-  <AbilityBar {abilities} dndDisabled small character={app.characters[0]} />
+  <AbilityBar {abilities} dndDisabled small minimalistic character={app.characters[0]} />
 {/each}
 
 <!-- <Debug data={equipment} /> -->

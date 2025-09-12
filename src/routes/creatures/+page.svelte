@@ -14,7 +14,7 @@
 <crow vertical up left class="-mx-4 !w-auto">
   <crow up left class="gap-4 px-6 py-2">
     <div class="flex-1 font-bold">Name</div>
-    <div class="flex-1 font-bold">Loot</div>
+    <div class="flex-1 font-bold">Possible loot</div>
     <div class="flex-1 font-bold">Level</div>
   </crow>
   {#each creatures as creature, i}

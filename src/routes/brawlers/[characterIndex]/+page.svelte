@@ -2,13 +2,12 @@
   import app from '$src/app.svelte';
   import { page } from '$app/stores';
   import CHARACTERS from '$src/constants/CHARACTERS';
-  import CharacterSheet from '$src/components/character/CharacterSheet.svelte';
+  import AbilitySelection from '$src/components/character/AbilitySelection.svelte';
   import { slotsInPrettyName, unequip } from '$src/ts/equipment';
   import EQUIPMENT from '$src/constants/EQUIPMENT';
   import type { EquipmentSlot } from '$src/types/equipment';
   import EquipmentLink from '$src/components/EquipmentLink.svelte';
   import { calculateCombatStatsByCharacter } from '$src/ts/Utils';
-  import { goto } from '$app/navigation';
 
   let characterIndex = $derived($page.params.characterIndex);
   let characterRef = $derived(app.characters[characterIndex as any]);
@@ -73,5 +72,5 @@
       {/each}
     </crow>
   </crow>
-  <CharacterSheet {character} />
+  <AbilitySelection {character} />
 </crow>
