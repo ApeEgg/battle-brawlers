@@ -6,6 +6,8 @@
   import type { Team } from '$src/types/team';
   import { INITIAL_COMBAT } from '$src/app.svelte';
 
+  let { debug } = $props();
+
   const getGeometry = (N: number, { baseRadius = 250, itemWidth = 140, gap = 0 } = {}) => {
     const C_base = 2 * Math.PI * baseRadius;
     const C_item = Math.max(1, N) * (itemWidth + gap); // avoid divide-by-zero
@@ -80,16 +82,18 @@
   let liveTeams = $derived(teams.length ? teams : startTeams);
 </script>
 
-<div class="w-full bg-white">
-  <Button onclick={pauseCombat} disabled={!loopId}>Pause combat</Button><br />
-  <Button
-    onclick={resumeCombat}
-    disabled={loopId || app.combat.duration === 0 || app.combat.duration <= elapsedMilliseconds}
-  >
-    Resume combat
-  </Button><br />
-  Elapsed ms: {elapsedMilliseconds}<br />
-  Duration: {app.combat.duration}
+<div class="w-full">
+  {#if debug}
+    <Button onclick={pauseCombat} disabled={!loopId}>Pause combat</Button><br />
+    <Button
+      onclick={resumeCombat}
+      disabled={loopId || app.combat.duration === 0 || app.combat.duration <= elapsedMilliseconds}
+    >
+      Resume combat
+    </Button><br />
+    Elapsed ms: {elapsedMilliseconds}<br />
+    Duration: {app.combat.duration}
+  {/if}
 
   <CombatArena>
     {#if liveTeams.length}

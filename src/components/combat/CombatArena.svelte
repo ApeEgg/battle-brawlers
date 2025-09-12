@@ -2,14 +2,14 @@
   let { children } = $props();
 </script>
 
-<div class="combat-arena">
+<div class="combat-arena arena-bg">
   {@render children()}
 </div>
 
 <style>
   .combat-arena {
     position: relative;
-    background: radial-gradient(rgba(0, 0, 0, 0.5), transparent 75%);
+    /* background: radial-gradient(rgba(0, 0, 0, 0.5), transparent 75%); */
     width: 100%;
     max-width: 500px;
     margin: 0 auto;

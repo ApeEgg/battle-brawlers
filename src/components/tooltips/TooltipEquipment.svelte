@@ -51,7 +51,7 @@
 
   {#if activeAbilities.length > 0}
     <crow left up vertical class="gap-1">
-      <AbilityBar {character} dndDisabled small abilities={activeAbilities} />
+      <AbilityBar {character} dndDisabled small minimalistic abilities={activeAbilities} />
     </crow>
   {/if}
   {#if availableAbilities.length > 0}

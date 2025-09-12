@@ -58,8 +58,8 @@
 >
   <div class="absolute" style="left: {x}px; top:{y}px; transform: translate(-50%, -50%);">
     <div class="absolute" style="transform: scale(1) translate(-50%, -50%);">
-      <div class="combatant rounded border-[0.5px] border-transparent bg-[#ddd7cd] shadow">
-        <crow class="w-full justify-between px-2 py-1 font-bold text-[#b3ad9f] uppercase">
+      <div class="combatant glass rounded border-[0.5px] !border-none border-transparent shadow">
+        <crow class="w-full justify-between px-2 py-1 font-bold text-[#989387] uppercase">
           {name}
           <!-- <crow right class="gap-1">
             <strong>DMG</strong>
@@ -100,15 +100,15 @@
                   original
                 />
               </crow>
-              <crow class={tw('text-sm text-gray-400', facingRight ? 'right' : 'left')}>
+              <crow class={tw('text-sm text-gray-700', facingRight ? 'right' : 'left')}>
                 {#if !facingRight}
-                  <crow class="w-6 !flex-none -translate-y-px text-xl leading-[0] text-gray-500">
+                  <crow class="w-6 !flex-none -translate-y-px text-xl leading-[0] text-gray-800">
                     {ticks}
                   </crow>
                 {/if}
                 <div class="text-xs">{effect.text}</div>
                 {#if facingRight}
-                  <crow class="w-6 !flex-none -translate-y-px text-xl leading-[0] text-gray-500">
+                  <crow class="w-6 !flex-none -translate-y-px text-xl leading-[0] text-gray-800">
                     {ticks}
                   </crow>
                 {/if}
@@ -131,15 +131,15 @@
                   original
                 />
               </crow>
-              <crow class={tw('gap-2 text-sm text-gray-400', facingRight ? 'right' : 'left')}>
+              <crow class={tw('gap-2 text-sm text-gray-700', facingRight ? 'right' : 'left')}>
                 {#if !facingRight}
-                  <crow class="!flex-none text-sm text-gray-500">
+                  <crow class="!flex-none text-sm text-gray-800">
                     {value}/{max}
                   </crow>
                 {/if}
                 <div class="text-xs">{effect.text}</div>
                 {#if facingRight}
-                  <crow class="!flex-none text-sm text-gray-500">
+                  <crow class="!flex-none text-sm text-gray-800">
                     {value}/{max}
                   </crow>
                 {/if}

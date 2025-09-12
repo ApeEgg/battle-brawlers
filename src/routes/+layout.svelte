@@ -22,6 +22,7 @@
   let { children } = $props<{ children: Snippet }>();
   let isFrontpage = $derived($page.route.id === '/' && !app.token);
   let activePage = $derived($page.route.id?.split('/')[1] || 'start');
+  let isDebugPage = $derived($page.route.id === '/debug');
   let characterIndex = $derived($page.params.characterIndex);
   let creatureId = $derived($page.params.creatureId);
 
@@ -41,9 +42,12 @@
 <div
   class={tw(
     'bg-blur fixed -z-10 min-h-screen w-screen bg-cover bg-center bg-no-repeat',
-    isFrontpage
-      ? 'bg-[url("/images/desktop-1920x1080.jpg")]'
-      : 'bg-[url("/images/parchment-bg-2250x1500.jpg")] dark:bg-gray-800'
+    !isFrontpage &&
+      !isDebugPage &&
+      'bg-[url("/images/parchment-bg-2250x1500.jpg")] dark:bg-gray-800',
+    isFrontpage && 'bg-[url("/images/desktop-1920x1080.jpg")]',
+    isDebugPage &&
+      "bg-[url('/images/arena-bg-daylight-full-zoom.jpg')] bg-cover bg-center bg-no-repeat shadow-[inset_0_0px_10vw_rgba(0,0,0,1)]"
   )}
 ></div>
 <div class={tw('bg-blur min-h-screen w-screen', isFrontpage ? 'row' : 'row-up')}>
@@ -118,9 +122,12 @@
             <crow
               up
               left
-              class="h-auto rounded border border-gray-400 bg-white p-4 [grid-area:1/1]"
+              class={tw(
+                'h-auto rounded border border-gray-400 bg-white p-4 [grid-area:1/1]',
+                isDebugPage && 'bg-transparent'
+              )}
             >
-              <div class="relative w-full">
+              <div class={tw('relative min-h-full w-full')}>
                 {@render children()}
               </div>
             </crow>

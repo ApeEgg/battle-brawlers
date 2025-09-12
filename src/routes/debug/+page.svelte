@@ -68,5 +68,5 @@
 </div>
 
 {#if app.combat.teamsStartState.length}
-  <Combat />
+  <Combat debug />
 {/if}
