@@ -5,6 +5,7 @@
   import { COMBAT_TICK_TIME, COMBAT_RING_BASE_RADIUS } from '$src/constants/APP';
   import type { Team } from '$src/types/team';
   import { INITIAL_COMBAT } from '$src/app.svelte';
+  import ResultAnnouncement from '$src/components/combat/ResultAnnouncement.svelte';
 
   let { debug } = $props();
 
@@ -80,9 +81,12 @@
   });
 
   let liveTeams = $derived(teams.length ? teams : startTeams);
+  let progress = $derived(
+    elapsedMilliseconds / app.combat.duration // avoid divide-by-zero
+  );
 </script>
 
-<div class="w-full">
+<div class="relative w-full">
   {#if debug}
     <Button onclick={pauseCombat} disabled={!loopId}>Pause combat</Button><br />
     <Button
@@ -95,23 +99,26 @@
     Duration: {app.combat.duration}
   {/if}
 
-  <CombatArena>
-    {#if liveTeams.length}
-      {#each liveTeams as { combatants, name }, _index}
-        {#each combatants as combatant, _c}
-          {@const { rot } = combatant.position}
-          {@const raw = Math.round(Math.abs(Math.abs(rot - 540) - 180))}
-          {@const z = 10 - Math.floor((raw / 180) * 9)}
-          <!-- {@const z = Math.floor((raw / 180) * 9) + 1} -->
-          {@const angleDiff = ((rot - 0 + 540) % 360) - 180}
-          {@const totalTime =
-            combatant.abilities.reduce((acc, { ticks }) => acc + ticks, 0) * COMBAT_TICK_TIME}
-          {@const progress =
-            ((combatant.statuses.knockedOut ? combatant.statuses.knockedOut : elapsedMilliseconds) /
-              totalTime) %
-            1}
+  <crow class="!grid aspect-square place-items-center">
+    <CombatArena>
+      {#if liveTeams.length}
+        {#each liveTeams as { combatants, name }, _index}
+          {#each combatants as combatant, _c}
+            {@const { rot } = combatant.position}
+            {@const raw = Math.round(Math.abs(Math.abs(rot - 540) - 180))}
+            {@const z = 10 - Math.floor((raw / 180) * 9)}
+            <!-- {@const z = Math.floor((raw / 180) * 9) + 1} -->
+            {@const angleDiff = ((rot - 0 + 540) % 360) - 180}
+            {@const totalTime =
+              combatant.abilities.reduce((acc, { ticks }) => acc + ticks, 0) * COMBAT_TICK_TIME}
+            {@const individualProgress =
+              ((combatant.statuses.knockedOut
+                ? combatant.statuses.knockedOut
+                : elapsedMilliseconds) /
+                totalTime) %
+              1}
 
-          <!-- <div class="diameter" style={`transform: rotate(${rot}deg); z-index: ${z};`}>
+            <!-- <div class="diameter" style={`transform: rotate(${rot}deg); z-index: ${z};`}>
               <div class="edge" style={`transform: translate(-50%, -50%) rotate(-${rot}deg);`}>
                 <CombatantCard {...combatant} facingRight={angleDiff < 0} {elapsedMilliseconds}>
                   <div class="relative">
@@ -143,23 +150,25 @@
                 </CombatantCard>
               </div>
             </div> -->
-          <CombatantCard
-            {...combatant}
-            facingRight={angleDiff < 0}
-            {elapsedMilliseconds}
-            {progress}
-            {z}
-            scale={geometry.scale}
-          />
-        {/each}
-        <!--<TeamBadge
+            <CombatantCard
+              {...combatant}
+              facingRight={angleDiff < 0}
+              {elapsedMilliseconds}
+              progress={individualProgress}
+              {z}
+              scale={geometry.scale}
+            />
+          {/each}
+          <!--<TeamBadge
         {index}
         rotation={index * rotation + 270}
         scale={geometry.scale}
       />-->
-      {/each}
-    {/if}
-  </CombatArena>
+        {/each}
+      {/if}
+    </CombatArena>
+    <ResultAnnouncement {progress} />
+  </crow>
 </div>
 
 <style>

@@ -409,11 +409,15 @@ export const generateCombat = (seed: string, teams: Team[]) => {
 
   const duration = events[events.length - 1]?.eventTimestamp;
   const teamsEndState = events[events.length - 1].teams;
+  const winningTeam = teamsEndState.find((team) =>
+    team.combatants.some((combatant) => combatant.combatStats.currentHealth! > 0)
+  );
 
   return {
     events,
     teamsStartState,
     teamsEndState,
-    duration
+    duration,
+    winningTeam
   };
 };

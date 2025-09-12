@@ -16,9 +16,11 @@
   .cinzel {
     @apply font-['Cinzel'];
   }
+  .bree-serif {
+    @apply font-['Bree_Serif'];
+  }
   .fat-number {
-    -webkit-text-stroke: 0.5px black;
-    @apply drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)];
+    @apply drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] [-webkit-text-stroke:_0.5px_black];
   }
   h1,
   h2,
