@@ -73,10 +73,9 @@ export const prepareCombatant = (
   character = CHARACTERS(character, true); // ensure full character
 
   const rotation = 360 / teamCount;
-  console.log(character);
   const combatStats = calculateCombatStatsByCharacter(character);
 
-  combatStats.currentHealth = combatStats.maxHealth;
+  // combatStats.currentHealth = combatStats.maxHealth;
   combatStats.currentArmor = combatStats.maxArmor;
 
   const abilitiesHydrated = (

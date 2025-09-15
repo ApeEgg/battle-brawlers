@@ -24,7 +24,7 @@
       )}
     >
       {#each abilitiesCopied as { prettyName, ticks, icon, chainLink }, i (`icon_${i}_${prettyName}`)}
-        <crow class="relative h-7 !flex-none" style="width: calc(12px*{ticks});">
+        <crow class="relative h-6 !flex-none" style="width: calc(12px*{ticks});">
           {#if chainLink}
             {#each Array(chainLink).fill(0).slice(0, -1) as _, j}
               <div

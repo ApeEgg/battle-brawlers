@@ -15,8 +15,14 @@
   import CHARACTERS from '$src/constants/CHARACTERS';
   import CombatantAbilityBar from '$src/components/combat/CombatantAbilityBar.svelte';
   import ABILITIES from '$src/constants/ABILITIES';
-  import { calculateTickStart } from '$src/ts/Utils';
+  import { calculateCombatStatsByCharacter, calculateTickStart } from '$src/ts/Utils';
   import Accordion from '$src/components/Accordion.svelte';
+  import HealthBar from '$src/components/combat/HealthBar.svelte';
+  import InCombat from '$src/components/global/InCombat.svelte';
+  import Clickable from '$src/components/buttons/Clickable.svelte';
+  import DevBar from '$src/components/DevBar.svelte';
+  import { IS_DEV } from '$src/constants/ENV_VARS';
+  import ClientClock from '$src/components/global/ClientClock.svelte';
   overrideItemIdKeyNameBeforeInitialisingDndZones('uuid');
 
   let { children } = $props<{ children: Snippet }>();
@@ -25,6 +31,8 @@
   let isDebugPage = $derived($page.route.id === '/debug');
   let characterIndex = $derived($page.params.characterIndex);
   let creatureId = $derived($page.params.creatureId);
+
+  const { setOverlay } = ACTIONS;
 
   let showSequence = $state(false);
 
@@ -36,8 +44,14 @@
   };
 </script>
 
+<ClientClock />
 <ConnectSocket />
 <Keystrokes />
+<InCombat />
+
+{#if IS_DEV}
+  <DevBar />
+{/if}
 
 <div
   class={tw(
@@ -60,6 +74,13 @@
     <Authorization>
       <Row class="min-h-screen flex-1 gap-2 pt-20" up>
         <div class="w-56 rounded border border-gray-400 bg-white/30 p-4">
+          <h5>MY ACCOUNT</h5>
+          <Hr left />
+          Soulstones: 4<br />
+          Level: 2<br />
+          Experience:
+          <HealthBar max={30} current={15} />
+          <div class="h-8" />
           <h5>MY BRAWLERS</h5>
           <Hr left />
           <div
@@ -94,13 +115,23 @@
                       <img src="/images/races/{character.race}/01-faceshot.png" alt="" />
                     </div>
                     <crow vertical left class="overflow-x-hidden px-1 py-1">
-                      <div class="text-md text-gray-600">{character.name}</div>
+                      <!-- <div class="text-md text-gray-600">{character.name}</div> -->
+
+                      <div class="w-full">
+                        <HealthBar
+                          max={calculateCombatStatsByCharacter(character).maxHealth}
+                          current={character.combatStats.currentHealth}
+                          small={!showSequence}
+                          name={character.name}
+                        />
+                      </div>
+
                       <Accordion
                         isOpen={showSequence ||
                           creatureId !== undefined ||
                           characterIndex !== undefined}
                       >
-                        <div class="p-px">
+                        <div class="pr-px">
                           <CombatantAbilityBar
                             preview
                             abilitiesCopied={abilitiesHydrated.filter(
@@ -132,7 +163,19 @@
               </div>
             </crow>
 
-            <crow up right class="-mt-7 !h-7 !flex-none !justify-between px-1 [grid-area:1/1]">
+            <crow up class="-mt-7 !h-7 !flex-none !justify-between px-1 [grid-area:1/1]">
+              <div>
+                {#if app.elapsedMilliseconds < app.combat.duration}
+                  <Clickable onclick={() => setOverlay('Combat')} class="crow gap-2">
+                    <Spinner class="text-sm text-gray-700" />
+                    <div>Fightning..</div>
+                  </Clickable>
+                {:else if app.combat.duration !== 0}
+                  <Clickable onclick={() => setOverlay('Combat')} class="crow gap-2">
+                    <div>View outcome</div>
+                  </Clickable>
+                {/if}
+              </div>
               <!-- <Clickable class="crow left gap-1" onclick={() => goto('/creatures')}>
                 ‹ Go back
               </Clickable> -->

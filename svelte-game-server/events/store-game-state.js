@@ -22,4 +22,6 @@ export default async (data, { ws, mongo }) => {
       upsert: true
     }
   );
+
+  return Date.now();
 };

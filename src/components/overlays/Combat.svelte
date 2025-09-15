@@ -1,13 +1,9 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte';
   import CombatArena from '$src/components/combat/CombatArena.svelte';
   import CombatantCard from '$src/components/combat/CombatantCard.svelte';
   import { COMBAT_TICK_TIME, COMBAT_RING_BASE_RADIUS } from '$src/constants/APP';
   import type { Team } from '$src/types/team';
-  import { INITIAL_COMBAT } from '$src/app.svelte';
   import ResultAnnouncement from '$src/components/combat/ResultAnnouncement.svelte';
-
-  let { debug } = $props();
 
   const getGeometry = (N: number, { baseRadius = 250, itemWidth = 140, gap = 0 } = {}) => {
     const C_base = 2 * Math.PI * baseRadius;
@@ -16,89 +12,27 @@
     return { scale };
   };
 
-  let elapsedMilliseconds = $state(0);
-  let loopId: any = $state();
-  let startTimestamp = $state(0);
-  let lastTimestamp = 0;
-  let teams: Team[] = $state([]);
   let startTeams: Team[] = $derived(app.combat.teamsStartState);
   let geometry = $derived(
-    getGeometry(teams.reduce((a, team) => team.combatants.length + a, 0) * teams.length, {
-      baseRadius: COMBAT_RING_BASE_RADIUS
-    })
+    getGeometry(
+      app.liveTeams.reduce((a, team) => team.combatants.length + a, 0) * app.liveTeams.length,
+      {
+        baseRadius: COMBAT_RING_BASE_RADIUS
+      }
+    )
   );
 
-  const loop = (timestamp: number) => {
-    if (!lastTimestamp) lastTimestamp = timestamp;
-
-    const deltaTime = timestamp - lastTimestamp;
-    elapsedMilliseconds += deltaTime;
-    lastTimestamp = timestamp;
-
-    let [event] = app.combat.events;
-
-    if (elapsedMilliseconds > event?.eventTimestamp) {
-      teams = event.teams;
-      const [_, ...newEvents] = app.combat.events;
-      app.combat.events = newEvents;
-    }
-
-    if (elapsedMilliseconds > app.combat.duration) {
-      teams = app.combat.teamsEndState;
-      cancelAnimationFrame(loopId);
-      loopId = undefined;
-      return;
-    }
-
-    loopId = requestAnimationFrame(loop);
-  };
-
-  const startCombat = () => {
-    loopId = requestAnimationFrame(loop);
-    startTimestamp = 0;
-    elapsedMilliseconds = 0;
-  };
-
-  const pauseCombat = () => {
-    cancelAnimationFrame(loopId);
-    loopId = undefined;
-  };
-
-  const resumeCombat = () => {
-    lastTimestamp = 0;
-    loopId = requestAnimationFrame(loop);
-  };
-
-  $effect(() => {
-    if (app.combat.duration > 0) {
-      startCombat();
-    }
-  });
+  let liveTeams = $derived(app.liveTeams.length ? app.liveTeams : startTeams);
+  let progress = $derived(
+    app.elapsedMilliseconds / app.combat.duration // avoid divide-by-zero
+  );
 
   onDestroy(() => {
-    cancelAnimationFrame(loopId);
-    app.combat = INITIAL_COMBAT;
+    console.log(liveTeams);
   });
-
-  let liveTeams = $derived(teams.length ? teams : startTeams);
-  let progress = $derived(
-    elapsedMilliseconds / app.combat.duration // avoid divide-by-zero
-  );
 </script>
 
 <div class="relative w-full">
-  {#if debug}
-    <Button onclick={pauseCombat} disabled={!loopId}>Pause combat</Button><br />
-    <Button
-      onclick={resumeCombat}
-      disabled={loopId || app.combat.duration === 0 || app.combat.duration <= elapsedMilliseconds}
-    >
-      Resume combat
-    </Button><br />
-    Elapsed ms: {elapsedMilliseconds}<br />
-    Duration: {app.combat.duration}
-  {/if}
-
   <crow class="!grid aspect-square place-items-center">
     <CombatArena>
       {#if liveTeams.length}
@@ -114,7 +48,7 @@
             {@const individualProgress =
               ((combatant.statuses.knockedOut
                 ? combatant.statuses.knockedOut
-                : elapsedMilliseconds) /
+                : app.elapsedMilliseconds) /
                 totalTime) %
               1}
 
@@ -153,7 +87,7 @@
             <CombatantCard
               {...combatant}
               facingRight={angleDiff < 0}
-              {elapsedMilliseconds}
+              elapsedMilliseconds={app.elapsedMilliseconds}
               progress={individualProgress}
               {z}
               scale={geometry.scale}

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { INITIAL_COMBAT } from '$src/app.svelte';
   import VictoryOrLoss from '$src/components/combat/VictoryOrLoss.svelte';
   import Button from '$src/components/form/Button.svelte';
   import { backOut, elasticInOut } from 'svelte/easing';
@@ -64,7 +65,12 @@
             <crow class="w-full">
               <Button
                 secondary
-                onclick={() => setOverlay('')}
+                onclick={() => {
+                  app.combat = { ...INITIAL_COMBAT };
+                  app.liveTeams = [];
+                  app.elapsedMilliseconds = 0;
+                  setOverlay('');
+                }}
                 class="text-md civil border border-yellow-700 px-4 py-2 text-white [background:radial-gradient(ellipse_farthest-corner_at_right_bottom,_#FEDB37_0%,_#FDB931_8%,_#9f7928_30%,_#8A6E2F_40%,_transparent_80%),_radial-gradient(ellipse_farthest-corner_at_left_top,_#FFFFFF_0%,_#FFFFAC_8%,_#D1B464_25%,_#5d4a1f_62.5%,_#5d4a1f_100%)]"
               >
                 Claim
@@ -75,7 +81,16 @@
       {:else}
         <Accordion isOpen={rewardsShown > delayTicks}>
           <crow class="w-full">
-            <Button onclick={() => setOverlay('')} secondary class="text-md px-4 py-2">
+            <Button
+              onclick={() => {
+                app.combat = { ...INITIAL_COMBAT };
+                app.liveTeams = [];
+                app.elapsedMilliseconds = 0;
+                setOverlay('');
+              }}
+              secondary
+              class="text-md px-4 py-2"
+            >
               Go back
             </Button>
           </crow>

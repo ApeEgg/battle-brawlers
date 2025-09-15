@@ -1,17 +1,29 @@
 <script lang="ts">
   let props = $props();
-  let { current, max, currentAnimation, applyAnimationClass } = $derived(props);
+  let {
+    current,
+    max,
+    currentAnimation,
+    applyAnimationClass = () => {},
+    small = false,
+    name = ''
+  } = $derived(props);
 </script>
 
-<div class="relative h-7 bg-gray-500">
+<div class={tw('relative grid h-7 bg-gray-500', small && 'h-7')}>
   <div
-    class="h-full bg-red-800 transition-all duration-200 ease-in-out"
+    class="h-full bg-red-800 transition-all duration-200 ease-in-out [grid-area:1/1]"
     style="width: {Math.max(0, (current / max) * 100)}%"
   ></div>
 
-  <div class="absolute top-1 left-2 text-sm text-white text-shadow-xs">
+  <crow class="!justify-between px-2 text-sm text-white [grid-area:1/1] text-shadow-xs">
+    <div>
+      {#if name}
+        {name}
+      {/if}
+    </div>
     {current} / {max}
-  </div>
+  </crow>
 
   <div
     class:heal={applyAnimationClass('heal')}

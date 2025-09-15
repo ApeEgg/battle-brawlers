@@ -1,10 +1,11 @@
 <script lang="ts">
-  import { prepareCombatant, seededRandom } from '$src/ts/Utils';
+  import { calculateCombatStatsByCharacter, prepareCombatant, seededRandom } from '$src/ts/Utils';
   import { generateCombat } from '$src/ts/Combat';
   import CHARACTERS from '$src/constants/CHARACTERS';
   import type { Team } from '$src/types/team';
   import type { Character } from '$src/types/character';
   import Combat from '$src/components/overlays/Combat.svelte';
+  import { INITIAL_COMBAT } from '$src/app.svelte';
 
   let teams = $derived<Team[]>(app.combat.teamsStartState);
   let teamCount = $state(2);
@@ -51,21 +52,28 @@
     console.info($state.snapshot(app.combat));
   };
 
+  const reset = () => {
+    app.characters[0].overrides.combatStats.currentHealth = calculateCombatStatsByCharacter(
+      CHARACTERS(app.characters[0], true)
+    ).maxHealth;
+    app.combat = INITIAL_COMBAT;
+    app.liveTeams = [];
+    app.elapsedMilliseconds = 0;
+  };
+
   $effect(initializeCombat);
 </script>
 
-<Headline text="debug" />
-
-<div>
+<crow class="fixed bottom-1/2 left-20 w-40 gap-2 bg-gray-300 p-2" vertical>
   Teams {teamCount}:
-  <br /><input type="range" min="1" max="8" bind:value={teamCount} />
-  <br />
-  Combatants {combatantCount}:
-  <br /><input type="range" min="1" max="6" bind:value={combatantCount} />
-  <br />
+  <input type="range" min="1" max="8" bind:value={teamCount} />
 
-  <Button onclick={startCombat} disabled={!teams.length}>Start combat</Button>
-</div>
+  Combatants {combatantCount}:
+  <input type="range" min="1" max="6" bind:value={combatantCount} />
+
+  <Button onclick={reset}>Reset</Button>
+  <Button onclick={startCombat} disabled={app.combat.duration !== 0}>Start combat</Button>
+</crow>
 
 {#if app.combat.teamsStartState.length}
   <Combat debug />

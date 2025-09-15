@@ -12,6 +12,7 @@ export type CharacterRef = {
   overrides: {
     abilities: AbilityRef[];
     equipment: CharacterEquipment;
+    combatStats: CombatStats;
   };
 };
 

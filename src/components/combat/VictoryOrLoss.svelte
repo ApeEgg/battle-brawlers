@@ -15,6 +15,20 @@
 </script>
 
 <crow class="relative !grid w-full place-items-center text-6xl">
+  {#if outcome === 'victory'}
+    <div
+      class="pointer-events-none absolute top-1/2 left-1/2 aspect-square w-[200%] -translate-x-1/2 -translate-y-1/2 animate-spin rounded-full opacity-20 [animation-duration:10000ms]"
+      style="
+      background: repeating-conic-gradient(
+        from 0deg at 50% 50%,
+        transparent 0deg 10deg,
+        yellow 15deg 25deg,
+        transparent 30deg 45deg
+      );
+      -webkit-mask: radial-gradient(circle at 50% 50%, rgba(0,0,0,1) 0%, transparent 50%, transparent 100%);
+    "
+    ></div>
+  {/if}
   <div class="[grid-area:1/1]">
     <Icon name={outcome} class="text-9xl text-gray-400 drop-shadow-sm" />
   </div>
@@ -32,6 +46,7 @@
     <!-- JUST FOR SIZE, DOESN'T RENDER -->
     <Icon name={outcome} class="text-9xl text-yellow-400 opacity-0 drop-shadow-lg" />
   </div>
+
   <div
     class={tw(
       'bree-serif drop-shadow-md  [grid-area:1/1]',

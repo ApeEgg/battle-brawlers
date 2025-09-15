@@ -121,6 +121,9 @@ declare const Login: import('svelte').ComponentType<
 declare const Logo: import('svelte').ComponentType<
   (typeof import('$src/components/Logo'))['default']
 >;
+declare const Spinner: import('svelte').ComponentType<
+  (typeof import('$src/components/Spinner'))['default']
+>;
 declare const Register: import('svelte').ComponentType<
   (typeof import('$src/components/Register'))['default']
 >;

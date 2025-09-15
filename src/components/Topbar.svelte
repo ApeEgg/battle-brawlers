@@ -10,7 +10,7 @@
   };
 </script>
 
-<Row class="fixed inset-0 bottom-auto" right>
+<Row class="fixed top-0 right-0 bottom-auto" right>
   <!-- <Clickable class="row h-8 w-8 hover:bg-black/5 dark:hidden" onclick={toggleDarkMode}>
     <Icon class="text-yellow-500" name="light" />
   </Clickable> -->

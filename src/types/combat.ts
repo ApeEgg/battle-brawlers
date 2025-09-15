@@ -22,5 +22,5 @@ export type Combat = {
   teamsEndState: Team[];
   events: CombatEvent[];
   duration: number;
-  winningTeam: Team;
+  winningTeam?: Team;
 };

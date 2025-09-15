@@ -9,6 +9,7 @@
   import { goto } from '$app/navigation';
   import Accordion from '$src/components/Accordion.svelte';
   import Icon from '$src/components/ui/Icon.svelte';
+  import Button from '$src/components/form/Button.svelte';
 
   const { overlay } = STORES;
 
@@ -127,13 +128,22 @@
   <crow>
     <Button
       tertiary
-      disabled={!brawlersSelected}
+      disabled={!brawlersSelected || app.combat.duration !== 0}
       onclick={() => (app.selectedBrawlers = [])}
       class="mt-4 px-4 py-2 text-sm"
     >
       Cancel
     </Button>
-    <Button disabled={!brawlersSelected} onclick={runCombat} class="mt-4 px-4 py-2 text-sm">
+
+    <Button
+      disabled={!brawlersSelected ||
+        app.combat.duration !== 0 ||
+        selectedBrawlers.some(
+          (brawler) => CHARACTERS(brawler, true).combatStats.currentHealth <= 0
+        )}
+      onclick={runCombat}
+      class="mt-4 px-4 py-2 text-sm"
+    >
       Fight
     </Button>
   </crow>

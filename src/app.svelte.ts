@@ -7,12 +7,14 @@ import type { EquipmentRef } from '$src/types/equipment';
 import type { Tooltip } from '$src/ts/use';
 import EQUIPMENT from '$src/constants/EQUIPMENT';
 import ABILITIES from '$src/constants/ABILITIES';
+import type { Team } from '$src/types/team';
 
 export const INITIAL_COMBAT = {
   teamsStartState: [],
   teamsEndState: [],
   events: [],
-  duration: 0
+  duration: 0,
+  winningTeam: undefined
 };
 
 const DEFAULT_ABILITIES = [
@@ -29,20 +31,41 @@ const INITIAL_CHARACTERS = [
     overrides: {
       name: 'Evasive Elon',
       equipment: { ...DEFAULT_EQUIPMENT },
-      abilities: DEFAULT_ABILITIES
+      abilities: DEFAULT_ABILITIES,
+      combatStats: { currentHealth: 24 }
     }
   }),
   CHARACTERS('troll', false, {
-    overrides: { name: 'Tanky Tom', equipment: DEFAULT_EQUIPMENT, abilities: DEFAULT_ABILITIES }
+    overrides: {
+      name: 'Tanky Tom',
+      equipment: DEFAULT_EQUIPMENT,
+      abilities: DEFAULT_ABILITIES,
+      combatStats: { currentHealth: 24 }
+    }
   }),
   CHARACTERS('goblin', false, {
-    overrides: { name: 'Greedy Gerald', equipment: DEFAULT_EQUIPMENT, abilities: DEFAULT_ABILITIES }
+    overrides: {
+      name: 'Greedy Gerald',
+      equipment: DEFAULT_EQUIPMENT,
+      abilities: DEFAULT_ABILITIES,
+      combatStats: { currentHealth: 24 }
+    }
   }),
   CHARACTERS('human', false, {
-    overrides: { name: 'Humble Hans', equipment: DEFAULT_EQUIPMENT, abilities: DEFAULT_ABILITIES }
+    overrides: {
+      name: 'Humble Hans',
+      equipment: DEFAULT_EQUIPMENT,
+      abilities: DEFAULT_ABILITIES,
+      combatStats: { currentHealth: 24 }
+    }
   }),
   CHARACTERS('dwarf', false, {
-    overrides: { name: 'Dense Darrin', equipment: DEFAULT_EQUIPMENT, abilities: DEFAULT_ABILITIES }
+    overrides: {
+      name: 'Dense Darrin',
+      equipment: DEFAULT_EQUIPMENT,
+      abilities: DEFAULT_ABILITIES,
+      combatStats: { currentHealth: 24 }
+    }
   })
 ];
 
@@ -59,6 +82,12 @@ const INITIAL_INVENTORY = [
 
 export default new (class {
   combat: Combat = $state(INITIAL_COMBAT);
+  liveTeams: Team[] = $state([]);
+  elapsedMilliseconds: number = $state(0);
+
+  serverTimestamp: number = $state(0);
+  clientTimestamp: number = $state(0);
+
   characters: Character[] = $state(INITIAL_CHARACTERS);
   inventory: EquipmentRef[] = $state(INITIAL_INVENTORY);
   socket = $state() as AsyncAwaitWebsocket;
@@ -75,12 +104,13 @@ export default new (class {
         const saveDebounce = setTimeout(() => {
           if (app.socket && app.token) {
             (async () => {
-              await app.socket.sendAsync('store-game-state', {
+              const res = await app.socket.sendAsync('store-game-state', {
                 token: app.token,
                 inventory,
                 characters
               });
-              console.info('Game state saved');
+
+              app.serverTimestamp = res;
             })();
           }
         }, 1000);
