@@ -23,5 +23,5 @@ export default async (data, { ws, mongo }) => {
     }
   );
 
-  return Date.now();
+  return Date.now() - 2 * 60 * 60 * 1000;
 };

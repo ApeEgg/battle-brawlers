@@ -20,5 +20,11 @@ export default async ({ token, clientVersion, isDev }, { mongo }) => {
 
   const gameState = await mongo.collection('game-states').findOne({ _id: ObjectId(user._id) });
 
-  return gameState || true;
+  const data = {
+    serverTimestampSnapshot: Date.now() - 2 * 60 * 60 * 1000
+  };
+
+  if (gameState) data.gameState = gameState;
+
+  return data;
 };

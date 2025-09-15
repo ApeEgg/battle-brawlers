@@ -136,3 +136,6 @@ declare const Unauthorized: import('svelte').ComponentType<
 declare const Debug: import('svelte').ComponentType<
   (typeof import('$src/components/Debug'))['default']
 >;
+declare const Bar: import('svelte').ComponentType<
+  (typeof import('$src/components/ui/Bar'))['default']
+>;

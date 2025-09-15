@@ -3,8 +3,10 @@
 
   $effect(() => {
     interval = setInterval(() => {
-      app.clientTimestamp = Date.now();
-    }, 1000);
+      if (app.serverTimestampSnapshot)
+        app.serverTimestamp =
+          app.serverTimestampSnapshot + (performance.now() - app.syncPerformanceNow);
+    }, 250);
 
     return () => clearInterval(interval);
   });

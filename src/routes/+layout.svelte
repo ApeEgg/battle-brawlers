@@ -23,6 +23,12 @@
   import DevBar from '$src/components/DevBar.svelte';
   import { IS_PROD } from '$src/constants/ENV_VARS';
   import ClientClock from '$src/components/global/ClientClock.svelte';
+  import RefillHealthTimer from '$src/components/RefillHealthTimer.svelte';
+  import {
+    getCurrentExperienceAtLevel,
+    getExperienceForNextLevel,
+    getLevelByExperience
+  } from '$src/ts/level';
   overrideItemIdKeyNameBeforeInitialisingDndZones('uuid');
 
   let { children } = $props<{ children: Snippet }>();
@@ -76,10 +82,27 @@
         <div class="w-56 rounded border border-gray-400 bg-white/30 p-4">
           <h5>MY ACCOUNT</h5>
           <Hr left />
-          Soulstones: 4<br />
-          Level: 2<br />
-          Experience:
-          <HealthBar max={30} current={15} />
+
+          <crow vertical left class="w-full gap-2">
+            <div>Level: {getLevelByExperience(app.experience)}</div>
+
+            <crow vertical left class="w-full">
+              Experience
+
+              <Bar
+                class="bg-yellow-600"
+                current={getCurrentExperienceAtLevel(app.experience)}
+                max={getExperienceForNextLevel(getLevelByExperience(app.experience))}
+                center
+              />
+            </crow>
+
+            <crow vertical left class="w-full">
+              Time to rest
+              <RefillHealthTimer />
+            </crow>
+          </crow>
+
           <div class="h-8" />
           <h5>MY BRAWLERS</h5>
           <Hr left />
@@ -118,11 +141,13 @@
                       <!-- <div class="text-md text-gray-600">{character.name}</div> -->
 
                       <div class="w-full">
-                        <HealthBar
+                        <Bar
                           max={calculateCombatStatsByCharacter(character).maxHealth}
                           current={character.combatStats.currentHealth}
-                          small={!showSequence}
-                          name={character.name}
+                          text={character.name}
+                          percentage={!showSequence &&
+                            creatureId === undefined &&
+                            characterIndex === undefined}
                         />
                       </div>
 

@@ -14,14 +14,21 @@
     if (app.token && connected) {
       (async () => {
         try {
-          authorized = await app.socket.sendAsync('user/authenticate', {
+          const response = await app.socket.sendAsync('user/authenticate', {
             token: app.token,
             clientVersion: version,
             IS_DEV
           });
-          if (authorized !== true) {
-            app.characters = authorized.characters;
-            app.inventory = authorized.inventory;
+
+          if (response?.gameState) {
+            app.characters = response.gameState.characters;
+            app.inventory = response.gameState.inventory;
+          }
+
+          if (response?.serverTimestampSnapshot) {
+            // app.serverTimestampSnapshot = response.serverTimestampSnapshot;
+            // app.syncTimestampSnapshot = Date.now();
+            authorized = true;
           }
         } catch (e) {
           notify(e);

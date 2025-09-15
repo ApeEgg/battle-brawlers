@@ -1,5 +1,6 @@
 <script>
   import customEvent from '$src/ts/customEvent';
+  import Button from './form/Button.svelte';
 </script>
 
 <crow up class="sticky top-0 bg-gray-200">
@@ -22,15 +23,18 @@
   </crow>
   <crow vertical left class="p-2">
     <div>
-      Server timestamp: {app.serverTimestamp} ({new Date(app.serverTimestamp).toLocaleString()})
+      Time sync (server): {new Date(app.serverTimestampSnapshot).toLocaleString()}
     </div>
     <div>
-      Client timestamp: {app.clientTimestamp} ({new Date(app.clientTimestamp).toLocaleString()})
-    </div>
-    <div>
-      Diff: {app.clientTimestamp - app.serverTimestamp} ms
+      Time (server): {new Date(app.serverTimestamp).toLocaleString()}
     </div>
   </crow>
-  <crow left class="p-2">3</crow>
+  <crow left class="p-2">
+    <Button
+      onclick={() => {
+        app.characters[0].overrides.combatStats.currentHealth -= 10;
+      }}>Deal 10 damage to char[0]</Button
+    >
+  </crow>
   <crow left class="p-2">4</crow>
 </crow>

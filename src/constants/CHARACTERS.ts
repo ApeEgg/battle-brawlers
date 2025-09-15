@@ -161,7 +161,7 @@ export const ALL_CHARACTERS = {
       'The Succubus is a fearsome warrior whose raw power and unyielding rage make her a deadly foe on the battlefield. Known for her brutal combat style, she thrives in the chaos of close-range encounters.<br /><br />Her most terrifying ability is her relentless spinning attack, where she whirls her weapons with terrifying force, striking all who dare stand too close. This savage technique allows her to mow through groups of enemies with devastating efficiency, leaving little room for her opponents to retaliate.',
     combatStats: {
       maxHealth: 70,
-      currentHealth: 50,
+      currentHealth: 70,
       damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0,
@@ -205,7 +205,7 @@ export const ALL_CHARACTERS = {
     description: 'ÖÖÖÖh.',
     combatStats: {
       maxHealth: 20,
-      currentHealth: 50,
+      currentHealth: 20,
       damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0,

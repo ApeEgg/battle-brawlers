@@ -24,11 +24,7 @@
     }
   });
 
-  const REWARDS = [
-    { type: 'gold', amount: 50 },
-    { type: 'xp', amount: 200 },
-    { type: 'stones', amount: 200 }
-  ];
+  const REWARDS = [{ type: 'experience', amount: 50 }];
 
   let winningTeam = $derived(app.combat.winningTeam);
   let outcome = $derived<'victory' | 'defeat'>(winningTeam?.index === 0 ? 'victory' : 'defeat');
@@ -47,7 +43,7 @@
             <crow vertical>
               {#each REWARDS as { type, amount }, i}
                 <Accordion isOpen={rewardsShown > i + delayTicks + 1}>
-                  <crow>+{type} {amount}</crow>
+                  <crow>+{amount} {type}</crow>
                 </Accordion>
               {/each}
               {#each REWARDS as { type, amount }, i}
@@ -69,6 +65,7 @@
                   app.combat = { ...INITIAL_COMBAT };
                   app.liveTeams = [];
                   app.elapsedMilliseconds = 0;
+                  app.experience += 50;
                   setOverlay('');
                 }}
                 class="text-md civil border border-yellow-700 px-4 py-2 text-white [background:radial-gradient(ellipse_farthest-corner_at_right_bottom,_#FEDB37_0%,_#FDB931_8%,_#9f7928_30%,_#8A6E2F_40%,_transparent_80%),_radial-gradient(ellipse_farthest-corner_at_left_top,_#FFFFFF_0%,_#FFFFAC_8%,_#D1B464_25%,_#5d4a1f_62.5%,_#5d4a1f_100%)]"

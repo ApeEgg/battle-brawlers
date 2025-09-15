@@ -85,9 +85,11 @@ export default new (class {
   liveTeams: Team[] = $state([]);
   elapsedMilliseconds: number = $state(0);
 
+  serverTimestampSnapshot: number = $state(0);
+  syncPerformanceNow: number = $state(0);
   serverTimestamp: number = $state(0);
-  clientTimestamp: number = $state(0);
 
+  experience: number = $state(0);
   characters: Character[] = $state(INITIAL_CHARACTERS);
   inventory: EquipmentRef[] = $state(INITIAL_INVENTORY);
   socket = $state() as AsyncAwaitWebsocket;
@@ -100,6 +102,7 @@ export default new (class {
       $effect(() => {
         const inventory = $state.snapshot(this.inventory); // Hack to trigger reruns
         const characters = $state.snapshot(this.characters); // Hack to trigger reruns
+        const experience = $state.snapshot(this.experience); // Hack to trigger reruns
 
         const saveDebounce = setTimeout(() => {
           if (app.socket && app.token) {
@@ -107,10 +110,12 @@ export default new (class {
               const res = await app.socket.sendAsync('store-game-state', {
                 token: app.token,
                 inventory,
-                characters
+                characters,
+                experience
               });
 
-              app.serverTimestamp = res;
+              app.serverTimestampSnapshot = res;
+              app.syncPerformanceNow = performance.now();
             })();
           }
         }, 1000);
