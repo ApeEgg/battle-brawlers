@@ -21,7 +21,7 @@
   import InCombat from '$src/components/global/InCombat.svelte';
   import Clickable from '$src/components/buttons/Clickable.svelte';
   import DevBar from '$src/components/DevBar.svelte';
-  import { IS_DEV } from '$src/constants/ENV_VARS';
+  import { IS_PROD } from '$src/constants/ENV_VARS';
   import ClientClock from '$src/components/global/ClientClock.svelte';
   overrideItemIdKeyNameBeforeInitialisingDndZones('uuid');
 
@@ -49,7 +49,7 @@
 <Keystrokes />
 <InCombat />
 
-{#if IS_DEV}
+{#if !IS_PROD}
   <DevBar />
 {/if}
 

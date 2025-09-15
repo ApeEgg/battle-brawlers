@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { IS_DEV } from '$src/constants/ENV_VARS';
-
   let loopId: any = $state();
   let startTimestamp = $state(0);
   let lastTimestamp = 0;
@@ -67,9 +65,4 @@
       document.removeEventListener('resumeCombat', resumeCombat);
     };
   });
-
-  // onDestroy(() => {
-  //   if (browser) cancelAnimationFrame(loopId);
-  //   app.combat = INITIAL_COMBAT;
-  // });
 </script>
