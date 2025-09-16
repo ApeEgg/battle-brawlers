@@ -167,6 +167,7 @@ const INITIAL_CHARACTERS = [
     }
   })
 ];
+// INITIAL_CHARACTERS = [];
 
 // const INITIAL_INVENTORY = [EQUIPMENT('sword'), EQUIPMENT('giantsHeart'), EQUIPMENT('dagger')];
 const INITIAL_INVENTORY = [

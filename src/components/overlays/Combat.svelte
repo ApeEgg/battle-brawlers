@@ -26,10 +26,6 @@
   let progress = $derived(
     app.elapsedMilliseconds / app.combat.duration // avoid divide-by-zero
   );
-
-  onDestroy(() => {
-    console.log(liveTeams);
-  });
 </script>
 
 <div class="relative w-full">

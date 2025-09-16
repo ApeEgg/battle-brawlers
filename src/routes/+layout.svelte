@@ -17,11 +17,9 @@
   import ABILITIES from '$src/constants/ABILITIES';
   import { calculateCombatStatsByCharacter, calculateTickStart } from '$src/ts/Utils';
   import Accordion from '$src/components/Accordion.svelte';
-  import HealthBar from '$src/components/combat/HealthBar.svelte';
   import InCombat from '$src/components/global/InCombat.svelte';
   import Clickable from '$src/components/buttons/Clickable.svelte';
   import DevBar from '$src/components/DevBar.svelte';
-  import { IS_PROD } from '$src/constants/ENV_VARS';
   import ClientClock from '$src/components/global/ClientClock.svelte';
   import RefillHealthTimer from '$src/components/RefillHealthTimer.svelte';
   import {
@@ -39,6 +37,7 @@
   let creatureId = $derived($page.params.creatureId);
 
   const { setOverlay } = ACTIONS;
+  const { IS_PROD } = ENV;
 
   let showSequence = $state(false);
 
@@ -67,7 +66,7 @@
       'bg-[url("/images/parchment-bg-2250x1500.jpg")] dark:bg-gray-800',
     isFrontpage && 'bg-[url("/images/desktop-1920x1080.jpg")]',
     isDebugPage &&
-      "bg-[url('/images/arena-bg-daylight-full-zoom.jpg')] bg-cover bg-center bg-no-repeat shadow-[inset_0_0px_10vw_rgba(0,0,0,1)]"
+      "bg-[url('/images/arena.png')] bg-cover bg-center bg-no-repeat shadow-[inset_0_0px_10vw_rgba(0,0,0,1)]"
   )}
 ></div>
 <div class={tw('bg-blur min-h-screen w-screen', isFrontpage ? 'row' : 'row-up')}>
@@ -265,8 +264,13 @@
             </crow>
           </div>
         </crow>
-        <div class="w-56 rounded border border-gray-400 bg-white/30 p-4">
-          <h5>INVENTORY</h5>
+        <div
+          class={tw(
+            'pointer-events-none w-56 translate-x-4 rounded border border-gray-400 bg-white/30 p-4 opacity-0 transition-all duration-200',
+            characterIndex !== undefined && 'pointer-events-auto translate-x-0 opacity-100'
+          )}
+        >
+          <h5>EQUIPMENT</h5>
           <Hr left />
           <div class="my-3">
             <crow vertical up left>
@@ -276,7 +280,6 @@
                   <EquipmentLink {...equipment} />
                   <Button tertiary onclick={() => equip(item, i)}>Equip</Button>
                 </crow>
-                <!-- <Debug data={equipment} /> -->
               {/each}
             </crow>
           </div>
