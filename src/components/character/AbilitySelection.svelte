@@ -9,7 +9,7 @@
   import ABILITIES from '$src/constants/ABILITIES';
   import type { Character } from '$src/types/character';
 
-  let { character, renderSides }: { character: Character; renderSides: boolean } = $props();
+  let { character, renderSides }: { character: Character; renderSides?: boolean } = $props();
 
   let availableAbilities: AbilityRef[] = $state([]);
   let dropFromOthersDisabled = $state(false);
