@@ -1,8 +1,8 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { RECRUITABLE_CHARACTERS } from '$src/app.svelte';
-  import Character from '$src/components/canvas/Character.svelte';
-  import CHARACTERS, { ALL_CHARACTERS } from '$src/constants/CHARACTERS';
+  import CHARACTERS from '$src/constants/CHARACTERS';
+  import type { Character } from '$src/types/character';
 
   const { notify } = ACTIONS;
 
@@ -29,18 +29,18 @@
 <crow class="!flex-wrap gap-2" up left>
   {#each characters as char}
     {@const character = CHARACTERS(char, true)}
-    {@const isRequired = app.characters.find(({ id }) => id === character.id)}
+    {@const isRecruited = app.characters.find(({ id }) => id === character.id)}
 
     <Clickable
       class={tw(
         'crow vertical up relative !h-52 w-60 !flex-none overflow-hidden bg-gray-100 p-2',
-        isRequired
+        isRecruited
           ? 'cursor-not-allowed opacity-50 grayscale'
           : 'cursor-pointer active:translate-y-px'
       )}
       onclick={() =>
-        isRequired
-          ? notify({ warning: `${character.name} is already recurited` })
+        isRecruited
+          ? notify({ warning: `${character.name} is already recruited` })
           : pickCharacter(char)}
     >
       <div class="cinzel text-2xl">{character.name}</div>
