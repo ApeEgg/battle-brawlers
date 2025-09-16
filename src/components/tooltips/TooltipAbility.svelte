@@ -4,7 +4,9 @@
   import { AbilityType, type Ability } from '$src/types/ability';
   import type { Character } from '$src/types/character';
 
-  let props: Ability & { character: Character } = $derived(app.tooltip.props);
+  let props: Ability & { character: Character } = $derived(
+    app.tooltip!.props as Ability & { character: Character }
+  );
 
   let { name, ticks, type, description, chainLink, character, statusEffects } = $derived(props);
 
@@ -47,14 +49,14 @@
     {#if calculatedDamage?.result}
       <div class="text-sm">
         <strong class="text-black"> Damage: </strong>
-        {Math.ceil(combatStats?.damage * calculatedDamage.result)}
+        {Math.ceil((combatStats?.damage ?? 0) * calculatedDamage.result)}
         ({Math.ceil(calculatedDamage.result * 100)}% of total damage)
       </div>
     {/if}
     {#if calculatedHealing?.result}
       <div class="text-sm">
         <strong class="text-black"> Heal: </strong>
-        {Math.ceil(combatStats?.maxHealth * calculatedHealing.result)}
+        {Math.ceil((combatStats?.maxHealth ?? 0) * calculatedHealing.result)}
         <!-- ({calculatedHealing.baseDamage.toFixed(2) * 100}% + {calculatedHealing.addedDamage.toFixed(2) *
         100}% of damage) -->
         ({Math.ceil(calculatedHealing.result * 100)}% of max health)

@@ -7,6 +7,9 @@ import EQUIPMENT from '$src/constants/EQUIPMENT';
 import ABILITIES from '$src/constants/ABILITIES';
 import CHARACTERS from '$src/constants/CHARACTERS';
 import { deepAdd } from '$src/helpers';
+import type { Equipment } from '$src/types/equipment';
+import type { DynamicObject } from '$src/types/common';
+import type { CombatStats } from '$src/types/combatStats';
 
 export const calculateCombatStats = (...args: any) => {
   const combined = args.reduce((acc: any, obj: any) => {
@@ -43,16 +46,21 @@ export const calculateAvailableAbilitiesByCharacter = (character: Character) =>
 //   );
 // };
 
-export const calculateCombatStatsByCharacter = (character: Character) => {
-  const parts = [
-    character.combatStats,
+type CombatStatsLike = CombatStats & DynamicObject;
+
+export const calculateCombatStatsByCharacter = (character: Character): CombatStatsLike => {
+  const parts: DynamicObject[] = [
+    character.combatStats ?? {},
     ...Object.values(character.equipment)
       .filter((e): e is Equipment => e !== null)
       .map((e) => EQUIPMENT(e, true)?.combatStats ?? {})
   ];
 
   // start from a copy so we don't mutate character.combatStats
-  return parts.reduce((acc, cur) => deepAdd(acc, cur), {} as DynamicObject);
+  return parts.reduce<CombatStatsLike>(
+    (acc, cur) => deepAdd(acc, cur) as CombatStatsLike,
+    {} as CombatStatsLike
+  );
 };
 
 export const calculateTickStart = (abilities: Ability[], index: number) => {
@@ -73,23 +81,28 @@ export const prepareCombatant = (
   character = CHARACTERS(character, true); // ensure full character
 
   const rotation = 360 / teamCount;
-  const combatStats = calculateCombatStatsByCharacter(character);
+  const baseCombatStats = calculateCombatStatsByCharacter(character);
+  const combatStats: Required<CombatStats> = {
+    maxHealth: baseCombatStats.maxHealth ?? 0,
+    currentHealth: baseCombatStats.currentHealth ?? baseCombatStats.maxHealth ?? 0,
+    damage: baseCombatStats.damage ?? 0,
+    maxArmor: baseCombatStats.maxArmor ?? 0,
+    currentArmor: baseCombatStats.currentArmor ?? baseCombatStats.maxArmor ?? 0,
+    limits: {
+      wounded: baseCombatStats.limits?.wounded ?? 0,
+      concussed: baseCombatStats.limits?.concussed ?? 0,
+      exposed: baseCombatStats.limits?.exposed ?? 0
+    }
+  };
 
-  // combatStats.currentHealth = combatStats.maxHealth;
-  combatStats.currentArmor = combatStats.maxArmor;
-
-  const abilitiesHydrated = (
-    character.abilities.map((ability) => ABILITIES(ability, true)) as Ability[]
-  ).map((ability) => {
-    const { calc, ...rest } = ability;
-
-    return {
-      ...rest,
+  const abilitiesHydrated = character.abilities
+    .map((ability) => ABILITIES(ability, true))
+    .map((ability) => ({
+      ...ability,
       damage: ability.calc.damage()?.result || 0,
       healing: ability.calc.healing()?.result || 0,
       duration: ability.calc.duration()?.result || 0
-    };
-  });
+    }));
 
   const abilitiesCut = abilitiesHydrated.filter(
     (_, i) => calculateTickStart(abilitiesHydrated, i) < character.maxTicks
@@ -148,9 +161,10 @@ export const prepareCombatant = (
     id: crypto.randomUUID(), // this is needed for debug mode
     teamIndex,
     eventTimestamp: 0,
-    eventAbility: abilitiesCut[0].id,
+    eventAbility: abilitiesCut[0]?.id ?? '',
     eventIndex: 0,
     combatStats,
+    damage: combatStats.damage,
     animations: [],
     injectedAnimations: [],
     position,

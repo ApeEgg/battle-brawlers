@@ -10,26 +10,30 @@
   import Accordion from '$src/components/Accordion.svelte';
   import Icon from '$src/components/ui/Icon.svelte';
   import Button from '$src/components/form/Button.svelte';
+  import type { Character } from '$src/types/character';
 
   const { overlay } = STORES;
 
   const {
-    params: { creatureId }
+    params: { creatureId: creatureIdParam }
   } = $page;
+
+  const creatureId = creatureIdParam as string;
 
   let creature = CHARACTERS(creatureId, true);
   let selectedBrawlers = $derived<Character[]>(
-    app.selectedBrawlers.map((id) =>
-      CHARACTERS(
-        app.characters.find((c) => c.uuid === id),
-        true
-      )
-    )
+    app.selectedBrawlers
+      .map((id) => app.characters.find((c) => c.uuid === id))
+      .filter((character): character is Character => Boolean(character))
+      .map((character) => CHARACTERS(character, true))
   );
 
   const runCombat = () => {
+    const primaryBrawler = app.characters.find((c) => c.uuid === app.selectedBrawlers[0]);
+    if (!primaryBrawler) return;
+
     const combatantYou = prepareCombatant(
-      $state.snapshot(app.characters.find((c) => c.uuid === app.selectedBrawlers[0])),
+      $state.snapshot(primaryBrawler),
       2,
       1,
       0,
@@ -138,9 +142,7 @@
     <Button
       disabled={!brawlersSelected ||
         app.combat.duration !== 0 ||
-        selectedBrawlers.some(
-          (brawler) => CHARACTERS(brawler, true).combatStats.currentHealth <= 0
-        )}
+        selectedBrawlers.some((brawler) => (brawler.combatStats.currentHealth ?? 0) <= 0)}
       onclick={runCombat}
       class="mt-4 px-4 py-2 text-sm"
     >

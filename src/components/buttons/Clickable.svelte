@@ -1,7 +1,16 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
 
-  let { children, class: classes, onclick, href } = $props<{ children: Snippet }>();
+  type ClickableProps = {
+    children: Snippet;
+    class?: string;
+    onclick?: (event: MouseEvent) => void;
+    href?: string;
+  };
+
+  const props = $props();
+
+  let { children, class: classes, onclick, href } = props as ClickableProps;
 </script>
 
 {#if href}

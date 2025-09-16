@@ -26,7 +26,10 @@
 <Dropdown
   options={Object.keys(ALL_ABILITIES)}
   value={chosenAbility}
-  on:change={({ target: { value } }) => (chosenAbility = value)}
+  on:change={(event: Event) => {
+    const select = event.target as HTMLSelectElement;
+    chosenAbility = select.value;
+  }}
 />
 
 {#each abilitiesPool as abilities, i (i)}

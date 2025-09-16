@@ -9,7 +9,12 @@
   import ABILITIES from '$src/constants/ABILITIES';
   import type { Character } from '$src/types/character';
 
-  let { character, renderSides }: { character: Character; renderSides: boolean } = $props();
+  type AbilitySelectionProps = {
+    character: Character;
+    renderSides?: boolean;
+  };
+
+  let { character, renderSides = false }: AbilitySelectionProps = $props();
 
   let availableAbilities: AbilityRef[] = $state([]);
   let dropFromOthersDisabled = $state(false);
@@ -140,15 +145,17 @@
 
           return defaultAbility;
         })
-        .filter((a) => a),
+        .filter((a): a is Ability => Boolean(a)),
       ...defaultAbilities
     ] as Ability[];
 
     // Earlier .id instead of .uuid
-    if (
-      JSON.stringify(abs.map((a) => a?.uuid).sort((a, b) => a.localeCompare(b))) !==
-      JSON.stringify(character.abilities.map((a) => a.uuid).sort((a, b) => a.localeCompare(b)))
-    ) {
+    const nextAbilityIds = abs.map((a) => a.uuid ?? '').sort((a, b) => a.localeCompare(b));
+    const currentAbilityIds = character.abilities
+      .map((a) => a.uuid ?? '')
+      .sort((a, b) => a.localeCompare(b));
+
+    if (JSON.stringify(nextAbilityIds) !== JSON.stringify(currentAbilityIds)) {
       character.overrides.abilities = abs;
     }
   };

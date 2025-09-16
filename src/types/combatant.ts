@@ -3,25 +3,27 @@ import type { CombatStats } from '$src/types/combatStats';
 import type { Ability } from '$src/types/ability';
 import type { VFX } from '$src/types/vfx';
 
-type StatusStack = {
+export type StatusStack = {
   max: number;
   value: number;
 };
 
-type StatusEffect = {
+export type StatusEffect = {
   ticks: number;
   value: number;
 };
 
-export type Combatant = Character & {
+export type Combatant = Omit<Character, 'abilities' | 'combatStats'> & {
   id: string;
   teamIndex: number;
   animations: VFX[];
   injectedAnimations: VFX[];
   combatStats: Required<CombatStats>;
   eventTimestamp: number;
-  abilities: Required<Ability>[];
-  abilitiesCopied: Required<Ability>[];
+  eventAbility: string;
+  eventIndex: number;
+  abilities: Ability[];
+  abilitiesCopied: Ability[];
   damage: number;
   statuses: {
     isBlocking: boolean;

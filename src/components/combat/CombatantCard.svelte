@@ -1,6 +1,6 @@
 <script lang="ts">
   import HealthBar from '$src/components/combat/HealthBar.svelte';
-  import type { Combatant } from '$src/types/combatant';
+  import type { Combatant, StatusEffect, StatusStack } from '$src/types/combatant';
   import CombatantAbilityBar from '$src/components/combat/CombatantAbilityBar.svelte';
   import CombatantImage from '$src/components/combat/CombatantImage.svelte';
   import STATUS_EFFECTS from '$src/constants/STATUS_EFFECTS';
@@ -24,6 +24,18 @@
   let x = $derived(position.x);
   let y = $derived(position.y);
   let statuses = $derived(props.statuses);
+  let statusEffectsWithTicks = $derived(
+    Object.entries(statuses).filter((entry): entry is [string, StatusEffect] => {
+      const [, value] = entry;
+      return typeof value === 'object' && value !== null && 'ticks' in value;
+    })
+  );
+  let statusStacks = $derived(
+    Object.entries(statuses).filter((entry): entry is [string, StatusStack] => {
+      const [, value] = entry;
+      return typeof value === 'object' && value !== null && 'max' in value && 'value' in value;
+    })
+  );
   let facingRight = $derived(props.facingRight);
   let currentArmor = $derived(combatStats.currentArmor);
   let animations = $derived(props.animations);
@@ -31,7 +43,7 @@
 
   let currentAnimation = $derived(
     animations.find(
-      ({ start, end, vfxName }) =>
+      ({ start = 0, end = 0, vfxName }) =>
         start < elapsedMilliseconds &&
         end > elapsedMilliseconds &&
         ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'whirlwind'].includes(vfxName)
@@ -39,7 +51,7 @@
   );
   let isHealing = $derived(
     animations.find(
-      ({ start, end, vfxName }) =>
+      ({ start = 0, end = 0, vfxName }) =>
         start < elapsedMilliseconds && end > elapsedMilliseconds && vfxName === 'heal'
     )
   );
@@ -47,7 +59,7 @@
   const applyAnimationClass = (name: string) =>
     !statuses.knockedOut &&
     animations.some(
-      ({ vfxName, start, end }) =>
+      ({ vfxName, start = 0, end = 0 }) =>
         start < elapsedMilliseconds && end > elapsedMilliseconds && vfxName === name
     );
 </script>
@@ -84,7 +96,7 @@
             !facingRight && '!items-start'
           )}
         >
-          {#each Object.entries(statuses)
+          {#each statusEffectsWithTicks
             .filter(([_, { ticks }]) => ticks)
             .sort(([_, a], [__, b]) => a.ticks - b.ticks) as [key, { ticks }] (key)}
             {@const effect = STATUS_EFFECTS?.[key]}
@@ -115,7 +127,7 @@
               </crow>
             </crow>
           {/each}
-          {#each Object.entries(statuses)
+          {#each statusStacks
             .filter(([_, { max, value }]) => max && value)
             .sort(([_, a], [__, b]) => b.value - a.value) as [key, { max, value }] (key)}
             {@const effect = STATUS_EFFECTS?.[key]}

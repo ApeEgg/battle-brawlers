@@ -1,6 +1,20 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
 
+  type ButtonProps = {
+    primary?: boolean;
+    secondary?: boolean;
+    tertiary?: boolean;
+    blur?: boolean;
+    class?: string;
+    onclick?: (event: MouseEvent) => void;
+    children: Snippet;
+    disabled?: boolean;
+    type?: 'button' | 'submit' | 'reset';
+  };
+
+  const props = $props();
+
   let {
     primary = true,
     secondary = false,
@@ -9,8 +23,9 @@
     class: classes,
     onclick,
     children,
-    disabled = false
-  } = $props<{ children: Snippet }>();
+    disabled = false,
+    type = 'button'
+  } = props as ButtonProps;
 
   let inputRef: HTMLButtonElement;
 
@@ -31,6 +46,7 @@
     classes
   )}
   {disabled}
+  type={type}
 >
   {@render children()}
 </button>

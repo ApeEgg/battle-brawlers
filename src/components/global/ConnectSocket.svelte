@@ -6,9 +6,13 @@
   const { WEBSOCKET_CONNECT } = ENV;
   const { notify } = ACTIONS;
 
+  type AsyncWebsocketWithEvents = AsyncAwaitWebsocket & {
+    on: (event: string, callback: (detail: any) => void) => void;
+  };
+
   $effect(() => {
     if (browser && !app.socket) {
-      const ws = aaw(WEBSOCKET_CONNECT) as AsyncAwaitWebsocket;
+      const ws = aaw(WEBSOCKET_CONNECT) as AsyncWebsocketWithEvents;
       ws.on('broadcast', console.info);
       ws.on('open', () => {
         app.socket = ws;

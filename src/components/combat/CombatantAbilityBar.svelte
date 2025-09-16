@@ -1,9 +1,22 @@
 <script lang="ts">
-  let props = $props();
+  import type { Ability } from '$src/types/ability';
+  import type { StatusEffect, StatusStack } from '$src/types/combatant';
+
+  type CombatantAbilityBarProps = {
+    abilitiesCopied: Ability[];
+    progress?: number;
+    statuses?: {
+      isStunned: StatusEffect;
+      [key: string]: StatusEffect | StatusStack | number | boolean;
+    };
+    preview?: boolean;
+  };
+
+  let props: CombatantAbilityBarProps = $props();
 
   let preview = $derived(!!props.preview);
   let abilitiesCopied = $derived(props.abilitiesCopied);
-  let progress = $derived(props.progress);
+  let progress = $derived(props.progress ?? 0);
   let isStunned = $derived(!!props.statuses?.isStunned.ticks);
 </script>
 
@@ -53,7 +66,7 @@
       'grid -translate-x-[0.5px] translate-y-[0.5px] overflow-hidden rounded-b',
       preview && 'translate-x-0 translate-y-0 rounded-none'
     )}
-    style="width: calc((12px*{abilitiesCopied.reduce((acc, { ticks }) => acc + ticks, 0)}) + 2px);"
+    style="width: calc((12px*{abilitiesCopied.reduce((acc: number, { ticks }) => acc + ticks, 0)}) + 2px);"
   >
     {@render iconBar()}
     {#if progress}

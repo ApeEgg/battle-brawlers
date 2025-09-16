@@ -12,6 +12,7 @@ declare module 'lodash';
 declare module 'sveltekit-autoimport';
 declare module 'seedrandom';
 
+
 declare const tw: (typeof import('tailwind-merge'))['default'];
 declare const ACTIONS: (typeof import('$src/store/actions'))['default'];
 declare const STORES: (typeof import('$src/store/stores'))['default'];

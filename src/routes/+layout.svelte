@@ -34,6 +34,9 @@
   let activePage = $derived($page.route.id?.split('/')[1] || 'start');
   let isDebugPage = $derived($page.route.id === '/debug');
   let characterIndex = $derived($page.params.characterIndex);
+  let selectedCharacterIndex = $derived(
+    characterIndex !== undefined ? parseInt(characterIndex, 10) : undefined
+  );
   let creatureId = $derived($page.params.creatureId);
 
   const { setOverlay } = ACTIONS;
@@ -41,7 +44,8 @@
 
   let showSequence = $state(false);
 
-  const selectBrawler = (e: Event, id: string) => {
+  const selectBrawler = (e: Event, id?: string) => {
+    if (!id) return;
     if (creatureId !== undefined && !app.selectedBrawlers.includes(id)) {
       e.preventDefault();
       app.selectedBrawlers = [id];
@@ -118,12 +122,12 @@
                   ABILITIES(ability, true)
                 )}
                 {@const isActive =
-                  parseInt(characterIndex, 10) === i ||
-                  (creatureId !== undefined && app.selectedBrawlers.includes(char.uuid))}
+                  selectedCharacterIndex === i ||
+                  (creatureId !== undefined &&
+                    (char.uuid ? app.selectedBrawlers.includes(char.uuid) : false))}
                 <Clickable
                   href="/brawlers/{i}"
                   class={tw('crow vertical w-full')}
-                  left
                   onclick={(e: Event) => selectBrawler(e, char.uuid)}
                 >
                   <crow

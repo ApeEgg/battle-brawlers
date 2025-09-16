@@ -25,5 +25,5 @@ export type Character = CharacterRef & {
   equipment: CharacterEquipment;
   abilities: AbilityRef[];
   maxTicks: number;
-  combatStats?: CombatStats;
+  combatStats: CombatStats;
 };

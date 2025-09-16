@@ -39,9 +39,9 @@
 
     if (timeToRefill < 0) {
       app.characters.forEach((character) => {
-        const { currentHealth, maxHealth } = calculateCombatStatsByCharacter(
-          CHARACTERS(character, true)
-        );
+        const combatStats = calculateCombatStatsByCharacter(CHARACTERS(character, true));
+        const maxHealth = combatStats.maxHealth ?? 0;
+        const currentHealth = combatStats.currentHealth ?? maxHealth;
         const heal = Math.ceil(maxHealth * 0.33);
         character.overrides.combatStats.currentHealth = Math.min(currentHealth + heal, maxHealth);
       });

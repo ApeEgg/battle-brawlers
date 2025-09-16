@@ -333,19 +333,26 @@ export const generateCombat = (seed: string, teams: Team[]) => {
             //     ability.end % target.abilitiesCopied[target.abilitiesCopied.length - 1].end! >
             //       now % target.abilitiesCopied[target.abilitiesCopied.length - 1].end!
             // );
-            const total = target.abilitiesCopied[target.abilitiesCopied.length - 1].end!;
+            const total = target.abilitiesCopied[target.abilitiesCopied.length - 1].end ?? 0;
             const t = ((now % total) + total) % total; // normalize now into [0,total)
 
-            const targetCurrentAbility = target.abilitiesCopied.find(
-              (ability) =>
-                ability.end % total > ability.start % total
-                  ? t >= ability.start % total && t < ability.end % total // normal segment
-                  : ability.end % total < ability.start % total
-                    ? t >= ability.start % total || t < ability.end % total // wraps over end->start
-                    : t === ability.start % total // zero-length segment
-            ) as Required<Ability>;
+            const targetCurrentAbility = target.abilitiesCopied.find((ability) => {
+              const abilityStart = ability.start ?? 0;
+              const abilityEnd = ability.end ?? 0;
 
-            const endTime = targetCurrentAbility.end % total;
+              return abilityEnd % total > abilityStart % total
+                ? t >= abilityStart % total && t < abilityEnd % total // normal segment
+                : abilityEnd % total < abilityStart % total
+                  ? t >= abilityStart % total || t < abilityEnd % total // wraps over end->start
+                  : t === abilityStart % total; // zero-length segment
+            });
+
+            if (!targetCurrentAbility) {
+              return;
+            }
+
+            const abilityEnd = targetCurrentAbility.end ?? 0;
+            const endTime = abilityEnd % total;
             const remainingTime =
               endTime > t
                 ? endTime - t // normal case

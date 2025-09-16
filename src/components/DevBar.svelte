@@ -5,9 +5,9 @@
 
   const healParty = () =>
     app.characters.forEach((character) => {
-      const { currentHealth, maxHealth } = calculateCombatStatsByCharacter(
-        CHARACTERS(character, true)
-      );
+      const combatStats = calculateCombatStatsByCharacter(CHARACTERS(character, true));
+      const maxHealth = combatStats.maxHealth ?? 0;
+      const currentHealth = combatStats.currentHealth ?? maxHealth;
       const heal = Math.ceil(maxHealth * 0.33);
       character.overrides.combatStats.currentHealth = Math.min(currentHealth + heal, maxHealth);
     });
@@ -44,7 +44,10 @@
   <crow vertical left class="gap-1 p-2">
     <Button
       onclick={() => {
-        app.characters[0].overrides.combatStats.currentHealth -= 10;
+        const character = app.characters[0];
+        if (!character) return;
+        const current = character.overrides.combatStats.currentHealth ?? 0;
+        character.overrides.combatStats.currentHealth = current - 10;
       }}
     >
       Deal 10 damage to char[0]

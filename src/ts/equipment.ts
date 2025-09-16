@@ -1,5 +1,5 @@
 import { page } from '$app/stores';
-import type { EquipmentRef, EquipmentType, EquipmentSlot } from '$src/types/equipment';
+import type { Equipment, EquipmentRef, EquipmentType, EquipmentSlot } from '$src/types/equipment';
 import { get } from 'svelte/store';
 import app from '$src/app.svelte';
 import type { Character } from '$src/types/character';
@@ -37,9 +37,9 @@ export const equip = (equipmentRef: EquipmentRef, index: number) => {
   const character = CHARACTERS(characterRef, true);
   let slotsIn = decideEquipmentSlot(equipment.slotsIn, character);
   const slot = character.equipment[slotsIn];
-  const mainHand = character.equipment.mainHand
+  const mainHand: Equipment | null = character.equipment.mainHand
     ? EQUIPMENT(character.equipment.mainHand, true)
-    : {};
+    : null;
 
   // Remove item from inventory (equipment)
   app.inventory.splice(index, 1);

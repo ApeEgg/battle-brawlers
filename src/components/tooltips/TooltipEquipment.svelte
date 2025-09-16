@@ -11,7 +11,9 @@
     combatStats,
     abilities,
     character
-  }: Equipment & { character: Character } = $derived(app.tooltip.props);
+  }: Equipment & { character: Character } = $derived(
+    app.tooltip!.props as Equipment & { character: Character }
+  );
 
   const prettyCombatStatKey = (key: string) =>
     ({

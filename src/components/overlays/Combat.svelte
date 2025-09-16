@@ -12,6 +12,12 @@
     return { scale };
   };
 
+  type CombatOverlayProps = {
+    debug?: boolean;
+  };
+
+  let { debug: _debug = false }: CombatOverlayProps = $props();
+
   let startTeams: Team[] = $derived(app.combat.teamsStartState);
   let geometry = $derived(
     getGeometry(
