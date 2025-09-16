@@ -50,7 +50,7 @@
 
             {#if slot === 'offHand' && character.equipment.mainHand && EQUIPMENT(character.equipment.mainHand, true).slotsIn === 'twoHand'}
               <span class="text-gray-400">
-                {EQUIPMENT(character.equipment.mainHand, true).prettyName}
+                {EQUIPMENT(character.equipment.mainHand, true).name}
               </span>
             {:else if slot === 'mainHand' && !character.equipment.mainHand}
               <span class="text-gray-400">Fist</span>

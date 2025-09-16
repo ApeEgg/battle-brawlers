@@ -23,7 +23,7 @@
         isStunned && topLayer && 'bg-[#9a9a9a]'
       )}
     >
-      {#each abilitiesCopied as { prettyName, ticks, icon, chainLink }, i (`icon_${i}_${prettyName}`)}
+      {#each abilitiesCopied as { name, ticks, icon, chainLink }, i (`icon_${i}_${name}`)}
         <crow class="relative h-6 !flex-none" style="width: calc(12px*{ticks});">
           {#if chainLink}
             {#each Array(chainLink).fill(0).slice(0, -1) as _, j}

@@ -6,27 +6,44 @@ import { deepMerge } from '$src/helpers';
 
 export const ALL_EQUIPMENT = {
   sword: {
-    prettyName: 'Sword',
+    name: 'Sword',
     description: 'A simple sword.',
     slotsIn: 'oneHand',
     combatStats: {
       damage: 1
     },
+    abilities: [ABILITIES('swing'), ABILITIES('swing')]
+  },
+  axe: {
+    name: 'Axe',
+    description: 'A simple axe.',
+    slotsIn: 'oneHand',
+    combatStats: {
+      damage: 1
+    },
+    abilities: [ABILITIES('swing'), ABILITIES('swing')]
+  },
+  hammer: {
+    name: 'Hammer',
+    description: 'A simple hammer.',
+    slotsIn: 'oneHand',
+    combatStats: {
+      damage: 1
+    },
     abilities: [
-      ABILITIES('swing'),
-      ABILITIES('swing')
-      // ABILITIES('stab', false, { overrides: { basic: false, ticks: 1 } })
+      ABILITIES('slam', false, { overrides: { ticks: 3 } }),
+      ABILITIES('slam', false, { overrides: { ticks: 3 } })
     ]
   },
   shield: {
-    prettyName: 'Shield',
+    name: 'Shield',
     description: 'A simple shield.',
     slotsIn: 'offHand',
     combatStats: {},
     abilities: [ABILITIES('block'), ABILITIES('shieldBash')]
   },
   ring: {
-    prettyName: 'Ring',
+    name: 'Ring',
     description: 'A simple ring.',
     slotsIn: 'accessory',
     combatStats: {
@@ -36,7 +53,7 @@ export const ALL_EQUIPMENT = {
     abilities: []
   },
   twoHandedAxe: {
-    prettyName: 'Two-handed Axe',
+    name: 'Two-handed Axe',
     description: 'A mighty two-handed axe.',
     slotsIn: 'twoHand',
     combatStats: {
@@ -49,9 +66,9 @@ export const ALL_EQUIPMENT = {
       ABILITIES('whirlwind', false, { overrides: { ticks: 4, chainLink: 4 } })
     ]
   },
-  twoHandedHammer: {
-    prettyName: 'Two-handed Hammer',
-    description: "A mighty two-handed hammer.<br />It's slammer time!",
+  club: {
+    name: 'Club',
+    description: "A mighty two-handed club.<br />It's slammer time!",
     slotsIn: 'twoHand',
     combatStats: {
       damage: 7
@@ -59,7 +76,7 @@ export const ALL_EQUIPMENT = {
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
   },
   greatSword: {
-    prettyName: 'Greatsword',
+    name: 'Greatsword',
     description: 'A mighty two-handed sword.',
     slotsIn: 'twoHand',
     combatStats: {
@@ -72,21 +89,16 @@ export const ALL_EQUIPMENT = {
     ]
   },
   bow: {
-    prettyName: 'Bow',
+    name: 'Bow',
     description: 'A simple bow.',
     slotsIn: 'twoHand',
     combatStats: {
       damage: 6
     },
-    abilities: [
-      ABILITIES('bowshot'),
-      ABILITIES('bowshot'),
-      ABILITIES('bowshot'),
-      ABILITIES('bowshot')
-    ]
+    abilities: [ABILITIES('pierce'), ABILITIES('pierce'), ABILITIES('pierce'), ABILITIES('pierce')]
   },
   leatherBoots: {
-    prettyName: 'Leather Boots',
+    name: 'Leather Boots',
     description: 'Fine protection.',
     slotsIn: 'armor',
     combatStats: {
@@ -95,7 +107,7 @@ export const ALL_EQUIPMENT = {
     abilities: [ABILITIES('kick')]
   },
   giantsHeart: {
-    prettyName: "Giant's Heart",
+    name: "Giant's Heart",
     description: 'It still pulsates oddly enough.',
     slotsIn: 'trinket',
     combatStats: {
@@ -106,7 +118,7 @@ export const ALL_EQUIPMENT = {
     abilities: [ABILITIES('demoralizingShout')]
   },
   dagger: {
-    prettyName: 'Dagger',
+    name: 'Dagger',
     description: 'A really sharp dagger.',
     slotsIn: 'oneHand',
     combatStats: {

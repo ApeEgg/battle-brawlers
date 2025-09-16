@@ -17,9 +17,23 @@ const formatProps = (props: any) =>
     ''
   );
 
+// const deepMerge = (target: DynamicObject, source: DynamicObject) => {
+//   for (const key in source) {
+//     if (source[key] instanceof Object && key in target && target[key] instanceof Object) {
+//       deepMerge(target[key], source[key]);
+//     } else {
+//       target[key] = source[key];
+//     }
+//   }
+//   return target;
+// };
 const deepMerge = (target: DynamicObject, source: DynamicObject) => {
   for (const key in source) {
-    if (source[key] instanceof Object && key in target && target[key] instanceof Object) {
+    if (
+      Array.isArray(source[key]) // check if it's an array
+    ) {
+      target[key] = [...source[key]]; // replace entirely with a shallow copy
+    } else if (source[key] instanceof Object && key in target && target[key] instanceof Object) {
       deepMerge(target[key], source[key]);
     } else {
       target[key] = source[key];

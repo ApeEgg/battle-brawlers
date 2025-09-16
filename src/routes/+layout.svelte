@@ -80,7 +80,7 @@
     <Authorization>
       <Row class="min-h-screen flex-1 gap-2 pt-20" up>
         <div class="w-56 rounded border border-gray-400 bg-white/30 p-4">
-          <h5>MY ACCOUNT</h5>
+          <h5>MY LUDUS</h5>
           <Hr left />
 
           <crow vertical left class="w-full gap-2">
@@ -98,7 +98,7 @@
             </crow>
 
             <crow vertical left class="w-full">
-              Time to rest
+              Medical area
               <RefillHealthTimer />
             </crow>
           </crow>
@@ -201,7 +201,7 @@
                   </Clickable>
                 {/if}
               </div>
-              <!-- <Clickable class="crow left gap-1" onclick={() => goto('/creatures')}>
+              <!-- <Clickable class="crow left gap-1" onclick={() => goto('/the-arena')}>
                 ‹ Go back
               </Clickable> -->
               <crow up right class="gap-1">
@@ -217,20 +217,20 @@
                 <a
                   class={tw(
                     'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
-                    activePage === 'creatures' && 'rounded-t-sm border-gray-400 bg-white text-black'
+                    activePage === 'the-arena' && 'rounded-t-sm border-gray-400 bg-white text-black'
                   )}
-                  href="/creatures"
+                  href="/the-arena"
                 >
-                  Creatures
+                  The Arena
                 </a>
                 <a
                   class={tw(
                     'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
-                    activePage === 'crafting' && 'rounded-t-sm border-gray-400 bg-white text-black'
+                    activePage === 'armory' && 'rounded-t-sm border-gray-400 bg-white text-black'
                   )}
-                  href="/crafting"
+                  href="/armory"
                 >
-                  Crafting
+                  Armory
                 </a>
                 <a
                   class={tw(
@@ -241,24 +241,26 @@
                 >
                   Brawlers
                 </a>
-                <a
-                  class={tw(
-                    'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
-                    activePage === 'debug' && 'rounded-t-sm border-gray-400 bg-white text-black'
-                  )}
-                  href="/debug"
-                >
-                  Debug
-                </a>
-                <a
-                  class={tw(
-                    'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
-                    activePage === 'scaling' && 'rounded-t-sm border-gray-400 bg-white text-black'
-                  )}
-                  href="/scaling"
-                >
-                  Scaling
-                </a>
+                {#if !IS_PROD}
+                  <a
+                    class={tw(
+                      'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+                      activePage === 'debug' && 'rounded-t-sm border-gray-400 bg-white text-black'
+                    )}
+                    href="/debug"
+                  >
+                    Debug
+                  </a>
+                  <a
+                    class={tw(
+                      'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+                      activePage === 'scaling' && 'rounded-t-sm border-gray-400 bg-white text-black'
+                    )}
+                    href="/scaling"
+                  >
+                    Scaling
+                  </a>
+                {/if}
               </crow>
             </crow>
           </div>

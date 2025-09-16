@@ -26,7 +26,7 @@ export type AbilityRef = {
 };
 
 export type Ability = AbilityRef & {
-  prettyName: string;
+  name: string;
   type: AbilityType;
   description: string;
   basic: boolean;

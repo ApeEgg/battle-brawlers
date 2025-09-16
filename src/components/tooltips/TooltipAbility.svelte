@@ -4,11 +4,9 @@
   import { AbilityType, type Ability } from '$src/types/ability';
   import type { Character } from '$src/types/character';
 
-  // let { prettyName, ticks, chainLink, description }: Ability = app.tooltip.props;
   let props: Ability & { character: Character } = $derived(app.tooltip.props);
 
-  let { prettyName, ticks, type, description, chainLink, character, statusEffects } =
-    $derived(props);
+  let { name, ticks, type, description, chainLink, character, statusEffects } = $derived(props);
 
   let calc = $derived(props.calc);
   let calculatedDamage = $derived(calc.damage());
@@ -22,7 +20,7 @@
   class="pointer-events-none w-60 gap-1 rounded-md px-2.5 pt-1.5 pb-3 text-sm leading-[18px] text-gray-700 shadow-sm"
 >
   <crow vertical left class="w-full !justify-between">
-    <div class="text-lg text-black">{prettyName}</div>
+    <div class="text-lg text-black">{name}</div>
     <Hr />
   </crow>
   <crow vertical left>

@@ -6,7 +6,7 @@ import { deepMerge } from '$src/helpers';
 
 export const ALL_ABILITIES = {
   stab: {
-    prettyName: 'Stab',
+    name: 'Stab',
     type: AbilityType.WindUp,
     description: '', //"Thrust with your weapon's sharp end.",
     ticks: 2,
@@ -18,8 +18,21 @@ export const ALL_ABILITIES = {
     healingModifier: null,
     durationModifier: null
   },
+  pierce: {
+    name: 'Pierce',
+    type: AbilityType.WindUp,
+    description: '', //"Thrust with your weapon's sharp end.",
+    ticks: 3,
+    icon: 'bowshot',
+    basic: true,
+    statusEffects: ['isWounded'],
+    vfx: VFX.basicAttackFast,
+    damageModifier: -0.05,
+    healingModifier: null,
+    durationModifier: null
+  },
   swing: {
-    prettyName: 'Swing',
+    name: 'Swing',
     type: AbilityType.WindUp,
     description: '', // 'Swing your weapon in a wide arc.',
     ticks: 3,
@@ -32,7 +45,7 @@ export const ALL_ABILITIES = {
     durationModifier: null
   },
   slam: {
-    prettyName: 'Slam',
+    name: 'Slam',
     type: AbilityType.WindUp,
     description: '', //'Attack your opponent with a devestating slam.',
     ticks: 4,
@@ -45,7 +58,7 @@ export const ALL_ABILITIES = {
     durationModifier: null
   },
   punch: {
-    prettyName: 'Punch',
+    name: 'Punch',
     type: AbilityType.WindUp,
     description: '', //'Throw a punch at your opponent.',
     ticks: 2,
@@ -58,7 +71,7 @@ export const ALL_ABILITIES = {
     durationModifier: null
   },
   block: {
-    prettyName: 'Block',
+    name: 'Block',
     type: AbilityType.Channeling,
     description: 'Raise your shield to block. Prevent all damage for the duration.',
     ticks: 3,
@@ -71,7 +84,7 @@ export const ALL_ABILITIES = {
     durationModifier: 0
   },
   shieldBash: {
-    prettyName: 'Shield Bash',
+    name: 'Shield Bash',
     type: AbilityType.WindUp,
     description: 'Lunge forward and bash your opponent with your shield.',
     ticks: 3,
@@ -84,7 +97,7 @@ export const ALL_ABILITIES = {
     durationModifier: null
   },
   kick: {
-    prettyName: 'Kick',
+    name: 'Kick',
     type: AbilityType.WindUp,
     description: 'Kick your opponent, stunning them for the duration of their current ability.',
     ticks: 1,
@@ -97,7 +110,7 @@ export const ALL_ABILITIES = {
     durationModifier: Infinity
   },
   whirlwind: {
-    prettyName: 'Whirlwind',
+    name: 'Whirlwind',
     type: AbilityType.Channeling,
     description: 'Quickly spin and deal damage each tick.',
     ticks: 10,
@@ -111,7 +124,7 @@ export const ALL_ABILITIES = {
     durationModifier: 0
   },
   lacerate: {
-    prettyName: 'Lacerate',
+    name: 'Lacerate',
     type: AbilityType.WindUp,
     description: 'Bleeds your opponent for 20% of your total damage.',
     ticks: 2,
@@ -124,7 +137,7 @@ export const ALL_ABILITIES = {
     durationModifier: 1
   },
   demoralizingShout: {
-    prettyName: 'Demoralizing Shout',
+    name: 'Demoralizing Shout',
     type: AbilityType.WindUp,
     description: 'Weakens your opponent. They take 50% more damage for the duration of the effect.',
     ticks: 2,
@@ -136,21 +149,8 @@ export const ALL_ABILITIES = {
     healingModifier: null,
     durationModifier: 2
   },
-  bowshot: {
-    prettyName: 'Bow Shot',
-    type: AbilityType.WindUp,
-    description: 'Fire an arrow at your foe.',
-    ticks: 3,
-    icon: 'bowshot',
-    basic: true,
-    statusEffects: [],
-    vfx: VFX.basicAttackSlow,
-    damageModifier: 0,
-    healingModifier: null,
-    durationModifier: null
-  },
   cheesyTactics: {
-    prettyName: 'Cheesy Tactics',
+    name: 'Cheesy Tactics',
     type: AbilityType.Channeling,
     description: 'Restores some health.',
     ticks: 9,
@@ -164,7 +164,7 @@ export const ALL_ABILITIES = {
     durationModifier: 0
   },
   bite: {
-    prettyName: 'Bite',
+    name: 'Bite',
     type: AbilityType.WindUp,
     description: 'A vicious bite.<br />',
     ticks: 2,
@@ -177,7 +177,7 @@ export const ALL_ABILITIES = {
     durationModifier: 4
   },
   harden: {
-    prettyName: 'Harden',
+    name: 'Harden',
     type: AbilityType.WindUp,
     description: "If armor isn't depleted regain all armor.",
     ticks: 1,

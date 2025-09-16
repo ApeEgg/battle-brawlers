@@ -6,7 +6,7 @@
   import type { Character } from '$src/types/character';
 
   let {
-    prettyName,
+    name,
     description,
     combatStats,
     abilities,
@@ -32,7 +32,7 @@
   class="pointer-events-none !w-60 gap-2 rounded-md px-2.5 pt-1.5 pb-3 text-sm leading-[18px] text-gray-700 shadow-sm transition-all"
 >
   <crow vertical left class="w-full !justify-between">
-    <div class="text-lg text-black">{prettyName}</div>
+    <div class="text-lg text-black">{name}</div>
     <Hr class="mb-0" />
   </crow>
   {#if Object.entries(combatStats).length > 0}

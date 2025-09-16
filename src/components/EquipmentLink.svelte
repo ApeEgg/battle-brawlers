@@ -15,5 +15,5 @@
     direction: 'up'
   }}
 >
-  {props.prettyName}
+  {props.name}
 </div>

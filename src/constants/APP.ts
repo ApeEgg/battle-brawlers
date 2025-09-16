@@ -5,6 +5,7 @@ export const ABILITY_PRIORITY = [
   // 'stun',
   // 'block',
   'stab',
+  'pierce',
   'punch',
   'slam',
   'swing',

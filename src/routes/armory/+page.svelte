@@ -10,7 +10,7 @@
   const craftEquipment = (item: EquipmentRef) => app.inventory.push(item);
 </script>
 
-<Headline text="crafting" />
+<Headline text="armory" />
 
 <crow vertical up left class="-mx-4 !w-auto">
   <crow up left class="gap-4 px-6 py-2">

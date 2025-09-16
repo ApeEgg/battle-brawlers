@@ -39,7 +39,7 @@
   const considerAvailableAbilities = (e: any) => {
     e.detail.items
       .sort((a: AbilityRef, b: AbilityRef) =>
-        ABILITIES(a, true).prettyName.localeCompare(ABILITIES(b, true).prettyName)
+        ABILITIES(a, true).name.localeCompare(ABILITIES(b, true).name)
       )
       .sort((a: AbilityRef, b: AbilityRef) => ABILITIES(a, true).ticks - ABILITIES(b, true).ticks);
 
@@ -144,9 +144,10 @@
       ...defaultAbilities
     ] as Ability[];
 
+    // Earlier .id instead of .uuid
     if (
-      JSON.stringify(abs.map((a) => a?.id).sort((a, b) => a.localeCompare(b))) !==
-      JSON.stringify(character.abilities.map((a) => a.id).sort((a, b) => a.localeCompare(b)))
+      JSON.stringify(abs.map((a) => a?.uuid).sort((a, b) => a.localeCompare(b))) !==
+      JSON.stringify(character.abilities.map((a) => a.uuid).sort((a, b) => a.localeCompare(b)))
     ) {
       character.overrides.abilities = abs;
     }
@@ -160,7 +161,7 @@
       .filter(({ uuid }) => !character.overrides.abilities.find((a) => a.uuid === uuid))
       .filter((ability) => !ABILITIES(ability, true).basic)
       .sort((a: AbilityRef, b: AbilityRef) =>
-        ABILITIES(a, true).prettyName.localeCompare(ABILITIES(b, true).prettyName)
+        ABILITIES(a, true).name.localeCompare(ABILITIES(b, true).name)
       )
       .sort((a: AbilityRef, b: AbilityRef) => ABILITIES(a, true).ticks - ABILITIES(b, true).ticks);
 

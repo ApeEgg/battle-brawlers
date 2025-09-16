@@ -32,7 +32,23 @@ const INITIAL_CHARACTERS = [
       name: 'Evasive Elon',
       equipment: {
         ...DEFAULT_EQUIPMENT,
-        mainHand: EQUIPMENT('bow', false, { overrides: { name: 'Default Bow' } })
+        mainHand: EQUIPMENT('bow', false, {
+          overrides: {
+            name: 'Basic Bow',
+            abilities: [
+              ABILITIES('pierce', false, {
+                overrides: { name: 'Basic Pierce', statusEffects: [] }
+              }),
+              ABILITIES('pierce', false, {
+                overrides: { name: 'Basic Pierce', statusEffects: [] }
+              }),
+              ABILITIES('pierce', false, {
+                overrides: { name: 'Basic Pierce', statusEffects: [] }
+              }),
+              ABILITIES('pierce', false, { overrides: { name: 'Basic Pierce', statusEffects: [] } })
+            ]
+          }
+        })
       },
       abilities: DEFAULT_ABILITIES,
       combatStats: { currentHealth: 24 }
@@ -41,7 +57,19 @@ const INITIAL_CHARACTERS = [
   CHARACTERS('troll', false, {
     overrides: {
       name: 'Tanky Tom',
-      equipment: DEFAULT_EQUIPMENT,
+      equipment: {
+        ...DEFAULT_EQUIPMENT,
+        mainHand: EQUIPMENT('club', false, {
+          overrides: {
+            name: 'Basic Club',
+            abilities: [
+              ABILITIES('slam', false, { overrides: { name: 'Basic Slam', statusEffects: [] } }),
+              ABILITIES('slam', false, { overrides: { name: 'Basic Slam', statusEffects: [] } }),
+              ABILITIES('slam', false, { overrides: { name: 'Basic Slam', statusEffects: [] } })
+            ]
+          }
+        })
+      },
       abilities: DEFAULT_ABILITIES,
       combatStats: { currentHealth: 24 }
     }
@@ -49,7 +77,29 @@ const INITIAL_CHARACTERS = [
   CHARACTERS('goblin', false, {
     overrides: {
       name: 'Greedy Gerald',
-      equipment: DEFAULT_EQUIPMENT,
+      equipment: {
+        ...DEFAULT_EQUIPMENT,
+        mainHand: EQUIPMENT('dagger', false, {
+          overrides: {
+            name: 'Basic Dagger',
+            abilities: [
+              ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } }),
+              ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } }),
+              ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } })
+            ]
+          }
+        }),
+        offHand: EQUIPMENT('dagger', false, {
+          overrides: {
+            name: 'Basic Dagger',
+            abilities: [
+              ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } }),
+              ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } }),
+              ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } })
+            ]
+          }
+        })
+      },
       abilities: DEFAULT_ABILITIES,
       combatStats: { currentHealth: 24 }
     }
@@ -57,7 +107,27 @@ const INITIAL_CHARACTERS = [
   CHARACTERS('human', false, {
     overrides: {
       name: 'Humble Hans',
-      equipment: DEFAULT_EQUIPMENT,
+      equipment: {
+        ...DEFAULT_EQUIPMENT,
+        mainHand: EQUIPMENT('axe', false, {
+          overrides: {
+            name: 'Basic Axe',
+            abilities: [
+              ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } }),
+              ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } })
+            ]
+          }
+        }),
+        offHand: EQUIPMENT('axe', false, {
+          overrides: {
+            name: 'Basic Axe',
+            abilities: [
+              ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } }),
+              ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } })
+            ]
+          }
+        })
+      },
       abilities: DEFAULT_ABILITIES,
       combatStats: { currentHealth: 24 }
     }
@@ -65,7 +135,33 @@ const INITIAL_CHARACTERS = [
   CHARACTERS('dwarf', false, {
     overrides: {
       name: 'Dense Darrin',
-      equipment: DEFAULT_EQUIPMENT,
+      equipment: {
+        ...DEFAULT_EQUIPMENT,
+        mainHand: EQUIPMENT('hammer', false, {
+          overrides: {
+            name: 'Basic Hammer',
+            abilities: [
+              ABILITIES('slam', false, {
+                overrides: { name: 'Basic Slam', ticks: 3, statusEffects: [] }
+              }),
+              ABILITIES('slam', false, {
+                overrides: { name: 'Basic Slam', ticks: 3, statusEffects: [] }
+              })
+            ]
+          }
+        }),
+        offHand: EQUIPMENT('shield', false, {
+          overrides: {
+            name: 'Basic Shield',
+            abilities: [
+              ABILITIES('block'),
+              ABILITIES('shieldBash', false, {
+                overrides: { name: 'Basic Shield Bash', statusEffects: [] }
+              })
+            ]
+          }
+        })
+      },
       abilities: DEFAULT_ABILITIES,
       combatStats: { currentHealth: 24 }
     }

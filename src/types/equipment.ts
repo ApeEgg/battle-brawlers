@@ -12,7 +12,7 @@ export type EquipmentRef = {
 };
 
 export type Equipment = EquipmentRef & {
-  prettyName: string;
+  name: string;
   slotsIn: EquipmentType;
   description: string;
   combatStats: CombatStats;

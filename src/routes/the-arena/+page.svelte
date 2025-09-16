@@ -9,7 +9,7 @@
     .filter(({ image }) => image.startsWith('creature'));
 </script>
 
-<Headline text="creatures" />
+<Headline text="the arena" />
 
 <crow vertical up left class="-mx-4 !w-auto">
   <crow up left class="gap-4 px-6 py-2">
@@ -19,7 +19,7 @@
   </crow>
   {#each creatures as creature, i}
     <Clickable
-      href="/creatures/{creature.url}"
+      href="/the-arena/{creature.url}"
       class={tw('crow left w-full gap-4 px-6 py-2', i % 2 === 0 ? 'bg-[#faf7f2]' : 'bg-white')}
     >
       <crow left class="flex-1 gap-2">
@@ -29,7 +29,7 @@
           </div>
         </div>
 
-        <a href="/creatures/{creature.url}">{creature.name} </a>
+        <a href="/the-arena/{creature.url}">{creature.name} </a>
       </crow>
       <div class="flex-1">n/a</div>
       <div class="flex-1">1</div>

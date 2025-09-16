@@ -78,7 +78,7 @@
   </crow>
 </Headline>
 
-<Close onclick={() => goto('/creatures')} />
+<Close onclick={() => goto('/the-arena')} />
 
 <crow left class="!items-stretch !justify-stretch overflow-hidden">
   <crow class={tw('w-0 !flex-none transition-all duration-200', brawlersSelected && 'w-20')}></crow>
