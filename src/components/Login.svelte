@@ -43,7 +43,7 @@
 </script>
 
 <form class="column-left w-full gap-2" onsubmit={preventDefault(login)}>
-  <Row class="w-full gap-2">
+  <crow class="w-full gap-2">
     <Input
       class="xs:w-full"
       placeholder="Email"
@@ -64,7 +64,7 @@
     />
 
     <Button class="xs:w-full" primary type="submit" blur={escape}>Log&nbsp;in</Button>
-  </Row>
+  </crow>
 
   <Checkbox
     id="codeOfConduct"

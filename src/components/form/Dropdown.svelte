@@ -25,13 +25,13 @@
     </optgroup>
   </select>
   <Frame class="dark:bg-black">
-    <Row class="!justify-between">
+    <crow class="!justify-between">
       {#if options.find(emptySlot)}
         <span class="first-letter:uppercase" class:default={value === 'Choose one'}>{value}</span>
       {:else}
         {value || 'N/A'}
       {/if}
       <Icon class="text-gray-800 dark:text-white" name="down" />
-    </Row>
+    </crow>
   </Frame>
 </div>

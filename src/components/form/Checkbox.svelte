@@ -6,9 +6,9 @@
 
 <label class="row-left gap-2" for={id}>
   <input class="hidden peer" type="checkbox" {id} checked={value} {onchange} />
-  <Row class="rounded-sm w-5 h-5 bg-white dark:bg-black peer-checked:*:flex">
+  <crow class="rounded-sm w-5 h-5 bg-white dark:bg-black peer-checked:*:flex">
     <Icon class="text-green-500 hidden" name="success" />
-  </Row>
+  </crow>
   <div class="overflow-hidden">
     {@render children()}
   </div>

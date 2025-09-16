@@ -77,7 +77,7 @@
     )}
   >
     <Authorization>
-      <Row class="min-h-screen flex-1 gap-2 pt-20" up>
+      <crow class="min-h-screen flex-1 gap-2 pt-20" up>
         <div class="w-56 rounded border border-gray-400 bg-white/30 p-4">
           <h5>MY LUDUS</h5>
           <Hr left />
@@ -289,7 +289,7 @@
             </div>
           {/if}
         </div>
-      </Row>
+      </crow>
     </Authorization>
   </div>
 </div>

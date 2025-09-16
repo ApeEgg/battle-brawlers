@@ -82,8 +82,8 @@
               type === 'success' && 'border-green-500'
             )}
           >
-            <Row class="gap-2">
-              <Row
+            <crow class="gap-2">
+              <crow
                 class={tw(
                   'icon h-8 w-8 rounded-full',
                   type === 'error' && 'bg-red-500',
@@ -93,14 +93,14 @@
                 )}
               >
                 <Icon class="text-lg text-white" name={type} />
-              </Row>
+              </crow>
               <div>
                 <strong class="text-base text-gray-800">{titleByType(type)}</strong>
                 <div class="max-w-xs text-gray-700 first-letter:capitalize">
                   {message.replace('Error: ', '')}
                 </div>
               </div>
-            </Row>
+            </crow>
           </div>
         </div>
       </div>
