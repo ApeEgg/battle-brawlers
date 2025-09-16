@@ -66,7 +66,7 @@
       'bg-[url("/images/parchment-bg-2250x1500.jpg")] dark:bg-gray-800',
     isFrontpage && 'bg-[url("/images/desktop-1920x1080.jpg")]',
     isDebugPage &&
-      "bg-[url('/images/arena.png')] bg-cover bg-center bg-no-repeat shadow-[inset_0_0px_10vw_rgba(0,0,0,1)]"
+      "bg-[url('/images/arena-cut.png')] bg-cover bg-center bg-no-repeat shadow-[inset_0_0px_10vw_rgba(0,0,0,1)]"
   )}
 ></div>
 <div class={tw('bg-blur min-h-screen w-screen', isFrontpage ? 'row' : 'row-up')}>
@@ -104,9 +104,9 @@
 
           <div class="h-8" />
           <h5>MY BRAWLERS</h5>
-          <Hr left />
+          <Hr class="mb-0" left />
           <div
-            class="-mx-4 my-3"
+            class="-mx-4 my-2"
             onmouseenter={() => (showSequence = true)}
             onmouseleave={() => (showSequence = false)}
             role="none"
@@ -133,8 +133,10 @@
                         'glass -mx-1.5 -my-1 w-auto !rounded-sm !border-none px-1.5 py-1 transition-all duration-75'
                     )}
                   >
-                    <div class="h-16 w-16 overflow-hidden p-1">
-                      <img src="/images/races/{character.race}/01-faceshot.png" alt="" />
+                    <div class="h-16 w-16 p-1">
+                      <div class="glass overflow-hidden rounded-sm border border-gray-600">
+                        <img src="/images/races/{character.race}/01-faceshot.png" alt="" />
+                      </div>
                     </div>
                     <crow vertical left class="overflow-x-hidden px-1 py-1">
                       <!-- <div class="text-md text-gray-600">{character.name}</div> -->
@@ -264,6 +266,7 @@
             </crow>
           </div>
         </crow>
+
         <div
           class={tw(
             'pointer-events-none w-56 translate-x-4 rounded border border-gray-400 bg-white/30 p-4 opacity-0 transition-all duration-200',
@@ -272,17 +275,19 @@
         >
           <h5>EQUIPMENT</h5>
           <Hr left />
-          <div class="my-3">
-            <crow vertical up left>
-              {#each app.inventory as item, i (item.uuid)}
-                {@const equipment = EQUIPMENT(item, true)}
-                <crow class="w-full !justify-between gap-2 py-1" left>
-                  <EquipmentLink {...equipment} />
-                  <Button tertiary onclick={() => equip(item, i)}>Equip</Button>
-                </crow>
-              {/each}
-            </crow>
-          </div>
+          {#if app.characters.length}
+            <div class="my-3">
+              <crow vertical up left>
+                {#each app.inventory as item, i (item.uuid)}
+                  {@const equipment = EQUIPMENT(item, true)}
+                  <crow class="w-full !justify-between gap-2 py-1" left>
+                    <EquipmentLink {...equipment} />
+                    <Button tertiary onclick={() => equip(item, i)}>Equip</Button>
+                  </crow>
+                {/each}
+              </crow>
+            </div>
+          {/if}
         </div>
       </Row>
     </Authorization>

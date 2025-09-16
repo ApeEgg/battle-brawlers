@@ -10,7 +10,7 @@
 {#snippet iconBar(topLayer = false, progress = 100)}
   <div
     class={tw(
-      'relative rounded-b border-t-[0.5px] border-[#989387] bg-[#ddd7cd] [grid-area:1/1]',
+      'relative rounded-b border-t-[0.5px] border-[#989387] bg-stone-300 [grid-area:1/1]',
       topLayer && 'border-[#989387]',
       preview && 'rounded-none border-[0.5px]'
     )}
@@ -18,7 +18,7 @@
   >
     <div
       class={tw(
-        'relative flex divide-x-[0.5px] divide-[#989387]',
+        'relative flex divide-x-[0.5px] divide-stone-500',
         topLayer && 'divide-[#eae1d4] bg-[#989387]',
         isStunned && topLayer && 'bg-[#9a9a9a]'
       )}
@@ -38,7 +38,7 @@
           {/if}
           <Icon
             original={false}
-            class={tw('relative text-sm text-[#989387]', topLayer && 'text-[#eae1d4]')}
+            class={tw('relative text-sm text-stone-500', topLayer && 'text-[#eae1d4]')}
             name={icon}
           />
         </crow>

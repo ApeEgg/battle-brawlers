@@ -24,7 +24,7 @@ export const DEFAULT_EQUIPMENT = {
 
 export const ALL_CHARACTERS = {
   elf: {
-    name: 'npc1',
+    name: 'Elon',
     race: 'elf',
     image: 'elf/01.png',
     size: 1,
@@ -56,7 +56,7 @@ export const ALL_CHARACTERS = {
     ]
   },
   human: {
-    name: 'npc2',
+    name: 'Hebert',
     race: 'human',
     image: 'human/01.png',
     size: 1,
@@ -78,7 +78,7 @@ export const ALL_CHARACTERS = {
     abilities: [ABILITIES('slam'), ABILITIES('block'), ABILITIES('slam')]
   },
   troll: {
-    name: 'npc3',
+    name: 'Throk',
     race: 'troll',
     image: 'troll/01.png',
     size: 1,
@@ -100,7 +100,7 @@ export const ALL_CHARACTERS = {
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
   },
   dwarf: {
-    name: 'npc4',
+    name: 'Durak',
     race: 'dwarf',
     image: 'dwarf/01.png',
     size: 0.75,
@@ -122,7 +122,7 @@ export const ALL_CHARACTERS = {
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
   },
   goblin: {
-    name: 'npc5',
+    name: 'Grish',
     race: 'goblin',
     image: 'goblin/01.png',
     size: 0.75,

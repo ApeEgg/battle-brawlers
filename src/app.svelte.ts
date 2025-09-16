@@ -26,10 +26,9 @@ const DEFAULT_ABILITIES = [
   ABILITIES('punch')
 ];
 
-const INITIAL_CHARACTERS = [
+export const RECRUITABLE_CHARACTERS = [
   CHARACTERS('elf', false, {
     overrides: {
-      name: 'Evasive Elon',
       equipment: {
         ...DEFAULT_EQUIPMENT,
         mainHand: EQUIPMENT('bow', false, {
@@ -56,7 +55,6 @@ const INITIAL_CHARACTERS = [
   }),
   CHARACTERS('troll', false, {
     overrides: {
-      name: 'Tanky Tom',
       equipment: {
         ...DEFAULT_EQUIPMENT,
         mainHand: EQUIPMENT('club', false, {
@@ -76,7 +74,6 @@ const INITIAL_CHARACTERS = [
   }),
   CHARACTERS('goblin', false, {
     overrides: {
-      name: 'Greedy Gerald',
       equipment: {
         ...DEFAULT_EQUIPMENT,
         mainHand: EQUIPMENT('dagger', false, {
@@ -106,7 +103,6 @@ const INITIAL_CHARACTERS = [
   }),
   CHARACTERS('human', false, {
     overrides: {
-      name: 'Humble Hans',
       equipment: {
         ...DEFAULT_EQUIPMENT,
         mainHand: EQUIPMENT('axe', false, {
@@ -134,7 +130,6 @@ const INITIAL_CHARACTERS = [
   }),
   CHARACTERS('dwarf', false, {
     overrides: {
-      name: 'Dense Darrin',
       equipment: {
         ...DEFAULT_EQUIPMENT,
         mainHand: EQUIPMENT('hammer', false, {
@@ -167,7 +162,7 @@ const INITIAL_CHARACTERS = [
     }
   })
 ];
-// INITIAL_CHARACTERS = [];
+const INITIAL_CHARACTERS = [];
 
 // const INITIAL_INVENTORY = [EQUIPMENT('sword'), EQUIPMENT('giantsHeart'), EQUIPMENT('dagger')];
 const INITIAL_INVENTORY = [
