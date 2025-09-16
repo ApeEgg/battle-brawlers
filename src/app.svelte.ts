@@ -30,7 +30,10 @@ const INITIAL_CHARACTERS = [
   CHARACTERS('elf', false, {
     overrides: {
       name: 'Evasive Elon',
-      equipment: { ...DEFAULT_EQUIPMENT },
+      equipment: {
+        ...DEFAULT_EQUIPMENT,
+        mainHand: EQUIPMENT('bow', false, { overrides: { name: 'Default Bow' } })
+      },
       abilities: DEFAULT_ABILITIES,
       combatStats: { currentHealth: 24 }
     }
@@ -116,6 +119,7 @@ export default new (class {
 
               app.serverTimestampSnapshot = res;
               app.syncPerformanceNow = performance.now();
+              console.info('Game state saved');
             })();
           }
         }, 1000);

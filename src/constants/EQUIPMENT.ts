@@ -1,6 +1,8 @@
 import ABILITIES from '$src/constants/ABILITIES';
 import type { Equipment, EquipmentRef } from '$src/types/equipment';
 import entity from '$src/ts/entity';
+import type { DynamicObject } from '$src/types/common';
+import { deepMerge } from '$src/helpers';
 
 export const ALL_EQUIPMENT = {
   sword: {
@@ -114,10 +116,23 @@ export const ALL_EQUIPMENT = {
   }
 };
 
-export default (id: string | EquipmentRef, fullBody: boolean = false) =>
+// export default (id: string | EquipmentRef, fullBody: boolean = false) =>
+//   entity(
+//     ALL_EQUIPMENT,
+//     typeof id === 'string' ? id : id.id,
+//     typeof id === 'string' ? undefined : id.uuid,
+//     fullBody
+//   ) as Equipment;
+
+export default (id: string | EquipmentRef, fullBody: boolean = false, meta?: DynamicObject) =>
   entity(
     ALL_EQUIPMENT,
     typeof id === 'string' ? id : id.id,
     typeof id === 'string' ? undefined : id.uuid,
-    fullBody
+    fullBody,
+    typeof id === 'string'
+      ? meta?.overrides
+      : meta?.overrides
+        ? deepMerge(id.overrides || {}, meta.overrides || {})
+        : id.overrides
   ) as Equipment;

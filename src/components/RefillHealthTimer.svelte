@@ -2,7 +2,8 @@
   import CHARACTERS from '$src/constants/CHARACTERS';
   import { calculateCombatStatsByCharacter } from '$src/ts/Utils';
 
-  const { IS_DEV } = ENV;
+  let { IS_DEV } = ENV;
+  IS_DEV = false;
 
   const MINUTES_TO_REFILL = 2;
   const SECONDS_TO_REFILL = 9;

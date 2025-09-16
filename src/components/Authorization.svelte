@@ -23,6 +23,7 @@
           if (response?.gameState) {
             app.characters = response.gameState.characters;
             app.inventory = response.gameState.inventory;
+            app.experience = response.gameState.experience;
           }
 
           if (response?.serverTimestampSnapshot) {
