@@ -162,7 +162,7 @@ export const RECRUITABLE_CHARACTERS = [
     }
   })
 ];
-const INITIAL_CHARACTERS = [];
+const INITIAL_CHARACTERS: Character[] = [];
 
 // const INITIAL_INVENTORY = [EQUIPMENT('sword'), EQUIPMENT('giantsHeart'), EQUIPMENT('dagger')];
 const INITIAL_INVENTORY = [
