@@ -10,8 +10,8 @@
 {#snippet iconBar(topLayer = false, progress = 100)}
   <div
     class={tw(
-      'relative rounded-b border-t-[0.5px] border-[#989387] bg-stone-300 [grid-area:1/1]',
-      topLayer && 'border-[#989387]',
+      'relative rounded-b border-t-[0.5px] border-stone-500 bg-stone-300 [grid-area:1/1]',
+      topLayer && 'border-stone-500',
       preview && 'rounded-none border-[0.5px]'
     )}
     style="clip-path: polygon(0% 0%, {progress}% 0%, {progress}% 100%, 0% 100%);"
@@ -19,8 +19,8 @@
     <div
       class={tw(
         'relative flex divide-x-[0.5px] divide-stone-500',
-        topLayer && 'divide-[#eae1d4] bg-[#989387]',
-        isStunned && topLayer && 'bg-[#9a9a9a]'
+        topLayer && 'divide-stone-300 bg-stone-500',
+        isStunned && topLayer && 'bg-gray-500'
       )}
     >
       {#each abilitiesCopied as { name, ticks, icon, chainLink }, i (`icon_${i}_${name}`)}
@@ -30,7 +30,7 @@
               <div
                 class={tw(
                   'absolute top-0 bottom-0 w-[0.1px] border-r-[0.5px] border-dashed border-gray-400',
-                  topLayer && 'border-transparent'
+                  topLayer && 'border-stone-400/50'
                 )}
                 style="left: calc(((100% / {chainLink}) * ({j + 1})));"
               ></div>
@@ -38,7 +38,7 @@
           {/if}
           <Icon
             original={false}
-            class={tw('relative text-sm text-stone-500', topLayer && 'text-[#eae1d4]')}
+            class={tw('relative text-sm text-stone-500', topLayer && 'text-stone-300')}
             name={icon}
           />
         </crow>

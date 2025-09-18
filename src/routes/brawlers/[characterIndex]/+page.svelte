@@ -6,22 +6,36 @@
   import EQUIPMENT from '$src/constants/EQUIPMENT';
   import type { EquipmentSlot } from '$src/types/equipment';
   import { calculateCombatStatsByCharacter } from '$src/ts/Utils';
+  import { goto } from '$app/navigation';
+  import { getLevelByExperience } from '$src/ts/level';
+
+  const retireCharacter = async () => {
+    if (confirm('Are you sure you want to retire this character? This action cannot be undone.')) {
+      await goto('/brawlers');
+      app.characters = [];
+    }
+  };
 
   let characterIndex = $derived($page.params.characterIndex);
   let characterRef = $derived(app.characters[characterIndex as any]);
   let character = $derived(CHARACTERS(characterRef, true));
-
   let combatStats = $derived(calculateCombatStatsByCharacter(character));
 </script>
 
-<Headline text={character.name} />
-<Close onclick={() => history.back()} />
+<GoBack onclick={() => history.back()} />
+
+<Headline text={character.name}>
+  {#if getLevelByExperience(app.experience) <= 4}
+    <crow class="!space-between w-full gap-2" right>
+      <span class="text-xs text-gray-400">(possible until level 5)</span>
+      <Button onclick={retireCharacter} secondary>Retire</Button>
+    </crow>
+  {/if}
+</Headline>
 
 <crow vertical class="mt-4 gap-4">
   <crow left up class="gap-4">
-    <crow class="aspect-square w-40 !flex-none">
-      <img src="/images/races/{character.race}/01.png" alt="" class="h-full" />
-    </crow>
+    <CharacterAvatar {...character} />
     <crow vertical up left>
       <crow class="gap-2">
         <div class="w-15 font-bold">Race:</div>

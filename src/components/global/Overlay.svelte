@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { recursiveLookup, camelCaseToDashed } from '$src/helpers';
+  import { recursiveLookup } from '$src/helpers';
 
   const { overlay, keys } = STORES;
   const { setOverlay } = ACTIONS;
@@ -8,8 +8,8 @@
 
   $: ({ escape } = $keys);
   $: escape && setOverlay($overlay ? '' : 'GameMenu');
-  $: isGameMenu = camelCaseToDashed($overlay) === 'game-menu';
-  $: isCombatLog = camelCaseToDashed($overlay) === 'combat';
+  $: isGameMenu = $overlay === 'GameMenu';
+  $: isCombatLog = $overlay === 'Combat';
 </script>
 
 <button

@@ -5,6 +5,7 @@
   import { generateCombat } from '$src/ts/Combat';
   import type { Team } from '$src/types/team';
   import { goto } from '$app/navigation';
+  import Button from '$src/components/form/Button.svelte';
 
   const { overlay } = STORES;
 
@@ -54,15 +55,17 @@
   let brawlersSelected = $derived(selectedBrawlers.length > 0);
 </script>
 
+<GoBack onclick={() => goto('/the-arena')} />
+
 <Headline text={creature.name}>
   <crow class="!flex-none translate-y-px gap-2 text-xl text-gray-600" left>
     <crow class="gap-1">
-      <Icon name="health" original />
+      <Icon name="maxHealth" original />
       {creature.combatStats?.maxHealth}
     </crow>
     <span class="text-gray-300">/</span>
     <crow class="gap-1">
-      <Icon name="armor" original />
+      <Icon name="maxArmor" original />
       {creature.combatStats?.maxArmor}
     </crow>
     <span class="text-gray-300">/</span>
@@ -72,8 +75,6 @@
     </crow>
   </crow>
 </Headline>
-
-<Close onclick={() => goto('/the-arena')} />
 
 <crow left class="!items-stretch !justify-stretch overflow-hidden">
   <crow class={tw('w-0 !flex-none transition-all duration-200', brawlersSelected && 'w-20')}></crow>

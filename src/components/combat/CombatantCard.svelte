@@ -53,7 +53,7 @@
   class="absolute top-1/2 left-1/2 z-10 h-0 w-0 -translate-x-1/2 -translate-y-1/2"
   style="z-index:{z};"
 >
-  <div class="absolute" style="left: {x}px; top:{y}px; transform: translate(-50%, -50%);">
+  <div class="absolute" style="left: {x}px; top:{y - 20}px; transform: translate(-50%, -50%);">
     <div class="absolute" style="transform: scale(1) translate(-50%, -50%);">
       <div class="combatant glass rounded border-[0.5px] !border-none border-transparent shadow">
         <crow class="w-full justify-between px-2 py-1 font-bold text-[#989387] uppercase">
@@ -165,7 +165,7 @@
             facingRight ? 'right-auto left-0' : ''
           )}
         >
-          <Icon name="armor" class="text-3xl text-[#b3ad9f]" />
+          <Icon name="maxArmor" class="text-3xl text-[#b3ad9f]" />
           {#if currentArmor > 0}
             <crow class="alfa-slab-one fat-number absolute inset-0 text-2xl text-white">
               {currentArmor}

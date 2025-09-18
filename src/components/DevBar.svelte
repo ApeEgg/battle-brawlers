@@ -54,6 +54,7 @@
       <Button onclick={gain50Exp}>Gain exp</Button>
       <Button onclick={() => (app.experience = 0)}>Reset exp</Button>
     </crow>
+    <Button onclick={() => (app.characters = [])}>Clear characters</Button>
   </crow>
   <crow left class="p-2">4</crow>
 </crow>

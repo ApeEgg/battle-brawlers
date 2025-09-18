@@ -304,12 +304,6 @@ const reorder = (array: any[], index: number) => array.slice(index).concat(array
 
 const onlyUnique = (value: number, index: number, self: any) => self.indexOf(value) === index;
 
-const camelCaseToDashed = (string: string) =>
-  string
-    .split(/\.?(?=[A-Z])/)
-    .join('-')
-    .toLowerCase();
-
 function once(fn: any) {
   return function (this: any, event: any) {
     if (fn) fn.call(this, event);
@@ -359,7 +353,6 @@ export {
   notByKeys,
   reorder,
   onlyUnique,
-  camelCaseToDashed,
   once,
   preventDefault,
   deepMerge,

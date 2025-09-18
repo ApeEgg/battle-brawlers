@@ -10,7 +10,16 @@
     onclick,
     children,
     disabled = false
-  } = $props<{ children: Snippet }>();
+  } = $props<{
+    primary?: boolean;
+    secondary?: boolean;
+    tertiary?: boolean;
+    blur?: boolean;
+    class?: string;
+    onclick: () => void;
+    disabled?: boolean;
+    children: Snippet;
+  }>();
 
   let inputRef: HTMLButtonElement;
 

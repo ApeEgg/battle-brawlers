@@ -2,6 +2,7 @@
   import type { Equipment } from '$src/types/equipment';
   import ABILITIES from '$src/constants/ABILITIES';
   import type { Character } from '$src/types/character';
+  import { prettyCombatStatKey } from '$src/types/combatStats';
 
   let {
     name,
@@ -10,13 +11,6 @@
     abilities,
     character
   }: Equipment & { character: Character } = $derived(app.tooltip.props);
-
-  const prettyCombatStatKey = (key: string) =>
-    ({
-      maxArmor: 'Armor',
-      damage: 'Damage',
-      maxHealth: 'Health'
-    })[key] || key;
 
   let activeAbilities = $derived(abilities?.filter((ability) => ABILITIES(ability, true).basic));
   let availableAbilities = $derived(

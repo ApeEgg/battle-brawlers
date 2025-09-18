@@ -11,6 +11,10 @@
 
   let { name, original = false, ratio = 1, ...rest }: Props = $props();
 
+  if (!icons[name]) {
+    throw new Error(`Icon "${name}" does not exist.`);
+  }
+
   const {
     elements,
     fill,

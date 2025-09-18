@@ -2,6 +2,15 @@
   import type { Combatant } from '$src/types/combatant';
   import type { VFX } from '$src/types/vfx';
 
+  let props: Combatant & {
+    currentAnimation?: VFX;
+    applyAnimationClass: (name: string) => boolean;
+    facingRight: boolean;
+    elapsedMilliseconds: number;
+    progress: number;
+    z: number;
+  } = $props();
+
   let {
     image,
     currentAnimation,
@@ -11,14 +20,7 @@
     elapsedMilliseconds,
     position,
     size
-  }: Combatant & {
-    currentAnimation?: VFX;
-    applyAnimationClass: (name: string) => boolean;
-    facingRight: boolean;
-    elapsedMilliseconds: number;
-    progress: number;
-    z: number;
-  } = $props();
+  } = $derived(props);
 
   let y = $derived(position.y);
   let x = $derived(position.x);
@@ -76,42 +78,43 @@
         --attack-duration: {(currentAnimation?.end || 0) - (currentAnimation?.start || 0)}ms;
       "
   >
-    <div
+    <crow
+      down
       class:hurt={applyAnimationClass('hurt')}
       class:block={applyAnimationClass('block')}
       class:attackBlocked={applyAnimationClass('attackBlocked')}
       class:whirlwind={applyAnimationClass('whirlwind')}
-      class="h-40 w-36"
-      style="transform: translate(-50%, -50%);"
+      class="w-36"
+      style="
+        --translate-x: -50%;
+        --translate-y: calc(70px - 100%);
+        transform: translate(var(--translate-x), var(--translate-y));
+        height: calc(144px * {size});
+      "
     >
-      <div
-        class={tw('absolute inset-1 bg-bottom bg-no-repeat', !facingRight && 'scale-x-[-1]')}
-        style="background-image: url('/images/races/{image}'); background-size: auto {100 * size}%;"
-      ></div>
+      <CharacterAvatar {...props} inCombat />
+
       <div
         class={tw('hurt-animation', !facingRight && 'scale-x-[-1]')}
         style="
-          -webkit-mask: url('/images/races/{image}') no-repeat bottom/auto {100 * size}%;
-          mask: url('/images/races/{image}') no-repeat bottom/auto {100 * size}%;
+          -webkit-mask: url('/images/races/{image}') no-repeat bottom/auto 100%;
+          mask: url('/images/races/{image}') no-repeat bottom/auto 100%;
         "
       ></div>
       <crow
-        class={tw(
-          'block-animation text-8xl',
-          facingRight ? 'translate-x-8' : '-translate-x-8 scale-x-[-1]'
-        )}
+        class={tw('block-animation', facingRight ? 'translate-x-8' : '-translate-x-8 scale-x-[-1]')}
       >
         <!-- <Icon name="block" /> -->
-        <img src="/images/shield.png" width="{60 * size}%" alt="" />
+        <img src="/images/shield.png" width="{50 * size}%" alt="" />
         <div
           class="attackBlocked-animation"
           style="
-          -webkit-mask: url('/images/shield.png') no-repeat center/auto {100 * size}%;
-          mask: url('/images/shield.png') no-repeat center/auto {100 * size}%;
-        "
+            -webkit-mask: url('/images/shield.png') no-repeat center/auto 100%;
+            mask: url('/images/shield.png') no-repeat center/auto 100%;
+          "
         ></div>
       </crow>
-    </div>
+    </crow>
 
     <Debug data={currentAnimation} />
   </div>
@@ -174,13 +177,13 @@
   }
   @keyframes whirlwind {
     0% {
-      transform: translate(-50%, -50%) scaleX(1) scaleX(1);
+      transform: translate(var(--translate-x), var(--translate-y)) scaleX(1) scaleX(1);
     }
     50% {
-      transform: translate(-50%, -50%) scaleX(1) scaleX(-1);
+      transform: translate(var(--translate-x), var(--translate-y)) scaleX(1) scaleX(-1);
     }
     100% {
-      transform: translate(-50%, -50%) scaleX(1) scaleX(1);
+      transform: translate(var(--translate-x), var(--translate-y)) scaleX(1) scaleX(1);
     }
   }
 

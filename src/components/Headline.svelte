@@ -1,5 +1,7 @@
 <script lang="ts">
-  let { text, right, children } = $props();
+  import type { Snippet } from 'svelte';
+
+  let { text, right, children }: { text: string; right?: boolean; children?: Snippet } = $props();
 </script>
 
 <crow class={tw('gap-4', right ? 'right' : 'left')}>

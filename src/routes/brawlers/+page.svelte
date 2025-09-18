@@ -1,22 +1,21 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { RECRUITABLE_CHARACTERS } from '$src/app.svelte';
+  import CharacterAvatar from '$src/components/character/CharacterAvatar.svelte';
   import CHARACTERS from '$src/constants/CHARACTERS';
+  import { ALL_ELEMENTS } from '$src/constants/ELEMENTS';
   import type { Character } from '$src/types/character';
+  import { prettyCombatStatKey } from '$src/types/combatStats';
 
   const { notify } = ACTIONS;
-
-  // let characters = $derived(
-  //   Object.keys(ALL_CHARACTERS)
-  //     .map((character) => CHARACTERS(character, true))
-  //     .filter(({ image }) => !image.startsWith('creature'))
-  // );
 
   let characters = RECRUITABLE_CHARACTERS;
 
   const pickCharacter = (character: Character) => {
-    app.characters.push(character);
-    goto(`/brawlers/${app.characters.length - 1}`);
+    if (confirm('Are you sure you want to recruit this character?')) {
+      app.characters.push(character);
+      goto(`/brawlers/${app.characters.length - 1}`);
+    }
   };
 </script>
 
@@ -30,10 +29,13 @@
   {#each characters as char}
     {@const character = CHARACTERS(char, true)}
     {@const isRecruited = app.characters.find(({ id }) => id === character.id)}
-
+    {@const color = ALL_ELEMENTS[character.element].color.primary}
+    {@const combatStats = Object.entries(character.combatStats).filter(
+      ([key]) => !['limits', 'currentArmor', 'currentHealth'].includes(key)
+    )}
     <Clickable
       class={tw(
-        'crow vertical up relative !h-52 w-60 !flex-none overflow-hidden bg-gray-100 p-2',
+        'crow vertical up !h-50 w-60 !flex-none overflow-hidden bg-gray-100 p-2',
         isRecruited
           ? 'cursor-not-allowed opacity-50 grayscale'
           : 'cursor-pointer active:translate-y-px'
@@ -43,12 +45,22 @@
           ? notify({ warning: `${character.name} is already recruited` })
           : pickCharacter(char)}
     >
-      <div class="cinzel text-2xl">{character.name}</div>
+      <div class="cinzel text-2xl" style="color:{color};">{character.name}</div>
       <Hr />
-      <div class={tw('h-20 -translate-y-5', character.name === 'Elon' && '-translate-y-13')}>
-        <img src="/images/races/{character.image}" height="100%" alt="" />
-      </div>
-      <div class="absolute inset-0 top-auto h-2 bg-gradient-to-t from-white to-transparent"></div>
+      <crow left up class="w-full gap-4">
+        <CharacterAvatar {...character} class="w-20" />
+        <crow vertical up left>
+          {#each combatStats as [stat, value]}
+            <crow class="!flex-none gap-2" left>
+              <div class="font-bold">
+                <Icon original name={stat} />
+              </div>
+              <div>{value}</div>
+            </crow>
+          {/each}
+        </crow>
+      </crow>
+      <!-- <div class="absolute inset-0 top-auto h-2 bg-gradient-to-t from-white to-transparent"></div> -->
     </Clickable>
   {/each}
 </crow>

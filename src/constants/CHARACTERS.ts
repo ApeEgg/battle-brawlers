@@ -27,13 +27,14 @@ export const ALL_CHARACTERS = {
     name: 'Elon',
     race: 'elf',
     image: 'elf/01.png',
-    size: 1,
+    size: 1.2,
     equipment: DEFAULT_EQUIPMENT,
     description: '',
     // woundLimit: 8,
     // concussionLimit: 8,
     // comboLimit: 8,
     // exosedLimit: 8,
+    element: 'nature',
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
@@ -62,6 +63,7 @@ export const ALL_CHARACTERS = {
     size: 1,
     equipment: DEFAULT_EQUIPMENT,
     description: '',
+    element: 'frost',
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
@@ -81,9 +83,10 @@ export const ALL_CHARACTERS = {
     name: 'Throk',
     race: 'troll',
     image: 'troll/01.png',
-    size: 1,
+    size: 1.1,
     equipment: DEFAULT_EQUIPMENT,
     description: '',
+    element: 'earth',
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
@@ -103,9 +106,10 @@ export const ALL_CHARACTERS = {
     name: 'Durak',
     race: 'dwarf',
     image: 'dwarf/01.png',
-    size: 0.75,
+    size: 0.8,
     equipment: DEFAULT_EQUIPMENT,
     description: '',
+    element: 'fire',
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
@@ -125,9 +129,10 @@ export const ALL_CHARACTERS = {
     name: 'Grish',
     race: 'goblin',
     image: 'goblin/01.png',
-    size: 0.75,
+    size: 0.8,
     equipment: DEFAULT_EQUIPMENT,
     description: '',
+    element: 'lightning',
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
@@ -155,10 +160,11 @@ export const ALL_CHARACTERS = {
     name: 'Succubus',
     race: 'creature',
     image: 'creature/succubus.png',
-    size: 1,
+    size: 1.2,
     equipment: DEFAULT_EQUIPMENT,
     description:
       'The Succubus is a fearsome warrior whose raw power and unyielding rage make her a deadly foe on the battlefield. Known for her brutal combat style, she thrives in the chaos of close-range encounters.<br /><br />Her most terrifying ability is her relentless spinning attack, where she whirls her weapons with terrifying force, striking all who dare stand too close. This savage technique allows her to mow through groups of enemies with devastating efficiency, leaving little room for her opponents to retaliate.',
+    element: '',
     combatStats: {
       maxHealth: 70,
       currentHealth: 70,
@@ -178,9 +184,10 @@ export const ALL_CHARACTERS = {
     name: 'Fat rat',
     race: 'creature',
     image: 'creature/rat.png',
-    size: 0.9,
+    size: 1.15,
     equipment: DEFAULT_EQUIPMENT,
     description: 'Snirvel.',
+    element: '',
     combatStats: {
       maxHealth: 50,
       currentHealth: 50,
@@ -229,9 +236,10 @@ export const ALL_CHARACTERS = {
     name: 'Golem',
     race: 'creature',
     image: 'creature/golem.png',
-    size: 1,
+    size: 1.2,
     equipment: DEFAULT_EQUIPMENT,
     description: '...',
+    element: '',
     combatStats: {
       maxHealth: 50,
       currentHealth: 50,
@@ -260,4 +268,4 @@ export default (id: string | CharacterRef, fullBody: boolean = false, meta?: Dyn
       : meta?.overrides
         ? deepMerge(id.overrides || {}, meta.overrides || {})
         : id.overrides
-  ) as Character;
+  ) as Required<Character>;
