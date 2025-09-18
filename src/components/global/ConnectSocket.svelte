@@ -2,6 +2,7 @@
   import type { AsyncAwaitWebsocket } from 'async-await-websockets';
   import aaw from 'async-await-websockets/client';
   import { browser } from '$app/environment';
+  import ENV from '$src/constants/ENV_VARS';
 
   const { WEBSOCKET_CONNECT } = ENV;
   const { notify } = ACTIONS;

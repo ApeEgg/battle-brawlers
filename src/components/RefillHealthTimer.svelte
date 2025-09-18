@@ -1,6 +1,7 @@
 <script lang="ts">
   import CHARACTERS from '$src/constants/CHARACTERS';
   import { calculateCombatStatsByCharacter } from '$src/ts/Utils';
+  import { time } from '$svelte-game-engine';
 
   let { IS_DEV } = ENV;
   IS_DEV = false;

@@ -2,6 +2,7 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import Components from 'unplugin-svelte-components/vite';
+import AutoImport from 'unplugin-auto-import/vite';
 
 export default defineConfig({
   build: {
@@ -14,6 +15,29 @@ export default defineConfig({
   },
   plugins: [
     tailwindcss(),
+    AutoImport({
+      dts: './src/auto-imports.d.ts',
+      imports: [
+        {
+          '$src/app.svelte': [['default', 'app']]
+        },
+        {
+          svelte: ['onMount', 'onDestroy']
+        },
+        {
+          'tailwind-merge': [['twMerge', 'tw']]
+        },
+        {
+          '$src/store': ['ACTIONS', 'STORES']
+        },
+        {
+          '$src/constants/ENV_VARS': [['default', 'ENV']]
+        },
+        {
+          '$src/ts/use': ['tooltip']
+        }
+      ]
+    }),
     Components({
       dirs: ['./src/components'],
       dts: './src/components.d.ts'

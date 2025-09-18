@@ -180,6 +180,8 @@ export default new (class {
   liveTeams: Team[] = $state([]);
   elapsedMilliseconds: number = $state(0);
 
+  overlay: string = $state('');
+
   serverTimestampSnapshot: number = $state(0);
   syncPerformanceNow: number = $state(0);
   serverTimestamp: number = $state(0);
@@ -211,6 +213,7 @@ export default new (class {
 
               app.serverTimestampSnapshot = res;
               app.syncPerformanceNow = performance.now();
+              console.log(app);
               console.info('Game state saved');
             })();
           }

@@ -44,6 +44,7 @@
     "svelte-component-kit": "^2.0.2",
     "svelte-dnd-action": "^0.9.64",
     "svelte-global-store": "^1.0.4",
+    "unplugin-auto-import": "^20.1.0",
     "unplugin-svelte-components": "^0.3.1"
   },
   "type": "module",

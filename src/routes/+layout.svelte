@@ -36,7 +36,6 @@
   let characterIndex = $derived($page.params.characterIndex);
   let creatureId = $derived($page.params.creatureId);
 
-  const { setOverlay } = ACTIONS;
   const { IS_PROD } = ENV;
 
   let showSequence = $state(false);
@@ -192,12 +191,12 @@
             <crow up class="-mt-7 !h-7 !flex-none !justify-between px-1 [grid-area:1/1]">
               <div>
                 {#if app.elapsedMilliseconds < app.combat.duration}
-                  <Clickable onclick={() => setOverlay('Combat')} class="crow gap-2">
+                  <Clickable onclick={() => (app.overlay = 'Combat')} class="crow gap-2">
                     <Spinner class="text-sm text-gray-700" />
                     <div>Fightning..</div>
                   </Clickable>
                 {:else if app.combat.duration !== 0}
-                  <Clickable onclick={() => setOverlay('Combat')} class="crow gap-2">
+                  <Clickable onclick={() => (app.overlay = 'Combat')} class="crow gap-2">
                     <div>View outcome</div>
                   </Clickable>
                 {/if}
