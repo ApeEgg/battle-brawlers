@@ -227,11 +227,11 @@
                 <a
                   class={tw(
                     'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
-                    activePage === 'armory' && 'rounded-t-sm border-gray-400 bg-white text-black'
+                    activePage === 'vendor' && 'rounded-t-sm border-gray-400 bg-white text-black'
                   )}
-                  href="/armory"
+                  href="/vendor"
                 >
-                  Armory
+                  Vendor
                 </a>
                 <a
                   class={tw(
@@ -273,7 +273,7 @@
             characterIndex !== undefined && 'pointer-events-auto translate-x-0 opacity-100'
           )}
         >
-          <h5>EQUIPMENT</h5>
+          <h5>ARMORY</h5>
           <Hr left />
           {#if app.characters.length}
             <div class="my-3">

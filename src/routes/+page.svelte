@@ -1,4 +1,4 @@
-<Headline text="welcome to the ludus" />
+<!-- <Headline text="welcome to the ludus" />
 
 <crow vertical left class="gap-4 px-6 py-2">
   <crow class="w-full gap-4">
@@ -76,4 +76,4 @@
       Glory favors the bold—step into the arena and carve your legacy among the mini fighters.
     </div>
   </crow>
-</crow>
+</crow> -->
