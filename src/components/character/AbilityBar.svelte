@@ -1,11 +1,9 @@
 <script lang="ts">
   import { dndzone } from 'svelte-dnd-action';
-  import TooltipAbility from '$src/components/tooltips/TooltipAbility.svelte';
   import { calculateTickStart } from '$src/ts/Utils';
   import { flip } from 'svelte/animate';
   import type { AbilityRef } from '$src/types/ability';
   import ABILITIES from '$src/constants/ABILITIES';
-  import AbilityIcon from './AbilityIcon.svelte';
   import type { Character } from '$src/types/character';
   import CHARACTERS from '$src/constants/CHARACTERS';
 

@@ -5,7 +5,7 @@
   $: ({ loginPageMode } = $settings);
 </script>
 
-<Column class="relative p-10 pb-6 glass gap-2 w-full">
+<crow vertical class="glass relative w-full gap-2 p-10 pb-6">
   {#if loginPageMode === 0}
     <Login />
   {/if}
@@ -15,7 +15,7 @@
   {#if loginPageMode === 2}
     <ForgotPassword />
   {/if}
-  <Row>
+  <crow>
     {#if loginPageMode !== 0}
       <Button tertiary onclick={() => ($settings.loginPageMode = 0)} blur={escape}>Login</Button>
     {/if}
@@ -27,5 +27,5 @@
         Forgot password
       </Button>
     {/if}
-  </Row>
-</Column>
+  </crow>
+</crow>

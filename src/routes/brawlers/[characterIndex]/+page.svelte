@@ -2,11 +2,9 @@
   import app from '$src/app.svelte';
   import { page } from '$app/stores';
   import CHARACTERS from '$src/constants/CHARACTERS';
-  import AbilitySelection from '$src/components/character/AbilitySelection.svelte';
   import { slotsInPrettyName, unequip } from '$src/ts/equipment';
   import EQUIPMENT from '$src/constants/EQUIPMENT';
   import type { EquipmentSlot } from '$src/types/equipment';
-  import EquipmentLink from '$src/components/EquipmentLink.svelte';
   import { calculateCombatStatsByCharacter } from '$src/ts/Utils';
 
   let characterIndex = $derived($page.params.characterIndex);

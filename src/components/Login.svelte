@@ -42,8 +42,8 @@
   const { escape } = $derived($keys);
 </script>
 
-<form class="column-left w-full gap-2" onsubmit={preventDefault(login)}>
-  <Row class="w-full gap-2">
+<form class="crow left vertical w-full gap-2" onsubmit={preventDefault(login)}>
+  <crow class="w-full gap-2">
     <Input
       class="xs:w-full"
       placeholder="Email"
@@ -64,27 +64,31 @@
     />
 
     <Button class="xs:w-full" primary type="submit" blur={escape}>Log&nbsp;in</Button>
-  </Row>
+  </crow>
 
-  <Checkbox
-    id="codeOfConduct"
-    bind:value={codeOfConduct}
-    onchange={({ target: { checked } }: ChangeEvent) => (codeOfConduct = checked)}
-  >
-    I agree to the <a
-      class="text-blue-500 hover:underline"
-      href="/"
-      onclick={preventDefault(() => ($overlay = 'CodeOfConduct'))}
+  <div>
+    <Checkbox
+      id="codeOfConduct"
+      bind:value={codeOfConduct}
+      onchange={({ target: { checked } }: ChangeEvent) => (codeOfConduct = checked)}
     >
-      Code of Conduct
-    </a>
-  </Checkbox>
+      I agree to the <a
+        class="text-blue-500 hover:underline"
+        href="/"
+        onclick={preventDefault(() => ($overlay = 'CodeOfConduct'))}
+      >
+        Code of Conduct
+      </a>
+    </Checkbox>
+  </div>
 
-  <Checkbox
-    id="rememberMe"
-    bind:value={rememberMe}
-    onchange={({ target: { checked } }: ChangeEvent) => (rememberMe = checked)}
-  >
-    Remember me
-  </Checkbox>
+  <div>
+    <Checkbox
+      id="rememberMe"
+      bind:value={rememberMe}
+      onchange={({ target: { checked } }: ChangeEvent) => (rememberMe = checked)}
+    >
+      Remember me
+    </Checkbox>
+  </div>
 </form>

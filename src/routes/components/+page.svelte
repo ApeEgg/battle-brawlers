@@ -5,7 +5,7 @@
   $: ({ escape } = $keys);
 </script>
 
-<Column class="gap-10" left up>
+<crow vertical class="gap-10" left up>
   <div>
     <h2>Input</h2>
     <!--on:keyup={(e) => console.info(e?.target?.value)}-->
@@ -22,15 +22,15 @@
   </div>
   <div>
     <h2>Button</h2>
-    <Row class="gap-2">
+    <crow class="gap-2">
       <Button primary onclick={console.info}>Primary</Button>
       <Button secondary onclick={console.info}>Secondary</Button>
       <Button tertiary onclick={console.info}>Tertiary</Button>
-    </Row>
+    </crow>
   </div>
   <div>
     <h2>Toasts</h2>
-    <Row class="gap-2">
+    <crow class="gap-2">
       <Button
         tertiary
         onclick={notify.bind(undefined, { error: 'this is a error toast' })}
@@ -61,6 +61,6 @@
       >
         Success
       </Button>
-    </Row>
+    </crow>
   </div>
-</Column>
+</crow>

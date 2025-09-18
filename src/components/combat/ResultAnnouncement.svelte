@@ -1,8 +1,6 @@
 <script lang="ts">
   import { INITIAL_COMBAT } from '$src/app.svelte';
-  import VictoryOrLoss from '$src/components/combat/VictoryOrLoss.svelte';
-  import Button from '$src/components/form/Button.svelte';
-  import { backOut, elasticInOut } from 'svelte/easing';
+  import { backOut } from 'svelte/easing';
   import { scale } from 'svelte/transition';
 
   const { setOverlay } = ACTIONS;

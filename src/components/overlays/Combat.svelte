@@ -1,9 +1,6 @@
 <script lang="ts">
-  import CombatArena from '$src/components/combat/CombatArena.svelte';
-  import CombatantCard from '$src/components/combat/CombatantCard.svelte';
   import { COMBAT_TICK_TIME, COMBAT_RING_BASE_RADIUS } from '$src/constants/APP';
   import type { Team } from '$src/types/team';
-  import ResultAnnouncement from '$src/components/combat/ResultAnnouncement.svelte';
 
   const getGeometry = (N: number, { baseRadius = 250, itemWidth = 140, gap = 0 } = {}) => {
     const C_base = 2 * Math.PI * baseRadius;

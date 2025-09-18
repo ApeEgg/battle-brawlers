@@ -10,8 +10,8 @@
   };
 </script>
 
-<Row class="fixed top-0 right-0 bottom-auto" right>
-  <!-- <Clickable class="row h-8 w-8 hover:bg-black/5 dark:hidden" onclick={toggleDarkMode}>
+<crow class="fixed top-0 right-0 bottom-auto" right>
+  <!-- <Clickable class="crow h-8 w-8 hover:bg-black/5 dark:hidden" onclick={toggleDarkMode}>
     <Icon class="text-yellow-500" name="light" />
   </Clickable> -->
   <Clickable
@@ -20,7 +20,7 @@
   >
     <Icon class="text-blue-500" name="dark" />
   </Clickable>
-  <Clickable class="row h-8 w-8 hover:bg-black/5" onclick={setOverlay.bind(undefined, 'GameMenu')}>
+  <Clickable class="crow h-8 w-8 hover:bg-black/5" onclick={setOverlay.bind(undefined, 'GameMenu')}>
     <Icon name="menu" size={20} />
   </Clickable>
-</Row>
+</crow>

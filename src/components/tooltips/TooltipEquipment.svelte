@@ -1,8 +1,6 @@
 <script lang="ts">
   import type { Equipment } from '$src/types/equipment';
-  import AbilityInventory from '$src/components/character/AbilityInventory.svelte';
   import ABILITIES from '$src/constants/ABILITIES';
-  import AbilityBar from '$src/components/character/AbilityBar.svelte';
   import type { Character } from '$src/types/character';
 
   let {

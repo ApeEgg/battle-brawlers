@@ -2,9 +2,7 @@
   import { untrack } from 'svelte';
   import app from '$src/app.svelte';
   import type { Ability, AbilityRef } from '$src/types/ability';
-  import AbilityBar from '$src/components/character/AbilityBar.svelte';
   import { calculateAvailableAbilitiesByCharacter } from '$src/ts/Utils';
-  import AbilityInventory from '$src/components/character/AbilityInventory.svelte';
   import EQUIPMENT from '$src/constants/EQUIPMENT';
   import ABILITIES from '$src/constants/ABILITIES';
   import type { Character } from '$src/types/character';

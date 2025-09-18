@@ -16,8 +16,9 @@
 </script>
 
 {#if show}
-  <div class="column fixed inset-0 bg-black/25" in:fade={{ duration: 250, delay: 500 }}>
-    <Column
+  <div class="crow vertical fixed inset-0 bg-black/25" in:fade={{ duration: 250, delay: 500 }}>
+    <crow
+      vertical
       class="
         relative w-full gap-4 bg-black/70 py-6 text-white before:absolute before:right-0
         before:bottom-[calc(100%+theme(space.1))] before:left-0 before:h-1 before:bg-black/50 before:content-[''] after:absolute after:top-[calc(100%+theme(space.1))] after:right-0
@@ -28,6 +29,6 @@
         {@render children()}
       </h1>
       <Spinner />
-    </Column>
+    </crow>
   </div>
 {/if}

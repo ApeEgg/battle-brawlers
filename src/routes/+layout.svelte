@@ -4,24 +4,13 @@
   import '$src/store/settings';
   import { page } from '$app/stores';
   import type { Snippet } from 'svelte';
-  import Authorization from '$src/components/Authorization.svelte';
-  import Tooltip from '$src/components/ui/Tooltip.svelte';
   import app from '$src/app.svelte';
-  import Button from '$src/components/form/Button.svelte';
   import { equip } from '$src/ts/equipment';
-  import EquipmentLink from '$src/components/EquipmentLink.svelte';
   import { overrideItemIdKeyNameBeforeInitialisingDndZones } from 'svelte-dnd-action';
   import EQUIPMENT from '$src/constants/EQUIPMENT';
   import CHARACTERS from '$src/constants/CHARACTERS';
-  import CombatantAbilityBar from '$src/components/combat/CombatantAbilityBar.svelte';
   import ABILITIES from '$src/constants/ABILITIES';
   import { calculateCombatStatsByCharacter, calculateTickStart } from '$src/ts/Utils';
-  import Accordion from '$src/components/Accordion.svelte';
-  import InCombat from '$src/components/global/InCombat.svelte';
-  import Clickable from '$src/components/buttons/Clickable.svelte';
-  import DevBar from '$src/components/DevBar.svelte';
-  import ClientClock from '$src/components/global/ClientClock.svelte';
-  import RefillHealthTimer from '$src/components/RefillHealthTimer.svelte';
   import {
     getCurrentExperienceAtLevel,
     getExperienceForNextLevel,
@@ -69,15 +58,12 @@
       "bg-[url('/images/arena-cut.png')] bg-cover bg-center bg-no-repeat shadow-[inset_0_0px_10vw_rgba(0,0,0,1)]"
   )}
 ></div>
-<div class={tw('bg-blur min-h-screen w-screen', isFrontpage ? 'row' : 'row-up')}>
+<div class={tw('bg-blur min-h-screen w-screen', isFrontpage ? 'crow' : 'crow up')}>
   <div
-    class={tw(
-      'xs:w-[calc(100%-theme(space.4))]',
-      isFrontpage ? 'row' : 'row-up-left w-full max-w-7xl'
-    )}
+    class={tw('xs:w-[calc(100%-theme(space.4))]', isFrontpage ? 'crow' : 'flex w-full max-w-7xl')}
   >
     <Authorization>
-      <Row class="min-h-screen flex-1 gap-2 pt-20" up>
+      <div class="flex min-h-screen flex-1 gap-2 pt-20">
         <div class="w-56 rounded border border-gray-400 bg-white/30 p-4">
           <h5>MY LUDUS</h5>
           <Hr left />
@@ -289,13 +275,13 @@
             </div>
           {/if}
         </div>
-      </Row>
+      </div>
     </Authorization>
   </div>
 </div>
 
 <Topbar />
-<Logo />
+<!-- <Logo /> -->
 <Overlay />
 
 {#if app.tooltip}

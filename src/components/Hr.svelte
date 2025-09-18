@@ -1,5 +1,9 @@
 <script lang="ts">
-  let { left, right, class: classes } = $props();
+  let {
+    left,
+    right,
+    class: classes
+  }: { left?: boolean; right?: boolean; class?: string } = $props();
 </script>
 
 <hr

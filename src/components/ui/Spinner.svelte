@@ -1,5 +1,5 @@
 <script lang="ts">
-  let { class: classes } = $props();
+  let { class: classes }: { class?: string } = $props();
 </script>
 
 <div class={tw('grid items-center text-4xl text-white', classes)}>

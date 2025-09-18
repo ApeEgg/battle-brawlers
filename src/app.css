@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-@plugin '@ape-egg/tailwind-rows-columns';
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import TooltipEquipment from '$src/components/tooltips/TooltipEquipment.svelte';
   import CHARACTERS from '$src/constants/CHARACTERS';
 
   let props = $props();

@@ -4,7 +4,6 @@
   import CHARACTERS from '$src/constants/CHARACTERS';
   import type { Team } from '$src/types/team';
   import type { Character } from '$src/types/character';
-  import Combat from '$src/components/overlays/Combat.svelte';
   import { INITIAL_COMBAT } from '$src/app.svelte';
 
   let teams = $derived<Team[]>(app.combat.teamsStartState);

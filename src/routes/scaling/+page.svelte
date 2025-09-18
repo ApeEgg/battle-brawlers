@@ -1,5 +1,4 @@
 <script lang="ts">
-  import AbilityBar from '$src/components/character/AbilityBar.svelte';
   import ABILITIES, { ALL_ABILITIES } from '$src/constants/ABILITIES';
 
   let chosenAbility = $state('punch');

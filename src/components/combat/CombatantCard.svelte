@@ -1,8 +1,5 @@
 <script lang="ts">
-  import HealthBar from '$src/components/combat/HealthBar.svelte';
   import type { Combatant } from '$src/types/combatant';
-  import CombatantAbilityBar from '$src/components/combat/CombatantAbilityBar.svelte';
-  import CombatantImage from '$src/components/combat/CombatantImage.svelte';
   import STATUS_EFFECTS from '$src/constants/STATUS_EFFECTS';
   import { flip } from 'svelte/animate';
 

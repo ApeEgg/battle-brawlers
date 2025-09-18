@@ -23,7 +23,7 @@
   $: ({ escape } = $keys);
 </script>
 
-<form class="row w-full gap-2" on:submit|preventDefault={forgotPassword}>
+<form class="crow w-full gap-2" on:submit|preventDefault={forgotPassword}>
   <Input
     class="xs:w-full"
     placeholder="Email"

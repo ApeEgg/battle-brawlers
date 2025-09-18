@@ -4,12 +4,7 @@
   import { prepareCombatant } from '$src/ts/Utils';
   import { generateCombat } from '$src/ts/Combat';
   import type { Team } from '$src/types/team';
-  import AbilityBar from '$src/components/character/AbilityBar.svelte';
-  import AbilitySelection from '$src/components/character/AbilitySelection.svelte';
   import { goto } from '$app/navigation';
-  import Accordion from '$src/components/Accordion.svelte';
-  import Icon from '$src/components/ui/Icon.svelte';
-  import Button from '$src/components/form/Button.svelte';
 
   const { overlay } = STORES;
 
