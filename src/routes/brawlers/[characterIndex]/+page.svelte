@@ -32,6 +32,22 @@
 <GoBack onclick={() => history.back()} />
 
 <Headline text={character.name}>
+  <crow class="!flex-none translate-y-px gap-2 text-xl text-gray-600" left>
+    <crow class="gap-1">
+      <Icon name="maxHealth" original />
+      {combatStats?.maxHealth}
+    </crow>
+    <span class="text-gray-300">/</span>
+    <crow class="gap-1">
+      <Icon name="maxArmor" original />
+      {combatStats?.maxArmor}
+    </crow>
+    <span class="text-gray-300">/</span>
+    <crow class="gap-1">
+      <Icon name="damage" original />
+      {combatStats?.damage}
+    </crow>
+  </crow>
   {#if getLevelByExperience(app.experience) <= 4}
     <crow class="!space-between w-full gap-2" right>
       <span class="text-xs text-gray-400">(possible until level 5)</span>
@@ -43,7 +59,7 @@
 <crow vertical class="mt-4 gap-4">
   <crow left up class="gap-4">
     <CharacterAvatar {...character} />
-    <crow vertical up left>
+    <!-- <crow vertical up left>
       <crow class="gap-2">
         <div class="w-15 font-bold">Race:</div>
         <div>{character.race}</div>
@@ -60,8 +76,8 @@
         <div class="w-15 font-bold">Armor:</div>
         <div>{combatStats?.maxArmor}</div>
       </crow>
-    </crow>
-    <crow vertical up left>
+    </crow> -->
+    <crow class="!flex-2" vertical up left>
       {#each Object.entries(character.equipment) as [slot, equipment] (`${character.uuid}-${slot}-${equipment?.uuid}`)}
         <crow left class="w-full !justify-between gap-2">
           <crow left>

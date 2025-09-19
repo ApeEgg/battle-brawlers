@@ -56,7 +56,7 @@
   <div class="absolute" style="left: {x}px; top:{y - 20}px; transform: translate(-50%, -50%);">
     <div class="absolute" style="transform: scale(1) translate(-50%, -50%);">
       <div class="combatant glass rounded border-[0.5px] !border-none border-transparent shadow">
-        <crow class="w-full justify-between px-2 py-1 font-bold text-[#989387] uppercase">
+        <crow class="w-full justify-between px-2 py-1 font-bold text-stone-500 uppercase">
           {name}
           <!-- <crow right class="gap-1">
             <strong>DMG</strong>

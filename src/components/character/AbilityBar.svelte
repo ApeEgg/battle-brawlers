@@ -46,7 +46,7 @@
   );
 </script>
 
-<div class={tw('w-full px-1 py-2')}>
+<div class={tw('w-full px-1 py-2', small && 'pb-0')}>
   <div class="relative w-[calc((100%/18)*18)]">
     <crow class="w-full" up>
       {#each Array(small ? 12 : 15) as _, i}
