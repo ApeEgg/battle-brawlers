@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import CHARACTERS from '$src/constants/CHARACTERS';
   import customEvent from '$src/ts/customEvent';
   import { calculateCombatStatsByCharacter } from '$src/ts/Utils';
@@ -15,7 +15,7 @@
   const gain50Exp = () => (app.experience += 50);
 </script>
 
-<crow up class="sticky top-0 bg-gray-200">
+<crow up class="!h-30 bg-gray-200/20">
   <crow vertical left class="gap-1 p-2">
     <Button onclick={customEvent.bind(undefined, 'pauseCombat', { nothing: 'true' })}>
       Pause combat
@@ -56,5 +56,10 @@
     </crow>
     <Button onclick={() => (app.characters = [])}>Clear characters</Button>
   </crow>
-  <crow left class="p-2">4</crow>
+  <crow left class="w-full overflow-hidden p-2">
+    {#if app.combat.duration < 0}
+      <pre class="text-xs">{JSON.stringify(app.dump(), null, 2)}
+    </pre>
+    {/if}
+  </crow>
 </crow>

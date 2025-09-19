@@ -81,7 +81,7 @@
 
   <crow up left vertical>
     <Accordion isOpen={!brawlersSelected}>
-      <div class="min-h-54 text-sm">
+      <div class="min-h-48 max-w-100 pb-8 text-sm">
         {@html creature.description}
       </div>
     </Accordion>
@@ -121,24 +121,24 @@
 {#if brawlersSelected}
   <Hr class="mt-4 mb-3" />
 
-  <crow>
+  <crow class="gap-3">
     <Button
       tertiary
       disabled={!brawlersSelected || app.combat.duration !== 0}
       onclick={() => (app.selectedBrawlers = [])}
-      class="mt-4 px-4 py-2 text-sm"
     >
       Cancel
     </Button>
 
     <Button
+      big
+      bgColor="bg-red-500"
       disabled={!brawlersSelected ||
         app.combat.duration !== 0 ||
         selectedBrawlers.some(
           (brawler) => CHARACTERS(brawler, true).combatStats.currentHealth <= 0
         )}
       onclick={runCombat}
-      class="mt-4 px-4 py-2 text-sm"
     >
       Fight
     </Button>

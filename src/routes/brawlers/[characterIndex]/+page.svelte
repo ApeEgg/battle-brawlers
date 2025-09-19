@@ -8,12 +8,19 @@
   import { calculateCombatStatsByCharacter } from '$src/ts/Utils';
   import { goto } from '$app/navigation';
   import { getLevelByExperience } from '$src/ts/level';
+  import { confirmWithDialog } from '$src/ts/dialog';
+  import BasicConfirmation from '$src/components/dialog/BasicConfirmation.svelte';
+  import type { Component } from 'svelte';
+  import type { Character } from '$src/types/character';
 
-  const retireCharacter = async () => {
-    if (confirm('Are you sure you want to retire this character? This action cannot be undone.')) {
-      await goto('/brawlers');
-      app.characters = [];
-    }
+  const retireCharacter = async (character: Character) => {
+    confirmWithDialog(BasicConfirmation as Component, {
+      text: `You are retiring <span class="text-white">${character.name}</span>.<br /><br />Do you wish to proceed?`,
+      confirm: async () => {
+        await goto('/brawlers');
+        app.characters = [];
+      }
+    });
   };
 
   let characterIndex = $derived($page.params.characterIndex);
@@ -28,7 +35,7 @@
   {#if getLevelByExperience(app.experience) <= 4}
     <crow class="!space-between w-full gap-2" right>
       <span class="text-xs text-gray-400">(possible until level 5)</span>
-      <Button onclick={retireCharacter} secondary>Retire</Button>
+      <Button onclick={() => retireCharacter(character)} tertiary>Retire</Button>
     </crow>
   {/if}
 </Headline>
@@ -76,7 +83,7 @@
           </crow>
 
           {#if equipment}
-            <Button secondary onclick={() => unequip(equipment, slot as EquipmentSlot)}>
+            <Button tertiary onclick={() => unequip(equipment, slot as EquipmentSlot)}>
               Unequip
             </Button>
           {/if}

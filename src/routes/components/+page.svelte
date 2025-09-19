@@ -21,11 +21,19 @@
     <Dropdown options={['option 1', 'option 2']} />
   </div>
   <div>
-    <h2>Button</h2>
-    <crow class="gap-2">
+    <h2>Button (active)</h2>
+    <crow left class="gap-2">
       <Button primary onclick={console.info}>Primary</Button>
       <Button secondary onclick={console.info}>Secondary</Button>
       <Button tertiary onclick={console.info}>Tertiary</Button>
+    </crow>
+  </div>
+  <div>
+    <h2>Button (disabled)</h2>
+    <crow left class="gap-2">
+      <Button primary disabled onclick={console.info}>Primary</Button>
+      <Button secondary disabled onclick={console.info}>Secondary</Button>
+      <Button tertiary disabled onclick={console.info}>Tertiary</Button>
     </crow>
   </div>
   <div>

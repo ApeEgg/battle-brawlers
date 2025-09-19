@@ -163,7 +163,7 @@ export const ALL_CHARACTERS = {
     size: 1.2,
     equipment: DEFAULT_EQUIPMENT,
     description:
-      'The Succubus is a fearsome warrior whose raw power and unyielding rage make her a deadly foe on the battlefield. Known for her brutal combat style, she thrives in the chaos of close-range encounters.<br /><br />Her most terrifying ability is her relentless spinning attack, where she whirls her weapons with terrifying force, striking all who dare stand too close. This savage technique allows her to mow through groups of enemies with devastating efficiency, leaving little room for her opponents to retaliate.',
+      'The Succubus is a deadly demon whose elegance masks her savage nature. In battle, she thrives amid chaos, lashing out with razor-sharp claws in a flurry of violent motion.<br /><br />Her signature attack is a whirling dance of destruction, spinning with unrelenting speed to strike all who dare draw near. This devastating technique carves through groups of enemies with merciless efficiency, leaving little chance for escape.',
     element: '',
     combatStats: {
       maxHealth: 70,
@@ -181,12 +181,13 @@ export const ALL_CHARACTERS = {
     abilities: [ABILITIES('swing'), ABILITIES('whirlwind', false, { overrides: { basic: true } })]
   },
   rat: {
-    name: 'Fat rat',
+    name: 'Giant rat',
     race: 'creature',
     image: 'creature/rat.png',
     size: 1.15,
     equipment: DEFAULT_EQUIPMENT,
-    description: 'Snirvel.',
+    description:
+      'The Giant Rat is a vile and tenacious creature, driven by an insatiable hunger. Its bite is vicious and infectious, leaving deep wounds that continue to bleed long after the initial strike.<br /><br />When not attacking, it retreats to feast on nearby scraps of food. This gluttonous act rapidly restores its health, making it a persistent and frustrating foe to defeat if left unchecked',
     element: '',
     combatStats: {
       maxHealth: 50,
@@ -209,7 +210,8 @@ export const ALL_CHARACTERS = {
     image: 'creature/undead.png',
     size: 1,
     equipment: DEFAULT_EQUIPMENT,
-    description: 'ÖÖÖÖh.',
+    description:
+      'The Undead is a ghastly remnant of a once-living being, now animated by dark magic. It moves with eerie silence, its cold, lifeless gaze fixed on its prey.<br /><br />Even the slightest touch from this cursed creature is lethal, sapping the strength and vitality of the living. Those who encounter it rarely survive, and those who do are never the same again.',
     combatStats: {
       maxHealth: 20,
       currentHealth: 20,
@@ -238,7 +240,8 @@ export const ALL_CHARACTERS = {
     image: 'creature/golem.png',
     size: 1.2,
     equipment: DEFAULT_EQUIPMENT,
-    description: '...',
+    description:
+      'The Golem is a towering sentinel of stone, crafted for war and built to endure. Its immense frame makes it a formidable presence on the battlefield, shrugging off attacks that would shatter lesser foes.<br /><br />When its armor is even partially intact, it draws upon ancient magic to restore its defenses completely, becoming nearly invulnerable once more. Only those who can deplete its armor fully stand a chance of bringing it down.',
     element: '',
     combatStats: {
       maxHealth: 50,

@@ -31,7 +31,7 @@
       <div class="flex-1">{slotsInPrettyName(item.slotsIn)}</div>
       <div class="flex-1">1</div>
       <div class="w-20 text-right">
-        <Button onclick={craftEquipment.bind(undefined, EQUIPMENT(item))}>Craft</Button>
+        <Button tertiary onclick={craftEquipment.bind(undefined, EQUIPMENT(item))}>Craft</Button>
       </div>
     </crow>
   {/each}

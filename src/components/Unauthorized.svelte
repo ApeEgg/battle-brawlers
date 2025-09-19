@@ -15,7 +15,7 @@
   {#if loginPageMode === 2}
     <ForgotPassword />
   {/if}
-  <crow>
+  <crow class="gap-2">
     {#if loginPageMode !== 0}
       <Button tertiary onclick={() => ($settings.loginPageMode = 0)} blur={escape}>Login</Button>
     {/if}

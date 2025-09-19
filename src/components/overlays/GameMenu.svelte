@@ -4,7 +4,7 @@
   let { onclick } = $props();
 </script>
 
-<Frame class="crow vertical gap-2">
+<Frame title="options">
   <Button secondary onclick={() => ($overlay = 'ReleaseNotes')}>Release notes</Button>
   {#if app.token}
     <Logout />

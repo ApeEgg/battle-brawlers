@@ -55,7 +55,7 @@
 </script>
 
 <Bar
-  class="bg-gray-700"
+  class="bg-gray-600"
   current={fullTime - timeToRefill}
   max={fullTime}
   isTime

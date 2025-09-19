@@ -68,7 +68,7 @@
   on:mouseenter={hover.bind(undefined, true)}
   on:mouseleave={hover.bind(undefined, false)}
 >
-  <div class="crow right" bind:this={ref}>
+  <div class="crow vertical right" bind:this={ref}>
     {#each [...$notifications] as notification (notification)}
       {@const { type, message } = JSON.parse(notification)}
       <div>

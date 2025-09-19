@@ -215,8 +215,8 @@
       <crow class={tw('w-0 !flex-none transition-all duration-200', renderSides && 'w-20')}>
         <Button
           onclick={() => (showAvailableAbilities = !showAvailableAbilities)}
-          secondary
-          class="px-2"
+          tertiary
+          class="py-1.5"
         >
           <Icon name="down" class={tw(showAvailableAbilities && '-scale-y-[1]')} />
         </Button>

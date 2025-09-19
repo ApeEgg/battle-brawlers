@@ -63,7 +63,7 @@
       blur={escape}
     />
 
-    <Button class="xs:w-full" primary type="submit" blur={escape}>Log&nbsp;in</Button>
+    <Button primary class="xs:w-full" type="submit" blur={escape}>Log&nbsp;in</Button>
   </crow>
 
   <div>

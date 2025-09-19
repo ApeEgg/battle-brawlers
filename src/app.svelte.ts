@@ -8,6 +8,7 @@ import type { Tooltip } from '$src/ts/use';
 import EQUIPMENT from '$src/constants/EQUIPMENT';
 import ABILITIES from '$src/constants/ABILITIES';
 import type { Team } from '$src/types/team';
+import type { Dialog } from '$src/ts/dialog';
 
 export const INITIAL_COMBAT = {
   teamsStartState: [],
@@ -189,8 +190,9 @@ export default new (class {
   inventory: EquipmentRef[] = $state(INITIAL_INVENTORY);
   socket = $state() as AsyncAwaitWebsocket;
   token: string | undefined = $state();
-  tooltip?: Tooltip = $state();
   selectedBrawlers: string[] = $state([]);
+  tooltip?: Tooltip = $state();
+  dialog?: Dialog = $state();
 
   constructor() {
     $effect.root(() => {
@@ -219,5 +221,24 @@ export default new (class {
         return () => clearTimeout(saveDebounce);
       });
     });
+  }
+
+  dump() {
+    function flatSnapshot(o) {
+      const out = {};
+      let p = o;
+      while ((p = Object.getPrototypeOf(p)) && p !== Object.prototype) {
+        for (const n of Object.getOwnPropertyNames(p)) {
+          const d = Object.getOwnPropertyDescriptor(p, n);
+          if (d?.get && !(n in out)) {
+            try {
+              out[n] = o[n];
+            } catch {}
+          }
+        }
+      }
+      return out;
+    }
+    return flatSnapshot(this);
   }
 })();

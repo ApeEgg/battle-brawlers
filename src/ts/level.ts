@@ -1,3 +1,5 @@
+import app from '$src/app.svelte';
+
 const SCALING = 1.5;
 
 export const getLevelByExperience = (experience: number) => {
@@ -18,4 +20,9 @@ export const getCurrentExperienceAtLevel = (experience: number) => {
   const currentLevel = getLevelByExperience(experience);
   const xpForCurrentLevel = getExperienceByLevel(currentLevel);
   return Math.floor(experience - xpForCurrentLevel);
+};
+
+export const allowedNumberOfCharacters = () => {
+  const level = getLevelByExperience(app.experience);
+  return Math.floor(level / 5) + 1;
 };

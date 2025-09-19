@@ -77,6 +77,8 @@
         <Accordion isOpen={rewardsShown > delayTicks}>
           <crow class="w-full">
             <Button
+              big
+              tertiary
               onclick={() => {
                 app.combat = { ...INITIAL_COMBAT };
                 app.liveTeams = [];
@@ -84,7 +86,6 @@
                 setOverlay('');
               }}
               secondary
-              class="text-md px-4 py-2"
             >
               Go back
             </Button>

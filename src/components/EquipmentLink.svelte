@@ -3,7 +3,7 @@
 
   let props = $props();
 
-  let character = $derived(app.characters[0]);
+  let character = $derived(app.characters[0] || CHARACTERS('elf'));
 </script>
 
 <div

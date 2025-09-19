@@ -4,7 +4,7 @@
 
 <button
   {onclick}
-  class={tw('close crow absolute -top-2 -right-2 h-8 w-8 active:translate-y-px', classes)}
+  class={tw('close crow absolute top-1 right-1 h-6 w-6 bg-black active:translate-y-px', classes)}
 >
-  <Icon name="cross" />
+  <Icon name="cross" class="text-red-600" />
 </button>

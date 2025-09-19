@@ -21,8 +21,8 @@
 
 <div
   class={tw(
-    'relative grid h-7 w-full bg-gray-500 text-white',
-    center && 'overflow-hidden rounded-sm'
+    'relative grid h-7 w-full bg-gray-500/50 text-white inset-shadow-sm',
+    center && 'h-6 overflow-hidden rounded-sm'
   )}
 >
   <div
