@@ -83,7 +83,24 @@
             </crow>
 
             <crow vertical left class="w-full">
-              <span class="text-sm text-gray-800">Medical area</span>
+              <crow class="w-full !justify-between">
+                <span class="text-sm text-gray-800">Medical area</span>
+                <Button
+                  onclick={() => {
+                    app.characters.forEach((character) => {
+                      const { currentHealth, maxHealth } = calculateCombatStatsByCharacter(
+                        CHARACTERS(character, true)
+                      );
+                      const heal = Math.ceil(maxHealth * 0.33);
+                      character.overrides.combatStats.currentHealth = Math.min(
+                        currentHealth + heal,
+                        maxHealth
+                      );
+                    });
+                  }}
+                  tertiary>Heal now</Button
+                >
+              </crow>
               <RefillHealthTimer />
             </crow>
           </crow>
