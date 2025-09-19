@@ -14,5 +14,5 @@
     direction: 'up'
   }}
 >
-  {props.name}
+  [{props.name}]
 </div>
