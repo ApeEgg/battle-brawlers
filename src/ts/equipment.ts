@@ -4,7 +4,7 @@ import { get } from 'svelte/store';
 import app from '$src/app.svelte';
 import type { Character } from '$src/types/character';
 import EQUIPMENT from '$src/constants/EQUIPMENT';
-import CHARACTERS, { DEFAULT_EQUIPMENT } from '$src/constants/CHARACTERS';
+import CHARACTERS from '$src/constants/CHARACTERS';
 
 const decideEquipmentSlot = (slotsIn: EquipmentType, character: Character) => {
   if (slotsIn === 'oneHand') {
@@ -27,7 +27,13 @@ const decideEquipmentSlot = (slotsIn: EquipmentType, character: Character) => {
   return slotsIn;
 };
 
-export const equip = (equipmentRef: EquipmentRef, index: number) => {
+export const dismantle = (itemRef: EquipmentRef) => {
+  const index = app.inventory.findIndex(({ uuid }) => uuid === itemRef.uuid);
+  if (index === -1) return;
+  app.inventory.splice(index, 1);
+};
+
+export const equip = (equipmentRef: EquipmentRef) => {
   const characterIndex = Number(get(page)?.params.characterIndex) || 0;
   if (characterIndex === undefined) return;
 
@@ -41,6 +47,7 @@ export const equip = (equipmentRef: EquipmentRef, index: number) => {
     ? EQUIPMENT(character.equipment.mainHand, true)
     : {};
 
+  const index = app.inventory.findIndex((item) => item === equipmentRef);
   // Remove item from inventory (equipment)
   app.inventory.splice(index, 1);
 
@@ -82,12 +89,12 @@ export const unequip = (equipmentRef: EquipmentRef, slot: EquipmentSlot) => {
   characterRef.overrides.equipment[slot] = null;
 };
 
-export const slotsInPrettyName = (slotsIn: EquipmentType) =>
+export const slotsInPrettyName = (slotsIn: EquipmentType | string) =>
   ({
     twoHand: 'Two-Handed',
     oneHand: 'One-Handed',
-    mainHand: 'Mainhand',
-    offHand: 'Offhand',
+    mainHand: 'Main-Hand',
+    offHand: 'Off-Hand',
     accessory: 'Accessory',
     trinket: 'Trinket',
     armor: 'Armor'

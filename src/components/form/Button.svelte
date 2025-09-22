@@ -7,22 +7,26 @@
     tertiary = false,
     blur = false,
     class: classes,
+    innerClass = '',
     onclick,
     children,
     disabled = false,
     bgColor = '',
-    big = false
+    big = false,
+    active = false
   }: {
     primary?: boolean;
     secondary?: boolean;
     tertiary?: boolean;
     blur?: boolean;
     class?: string;
+    innerClass?: string;
     onclick: () => void;
     disabled?: boolean;
     children: Snippet;
     bgColor?: string;
     big?: boolean;
+    active?: boolean;
   } = $props();
 
   let inputRef: HTMLButtonElement;
@@ -47,7 +51,9 @@
     tertiary &&
       'bg-stone-200 text-xs text-gray-500 shadow-[0.5px_1px_0_theme(color.gray.400)] active:enabled:translate-x-[0.5px] active:enabled:translate-y-px active:enabled:shadow-none',
     tertiary && disabled && 'shadow-[0.5px_1px_0_theme(color.white)]',
-    disabled && 'text-gray-400 opacity-80 grayscale'
+    tertiary && active && 'translate-x-[0.5px] translate-y-px shadow-none',
+    disabled && 'cursor-default text-gray-400 opacity-80 grayscale',
+    classes
   )}
   {disabled}
 >
@@ -69,7 +75,7 @@
       'relative gap-1 px-3 py-1 leading-4 [grid-area:1/1]',
       tertiary && 'border-[0.5px] border-gray-300 px-2 py-0.5',
       big && 'px-5 py-1 text-lg',
-      classes
+      innerClass
     )}
   >
     {@render children()}

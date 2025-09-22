@@ -19,7 +19,8 @@
     dndDisabled = false,
     constrainAxisY = false,
     small = false,
-    minimalistic = false
+    minimalistic = false,
+    hideOverflow = false
   }: {
     character: Character;
     abilities: AbilityRef[];
@@ -30,6 +31,7 @@
     constrainAxisY?: boolean;
     small?: boolean;
     minimalistic?: boolean;
+    hideOverflow?: boolean;
   } = $props();
 
   let hydratedAbilities = $derived(abilities.map((a) => ABILITIES(a, true)));
@@ -73,7 +75,7 @@
           style="left:calc((100%/{small ? 12 : 15})*{lastTick});"
         >
           <crow vertical right class="absolute bottom-full text-center text-xs">
-            <strong class="text-black">Ability&nbsp;sequence</strong>{lastTick}&nbsp;ticks
+            <strong class="leading-3 text-black">Ability&nbsp;sequence</strong>{lastTick}&nbsp;ticks
           </crow>
         </div>
       {/if}
@@ -123,11 +125,13 @@
           class={tw(
             'relative -ml-px h-full !flex-none rounded border border-gray-500 bg-white',
             ability.basic ? 'border-gray-300 bg-gray-100' : 'z-10',
-            !dndDisabled && tickStart > 11 && 'border-red-300 bg-red-100'
+            !dndDisabled && tickStart > 11 && 'border-red-300 bg-red-100',
+            !dndDisabled && tickStart > 11 && hideOverflow && '!hidden'
           )}
           style="width: calc(((100%/{small ? 12 : 15})*{ability.ticks}) + 1px);"
         >
           <AbilityIcon {ability} hideTickCount {small} disabled={!dndDisabled && tickStart > 11} />
+          <!-- {ability.uuid.substring(0, 5)} -->
         </crow>
       {/each}
     </crow>

@@ -14,7 +14,7 @@
 <crow vertical up left class="-mx-4 !w-auto">
   <crow up left class="gap-4 px-6 py-2 text-stone-900">
     <div class="flex-1">Name</div>
-    <div class="flex-1">Possible loot</div>
+    <div class="flex-1">Loot</div>
     <div class="flex-1">Level</div>
   </crow>
   {#each creatures as creature, i}
@@ -31,7 +31,7 @@
 
         <a href="/the-arena/{creature.url}">{creature.name} </a>
       </crow>
-      <div class="flex-1">n/a</div>
+      <div class="flex-1">50 exp</div>
       <div class="flex-1">1</div>
     </Clickable>
   {/each}

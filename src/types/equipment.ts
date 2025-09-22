@@ -2,7 +2,7 @@ import type { AbilityRef } from '$src/types/ability';
 import type { CombatStats } from '$src/types/combatStats';
 import type { DynamicObject } from '$src/types/common';
 
-export type EquipmentSlot = 'mainHand' | 'offHand' | 'armor' | 'accessory' | 'trinket';
+export type EquipmentSlot = 'offHand' | 'armor' | 'accessory' | 'trinket';
 export type EquipmentType = EquipmentSlot | 'oneHand' | 'twoHand';
 
 export type EquipmentRef = {
@@ -14,6 +14,7 @@ export type EquipmentRef = {
 export type Equipment = EquipmentRef & {
   name: string;
   slotsIn: EquipmentType;
+  cost: number;
   description: string;
   combatStats: CombatStats;
   abilities: AbilityRef[];

@@ -35,6 +35,7 @@ export const RECRUITABLE_CHARACTERS = [
         mainHand: EQUIPMENT('bow', false, {
           overrides: {
             name: 'Basic Bow',
+            cost: 0,
             abilities: [
               ABILITIES('pierce', false, {
                 overrides: { name: 'Basic Pierce', statusEffects: [] }
@@ -61,6 +62,7 @@ export const RECRUITABLE_CHARACTERS = [
         mainHand: EQUIPMENT('club', false, {
           overrides: {
             name: 'Basic Club',
+            cost: 0,
             abilities: [
               ABILITIES('slam', false, { overrides: { name: 'Basic Slam', statusEffects: [] } }),
               ABILITIES('slam', false, { overrides: { name: 'Basic Slam', statusEffects: [] } }),
@@ -80,6 +82,7 @@ export const RECRUITABLE_CHARACTERS = [
         mainHand: EQUIPMENT('dagger', false, {
           overrides: {
             name: 'Basic Dagger',
+            cost: 0,
             abilities: [
               ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } }),
               ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } }),
@@ -90,6 +93,7 @@ export const RECRUITABLE_CHARACTERS = [
         offHand: EQUIPMENT('dagger', false, {
           overrides: {
             name: 'Basic Dagger',
+            cost: 0,
             abilities: [
               ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } }),
               ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } }),
@@ -109,6 +113,7 @@ export const RECRUITABLE_CHARACTERS = [
         mainHand: EQUIPMENT('axe', false, {
           overrides: {
             name: 'Basic Axe',
+            cost: 0,
             abilities: [
               ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } }),
               ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } })
@@ -118,6 +123,7 @@ export const RECRUITABLE_CHARACTERS = [
         offHand: EQUIPMENT('axe', false, {
           overrides: {
             name: 'Basic Axe',
+            cost: 0,
             abilities: [
               ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } }),
               ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } })
@@ -136,6 +142,7 @@ export const RECRUITABLE_CHARACTERS = [
         mainHand: EQUIPMENT('hammer', false, {
           overrides: {
             name: 'Basic Hammer',
+            cost: 0,
             abilities: [
               ABILITIES('slam', false, {
                 overrides: { name: 'Basic Slam', ticks: 3, statusEffects: [] }
@@ -149,6 +156,7 @@ export const RECRUITABLE_CHARACTERS = [
         offHand: EQUIPMENT('shield', false, {
           overrides: {
             name: 'Basic Shield',
+            cost: 0,
             abilities: [
               ABILITIES('block'),
               ABILITIES('shieldBash', false, {
@@ -164,17 +172,17 @@ export const RECRUITABLE_CHARACTERS = [
   })
 ];
 const INITIAL_CHARACTERS: Character[] = [];
-
-// const INITIAL_INVENTORY = [EQUIPMENT('sword'), EQUIPMENT('giantsHeart'), EQUIPMENT('dagger')];
-const INITIAL_INVENTORY = [
-  EQUIPMENT('sword'),
-  EQUIPMENT('sword'),
-  EQUIPMENT('dagger'),
-  EQUIPMENT('dagger'),
-  EQUIPMENT('shield'),
-  EQUIPMENT('greatSword'),
-  EQUIPMENT('leatherBoots')
-];
+// const INITIAL_INVENTORY = [
+//   EQUIPMENT('sword'),
+//   EQUIPMENT('sword'),
+//   EQUIPMENT('dagger'),
+//   EQUIPMENT('dagger'),
+//   EQUIPMENT('shield'),
+//   EQUIPMENT('greatSword'),
+//   EQUIPMENT('leatherBoots')
+// ];
+const INITIAL_INVENTORY: EquipmentRef[] = [];
+const INITIAL_COINS = 100; // One silver
 
 export default new (class {
   combat: Combat = $state(INITIAL_COMBAT);
@@ -186,13 +194,18 @@ export default new (class {
   serverTimestamp: number = $state(0);
 
   experience: number = $state(0);
+  coins: number = $state(INITIAL_COINS);
+  accountRewards: number = $state(1);
+
   characters: Character[] = $state(INITIAL_CHARACTERS);
   inventory: EquipmentRef[] = $state(INITIAL_INVENTORY);
   socket = $state() as AsyncAwaitWebsocket;
   token: string | undefined = $state();
   selectedBrawlers: string[] = $state([]);
+
   tooltip?: Tooltip = $state();
   dialog?: Dialog = $state();
+  showAccountProgression: boolean = $state(false);
 
   constructor() {
     $effect.root(() => {
@@ -200,6 +213,8 @@ export default new (class {
         const inventory = $state.snapshot(this.inventory); // Hack to trigger reruns
         const characters = $state.snapshot(this.characters); // Hack to trigger reruns
         const experience = $state.snapshot(this.experience); // Hack to trigger reruns
+        const coins = $state.snapshot(this.coins); // Hack to trigger reruns
+        const accountRewards = $state.snapshot(this.accountRewards); // Hack to trigger reruns
 
         const saveDebounce = setTimeout(() => {
           if (app.socket && app.token) {
@@ -208,7 +223,9 @@ export default new (class {
                 token: app.token,
                 inventory,
                 characters,
-                experience
+                experience,
+                coins,
+                accountRewards
               });
 
               app.serverTimestampSnapshot = res;

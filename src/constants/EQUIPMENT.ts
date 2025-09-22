@@ -4,11 +4,14 @@ import entity from '$src/ts/entity';
 import type { DynamicObject } from '$src/types/common';
 import { deepMerge } from '$src/helpers';
 
+const DEFAULT_COST = 100;
+
 export const ALL_EQUIPMENT = {
   sword: {
     name: 'Sword',
     description: 'A simple sword.',
     slotsIn: 'oneHand',
+    cost: DEFAULT_COST,
     combatStats: {
       damage: 1
     },
@@ -18,6 +21,7 @@ export const ALL_EQUIPMENT = {
     name: 'Axe',
     description: 'A simple axe.',
     slotsIn: 'oneHand',
+    cost: DEFAULT_COST,
     combatStats: {
       damage: 1
     },
@@ -27,6 +31,7 @@ export const ALL_EQUIPMENT = {
     name: 'Hammer',
     description: 'A simple hammer.',
     slotsIn: 'oneHand',
+    cost: DEFAULT_COST,
     combatStats: {
       damage: 1
     },
@@ -39,6 +44,7 @@ export const ALL_EQUIPMENT = {
     name: 'Shield',
     description: 'A simple shield.',
     slotsIn: 'offHand',
+    cost: DEFAULT_COST,
     combatStats: {},
     abilities: [ABILITIES('block'), ABILITIES('shieldBash')]
   },
@@ -46,6 +52,7 @@ export const ALL_EQUIPMENT = {
     name: 'Ring',
     description: 'A simple ring.',
     slotsIn: 'accessory',
+    cost: DEFAULT_COST,
     combatStats: {
       maxHealth: 5,
       damage: 1
@@ -56,6 +63,7 @@ export const ALL_EQUIPMENT = {
     name: 'Two-handed Axe',
     description: 'A mighty two-handed axe.',
     slotsIn: 'twoHand',
+    cost: DEFAULT_COST * 2,
     combatStats: {
       damage: 3
     },
@@ -70,6 +78,7 @@ export const ALL_EQUIPMENT = {
     name: 'Club',
     description: "A mighty two-handed club.<br />It's slammer time!",
     slotsIn: 'twoHand',
+    cost: DEFAULT_COST * 2,
     combatStats: {
       damage: 7
     },
@@ -79,6 +88,7 @@ export const ALL_EQUIPMENT = {
     name: 'Greatsword',
     description: 'A mighty two-handed sword.',
     slotsIn: 'twoHand',
+    cost: DEFAULT_COST * 2,
     combatStats: {
       damage: 2
     },
@@ -92,6 +102,7 @@ export const ALL_EQUIPMENT = {
     name: 'Bow',
     description: 'A simple bow.',
     slotsIn: 'twoHand',
+    cost: DEFAULT_COST * 2,
     combatStats: {
       damage: 6
     },
@@ -101,6 +112,7 @@ export const ALL_EQUIPMENT = {
     name: 'Leather Boots',
     description: 'Fine protection.',
     slotsIn: 'armor',
+    cost: DEFAULT_COST,
     combatStats: {
       maxArmor: 1
     },
@@ -110,6 +122,7 @@ export const ALL_EQUIPMENT = {
     name: "Giant's Heart",
     description: 'It still pulsates oddly enough.',
     slotsIn: 'trinket',
+    cost: DEFAULT_COST,
     combatStats: {
       maxHealth: 1,
       damage: 1,
@@ -121,6 +134,7 @@ export const ALL_EQUIPMENT = {
     name: 'Dagger',
     description: 'A really sharp dagger.',
     slotsIn: 'oneHand',
+    cost: DEFAULT_COST,
     combatStats: {
       damage: 1
     },

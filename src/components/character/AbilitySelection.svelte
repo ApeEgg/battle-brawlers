@@ -79,16 +79,23 @@
       ? EQUIPMENT(characterEquipment.mainHand, true)
           .abilities.map((ability) => ABILITIES(ability, true))
           .filter(({ basic }) => basic)
-          .map((ability) => ({ ...ABILITIES(ability), uuid: crypto.randomUUID() }))
+          .map((ability, i) => ({
+            ...ABILITIES(ability),
+            uuid: `${character.id}::mainHand::${characterEquipment.mainHand?.id}::${ability.id}::${i}`
+          }))
       : [];
 
     const offHandAbilities = characterEquipment.offHand
       ? EQUIPMENT(characterEquipment.offHand, true)
           .abilities.map((ability) => ABILITIES(ability, true))
           .filter(({ basic }) => basic)
-          .map((ability) => ({ ...ABILITIES(ability), uuid: crypto.randomUUID() }))
+          .map((ability, i) => ({
+            ...ABILITIES(ability),
+            uuid: `${character.id}::offHand::${characterEquipment.offHand?.id}::${ability.id}::${i}`
+          }))
       : [];
 
+    // const instanceKey = `${character.id}::${slot}::${equipment.id}::${a.id}::${abilityIndex}`;
     // Unarmed
     let defaultAbilities = [
       ABILITIES('punch'),
@@ -188,7 +195,6 @@
           'pointer-events-none relative w-40 !flex-none bg-contain bg-center bg-no-repeat transition-all duration-200',
           renderSides && 'w-20'
         )}
-        style="background-image: urlllll(/images/races/{character.image});"
       >
         <img src="/images/races/{character.image}" class="absolute top-0 right-0 left-0" alt="" />
       </crow>
@@ -208,6 +214,7 @@
         {transformDraggedCharacterAbility}
         {constrainAxisY}
         minimalistic={renderSides}
+        hideOverflow={renderSides && !showAvailableAbilities}
       />
     </crow>
 
@@ -216,7 +223,7 @@
         <Button
           onclick={() => (showAvailableAbilities = !showAvailableAbilities)}
           tertiary
-          class="py-1.5"
+          innerClass="py-2"
         >
           <Icon name="down" class={tw(showAvailableAbilities && '-scale-y-[1]')} />
         </Button>

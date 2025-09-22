@@ -5,11 +5,18 @@
     text,
     right,
     children,
-    small = false
-  }: { text: string; right?: boolean; children?: Snippet; small?: boolean } = $props();
+    small = false,
+    class: classes
+  }: {
+    text: string;
+    right?: boolean;
+    children?: Snippet;
+    small?: boolean;
+    class?: string;
+  } = $props();
 </script>
 
-<crow class={tw('gap-4', right ? 'right' : 'left')}>
+<crow class={tw('!justify-between gap-4', right ? 'right' : 'left', classes)}>
   {#if small}
     <h5>{text}</h5>
   {:else}

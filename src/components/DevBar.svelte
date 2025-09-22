@@ -13,9 +13,10 @@
     });
 
   const gain50Exp = () => (app.experience += 50);
+  const gain100Coins = () => (app.coins += 100);
 </script>
 
-<crow up class="!h-30 bg-gray-200/20">
+<crow up class="relative z-1 !h-30 bg-gray-200/20">
   <crow vertical left class="gap-1 p-2">
     <Button onclick={customEvent.bind(undefined, 'pauseCombat', { nothing: 'true' })}>
       Pause combat
@@ -54,7 +55,12 @@
       <Button onclick={gain50Exp}>Gain exp</Button>
       <Button onclick={() => (app.experience = 0)}>Reset exp</Button>
     </crow>
-    <Button onclick={() => (app.characters = [])}>Clear characters</Button>
+    <crow class="gap-1">
+      <Button onclick={gain100Coins}>Gain coins</Button>
+      <Button onclick={() => (app.coins = 0)}>Reset coins</Button>
+    </crow>
+    <Button onclick={() => (app.characters = [])}>Reset characters</Button>
+    <Button onclick={() => (app.accountRewards = 1)}>Reset rewards</Button>
   </crow>
   <crow left class="w-full overflow-hidden p-2">
     {#if app.combat.duration < 0}

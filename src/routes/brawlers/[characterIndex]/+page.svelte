@@ -32,28 +32,30 @@
 <GoBack onclick={() => history.back()} />
 
 <Headline text={character.name}>
-  <crow class="!flex-none translate-y-px gap-2 text-xl text-gray-600" left>
-    <crow class="gap-1">
-      <Icon name="maxHealth" original />
-      {combatStats?.maxHealth}
-    </crow>
-    <span class="text-gray-300">/</span>
-    <crow class="gap-1">
-      <Icon name="maxArmor" original />
-      {combatStats?.maxArmor}
-    </crow>
-    <span class="text-gray-300">/</span>
-    <crow class="gap-1">
-      <Icon name="damage" original />
-      {combatStats?.damage}
+  <crow class="gap-4" right>
+    {#if getLevelByExperience(app.experience) <= 4}
+      <crow class="!space-between w-full gap-2" left>
+        <Button onclick={() => retireCharacter(character)} tertiary>Retire</Button>
+        <span class="text-xs text-gray-400">(possible until level 5)</span>
+      </crow>
+    {/if}
+    <crow class="!flex-none translate-y-px gap-2 text-xl text-gray-600" left>
+      <crow class="gap-1">
+        <Icon name="maxHealth" original />
+        {combatStats?.maxHealth}
+      </crow>
+      <span class="text-gray-300">/</span>
+      <crow class="gap-1">
+        <Icon name="maxArmor" original />
+        {combatStats?.maxArmor}
+      </crow>
+      <span class="text-gray-300">/</span>
+      <crow class="gap-1">
+        <Icon name="damage" original />
+        {combatStats?.damage}
+      </crow>
     </crow>
   </crow>
-  {#if getLevelByExperience(app.experience) <= 4}
-    <crow class="!space-between w-full gap-2" right>
-      <span class="text-xs text-gray-400">(possible until level 5)</span>
-      <Button onclick={() => retireCharacter(character)} tertiary>Retire</Button>
-    </crow>
-  {/if}
 </Headline>
 
 <crow vertical class="mt-4 gap-4">
@@ -80,7 +82,7 @@
     <crow class="!flex-2" vertical up left>
       {#each Object.entries(character.equipment) as [slot, equipment] (`${character.uuid}-${slot}-${equipment?.uuid}`)}
         <crow left class="w-full !justify-between gap-2">
-          <crow left>
+          <crow left class="gap-2">
             <div class="w-20 font-bold">{slotsInPrettyName(slot as EquipmentSlot)}:</div>
 
             {#if slot === 'offHand' && character.equipment.mainHand && EQUIPMENT(character.equipment.mainHand, true).slotsIn === 'twoHand'}

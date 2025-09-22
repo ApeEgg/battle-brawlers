@@ -5,9 +5,7 @@
   import { page } from '$app/stores';
   import type { Snippet } from 'svelte';
   import app from '$src/app.svelte';
-  import { equip } from '$src/ts/equipment';
   import { overrideItemIdKeyNameBeforeInitialisingDndZones } from 'svelte-dnd-action';
-  import EQUIPMENT from '$src/constants/EQUIPMENT';
   import CHARACTERS from '$src/constants/CHARACTERS';
   import ABILITIES from '$src/constants/ABILITIES';
   import { calculateCombatStatsByCharacter, calculateTickStart } from '$src/ts/Utils';
@@ -19,6 +17,8 @@
   } from '$src/ts/level';
   import Button from '$src/components/form/Button.svelte';
   import { goto } from '$app/navigation';
+  import Coins from '$src/components/Coins.svelte';
+  import AccountProgression from '$src/components/global/AccountProgression.svelte';
   overrideItemIdKeyNameBeforeInitialisingDndZones('uuid');
 
   let { children } = $props<{ children: Snippet }>();
@@ -26,6 +26,7 @@
   let isAuthenticated = $derived(!!app.token);
   let activePage = $derived($page.route.id?.split('/')[1] || (!app.token ? 'start' : ''));
   let isDebugPage = $derived($page.route.id === '/debug');
+  let isVendorPage = $derived($page.route.id === '/vendor');
   let characterIndex = $derived($page.params.characterIndex);
   let creatureId = $derived($page.params.creatureId);
 
@@ -65,14 +66,28 @@
       <div class="flex min-h-screen flex-1 gap-3 pt-20">
         <div class="w-56 rounded border border-transparent bg-white/30 p-4">
           <Headline text="MY LUDUS" small>
-            <crow right class="cinzel">
+            <crow class="cinzel !flex-none">
               level {getLevelByExperience(app.experience)}
             </crow>
           </Headline>
 
           <crow vertical left class="w-full gap-2">
+            <crow left class="!justify-between gap-2">
+              <span class="text-sm text-gray-800">Coins</span>
+              {#if app.coins === 0}
+                <span class="leading-0">-</span>
+              {:else}
+                <Coins renderAll amount={app.coins} />
+              {/if}
+            </crow>
+
             <crow vertical left class="w-full">
-              <span class="text-sm text-gray-800">Experience</span>
+              <crow class="w-full !justify-between">
+                <span class="text-sm text-gray-800">Experience</span>
+                <Button onclick={() => (app.showAccountProgression = true)} tertiary>
+                  See progress
+                </Button>
+              </crow>
 
               <Bar
                 class="bg-yellow-600"
@@ -98,8 +113,10 @@
                       );
                     });
                   }}
-                  tertiary>Heal now</Button
+                  tertiary
                 >
+                  Heal now
+                </Button>
               </crow>
               <RefillHealthTimer />
             </crow>
@@ -108,7 +125,7 @@
           <div class="h-8"></div>
 
           <Headline text="MY BRAWLERS" small>
-            <crow right class="cinzel">
+            <crow class="cinzel !flex-none">
               {app.characters.length} / {allowedNumberOfCharacters()}
             </crow>
           </Headline>
@@ -289,24 +306,12 @@
         <div
           class={tw(
             'pointer-events-none w-56 translate-x-4 rounded border border-transparent bg-white/30 p-4 opacity-0 transition-all duration-200',
-            characterIndex !== undefined && 'pointer-events-auto translate-x-0 opacity-100'
+            (!!characterIndex || isVendorPage) && 'pointer-events-auto translate-x-0 opacity-100'
           )}
         >
           <Headline text="ARMORY" small />
 
-          {#if app.characters.length}
-            <div class="my-3">
-              <crow vertical up left>
-                {#each app.inventory as item, i (item.uuid)}
-                  {@const equipment = EQUIPMENT(item, true)}
-                  <crow class="w-full !justify-between gap-2 py-1" left>
-                    <EquipmentLink {...equipment} />
-                    <Button tertiary onclick={() => equip(item, i)}>Equip</Button>
-                  </crow>
-                {/each}
-              </crow>
-            </div>
-          {/if}
+          <Armory type={isVendorPage ? 'all' : 'equipment'} />
         </div>
       </div>
     </Authorization>
@@ -316,6 +321,7 @@
 <Topbar />
 <!-- <Logo /> -->
 <Overlay />
+<AccountProgression />
 
 <Dialog {...app.dialog} />
 

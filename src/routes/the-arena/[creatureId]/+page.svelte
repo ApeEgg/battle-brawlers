@@ -81,7 +81,7 @@
 
   <crow up left vertical>
     <Accordion isOpen={!brawlersSelected}>
-      <div class="min-h-48 max-w-100 pb-8 text-sm">
+      <div class="min-h-54 max-w-100 pb-8 text-sm">
         {@html creature.description}
       </div>
     </Accordion>
