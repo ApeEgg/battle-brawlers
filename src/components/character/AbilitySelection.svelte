@@ -97,14 +97,15 @@
 
     // const instanceKey = `${character.id}::${slot}::${equipment.id}::${a.id}::${abilityIndex}`;
     // Unarmed
-    let defaultAbilities = [
-      ABILITIES('punch'),
-      ABILITIES('punch'),
-      ABILITIES('punch'),
-      ABILITIES('punch'),
-      ABILITIES('punch'),
-      ABILITIES('punch')
+    const punches = [
+      ABILITIES({ id: 'punch', uuid: `${character.id}::mainHand::_::punch::0` }),
+      ABILITIES({ id: 'punch', uuid: `${character.id}::mainHand::_::punch::1` }),
+      ABILITIES({ id: 'punch', uuid: `${character.id}::mainHand::_::punch::2` }),
+      ABILITIES({ id: 'punch', uuid: `${character.id}::offHand::_::punch::3` }),
+      ABILITIES({ id: 'punch', uuid: `${character.id}::offHand::_::punch::4` }),
+      ABILITIES({ id: 'punch', uuid: `${character.id}::offHand::_::punch::5` })
     ];
+    let defaultAbilities = [...punches];
 
     if (isTwoHanded) {
       defaultAbilities = mainHandAbilities;
@@ -114,7 +115,7 @@
       if (isOneHandedWeapon) {
         defaultAbilities.push(...mainHandAbilities);
       } else {
-        defaultAbilities.push(ABILITIES('punch'), ABILITIES('punch'), ABILITIES('punch'));
+        defaultAbilities.push(...punches.slice(0, 3));
       }
 
       defaultAbilities.push(...offHandAbilities);
@@ -123,12 +124,12 @@
       if (isOneHandedMainhand) {
         defaultAbilities.push(...mainHandAbilities);
       } else {
-        defaultAbilities.push(ABILITIES('punch'), ABILITIES('punch'), ABILITIES('punch'));
+        defaultAbilities.push(...punches.slice(0, 3));
       }
       if (isOneHandedOffhand) {
         defaultAbilities.push(...offHandAbilities);
       } else {
-        defaultAbilities.push(ABILITIES('punch'), ABILITIES('punch'), ABILITIES('punch'));
+        defaultAbilities.push(...punches.slice(3, 6));
       }
     }
 

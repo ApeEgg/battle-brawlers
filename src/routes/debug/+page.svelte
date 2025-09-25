@@ -1,6 +1,6 @@
 <script lang="ts">
   import { calculateCombatStatsByCharacter, prepareCombatant, seededRandom } from '$src/ts/Utils';
-  import { generateCombat } from '$src/ts/Combat';
+  import { generateCombat } from '$src/ts/combat';
   import CHARACTERS from '$src/constants/CHARACTERS';
   import type { Team } from '$src/types/team';
   import type { Character } from '$src/types/character';

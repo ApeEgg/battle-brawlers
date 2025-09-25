@@ -24,7 +24,7 @@ export const DEFAULT_EQUIPMENT = {
 
 export const ALL_CHARACTERS = {
   elf: {
-    name: 'Elon',
+    name: 'Brawler',
     race: 'elf',
     image: 'elf/01.png',
     size: 1.2,
@@ -48,16 +48,10 @@ export const ALL_CHARACTERS = {
       }
     },
     maxTicks: DEFAULT_MAX_TICKS,
-    abilities: [
-      ABILITIES('swing'),
-      ABILITIES('swing'),
-      ABILITIES('swing'),
-      ABILITIES('swing'),
-      ABILITIES('swing')
-    ]
+    abilities: [ABILITIES('pierce'), ABILITIES('pierce'), ABILITIES('pierce'), ABILITIES('pierce')]
   },
   human: {
-    name: 'Hebert',
+    name: 'Brawler',
     race: 'human',
     image: 'human/01.png',
     size: 1,
@@ -80,7 +74,7 @@ export const ALL_CHARACTERS = {
     abilities: [ABILITIES('slam'), ABILITIES('block'), ABILITIES('slam')]
   },
   troll: {
-    name: 'Throk',
+    name: 'Brawler',
     race: 'troll',
     image: 'troll/01.png',
     size: 1.1,
@@ -103,7 +97,7 @@ export const ALL_CHARACTERS = {
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
   },
   dwarf: {
-    name: 'Durak',
+    name: 'Brawler',
     race: 'dwarf',
     image: 'dwarf/01.png',
     size: 0.8,
@@ -126,7 +120,7 @@ export const ALL_CHARACTERS = {
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
   },
   goblin: {
-    name: 'Grish',
+    name: 'Brawler',
     race: 'goblin',
     image: 'goblin/01.png',
     size: 0.8,

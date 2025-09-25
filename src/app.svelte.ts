@@ -1,5 +1,5 @@
 import type { Combat } from '$src/types/combat';
-import type { Character } from '$src/types/character';
+import type { Character, CharacterRef } from '$src/types/character';
 import CHARACTERS, { DEFAULT_EQUIPMENT } from '$src/constants/CHARACTERS';
 import type { AsyncAwaitWebsocket } from 'async-await-websockets';
 import app from '$src/app.svelte';
@@ -30,6 +30,7 @@ const DEFAULT_ABILITIES = [
 export const RECRUITABLE_CHARACTERS = [
   CHARACTERS('elf', false, {
     overrides: {
+      name: 'Elon',
       equipment: {
         ...DEFAULT_EQUIPMENT,
         mainHand: EQUIPMENT('bow', false, {
@@ -57,6 +58,7 @@ export const RECRUITABLE_CHARACTERS = [
   }),
   CHARACTERS('troll', false, {
     overrides: {
+      name: 'Throk',
       equipment: {
         ...DEFAULT_EQUIPMENT,
         mainHand: EQUIPMENT('club', false, {
@@ -77,6 +79,7 @@ export const RECRUITABLE_CHARACTERS = [
   }),
   CHARACTERS('goblin', false, {
     overrides: {
+      name: 'Grish',
       equipment: {
         ...DEFAULT_EQUIPMENT,
         mainHand: EQUIPMENT('dagger', false, {
@@ -108,6 +111,7 @@ export const RECRUITABLE_CHARACTERS = [
   }),
   CHARACTERS('human', false, {
     overrides: {
+      name: 'Hebert',
       equipment: {
         ...DEFAULT_EQUIPMENT,
         mainHand: EQUIPMENT('axe', false, {
@@ -137,6 +141,7 @@ export const RECRUITABLE_CHARACTERS = [
   }),
   CHARACTERS('dwarf', false, {
     overrides: {
+      name: 'Durak',
       equipment: {
         ...DEFAULT_EQUIPMENT,
         mainHand: EQUIPMENT('hammer', false, {
@@ -197,7 +202,7 @@ export default new (class {
   coins: number = $state(INITIAL_COINS);
   accountRewards: number = $state(1);
 
-  characters: Character[] = $state(INITIAL_CHARACTERS);
+  characters: CharacterRef[] = $state(INITIAL_CHARACTERS);
   inventory: EquipmentRef[] = $state(INITIAL_INVENTORY);
   socket = $state() as AsyncAwaitWebsocket;
   token: string | undefined = $state();

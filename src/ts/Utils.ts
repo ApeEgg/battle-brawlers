@@ -47,8 +47,8 @@ export const calculateCombatStatsByCharacter = (character: Character) => {
   const parts = [
     character.combatStats,
     ...Object.values(character.equipment)
-      .filter((e): e is Equipment => e !== null)
-      .map((e) => EQUIPMENT(e, true)?.combatStats ?? {})
+      .filter((equipment) => equipment !== null)
+      .map((equipment) => EQUIPMENT(equipment, true)?.combatStats ?? {})
   ];
 
   // start from a copy so we don't mutate character.combatStats

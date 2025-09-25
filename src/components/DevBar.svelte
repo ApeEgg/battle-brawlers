@@ -12,6 +12,15 @@
       character.overrides.combatStats.currentHealth = Math.min(currentHealth + heal, maxHealth);
     });
 
+  const damageParty = () =>
+    app.characters.forEach((character) => {
+      const { currentHealth, maxHealth } = calculateCombatStatsByCharacter(
+        CHARACTERS(character, true)
+      );
+
+      character.overrides.combatStats.currentHealth = currentHealth - 5;
+    });
+
   const gain50Exp = () => (app.experience += 50);
   const gain100Coins = () => (app.coins += 100);
 </script>
@@ -43,14 +52,17 @@
     </div>
   </crow>
   <crow vertical left class="gap-1 p-2">
-    <Button
+    <!-- <Button
       onclick={() => {
         app.characters[0].overrides.combatStats.currentHealth -= 10;
       }}
     >
       Deal 10 damage to char[0]
-    </Button>
-    <Button onclick={healParty}>Heal party</Button>
+    </Button> -->
+    <crow class="gap-1">
+      <Button onclick={healParty}>Heal party</Button>
+      <Button onclick={damageParty}>Damage party</Button>
+    </crow>
     <crow class="gap-1">
       <Button onclick={gain50Exp}>Gain exp</Button>
       <Button onclick={() => (app.experience = 0)}>Reset exp</Button>

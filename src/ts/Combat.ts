@@ -1,11 +1,33 @@
 import { ABILITY_PRIORITY, COMBAT_TICK_TIME } from '$src/constants/APP';
 import type { CombatEvent } from '$src/types/combat';
 import type { Team } from '$src/types/team';
-import { seededRandom } from '$src/ts/Utils';
+import { prepareCombatant, seededRandom } from '$src/ts/Utils';
 import type { Combatant } from '$src/types/combatant';
 import type { VFX } from '$src/types/vfx';
 import _VFX from '$src/constants/VFX';
 import { AbilityType, type Ability } from '$src/types/ability';
+import type { CharacterRef } from '$src/types/character';
+import CHARACTERS from '$src/constants/CHARACTERS';
+
+export const prepareTeams = (...teams: [CharacterRef[], CharacterRef[], ...CharacterRef[][]]) => {
+  const preparedCombatants = teams.map((team, teamIndex) =>
+    team.map((combatant, combatatantIndex) =>
+      prepareCombatant(
+        CHARACTERS(combatant, true),
+        teams.length,
+        team.length,
+        teamIndex,
+        combatatantIndex
+      )
+    )
+  );
+
+  return preparedCombatants.map((team, index) => ({
+    name: `Team ${index}`,
+    index,
+    combatants: team
+  }));
+};
 
 const moreThanOneTeamStanding = (teams: Team[]) => {
   const teamsStanding = teams.filter((team) =>
@@ -142,7 +164,7 @@ export const generateCombat = (seed: string, teams: Team[]) => {
   let healingEfficiency = 1;
 
   while (moreThanOneTeamStanding(teams)) {
-    console.info(`--- Tick ${tickCount} at ${now}ms ---`);
+    // console.info(`--- Tick ${tickCount} at ${now}ms ---`);
     const stillStandingCombatants = teams
       .flatMap((team) => team.combatants.map((combatant) => combatant))
       .filter((combatant) => combatant.combatStats.currentHealth > 0);

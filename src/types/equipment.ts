@@ -15,6 +15,7 @@ export type Equipment = EquipmentRef & {
   name: string;
   slotsIn: EquipmentType;
   cost: number;
+  level: number;
   description: string;
   combatStats: CombatStats;
   abilities: AbilityRef[];

@@ -2,7 +2,7 @@ import ABILITIES from '$src/constants/ABILITIES';
 import type { Equipment, EquipmentRef } from '$src/types/equipment';
 import entity from '$src/ts/entity';
 import type { DynamicObject } from '$src/types/common';
-import { deepMerge } from '$src/helpers';
+import { deepAdd, deepMerge } from '$src/helpers';
 
 const DEFAULT_COST = 100;
 
@@ -12,8 +12,9 @@ export const ALL_EQUIPMENT = {
     description: 'A simple sword.',
     slotsIn: 'oneHand',
     cost: DEFAULT_COST,
+    level: 0,
     combatStats: {
-      damage: 1
+      damage: 0
     },
     abilities: [ABILITIES('swing'), ABILITIES('swing')]
   },
@@ -22,8 +23,9 @@ export const ALL_EQUIPMENT = {
     description: 'A simple axe.',
     slotsIn: 'oneHand',
     cost: DEFAULT_COST,
+    level: 0,
     combatStats: {
-      damage: 1
+      damage: 0
     },
     abilities: [ABILITIES('swing'), ABILITIES('swing')]
   },
@@ -32,8 +34,9 @@ export const ALL_EQUIPMENT = {
     description: 'A simple hammer.',
     slotsIn: 'oneHand',
     cost: DEFAULT_COST,
+    level: 0,
     combatStats: {
-      damage: 1
+      damage: 0
     },
     abilities: [
       ABILITIES('slam', false, { overrides: { ticks: 3 } }),
@@ -45,6 +48,7 @@ export const ALL_EQUIPMENT = {
     description: 'A simple shield.',
     slotsIn: 'offHand',
     cost: DEFAULT_COST,
+    level: 0,
     combatStats: {},
     abilities: [ABILITIES('block'), ABILITIES('shieldBash')]
   },
@@ -53,6 +57,7 @@ export const ALL_EQUIPMENT = {
     description: 'A simple ring.',
     slotsIn: 'accessory',
     cost: DEFAULT_COST,
+    level: 0,
     combatStats: {
       maxHealth: 5,
       damage: 1
@@ -64,8 +69,9 @@ export const ALL_EQUIPMENT = {
     description: 'A mighty two-handed axe.',
     slotsIn: 'twoHand',
     cost: DEFAULT_COST * 2,
+    level: 0,
     combatStats: {
-      damage: 3
+      damage: 0
     },
     abilities: [
       ABILITIES('swing', false, { overrides: { ticks: 4 } }),
@@ -79,8 +85,9 @@ export const ALL_EQUIPMENT = {
     description: "A mighty two-handed club.<br />It's slammer time!",
     slotsIn: 'twoHand',
     cost: DEFAULT_COST * 2,
+    level: 0,
     combatStats: {
-      damage: 7
+      damage: 0
     },
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
   },
@@ -89,8 +96,9 @@ export const ALL_EQUIPMENT = {
     description: 'A mighty two-handed sword.',
     slotsIn: 'twoHand',
     cost: DEFAULT_COST * 2,
+    level: 0,
     combatStats: {
-      damage: 2
+      damage: 0
     },
     abilities: [
       ABILITIES('swing', false, { overrides: { ticks: 4 } }),
@@ -103,8 +111,9 @@ export const ALL_EQUIPMENT = {
     description: 'A simple bow.',
     slotsIn: 'twoHand',
     cost: DEFAULT_COST * 2,
+    level: 0,
     combatStats: {
-      damage: 6
+      damage: 0
     },
     abilities: [ABILITIES('pierce'), ABILITIES('pierce'), ABILITIES('pierce'), ABILITIES('pierce')]
   },
@@ -113,6 +122,7 @@ export const ALL_EQUIPMENT = {
     description: 'Fine protection.',
     slotsIn: 'armor',
     cost: DEFAULT_COST,
+    level: 0,
     combatStats: {
       maxArmor: 1
     },
@@ -123,6 +133,7 @@ export const ALL_EQUIPMENT = {
     description: 'It still pulsates oddly enough.',
     slotsIn: 'trinket',
     cost: DEFAULT_COST,
+    level: 0,
     combatStats: {
       maxHealth: 1,
       damage: 1,
@@ -135,8 +146,9 @@ export const ALL_EQUIPMENT = {
     description: 'A really sharp dagger.',
     slotsIn: 'oneHand',
     cost: DEFAULT_COST,
+    level: 0,
     combatStats: {
-      damage: 1
+      damage: 0
     },
     abilities: [ABILITIES('stab'), ABILITIES('stab'), ABILITIES('stab'), ABILITIES('lacerate')]
   }
@@ -150,15 +162,31 @@ export const ALL_EQUIPMENT = {
 //     fullBody
 //   ) as Equipment;
 
+const applyScaling = (equipment: Equipment | EquipmentRef) => {
+  const isWeapon = ['oneHand', 'twoHand'].includes(equipment?.slotsIn);
+  if (isWeapon) {
+    const multiplier = equipment?.slotsIn === 'twoHand' ? 2 : 1;
+    const level = equipment.level || 0;
+    const combatStats = {
+      damage: level * multiplier
+    };
+
+    equipment.combatStats = deepAdd(equipment.combatStats, combatStats);
+  }
+  return equipment;
+};
+
 export default (id: string | EquipmentRef, fullBody: boolean = false, meta?: DynamicObject) =>
-  entity(
-    ALL_EQUIPMENT,
-    typeof id === 'string' ? id : id.id,
-    typeof id === 'string' ? undefined : id.uuid,
-    fullBody,
-    typeof id === 'string'
-      ? meta?.overrides
-      : meta?.overrides
-        ? deepMerge(id.overrides || {}, meta.overrides || {})
-        : id.overrides
-  ) as Equipment;
+  applyScaling(
+    entity(
+      ALL_EQUIPMENT,
+      typeof id === 'string' ? id : id.id,
+      typeof id === 'string' ? undefined : id.uuid,
+      fullBody,
+      typeof id === 'string'
+        ? meta?.overrides
+        : meta?.overrides
+          ? deepMerge(id.overrides || {}, meta.overrides || {})
+          : id.overrides
+    ) as Equipment
+  );

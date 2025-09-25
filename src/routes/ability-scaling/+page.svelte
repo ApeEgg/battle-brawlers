@@ -19,7 +19,7 @@
   ]);
 </script>
 
-<Headline text="scaling" />
+<Headline text="ability scaling" />
 
 <!--on:change={({ target: { value } }) => console.info(value)}-->
 <Dropdown

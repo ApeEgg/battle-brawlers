@@ -2,7 +2,7 @@
   import CHARACTERS from '$src/constants/CHARACTERS';
   import { page } from '$app/stores';
   import { prepareCombatant } from '$src/ts/Utils';
-  import { generateCombat } from '$src/ts/Combat';
+  import { generateCombat, prepareTeams } from '$src/ts/combat';
   import type { Team } from '$src/types/team';
   import { goto } from '$app/navigation';
   import Button from '$src/components/form/Button.svelte';
@@ -14,7 +14,7 @@
   } = $page;
 
   let creature = CHARACTERS(creatureId, true);
-  let selectedBrawlers = $derived<Character[]>(
+  let selectedBrawlers: Character[] = $derived(
     app.selectedBrawlers.map((id) =>
       CHARACTERS(
         app.characters.find((c) => c.uuid === id),
@@ -24,29 +24,12 @@
   );
 
   const runCombat = () => {
-    const combatantYou = prepareCombatant(
-      $state.snapshot(app.characters.find((c) => c.uuid === app.selectedBrawlers[0])),
-      2,
-      1,
-      0,
-      0
-    );
-    const combatantThem = prepareCombatant(creature, 2, 1, 1, 0);
+    const selected = app.characters.find((c) => c.uuid === app.selectedBrawlers[0]);
+    if (!selected) return;
 
-    const teams: Team[] = [
-      {
-        name: 'Team 0',
-        index: 0,
-        combatants: [combatantYou]
-      },
-      {
-        name: 'Team 1',
-        index: 1,
-        combatants: [combatantThem]
-      }
-    ];
+    const myCharacter = $state.snapshot(selected);
 
-    app.combat = generateCombat('myseed', teams);
+    app.combat = generateCombat('myseed', prepareTeams([myCharacter], [creature]));
     console.info(app.combat);
 
     $overlay = 'Combat';
@@ -58,22 +41,7 @@
 <GoBack onclick={() => goto('/the-arena')} />
 
 <Headline text={creature.name}>
-  <crow class="!flex-none translate-y-px gap-2 text-xl text-gray-600" left>
-    <crow class="gap-1">
-      <Icon name="maxHealth" original />
-      {creature.combatStats?.maxHealth}
-    </crow>
-    <span class="text-gray-300">/</span>
-    <crow class="gap-1">
-      <Icon name="maxArmor" original />
-      {creature.combatStats?.maxArmor}
-    </crow>
-    <span class="text-gray-300">/</span>
-    <crow class="gap-1">
-      <Icon name="damage" original />
-      {creature.combatStats?.damage}
-    </crow>
-  </crow>
+  <CoreStats combatStats={creature.combatStats} />
 </Headline>
 
 <crow left class="!items-stretch !justify-stretch overflow-hidden">

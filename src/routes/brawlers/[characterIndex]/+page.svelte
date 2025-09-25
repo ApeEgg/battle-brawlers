@@ -17,6 +17,7 @@
     confirmWithDialog(BasicConfirmation as Component, {
       text: `You are retiring <span class="text-white">${character.name}</span>.<br /><br />Do you wish to proceed?`,
       confirm: async () => {
+        app.selectedBrawlers = app.selectedBrawlers.filter((uuid) => uuid !== character.uuid);
         await goto('/brawlers');
         app.characters = [];
       }
@@ -39,22 +40,7 @@
         <span class="text-xs text-gray-400">(possible until level 5)</span>
       </crow>
     {/if}
-    <crow class="!flex-none translate-y-px gap-2 text-xl text-gray-600" left>
-      <crow class="gap-1">
-        <Icon name="maxHealth" original />
-        {combatStats?.maxHealth}
-      </crow>
-      <span class="text-gray-300">/</span>
-      <crow class="gap-1">
-        <Icon name="maxArmor" original />
-        {combatStats?.maxArmor}
-      </crow>
-      <span class="text-gray-300">/</span>
-      <crow class="gap-1">
-        <Icon name="damage" original />
-        {combatStats?.damage}
-      </crow>
-    </crow>
+    <CoreStats {combatStats} />
   </crow>
 </Headline>
 
