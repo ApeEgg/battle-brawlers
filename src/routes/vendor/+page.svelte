@@ -7,14 +7,15 @@
   import { formatCoins } from '$src/ts/coin';
   import BasicConfirmation from '$src/components/dialog/BasicConfirmation.svelte';
 
-  let allEquipment = $state(
-    Object.keys(ALL_EQUIPMENT).map((key) => EQUIPMENT(key, true, { overrides: { level: 1 } }))
-  );
+  const level = 2;
+
+  let allEquipment = $state(Object.keys(ALL_EQUIPMENT).map((key) => EQUIPMENT(key, true)));
   let filteredEquipment = $state(allEquipment);
 
   const craftEquipment = (itemId: Equipment['id']) => {
-    const item = EQUIPMENT(itemId);
-    const { cost } = EQUIPMENT(item, true);
+    const item = EQUIPMENT(itemId, false);
+    const { cost, level } = EQUIPMENT(item, true);
+    item.overrides = { level };
     const { silver } = formatCoins(cost);
 
     confirmWithDialog(BasicConfirmation as Component, {
@@ -35,7 +36,7 @@
   <crow up left class="gap-4 px-6 py-2">
     <div class="cinzel flex-1">Name</div>
     <div class="cinzel flex-1">Slots in</div>
-    <div class="cinzel flex-1">Level</div>
+    <!-- <div class="cinzel flex-1">Level</div> -->
     <div class="cinzel flex-1">Cost</div>
     <div class="cinzel w-20"></div>
   </crow>
@@ -51,7 +52,7 @@
         <EquipmentLink {...item} />
       </crow>
       <div class="flex-1 text-sm text-gray-600">{slotsInPrettyName(item.slotsIn)}</div>
-      <div class="flex-1 text-sm text-gray-600">{item.level}</div>
+      <!-- <div class="flex-1 text-sm text-gray-600">{item.level}</div> -->
       <div class="flex-1">
         <Coins renderAll amount={item.cost} class="right" />
       </div>

@@ -37,6 +37,7 @@ export const RECRUITABLE_CHARACTERS = [
           overrides: {
             name: 'Basic Bow',
             cost: 0,
+            level: 1,
             abilities: [
               ABILITIES('pierce', false, {
                 overrides: { name: 'Basic Pierce', statusEffects: [] }
@@ -65,6 +66,7 @@ export const RECRUITABLE_CHARACTERS = [
           overrides: {
             name: 'Basic Club',
             cost: 0,
+            level: 1,
             abilities: [
               ABILITIES('slam', false, { overrides: { name: 'Basic Slam', statusEffects: [] } }),
               ABILITIES('slam', false, { overrides: { name: 'Basic Slam', statusEffects: [] } }),
@@ -86,6 +88,7 @@ export const RECRUITABLE_CHARACTERS = [
           overrides: {
             name: 'Basic Dagger',
             cost: 0,
+            level: 1,
             abilities: [
               ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } }),
               ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } }),
@@ -97,6 +100,7 @@ export const RECRUITABLE_CHARACTERS = [
           overrides: {
             name: 'Basic Dagger',
             cost: 0,
+            level: 1,
             abilities: [
               ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } }),
               ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } }),
@@ -118,6 +122,7 @@ export const RECRUITABLE_CHARACTERS = [
           overrides: {
             name: 'Basic Axe',
             cost: 0,
+            level: 1,
             abilities: [
               ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } }),
               ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } })
@@ -128,6 +133,7 @@ export const RECRUITABLE_CHARACTERS = [
           overrides: {
             name: 'Basic Axe',
             cost: 0,
+            level: 1,
             abilities: [
               ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } }),
               ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } })
@@ -148,6 +154,7 @@ export const RECRUITABLE_CHARACTERS = [
           overrides: {
             name: 'Basic Hammer',
             cost: 0,
+            level: 1,
             abilities: [
               ABILITIES('slam', false, {
                 overrides: { name: 'Basic Slam', ticks: 3, statusEffects: [] }
@@ -162,6 +169,7 @@ export const RECRUITABLE_CHARACTERS = [
           overrides: {
             name: 'Basic Shield',
             cost: 0,
+            level: 1,
             abilities: [
               ABILITIES('block'),
               ABILITIES('shieldBash', false, {

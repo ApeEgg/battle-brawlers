@@ -5,6 +5,7 @@ import type { DynamicObject } from '$src/types/common';
 import { deepAdd, deepMerge } from '$src/helpers';
 
 const DEFAULT_COST = 100;
+const DEFAULT_LEVEL = 1;
 
 export const ALL_EQUIPMENT = {
   sword: {
@@ -12,7 +13,7 @@ export const ALL_EQUIPMENT = {
     description: 'A simple sword.',
     slotsIn: 'oneHand',
     cost: DEFAULT_COST,
-    level: 0,
+    level: DEFAULT_LEVEL,
     combatStats: {
       damage: 0
     },
@@ -23,7 +24,7 @@ export const ALL_EQUIPMENT = {
     description: 'A simple axe.',
     slotsIn: 'oneHand',
     cost: DEFAULT_COST,
-    level: 0,
+    level: DEFAULT_LEVEL,
     combatStats: {
       damage: 0
     },
@@ -34,7 +35,21 @@ export const ALL_EQUIPMENT = {
     description: 'A simple hammer.',
     slotsIn: 'oneHand',
     cost: DEFAULT_COST,
-    level: 0,
+    level: DEFAULT_LEVEL,
+    combatStats: {
+      damage: 0
+    },
+    abilities: [
+      ABILITIES('slam', false, { overrides: { ticks: 3 } }),
+      ABILITIES('slam', false, { overrides: { ticks: 3 } })
+    ]
+  },
+  improvedHammer: {
+    name: 'Improved Hammer',
+    description: 'A improved hammer.',
+    slotsIn: 'oneHand',
+    cost: DEFAULT_COST,
+    level: 3,
     combatStats: {
       damage: 0
     },
@@ -48,28 +63,16 @@ export const ALL_EQUIPMENT = {
     description: 'A simple shield.',
     slotsIn: 'offHand',
     cost: DEFAULT_COST,
-    level: 0,
+    level: DEFAULT_LEVEL,
     combatStats: {},
     abilities: [ABILITIES('block'), ABILITIES('shieldBash')]
-  },
-  ring: {
-    name: 'Ring',
-    description: 'A simple ring.',
-    slotsIn: 'accessory',
-    cost: DEFAULT_COST,
-    level: 0,
-    combatStats: {
-      maxHealth: 5,
-      damage: 1
-    },
-    abilities: []
   },
   twoHandedAxe: {
     name: 'Two-handed Axe',
     description: 'A mighty two-handed axe.',
     slotsIn: 'twoHand',
     cost: DEFAULT_COST * 2,
-    level: 0,
+    level: DEFAULT_LEVEL,
     combatStats: {
       damage: 0
     },
@@ -85,7 +88,7 @@ export const ALL_EQUIPMENT = {
     description: "A mighty two-handed club.<br />It's slammer time!",
     slotsIn: 'twoHand',
     cost: DEFAULT_COST * 2,
-    level: 0,
+    level: DEFAULT_LEVEL,
     combatStats: {
       damage: 0
     },
@@ -96,7 +99,7 @@ export const ALL_EQUIPMENT = {
     description: 'A mighty two-handed sword.',
     slotsIn: 'twoHand',
     cost: DEFAULT_COST * 2,
-    level: 0,
+    level: DEFAULT_LEVEL,
     combatStats: {
       damage: 0
     },
@@ -111,29 +114,29 @@ export const ALL_EQUIPMENT = {
     description: 'A simple bow.',
     slotsIn: 'twoHand',
     cost: DEFAULT_COST * 2,
-    level: 0,
+    level: 1,
     combatStats: {
       damage: 0
     },
     abilities: [ABILITIES('pierce'), ABILITIES('pierce'), ABILITIES('pierce'), ABILITIES('pierce')]
   },
-  leatherBoots: {
-    name: 'Leather Boots',
-    description: 'Fine protection.',
-    slotsIn: 'armor',
+  dagger: {
+    name: 'Dagger',
+    description: 'A really sharp dagger.',
+    slotsIn: 'oneHand',
     cost: DEFAULT_COST,
-    level: 0,
+    level: 1,
     combatStats: {
-      maxArmor: 1
+      damage: 0
     },
-    abilities: [ABILITIES('kick')]
+    abilities: [ABILITIES('stab'), ABILITIES('stab'), ABILITIES('stab'), ABILITIES('lacerate')]
   },
   giantsHeart: {
     name: "Giant's Heart",
     description: 'It still pulsates oddly enough.',
     slotsIn: 'trinket',
     cost: DEFAULT_COST,
-    level: 0,
+    level: 1,
     combatStats: {
       maxHealth: 1,
       damage: 1,
@@ -141,16 +144,28 @@ export const ALL_EQUIPMENT = {
     },
     abilities: [ABILITIES('demoralizingShout')]
   },
-  dagger: {
-    name: 'Dagger',
-    description: 'A really sharp dagger.',
-    slotsIn: 'oneHand',
+  leatherBoots: {
+    name: 'Leather Boots',
+    description: 'Fine protection.',
+    slotsIn: 'armor',
     cost: DEFAULT_COST,
-    level: 0,
+    level: 1,
     combatStats: {
-      damage: 0
+      maxArmor: 0
     },
-    abilities: [ABILITIES('stab'), ABILITIES('stab'), ABILITIES('stab'), ABILITIES('lacerate')]
+    abilities: [ABILITIES('kick')]
+  },
+  ring: {
+    name: 'Ring',
+    description: 'A simple ring.',
+    slotsIn: 'accessory',
+    cost: DEFAULT_COST,
+    level: 1,
+    combatStats: {
+      maxHealth: 5,
+      damage: 1
+    },
+    abilities: []
   }
 };
 
@@ -173,6 +188,15 @@ const applyScaling = (equipment: Equipment | EquipmentRef) => {
 
     equipment.combatStats = deepAdd(equipment.combatStats, combatStats);
   }
+  const isArmor = ['armor'].includes(equipment?.slotsIn);
+  if (isArmor) {
+    const level = equipment.level || 0;
+    const combatStats = {
+      maxArmor: level * 1
+    };
+
+    equipment.combatStats = deepAdd(equipment.combatStats, combatStats);
+  }
   return equipment;
 };
 
@@ -189,4 +213,4 @@ export default (id: string | EquipmentRef, fullBody: boolean = false, meta?: Dyn
           ? deepMerge(id.overrides || {}, meta.overrides || {})
           : id.overrides
     ) as Equipment
-  );
+  ) as Equipment;

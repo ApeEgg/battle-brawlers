@@ -14,10 +14,10 @@
     const { silver } = formatCoins(item.cost);
     const extraText =
       silver > 0
-        ? `You will be refunded ${silver} coins for this equipment.`
+        ? `You will be refunded <span class="text-white">${silver} coin(s)</span> for this equipment.`
         : 'This equipment has no value.';
     confirmWithDialog(BasicConfirmation as Component, {
-      text: `${extraText}<br />Are you sure?`,
+      text: `${extraText}<br /><br /><span class="text-white">Are you sure?</span>`,
       confirm: () => {
         app.coins += item.cost;
         dismantle(item);
