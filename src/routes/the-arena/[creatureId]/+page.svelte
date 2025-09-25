@@ -1,11 +1,8 @@
 <script lang="ts">
   import CHARACTERS from '$src/constants/CHARACTERS';
   import { page } from '$app/stores';
-  import { prepareCombatant } from '$src/ts/Utils';
   import { generateCombat, prepareTeams } from '$src/ts/combat';
-  import type { Team } from '$src/types/team';
   import { goto } from '$app/navigation';
-  import Button from '$src/components/form/Button.svelte';
 
   const { overlay } = STORES;
 

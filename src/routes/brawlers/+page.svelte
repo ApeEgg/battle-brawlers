@@ -1,12 +1,10 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { RECRUITABLE_CHARACTERS } from '$src/app.svelte';
-  import CharacterAvatar from '$src/components/character/CharacterAvatar.svelte';
   import CHARACTERS from '$src/constants/CHARACTERS';
   import { ALL_ELEMENTS } from '$src/constants/ELEMENTS';
   import type { IconName } from '$src/Iconice';
   import type { Character } from '$src/types/character';
-  import BasicConfirmation from '$src/components/dialog/BasicConfirmation.svelte';
   import { confirmWithDialog } from '$src/ts/dialog';
   import type { Component } from 'svelte';
   import { allowedNumberOfCharacters } from '$src/ts/level';

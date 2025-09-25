@@ -9,7 +9,6 @@
   import { goto } from '$app/navigation';
   import { getLevelByExperience } from '$src/ts/level';
   import { confirmWithDialog } from '$src/ts/dialog';
-  import BasicConfirmation from '$src/components/dialog/BasicConfirmation.svelte';
   import type { Component } from 'svelte';
   import type { Character } from '$src/types/character';
 

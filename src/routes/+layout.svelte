@@ -15,10 +15,7 @@
     getExperienceForNextLevel,
     getLevelByExperience
   } from '$src/ts/level';
-  import Button from '$src/components/form/Button.svelte';
   import { goto } from '$app/navigation';
-  import Coins from '$src/components/Coins.svelte';
-  import AccountProgression from '$src/components/global/AccountProgression.svelte';
   overrideItemIdKeyNameBeforeInitialisingDndZones('uuid');
 
   let { children } = $props<{ children: Snippet }>();
