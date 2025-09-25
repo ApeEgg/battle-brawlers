@@ -195,7 +195,7 @@ const INITIAL_CHARACTERS: Character[] = [];
 //   EQUIPMENT('leatherBoots')
 // ];
 const INITIAL_INVENTORY: EquipmentRef[] = [];
-const INITIAL_COINS = 100; // One silver
+const INITIAL_COINS = 400; // One silver
 
 export default new (class {
   combat: Combat = $state(INITIAL_COMBAT);
