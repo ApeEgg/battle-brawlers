@@ -8,6 +8,7 @@
   import { confirmWithDialog } from '$src/ts/dialog';
   import type { Component } from 'svelte';
   import { allowedNumberOfCharacters } from '$src/ts/level';
+  import BasicConfirmation from '$src/components/dialog/BasicConfirmation.svelte';
 
   const { notify } = ACTIONS;
 

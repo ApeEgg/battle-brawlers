@@ -2,9 +2,9 @@
   import EQUIPMENT from '$src/constants/EQUIPMENT';
   import { confirmWithDialog } from '$src/ts/dialog';
   import { dismantle, equip } from '$src/ts/equipment';
-  import type { Equipment, EquipmentRef } from '$src/types/equipment';
+  import type { Equipment } from '$src/types/equipment';
   import type { Component } from 'svelte';
-  import BasicConfirmation from './dialog/BasicConfirmation.svelte';
+  import BasicConfirmation from '$src/components/dialog/BasicConfirmation.svelte';
   import { formatCoins } from '$src/ts/coin';
 
   let { type } = $props();

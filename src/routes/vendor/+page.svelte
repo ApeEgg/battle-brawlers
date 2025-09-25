@@ -5,6 +5,7 @@
   import { confirmWithDialog } from '$src/ts/dialog';
   import type { Component } from 'svelte';
   import { formatCoins } from '$src/ts/coin';
+  import BasicConfirmation from '$src/components/dialog/BasicConfirmation.svelte';
 
   const level = 2;
 
