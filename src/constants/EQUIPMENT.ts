@@ -114,7 +114,7 @@ export const ALL_EQUIPMENT = {
     description: 'A simple bow.',
     slotsIn: 'twoHand',
     cost: DEFAULT_COST * 2,
-    level: 1,
+    level: 5,
     combatStats: {
       damage: 0
     },
@@ -125,7 +125,7 @@ export const ALL_EQUIPMENT = {
     description: 'A really sharp dagger.',
     slotsIn: 'oneHand',
     cost: DEFAULT_COST,
-    level: 1,
+    level: 15,
     combatStats: {
       damage: 0
     },
@@ -136,7 +136,7 @@ export const ALL_EQUIPMENT = {
     description: 'It still pulsates oddly enough.',
     slotsIn: 'trinket',
     cost: DEFAULT_COST,
-    level: 1,
+    level: 10,
     combatStats: {
       maxHealth: 1,
       damage: 1,
@@ -149,7 +149,7 @@ export const ALL_EQUIPMENT = {
     description: 'Fine protection.',
     slotsIn: 'armor',
     cost: DEFAULT_COST,
-    level: 1,
+    level: 20,
     combatStats: {
       maxArmor: 0
     },
@@ -160,7 +160,7 @@ export const ALL_EQUIPMENT = {
     description: 'A simple ring.',
     slotsIn: 'accessory',
     cost: DEFAULT_COST,
-    level: 1,
+    level: 29,
     combatStats: {
       maxHealth: 5,
       damage: 1
