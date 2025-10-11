@@ -46,7 +46,7 @@ export const ALL_EQUIPMENT = {
   },
   improvedHammer: {
     name: 'Improved Hammer',
-    description: 'A improved hammer.',
+    description: 'An improved hammer.',
     slotsIn: 'oneHand',
     cost: DEFAULT_COST,
     level: 3,

@@ -81,7 +81,7 @@
           .filter(({ basic }) => basic)
           .map((ability, i) => ({
             ...ABILITIES(ability),
-            uuid: `${character.id}::mainHand::${characterEquipment.mainHand?.id}::${ability.id}::${i}`
+            uuid: `${character.id}::mainHand::${characterEquipment.mainHand?.id}::${ability.id}::${ability.name}::${i}`
           }))
       : [];
 
@@ -91,7 +91,7 @@
           .filter(({ basic }) => basic)
           .map((ability, i) => ({
             ...ABILITIES(ability),
-            uuid: `${character.id}::offHand::${characterEquipment.offHand?.id}::${ability.id}::${i}`
+            uuid: `${character.id}::offHand::${characterEquipment.offHand?.id}::${ability.id}::${ability.name}::${i}`
           }))
       : [];
 

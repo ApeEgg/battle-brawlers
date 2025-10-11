@@ -28,11 +28,12 @@
     <div
       class={tw(
         'bg-gray-400 [clip-path:polygon(19px_0%,calc(100%-17px)_0%,calc(100%-17px)_100%,19px_100%)] [grid-area:1/1]',
-        level >= 5 && 'bg-green-700',
-        level >= 10 && 'bg-blue-700',
-        level >= 15 && 'bg-purple-700',
-        level >= 20 && 'bg-orange-700',
-        level >= 25 && 'bg-red-700'
+        // level >= 2 && 'bg-gray-400',
+        level >= 5 && 'bg-green-600',
+        level >= 10 && 'bg-blue-600',
+        level >= 15 && 'bg-purple-600',
+        level >= 20 && 'bg-orange-600',
+        level >= 25 && 'bg-red-600'
       )}
       style="
         mask: url('/images/brush-center.png') repeat-x 0 0 / auto 20px;
@@ -41,11 +42,12 @@
     <div
       class={tw(
         'bg-gray-400 [clip-path:polygon(0_0,19px_0,19px_100%,0_100%)] [grid-area:1/1]',
-        level >= 5 && 'bg-green-700',
-        level >= 10 && 'bg-blue-700',
-        level >= 15 && 'bg-purple-700',
-        level >= 20 && 'bg-orange-700',
-        level >= 25 && 'bg-red-700'
+        // level >= 2 && 'bg-gray-400',
+        level >= 5 && 'bg-green-600',
+        level >= 10 && 'bg-blue-600',
+        level >= 15 && 'bg-purple-600',
+        level >= 20 && 'bg-orange-600',
+        level >= 25 && 'bg-red-600'
       )}
       style="
         mask: url('/images/brush-left.png') no-repeat 0 0 / auto 20px;
@@ -54,11 +56,12 @@
     <div
       class={tw(
         'bg-gray-400 [clip-path:polygon(100%_0,100%_100%,calc(100%-17px)_100%,calc(100%-17px)_0)] [grid-area:1/1]',
-        level >= 5 && 'bg-green-700',
-        level >= 10 && 'bg-blue-700',
-        level >= 15 && 'bg-purple-700',
-        level >= 20 && 'bg-orange-700',
-        level >= 25 && 'bg-red-700'
+        // level >= 2 && 'bg-gray-400',
+        level >= 5 && 'bg-green-600',
+        level >= 10 && 'bg-blue-600',
+        level >= 15 && 'bg-purple-600',
+        level >= 20 && 'bg-orange-600',
+        level >= 25 && 'bg-red-600'
       )}
       style="
         mask: url('/images/brush-right.png') no-repeat 100% 0 / auto 20px;

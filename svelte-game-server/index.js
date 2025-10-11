@@ -14,7 +14,7 @@ client.connect((error, mongo) => {
 
   aaw(
     'events',
-    { mongo: mongo.db('mini-fighters') },
+    { mongo: mongo.db('battle-brawlers') },
     undefined,
     ({ event, websocketKey, _async, error, body, _response }, log) => {
       const { version } = body || {};
