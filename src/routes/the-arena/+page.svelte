@@ -6,11 +6,12 @@
 
   const SIMULATION_COUNT = 10;
 
-  let creatures = Object.entries(ALL_CHARACTERS).map(([key]) => ({
-    ...CHARACTERS(key, true),
-    url: key
-  }));
-  // .filter(({ image }) => image.startsWith('creature'));
+  let creatures = Object.entries(ALL_CHARACTERS)
+    .map(([key]) => ({
+      ...CHARACTERS(key, true),
+      url: key
+    }))
+    .filter(({ image, name }) => /*image.startsWith('creature') &&*/ name !== 'Target Dummy');
 </script>
 
 <Headline text="the arena" />

@@ -5,7 +5,7 @@
 
   const { setOverlay } = ACTIONS;
 
-  let { progress } = $props();
+  let { progress, rewards } = $props();
   let interval = setInterval(() => {}, 500);
   let rewardsShown = $state(0);
   let delayTicks = 2;
@@ -22,8 +22,6 @@
     }
   });
 
-  const REWARDS = [{ type: 'experience', amount: 50 }];
-
   let winningTeam = $derived(app.combat.winningTeam);
   let outcome = $derived<'victory' | 'defeat'>(winningTeam?.index === 0 ? 'victory' : 'defeat');
 </script>
@@ -39,12 +37,12 @@
             <div class="cinzel text-2xl">rewards</div>
             <Hr />
             <crow vertical>
-              {#each REWARDS as { type, amount }, i}
+              {#each rewards as { type, amount }, i}
                 <Accordion isOpen={rewardsShown > i + delayTicks + 1}>
                   <crow>+{amount} {type}</crow>
                 </Accordion>
               {/each}
-              {#each REWARDS as { type, amount }, i}
+              {#each rewards as { type, amount }, i}
                 <Accordion isOpen={rewardsShown <= i + delayTicks + 1}>
                   <crow class="p-0.5">
                     <Icon
@@ -60,10 +58,12 @@
               <Button
                 tertiary
                 onclick={() => {
+                  app.experience += rewards.find(({ type }) => type === 'experience')?.amount || 0;
+
                   app.combat = { ...INITIAL_COMBAT };
                   app.liveTeams = [];
                   app.elapsedMilliseconds = 0;
-                  app.experience += 50;
+
                   setOverlay('');
                 }}
                 innerClass="text-lg cinzel border overflow-hidden border-yellow-700 px-4 py-1 text-white [background:radial-gradient(ellipse_farthest-corner_at_right_bottom,_#FEDB37_0%,_#FDB931_8%,_#9f7928_30%,_#8A6E2F_40%,_transparent_80%),_radial-gradient(ellipse_farthest-corner_at_left_top,_#FFFFFF_0%,_#FFFFAC_8%,_#D1B464_25%,_#5d4a1f_62.5%,_#5d4a1f_100%)]"

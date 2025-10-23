@@ -23,6 +23,7 @@
   let progress = $derived(
     app.elapsedMilliseconds / app.combat.duration // avoid divide-by-zero
   );
+  let experience = $derived(startTeams[1]?.combatants?.[0]?.name === 'Target Dummy' ? 0 : 50);
 </script>
 
 <div class="relative w-full">
@@ -94,7 +95,7 @@
         {/each}
       {/if}
     </CombatArena>
-    <ResultAnnouncement {progress} />
+    <ResultAnnouncement {progress} rewards={[{ type: 'experience', amount: experience }]} />
   </crow>
 </div>
 

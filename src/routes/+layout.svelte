@@ -15,7 +15,7 @@
     getExperienceForNextLevel,
     getLevelByExperience
   } from '$src/ts/level';
-  import { goto } from '$app/navigation';
+  import { goto, onNavigate } from '$app/navigation';
   overrideItemIdKeyNameBeforeInitialisingDndZones('uuid');
 
   let { children } = $props<{ children: Snippet }>();
@@ -24,6 +24,7 @@
   let activePage = $derived($page.route.id?.split('/')[1] || (!app.token ? 'start' : ''));
   let isDebugPage = $derived($page.route.id === '/debug');
   let isVendorPage = $derived($page.route.id === '/vendor');
+  let isRandomDuelPage = $derived($page.route.id === '/random-duel');
   let characterIndex = $derived($page.params.characterIndex);
   let creatureId = $derived($page.params.creatureId);
 
@@ -32,10 +33,17 @@
 
   let showSequence = $state(false);
 
+  onNavigate(() => {
+    app.selectedBrawlers = [];
+  });
+
   const selectBrawler = (e: Event, id: string) => {
-    if (creatureId !== undefined && !app.selectedBrawlers.includes(id)) {
+    const isCreaturePage = creatureId !== undefined;
+    const isDuelOnDemandPage = $page.route.id === '/random-duel';
+
+    if ((isCreaturePage || isDuelOnDemandPage) && !app.selectedBrawlers.includes(id)) {
       e.preventDefault();
-      app.selectedBrawlers = [id];
+      app.selectedBrawlers.push(id);
     }
   };
 </script>
@@ -55,13 +63,27 @@
 >
   <div
     class={tw(
-      'xs:w-[calc(100%-theme(space.4))]',
+      'xs:w-[calc(100%-theme(space.4))] pt-20 pb-3',
       !isAuthenticated ? 'crow !flex-none' : 'flex w-full max-w-7xl'
     )}
   >
     <Authorization>
-      <div class="flex min-h-screen flex-1 gap-3 pt-20">
-        <div class="w-56 rounded border border-transparent bg-white/30 p-4">
+      <div class="flex min-h-[calc(100vh-theme(spacing.20)-theme(spacing.3))] flex-1 gap-3">
+        <div
+          class="sticky top-3 h-[calc(100vh-theme(spacing.6))] w-56 rounded border border-transparent bg-white/30 p-4"
+        >
+          <div class="absolute -top-6 -left-0">
+            {#if app.elapsedMilliseconds < app.combat.duration}
+              <Clickable onclick={() => setOverlay('Combat')} class="crow gap-2">
+                <Spinner class="text-sm text-gray-700" />
+                <div>Fightning..</div>
+              </Clickable>
+            {:else if app.combat.duration !== 0}
+              <Clickable onclick={() => setOverlay('Combat')} class="crow gap-2">
+                <div>View outcome</div>
+              </Clickable>
+            {/if}
+          </div>
           <Headline text="MY LUDUS" small>
             <crow class="cinzel !flex-none">
               level {getLevelByExperience(app.experience)}
@@ -147,7 +169,8 @@
                   )}
                   {@const isActive =
                     parseInt(characterIndex, 10) === i ||
-                    (creatureId !== undefined && app.selectedBrawlers.includes(char.uuid))}
+                    (creatureId !== undefined && app.selectedBrawlers.includes(char.uuid)) ||
+                    (isRandomDuelPage && app.selectedBrawlers.includes(char.uuid))}
                   <Clickable
                     href="/brawlers/{i}"
                     class={tw('crow vertical w-full')}
@@ -163,12 +186,13 @@
                     >
                       <div class="h-16 w-16 p-1">
                         <div class="glass overflow-hidden rounded-sm border border-gray-600">
-                          <img src="/images/races/{character.race}/01-faceshot.png" alt="" />
+                          <img
+                            src="/images/races/{character.image.replace('.png', '-mugshot.png')}"
+                            alt=""
+                          />
                         </div>
                       </div>
                       <crow vertical left class="overflow-x-hidden px-1 py-1">
-                        <!-- <div class="text-md text-gray-600">{character.name}</div> -->
-
                         <div class="w-full">
                           <Bar
                             max={calculateCombatStatsByCharacter(character).maxHealth}
@@ -183,7 +207,8 @@
                         <Accordion
                           isOpen={showSequence ||
                             creatureId !== undefined ||
-                            characterIndex !== undefined}
+                            characterIndex !== undefined ||
+                            isRandomDuelPage}
                         >
                           <div class="pr-px">
                             <CombatantAbilityBar
@@ -206,34 +231,28 @@
         <crow vertical class="h-full flex-1">
           <div class="grid h-full w-full">
             <crow
-              up
               left
+              up
+              vertical
               class={tw(
-                'h-auto rounded border border-transparent bg-white p-4 [grid-area:1/1]',
+                'relative !h-auto rounded border border-transparent bg-white p-4 [grid-area:1/1]',
                 isDebugPage && 'bg-transparent'
               )}
             >
-              <div class={tw('relative min-h-full w-full')}>
-                {@render children()}
+              <div class="relative w-full flex-1">
+                <div>
+                  {@render children()}
+                </div>
+              </div>
+              <div class="sticky bottom-[calc(theme(spacing.3))] left-0 w-full">
+                <div
+                  id="sticky-bottom"
+                  class="-m-[calc(theme(spacing.4)+1px)] overflow-hidden rounded-b"
+                ></div>
               </div>
             </crow>
 
             <crow up class="-mt-7 !h-7 !flex-none !justify-between px-1 [grid-area:1/1]">
-              <div>
-                {#if app.elapsedMilliseconds < app.combat.duration}
-                  <Clickable onclick={() => setOverlay('Combat')} class="crow gap-2">
-                    <Spinner class="text-sm text-gray-700" />
-                    <div>Fightning..</div>
-                  </Clickable>
-                {:else if app.combat.duration !== 0}
-                  <Clickable onclick={() => setOverlay('Combat')} class="crow gap-2">
-                    <div>View outcome</div>
-                  </Clickable>
-                {/if}
-              </div>
-              <!-- <Clickable class="crow left gap-1" onclick={() => goto('/the-arena')}>
-                ‹ Go back
-              </Clickable> -->
               <crow up right class="gap-1">
                 <a
                   class={tw(
@@ -253,6 +272,16 @@
                   href="/the-arena"
                 >
                   The Arena
+                </a>
+                <a
+                  class={tw(
+                    'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+                    activePage === 'random-duel' &&
+                      'rounded-t-sm border-transparent bg-white text-black'
+                  )}
+                  href="/random-duel"
+                >
+                  Random duel
                 </a>
                 <a
                   class={tw(
@@ -312,7 +341,7 @@
 
         <div
           class={tw(
-            'pointer-events-none w-56 translate-x-4 rounded border border-transparent bg-white/30 p-4 opacity-0 transition-all duration-200',
+            'pointer-events-none sticky top-3 h-[calc(100vh-theme(spacing.6))] w-56 translate-x-4 rounded border border-transparent bg-white/30 p-4 opacity-0 transition-all duration-200',
             (!!characterIndex || isVendorPage) && 'pointer-events-auto translate-x-0 opacity-100'
           )}
         >

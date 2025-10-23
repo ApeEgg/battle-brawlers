@@ -68,7 +68,7 @@ export const ALL_EQUIPMENT = {
     abilities: [ABILITIES('block'), ABILITIES('shieldBash')]
   },
   twoHandedAxe: {
-    name: 'Two-handed Axe',
+    name: 'Great Axe',
     description: 'A mighty two-handed axe.',
     slotsIn: 'twoHand',
     cost: DEFAULT_COST * 2,
@@ -83,8 +83,23 @@ export const ALL_EQUIPMENT = {
       ABILITIES('whirlwind', false, { overrides: { ticks: 4, chainLink: 4 } })
     ]
   },
-  club: {
-    name: 'Club',
+  twoHandedSpear: {
+    name: 'Spear',
+    description: 'A mighty two-handed spear.',
+    slotsIn: 'twoHand',
+    cost: DEFAULT_COST * 2,
+    level: DEFAULT_LEVEL,
+    combatStats: {
+      damage: 0
+    },
+    abilities: [
+      ABILITIES('stab', false, { overrides: { ticks: 4 } }),
+      ABILITIES('stab', false, { overrides: { ticks: 4 } }),
+      ABILITIES('stab', false, { overrides: { ticks: 4 } })
+    ]
+  },
+  heavyClub: {
+    name: 'Heavy Club',
     description: "A mighty two-handed club.<br />It's slammer time!",
     slotsIn: 'twoHand',
     cost: DEFAULT_COST * 2,
@@ -93,6 +108,20 @@ export const ALL_EQUIPMENT = {
       damage: 0
     },
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
+  },
+  club: {
+    name: 'Club',
+    description: 'A simple club.',
+    slotsIn: 'oneHand',
+    cost: DEFAULT_COST,
+    level: DEFAULT_LEVEL,
+    combatStats: {
+      damage: 0
+    },
+    abilities: [
+      ABILITIES('slam', false, { overrides: { ticks: 3 } }),
+      ABILITIES('slam', false, { overrides: { ticks: 3 } })
+    ]
   },
   greatSword: {
     name: 'Greatsword',
@@ -114,7 +143,7 @@ export const ALL_EQUIPMENT = {
     description: 'A simple bow.',
     slotsIn: 'twoHand',
     cost: DEFAULT_COST * 2,
-    level: 5,
+    level: DEFAULT_LEVEL,
     combatStats: {
       damage: 0
     },
@@ -125,7 +154,7 @@ export const ALL_EQUIPMENT = {
     description: 'A really sharp dagger.',
     slotsIn: 'oneHand',
     cost: DEFAULT_COST,
-    level: 15,
+    level: DEFAULT_LEVEL,
     combatStats: {
       damage: 0
     },
@@ -136,7 +165,7 @@ export const ALL_EQUIPMENT = {
     description: 'It still pulsates oddly enough.',
     slotsIn: 'trinket',
     cost: DEFAULT_COST,
-    level: 10,
+    level: DEFAULT_LEVEL,
     combatStats: {
       maxHealth: 1,
       damage: 1,
@@ -149,7 +178,7 @@ export const ALL_EQUIPMENT = {
     description: 'Fine protection.',
     slotsIn: 'armor',
     cost: DEFAULT_COST,
-    level: 20,
+    level: DEFAULT_LEVEL,
     combatStats: {
       maxArmor: 0
     },
@@ -160,7 +189,7 @@ export const ALL_EQUIPMENT = {
     description: 'A simple ring.',
     slotsIn: 'accessory',
     cost: DEFAULT_COST,
-    level: 29,
+    level: DEFAULT_LEVEL,
     combatStats: {
       maxHealth: 5,
       damage: 1

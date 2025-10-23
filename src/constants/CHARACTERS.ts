@@ -23,10 +23,10 @@ export const DEFAULT_EQUIPMENT = {
 // inheriting. If "creatures" need overrides, add them to the specific creature.
 
 export const ALL_CHARACTERS = {
-  elf: {
+  elfMale: {
     name: 'Brawler',
     race: 'elf',
-    image: 'elf/01.png',
+    image: 'elf/male-01.png',
     size: 1.2,
     equipment: DEFAULT_EQUIPMENT,
     description: '',
@@ -50,10 +50,37 @@ export const ALL_CHARACTERS = {
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('pierce'), ABILITIES('pierce'), ABILITIES('pierce'), ABILITIES('pierce')]
   },
-  human: {
+  elfFemale: {
+    name: 'Brawler',
+    race: 'elf',
+    image: 'elf/female-01.png',
+    size: 1.05,
+    equipment: DEFAULT_EQUIPMENT,
+    description: '',
+    // woundLimit: 8,
+    // concussionLimit: 8,
+    // comboLimit: 8,
+    // exosedLimit: 8,
+    element: 'nature',
+    combatStats: {
+      maxHealth: DEFAULT_MAX_HP,
+      currentHealth: DEFAULT_MAX_HP,
+      damage: DEFAULT_DAMAGE,
+      maxArmor: 0,
+      currentArmor: 0,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
+    },
+    maxTicks: DEFAULT_MAX_TICKS,
+    abilities: [ABILITIES('swing'), ABILITIES('swing'), ABILITIES('swing'), ABILITIES('swing')]
+  },
+  humanMale: {
     name: 'Brawler',
     race: 'human',
-    image: 'human/01.png',
+    image: 'human/male-01.png',
     size: 1,
     equipment: DEFAULT_EQUIPMENT,
     description: '',
@@ -71,12 +98,35 @@ export const ALL_CHARACTERS = {
       }
     },
     maxTicks: DEFAULT_MAX_TICKS,
-    abilities: [ABILITIES('slam'), ABILITIES('block'), ABILITIES('slam')]
+    abilities: [ABILITIES('swing'), ABILITIES('swing'), ABILITIES('swing'), ABILITIES('swing')]
   },
-  troll: {
+  humanFemale: {
+    name: 'Brawler',
+    race: 'human',
+    image: 'human/female-01.png',
+    size: 1,
+    equipment: DEFAULT_EQUIPMENT,
+    description: '',
+    element: 'frost',
+    combatStats: {
+      maxHealth: DEFAULT_MAX_HP,
+      currentHealth: DEFAULT_MAX_HP,
+      damage: DEFAULT_DAMAGE,
+      maxArmor: 0,
+      currentArmor: 0,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
+    },
+    maxTicks: DEFAULT_MAX_TICKS,
+    abilities: [ABILITIES('swing'), ABILITIES('swing'), ABILITIES('block'), ABILITIES('shieldBash')]
+  },
+  trollMale: {
     name: 'Brawler',
     race: 'troll',
-    image: 'troll/01.png',
+    image: 'troll/male-01.png',
     size: 1.1,
     equipment: DEFAULT_EQUIPMENT,
     description: '',
@@ -96,10 +146,46 @@ export const ALL_CHARACTERS = {
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
   },
-  dwarf: {
+  trollFemale: {
+    name: 'Brawler',
+    race: 'troll',
+    image: 'troll/female-01.png',
+    size: 1.1,
+    equipment: DEFAULT_EQUIPMENT,
+    description: '',
+    element: 'earth',
+    combatStats: {
+      maxHealth: DEFAULT_MAX_HP,
+      currentHealth: DEFAULT_MAX_HP,
+      damage: DEFAULT_DAMAGE,
+      maxArmor: 0,
+      currentArmor: 0,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
+    },
+    maxTicks: DEFAULT_MAX_TICKS,
+    abilities: [
+      ABILITIES('slam', false, {
+        overrides: { ticks: 3 }
+      }),
+      ABILITIES('slam', false, {
+        overrides: { ticks: 3 }
+      }),
+      ABILITIES('slam', false, {
+        overrides: { ticks: 3 }
+      }),
+      ABILITIES('slam', false, {
+        overrides: { ticks: 3 }
+      })
+    ]
+  },
+  dwarfMale: {
     name: 'Brawler',
     race: 'dwarf',
-    image: 'dwarf/01.png',
+    image: 'dwarf/male-01.png',
     size: 0.8,
     equipment: DEFAULT_EQUIPMENT,
     description: '',
@@ -117,12 +203,39 @@ export const ALL_CHARACTERS = {
       }
     },
     maxTicks: DEFAULT_MAX_TICKS,
-    abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
+    abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('block'), ABILITIES('shieldBash')]
   },
-  goblin: {
+  dwarfFemale: {
+    name: 'Brawler',
+    race: 'dwarf',
+    image: 'dwarf/female-01.png',
+    size: 0.8,
+    equipment: DEFAULT_EQUIPMENT,
+    description: '',
+    element: 'fire',
+    combatStats: {
+      maxHealth: DEFAULT_MAX_HP,
+      currentHealth: DEFAULT_MAX_HP,
+      damage: DEFAULT_DAMAGE,
+      maxArmor: 0,
+      currentArmor: 0,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
+    },
+    maxTicks: DEFAULT_MAX_TICKS,
+    abilities: [
+      ABILITIES('swing', false, { overrides: { ticks: 4 } }),
+      ABILITIES('swing', false, { overrides: { ticks: 4 } }),
+      ABILITIES('swing', false, { overrides: { ticks: 4 } })
+    ]
+  },
+  goblinMale: {
     name: 'Brawler',
     race: 'goblin',
-    image: 'goblin/01.png',
+    image: 'goblin/male-01.png',
     size: 0.8,
     equipment: DEFAULT_EQUIPMENT,
     description: '',
@@ -147,6 +260,33 @@ export const ALL_CHARACTERS = {
       ABILITIES('stab'),
       ABILITIES('stab'),
       ABILITIES('stab')
+    ]
+  },
+  goblinFemale: {
+    name: 'Brawler',
+    race: 'goblin',
+    image: 'goblin/female-01.png',
+    size: 1.2,
+    equipment: DEFAULT_EQUIPMENT,
+    description: '',
+    element: 'lightning',
+    combatStats: {
+      maxHealth: DEFAULT_MAX_HP,
+      currentHealth: DEFAULT_MAX_HP,
+      damage: DEFAULT_DAMAGE,
+      maxArmor: 0,
+      currentArmor: 0,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
+    },
+    maxTicks: DEFAULT_MAX_TICKS,
+    abilities: [
+      ABILITIES('stab', false, { overrides: { ticks: 4 } }),
+      ABILITIES('stab', false, { overrides: { ticks: 4 } }),
+      ABILITIES('stab', false, { overrides: { ticks: 4 } })
     ]
   },
   // Creatures
@@ -251,6 +391,29 @@ export const ALL_CHARACTERS = {
     },
     maxTicks: Infinity,
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam'), ABILITIES('harden')]
+  },
+  trainingDummy: {
+    name: 'Training Dummy',
+    race: 'creature',
+    image: 'creature/training-dummy.png',
+    size: 1,
+    equipment: DEFAULT_EQUIPMENT,
+    description: '',
+    element: '',
+    combatStats: {
+      maxHealth: 40,
+      currentHealth: 40,
+      damage: 0,
+      maxArmor: 0,
+      currentArmor: 0,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
+    },
+    maxTicks: Infinity,
+    abilities: [ABILITIES('harden', false, { overrides: { ticks: 12 } })]
   }
 };
 

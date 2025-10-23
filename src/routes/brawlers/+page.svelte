@@ -44,7 +44,7 @@
   {/if}
 </crow>
 
-<crow class="!flex-wrap gap-4" up left>
+<crow class="!flex-wrap gap-4" left>
   {#each characters as char}
     {@const character = CHARACTERS(char, true)}
     {@const isRecruited = app.characters.find(({ id }) => id === character.id)}

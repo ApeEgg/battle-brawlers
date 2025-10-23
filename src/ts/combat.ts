@@ -9,6 +9,17 @@ import { AbilityType, type Ability } from '$src/types/ability';
 import type { CharacterRef } from '$src/types/character';
 import CHARACTERS from '$src/constants/CHARACTERS';
 
+export const healFull = (characters: CharacterRef[]) => {
+  return characters.map((character) => {
+    character.overrides.combatStats.currentHealth = CHARACTERS(
+      character,
+      true
+    ).combatStats.maxHealth;
+
+    return character;
+  });
+};
+
 export const prepareTeams = (...teams: [CharacterRef[], CharacterRef[], ...CharacterRef[][]]) => {
   const preparedCombatants = teams.map((team, teamIndex) =>
     team.map((combatant, combatatantIndex) =>

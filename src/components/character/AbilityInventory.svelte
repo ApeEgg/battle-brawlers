@@ -43,8 +43,8 @@
     flipDurationMs,
     dropFromOthersDisabled,
     transformDraggedElement: transformDraggedAvailableAbility,
-    dropTargetStyle: {}
-    // type: 'character'
+    dropTargetStyle: {},
+    type: character.uuid
   }}
   onconsider={considerAvailableAbilities}
   onfinalize={finalizeAvailableAbilities}

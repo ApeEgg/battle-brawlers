@@ -25,3 +25,9 @@ export const getCurrentExperienceAtLevel = (experience: number) => {
 export const allowedNumberOfCharacters = () => {
   return Math.floor(app.accountRewards / 5) + 1;
 };
+
+export const getExperienceRangeForLevel = (level: number) => {
+  const minXp = getExperienceByLevel(level);
+  const maxXp = getExperienceByLevel(level + 1) - 1;
+  return { minXp: Math.floor(minXp), maxXp: Math.floor(maxXp) };
+};

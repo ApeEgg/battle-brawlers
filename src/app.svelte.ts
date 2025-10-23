@@ -28,7 +28,7 @@ const DEFAULT_ABILITIES = [
 ];
 
 export const RECRUITABLE_CHARACTERS = [
-  CHARACTERS('elf', false, {
+  CHARACTERS('elfMale', false, {
     overrides: {
       name: 'Elon',
       equipment: {
@@ -57,14 +57,50 @@ export const RECRUITABLE_CHARACTERS = [
       combatStats: { currentHealth: 24 }
     }
   }),
-  CHARACTERS('troll', false, {
+  CHARACTERS('elfFemale', false, {
+    overrides: {
+      name: 'Evyn',
+      equipment: {
+        ...DEFAULT_EQUIPMENT,
+        mainHand: EQUIPMENT('sword', false, {
+          overrides: {
+            name: 'Basic Sword',
+            cost: 0,
+            level: 1,
+            abilities: [
+              ABILITIES('swing', false, {
+                overrides: { name: 'Basic Swing', statusEffects: [] }
+              }),
+              ABILITIES('swing', false, {
+                overrides: { name: 'Basic Swing', statusEffects: [] }
+              })
+            ]
+          }
+        }),
+        offHand: EQUIPMENT('sword', false, {
+          overrides: {
+            name: 'Basic Sword',
+            cost: 0,
+            level: 1,
+            abilities: [
+              ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } }),
+              ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } })
+            ]
+          }
+        })
+      },
+      abilities: DEFAULT_ABILITIES,
+      combatStats: { currentHealth: 24 }
+    }
+  }),
+  CHARACTERS('trollMale', false, {
     overrides: {
       name: 'Throk',
       equipment: {
         ...DEFAULT_EQUIPMENT,
-        mainHand: EQUIPMENT('club', false, {
+        mainHand: EQUIPMENT('heavyClub', false, {
           overrides: {
-            name: 'Basic Club',
+            name: 'Basic Heavy Club',
             cost: 0,
             level: 1,
             abilities: [
@@ -79,7 +115,47 @@ export const RECRUITABLE_CHARACTERS = [
       combatStats: { currentHealth: 24 }
     }
   }),
-  CHARACTERS('goblin', false, {
+  CHARACTERS('trollFemale', false, {
+    overrides: {
+      name: 'Trula',
+      equipment: {
+        ...DEFAULT_EQUIPMENT,
+        mainHand: EQUIPMENT('club', false, {
+          overrides: {
+            name: 'Basic Club',
+            cost: 0,
+            level: 1,
+            abilities: [
+              ABILITIES('slam', false, {
+                overrides: { name: 'Basic Slam', ticks: 3, statusEffects: [] }
+              }),
+              ABILITIES('slam', false, {
+                overrides: { name: 'Basic Slam', ticks: 3, statusEffects: [] }
+              })
+            ]
+          }
+        }),
+        offHand: EQUIPMENT('club', false, {
+          overrides: {
+            name: 'Basic Club',
+            cost: 0,
+            level: 1,
+            abilities: [
+              ABILITIES('slam', false, {
+                overrides: { name: 'Basic Slam', ticks: 3, statusEffects: [] }
+              }),
+              ABILITIES('slam', false, {
+                overrides: { name: 'Basic Slam', ticks: 3, statusEffects: [] }
+              })
+            ]
+          }
+        })
+      },
+      abilities: DEFAULT_ABILITIES,
+      combatStats: { currentHealth: 24 }
+    }
+  }),
+  CHARACTERS('goblinMale', false, {
     overrides: {
       name: 'Grish',
       equipment: {
@@ -113,9 +189,37 @@ export const RECRUITABLE_CHARACTERS = [
       combatStats: { currentHealth: 24 }
     }
   }),
-  CHARACTERS('human', false, {
+  CHARACTERS('goblinFemale', false, {
     overrides: {
-      name: 'Hebert',
+      name: 'Grishna',
+      equipment: {
+        ...DEFAULT_EQUIPMENT,
+        mainHand: EQUIPMENT('twoHandedSpear', false, {
+          overrides: {
+            name: 'Basic Spear',
+            cost: 0,
+            level: 1,
+            abilities: [
+              ABILITIES('stab', false, {
+                overrides: { name: 'Basic Stab', ticks: 4, statusEffects: [] }
+              }),
+              ABILITIES('stab', false, {
+                overrides: { name: 'Basic Stab', ticks: 4, statusEffects: [] }
+              }),
+              ABILITIES('stab', false, {
+                overrides: { name: 'Basic Stab', ticks: 4, statusEffects: [] }
+              })
+            ]
+          }
+        })
+      },
+      abilities: DEFAULT_ABILITIES,
+      combatStats: { currentHealth: 24 }
+    }
+  }),
+  CHARACTERS('humanMale', false, {
+    overrides: {
+      name: 'Henry',
       equipment: {
         ...DEFAULT_EQUIPMENT,
         mainHand: EQUIPMENT('axe', false, {
@@ -145,7 +249,41 @@ export const RECRUITABLE_CHARACTERS = [
       combatStats: { currentHealth: 24 }
     }
   }),
-  CHARACTERS('dwarf', false, {
+  CHARACTERS('humanFemale', false, {
+    overrides: {
+      name: 'Helena',
+      equipment: {
+        ...DEFAULT_EQUIPMENT,
+        mainHand: EQUIPMENT('sword', false, {
+          overrides: {
+            name: 'Basic Sword',
+            cost: 0,
+            level: 1,
+            abilities: [
+              ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } }),
+              ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } })
+            ]
+          }
+        }),
+        offHand: EQUIPMENT('shield', false, {
+          overrides: {
+            name: 'Basic Shield',
+            cost: 0,
+            level: 1,
+            abilities: [
+              ABILITIES('block'),
+              ABILITIES('shieldBash', false, {
+                overrides: { name: 'Basic Shield Bash', statusEffects: [] }
+              })
+            ]
+          }
+        })
+      },
+      abilities: DEFAULT_ABILITIES,
+      combatStats: { currentHealth: 24 }
+    }
+  }),
+  CHARACTERS('dwarfMale', false, {
     overrides: {
       name: 'Durak',
       equipment: {
@@ -174,6 +312,34 @@ export const RECRUITABLE_CHARACTERS = [
               ABILITIES('block'),
               ABILITIES('shieldBash', false, {
                 overrides: { name: 'Basic Shield Bash', statusEffects: [] }
+              })
+            ]
+          }
+        })
+      },
+      abilities: DEFAULT_ABILITIES,
+      combatStats: { currentHealth: 24 }
+    }
+  }),
+  CHARACTERS('dwarfFemale', false, {
+    overrides: {
+      name: 'Dina',
+      equipment: {
+        ...DEFAULT_EQUIPMENT,
+        mainHand: EQUIPMENT('twoHandedAxe', false, {
+          overrides: {
+            name: 'Basic Great Axe',
+            cost: 0,
+            level: 1,
+            abilities: [
+              ABILITIES('swing', false, {
+                overrides: { name: 'Basic Swing', ticks: 4, statusEffects: [] }
+              }),
+              ABILITIES('swing', false, {
+                overrides: { name: 'Basic Swing', ticks: 4, statusEffects: [] }
+              }),
+              ABILITIES('swing', false, {
+                overrides: { name: 'Basic Swing', ticks: 4, statusEffects: [] }
               })
             ]
           }
@@ -228,7 +394,7 @@ export default new (class {
         const experience = $state.snapshot(this.experience); // Hack to trigger reruns
         const coins = $state.snapshot(this.coins); // Hack to trigger reruns
         const accountRewards = $state.snapshot(this.accountRewards); // Hack to trigger reruns
-
+        // console.log(app.syncPerformanceNow);
         const saveDebounce = setTimeout(() => {
           if (app.socket && app.token) {
             (async () => {

@@ -32,18 +32,21 @@
     </div>
   </crow>
 {/if}
-<Icon
-  class={tw(
-    'relative text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.3xl))]',
-    basic && 'text-gray-400',
-    small && 'text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.2xl))]',
-    small && basic && 'text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.xl))]',
-    disabled && 'text-red-300'
-    // !hideTickCount && '-translate-y-1'
-  )}
-  name={icon}
-  original={!basic && !disabled}
-/>
+<crow vertical class="!grid">
+  <Icon
+    class={tw(
+      'relative text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.3xl))] [grid-area:1/1]',
+      basic && 'text-gray-400',
+      small && 'text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.2xl))]',
+      small && basic && 'text-[clamp(theme(fontSize.sm),3vw,theme(fontSize.xl))]',
+      disabled && 'text-red-300'
+      // !hideTickCount && '-translate-y-1'
+    )}
+    name={icon}
+    original={!basic && !disabled}
+  />
+  <!-- <div class="fat-number text-5xl font-bold text-white [grid-area:1/1]">7</div> -->
+</crow>
 
 {#if statusEffects && statusEffects.length > 0}
   <crow class={tw('absolute bottom-1 left-1', small && 'bottom-px left-px')}>

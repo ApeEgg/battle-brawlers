@@ -1,11 +1,17 @@
 <script lang="ts">
   import { untrack } from 'svelte';
+  import { page } from '$app/stores';
   import app from '$src/app.svelte';
   import type { Ability, AbilityRef } from '$src/types/ability';
   import { calculateAvailableAbilitiesByCharacter } from '$src/ts/Utils';
   import EQUIPMENT from '$src/constants/EQUIPMENT';
   import ABILITIES from '$src/constants/ABILITIES';
   import type { Character } from '$src/types/character';
+  import Button from '$src/components/form/Button.svelte';
+  import { generateCombat, healFull, prepareTeams } from '$src/ts/combat';
+  import CHARACTERS from '$src/constants/CHARACTERS';
+
+  const { overlay } = STORES;
 
   let { character, renderSides }: { character: Character; renderSides?: boolean } = $props();
 
@@ -186,9 +192,26 @@
       ensureAvailableAbilities();
     });
   });
+
+  let characterIndex = $derived($page.params.characterIndex);
+
+  const tryOutBuild = () => {
+    const selected = app.characters[characterIndex as number];
+    if (!selected) return;
+
+    const myCharacter = $state.snapshot(selected);
+
+    let creature = CHARACTERS('trainingDummy', true);
+    console.log(creature);
+
+    app.combat = generateCombat('myseed', prepareTeams(healFull([myCharacter]), [creature]));
+    console.info(app.combat);
+
+    $overlay = 'Combat';
+  };
 </script>
 
-<crow vertical class="w-full gap-2">
+<crow vertical class="w-full">
   <crow left class="!items-stretch !justify-stretch overflow-hidden">
     {#if renderSides}
       <crow
@@ -197,7 +220,11 @@
           renderSides && 'w-20'
         )}
       >
-        <img src="/images/races/{character.image}" class="absolute top-0 right-0 left-0" alt="" />
+        <img
+          src="/images/races/{character.image.replace('.png', '-mugshot.png')}"
+          class="absolute top-0 right-0 left-0"
+          alt=""
+        />
       </crow>
     {/if}
 
@@ -205,6 +232,7 @@
       {#if !renderSides}
         <crow class="w-full !justify-between">
           <h5>Active abilities</h5>
+          <Button onclick={tryOutBuild} tertiary>Try out build</Button>
         </crow>
       {/if}
       <AbilityBar
@@ -220,7 +248,7 @@
     </crow>
 
     {#if renderSides}
-      <crow class={tw('w-0 !flex-none transition-all duration-200', renderSides && 'w-20')}>
+      <crow class={tw('w-0 !flex-none gap-1 transition-all duration-200', renderSides && 'w-20')}>
         <Button
           onclick={() => (showAvailableAbilities = !showAvailableAbilities)}
           tertiary
@@ -228,13 +256,22 @@
         >
           <Icon name="down" class={tw(showAvailableAbilities && '-scale-y-[1]')} />
         </Button>
+        <Button
+          onclick={() => {
+            app.selectedBrawlers = app.selectedBrawlers.filter((uuid) => uuid !== character.uuid);
+          }}
+          tertiary
+          innerClass="py-2 bg-red-200 text-red-600"
+        >
+          <Icon name="cross" class={tw(showAvailableAbilities && '-scale-y-[1]')} />
+        </Button>
       </crow>
     {/if}
   </crow>
 
   <Accordion isOpen={!renderSides || showAvailableAbilities}>
     <div>
-      <crow class="relative w-full gap-2 overflow-hidden p-1" vertical left up>
+      <crow class="relative my-2 w-full gap-2 overflow-hidden p-1" vertical left up>
         <crow class="w-full !justify-between">
           <h5>Available abilities</h5>
         </crow>

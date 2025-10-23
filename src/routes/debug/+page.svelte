@@ -11,11 +11,16 @@
   let combatantCount = $state(1);
 
   let characters: Character[] = [
-    CHARACTERS('elf'),
-    CHARACTERS('human'),
-    CHARACTERS('troll'),
-    CHARACTERS('dwarf'),
-    CHARACTERS('goblin'),
+    CHARACTERS('elfMale'),
+    CHARACTERS('elfFemale'),
+    CHARACTERS('humanMale'),
+    CHARACTERS('humanFemale'),
+    CHARACTERS('trollMale'),
+    CHARACTERS('trollFemale'),
+    CHARACTERS('dwarfMale'),
+    CHARACTERS('dwarfFemale'),
+    CHARACTERS('goblinMale'),
+    CHARACTERS('goblinFemale'),
     CHARACTERS('succubus'),
     CHARACTERS('rat')
   ];
@@ -47,7 +52,7 @@
   };
 
   const startCombat = () => {
-    app.combat = generateCombat('simon', $state.snapshot(teams));
+    app.combat = generateCombat('myseed', $state.snapshot(teams));
     console.info($state.snapshot(app.combat));
   };
 

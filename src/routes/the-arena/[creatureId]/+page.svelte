@@ -3,6 +3,7 @@
   import { page } from '$app/stores';
   import { generateCombat, prepareTeams } from '$src/ts/combat';
   import { goto } from '$app/navigation';
+  import type { Character } from '$src/types/character';
 
   const { overlay } = STORES;
 
@@ -32,13 +33,16 @@
     $overlay = 'Combat';
   };
 
-  let brawlersSelected = $derived(selectedBrawlers.length > 0);
+  let brawlersSelected = $derived(app.selectedBrawlers.length > 0);
 </script>
 
 <GoBack onclick={() => goto('/the-arena')} />
 
 <Headline text={creature.name}>
-  <CoreStats combatStats={creature.combatStats} />
+  <crow class="w-full !justify-between">
+    <Pill text="1&nbsp;vs&nbsp;1" />
+    <CoreStats combatStats={creature.combatStats} />
+  </crow>
 </Headline>
 
 <crow left class="!items-stretch !justify-stretch overflow-hidden">
@@ -65,7 +69,6 @@
       'pointer-events-none relative w-40 !flex-none -scale-x-[1] bg-contain bg-center bg-no-repeat transition-all duration-200',
       brawlersSelected && 'w-20'
     )}
-    style="background-image: urlllll(/images/races/{creature.image});"
   >
     <img src="/images/races/{creature.image}" class="absolute top-0 right-0 left-0" alt="" />
   </crow>
@@ -73,41 +76,6 @@
 
 <Hr class="mt-6 mb-6" />
 
-{#if brawlersSelected}
-  {#each selectedBrawlers as brawler (brawler.uuid)}
-    <AbilitySelection character={brawler} renderSides />
-  {/each}
-{:else}
-  <crow vertical class="h-[100px] border border-dashed border-gray-300 text-center">
-    <h5>Choose your brawler</h5>
-  </crow>
-{/if}
-
-{#if brawlersSelected}
-  <Hr class="mt-4 mb-3" />
-
-  <crow class="gap-3">
-    <Button
-      tertiary
-      disabled={!brawlersSelected || app.combat.duration !== 0}
-      onclick={() => (app.selectedBrawlers = [])}
-    >
-      Cancel
-    </Button>
-
-    <Button
-      big
-      bgColor="bg-red-500"
-      disabled={!brawlersSelected ||
-        app.combat.duration !== 0 ||
-        selectedBrawlers.some(
-          (brawler) => CHARACTERS(brawler, true).combatStats.currentHealth <= 0
-        )}
-      onclick={runCombat}
-    >
-      Fight
-    </Button>
-  </crow>
-{/if}
+<CharacterSelection {runCombat} />
 
 <!-- <Debug data={selectedBrawlers} /> -->

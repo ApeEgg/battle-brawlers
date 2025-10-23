@@ -106,7 +106,7 @@
         transformDraggedElement: transformDraggedCharacterAbility,
         dropTargetStyle: { outline: 'rgba(100, 100, 100, 0.5) solid 2px' },
         dragDisabled: dndDisabled || dragDisabled,
-        ...(dndDisabled ? { type: 'creature' } : {})
+        ...(dndDisabled ? { type: 'creature' } : { type: character.uuid })
       }}
       onconsider={considerCharacterAbilities}
       onfinalize={finalizeCharacterAbilities}
@@ -115,7 +115,7 @@
         {@const tickStart = calculateTickStart(hydratedAbilities, i)}
         <crow
           role="listitem"
-          animate:flip={{ duration: flipDurationMs }}
+          animate:flip={{ duration: dndDisabled ? 0 : flipDurationMs }}
           use:tooltip={{
             children: TooltipAbility,
             props: { ...ability, character: CHARACTERS(character, true) },
