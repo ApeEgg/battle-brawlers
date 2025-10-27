@@ -206,7 +206,7 @@ export const ALL_EQUIPMENT = {
 //     fullBody
 //   ) as Equipment;
 
-const applyScaling = (equipment: Equipment | EquipmentRef) => {
+const applyScaling = (equipment: Equipment) => {
   const isWeapon = ['oneHand', 'twoHand'].includes(equipment?.slotsIn);
   if (isWeapon) {
     const multiplier = equipment?.slotsIn === 'twoHand' ? 2 : 1;
@@ -242,4 +242,4 @@ export default (id: string | EquipmentRef, fullBody: boolean = false, meta?: Dyn
           ? deepMerge(id.overrides || {}, meta.overrides || {})
           : id.overrides
     ) as Equipment
-  ) as Equipment;
+  ) as Required<Equipment>;

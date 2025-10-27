@@ -3,14 +3,13 @@
   import type { Equipment } from '$src/types/equipment';
   import { slotsInPrettyName } from '$src/ts/equipment';
   import { confirmWithDialog } from '$src/ts/dialog';
-  import type { Component } from 'svelte';
   import { formatCoins } from '$src/ts/coin';
   import BasicConfirmation from '$src/components/dialog/BasicConfirmation.svelte';
 
-  const level = 2;
-
-  let allEquipment = $state(Object.keys(ALL_EQUIPMENT).map((key) => EQUIPMENT(key, true)));
-  let filteredEquipment = $state(allEquipment);
+  let allEquipment: Equipment[] = $state(
+    Object.keys(ALL_EQUIPMENT).map((key) => EQUIPMENT(key, true))
+  );
+  let filteredEquipment: Equipment[] = $state(allEquipment);
 
   const craftEquipment = (itemId: Equipment['id']) => {
     const item = EQUIPMENT(itemId, false);
@@ -18,7 +17,7 @@
     item.overrides = { level };
     const { silver } = formatCoins(cost);
 
-    confirmWithDialog(BasicConfirmation as Component, {
+    confirmWithDialog(BasicConfirmation as any, {
       text: `Are you sure you want to acquire this equipment for <span class="text-white">${silver} coins</span>?`,
       confirm: () => {
         app.coins -= cost;

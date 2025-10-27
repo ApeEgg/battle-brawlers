@@ -11,7 +11,7 @@
     combatStats,
     abilities,
     character
-  }: Equipment & { character: Character } = $derived(app.tooltip.props);
+  }: Equipment & { character: Character } = $derived(app.tooltip?.props);
 
   let activeAbilities = $derived(abilities?.filter((ability) => ABILITIES(ability, true).basic));
   let availableAbilities = $derived(

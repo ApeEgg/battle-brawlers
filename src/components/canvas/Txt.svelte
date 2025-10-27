@@ -12,7 +12,17 @@
     fontSize = 16,
     fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica',
     children
-  } = $props<{ children: Snippet }>();
+  }: {
+    color?: string;
+    align?: string;
+    baseline?: string;
+    text?: string;
+    x?: number;
+    y?: number;
+    fontSize?: number;
+    fontFamily?: string;
+    children?: Snippet;
+  } = $props();
 
   renderable(({ ctx }: any) => {
     if (text) {
@@ -25,4 +35,4 @@
   });
 </script>
 
-{@render children()}
+{@render children?.()}

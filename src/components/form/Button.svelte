@@ -13,7 +13,8 @@
     disabled = false,
     bgColor = '',
     big = false,
-    active = false
+    active = false,
+    type = 'button'
   }: {
     primary?: boolean;
     secondary?: boolean;
@@ -21,12 +22,13 @@
     blur?: boolean;
     class?: string;
     innerClass?: string;
-    onclick: () => void;
+    onclick?: () => void;
     disabled?: boolean;
     children: Snippet;
     bgColor?: string;
     big?: boolean;
     active?: boolean;
+    type?: string;
   } = $props();
 
   let inputRef: HTMLButtonElement;

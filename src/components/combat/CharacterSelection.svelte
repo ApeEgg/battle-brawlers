@@ -3,14 +3,17 @@
   import CHARACTERS from '$src/constants/CHARACTERS';
   import type { Character } from '$src/types/character';
 
-  let { runCombat, count = 1 } = $props();
+  let {
+    runCombat,
+    count = 1
+  }: {
+    runCombat: () => void;
+    count?: number;
+  } = $props();
 
   let selectedBrawlers: Character[] = $derived(
     app.selectedBrawlers.map((id) =>
-      CHARACTERS(
-        app.characters.find((c) => c.uuid === id),
-        true
-      )
+      CHARACTERS(app.characters.find(({ uuid }) => uuid === id) as Character, true)
     )
   );
 

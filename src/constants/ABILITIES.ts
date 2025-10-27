@@ -266,5 +266,5 @@ export default (id: string | AbilityRef, fullBody: boolean = false, meta?: Dynam
         : id.overrides
   ) as Ability;
 
-  return fullBody ? attachCalcs(ent) : ent;
+  return (fullBody ? attachCalcs(ent) : ent) as Required<Ability>;
 };

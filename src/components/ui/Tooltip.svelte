@@ -80,7 +80,7 @@
     return clamp(fy - tooltipY - ARROW_HALF, ARROW_HALF, Math.max(ARROW_HALF, h - ARROW_HALF));
   });
 
-  const hasEquipmentLevel = $derived(app.tooltip.props?.level);
+  const hasEquipmentLevel = $derived(app.tooltip?.props?.level);
 </script>
 
 <div

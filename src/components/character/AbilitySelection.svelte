@@ -157,12 +157,10 @@
     ] as Ability[];
 
     // Earlier .id instead of .uuid
-    if (
-      JSON.stringify(abs.map((a) => a?.uuid).sort((a, b) => a.localeCompare(b))) !==
-      JSON.stringify(character.abilities.map((a) => a.uuid).sort((a, b) => a.localeCompare(b)))
-    ) {
+    // @ts-expect-error
+    if (JSON.stringify(abs.map((a) => a?.uuid).sort((a, b) => a.localeCompare(b))) !== JSON.stringify(character.abilities.map((a) => a.uuid).sort((a, b) => a.localeCompare(b)))) { 
       character.overrides.abilities = abs;
-    }
+    } // prettier-ignore
   };
 
   const ensureAvailableAbilities = () => {
@@ -196,13 +194,12 @@
   let characterIndex = $derived($page.params.characterIndex);
 
   const tryOutBuild = () => {
-    const selected = app.characters[characterIndex as number];
+    const selected = app.characters[parseInt(characterIndex, 10)];
     if (!selected) return;
 
     const myCharacter = $state.snapshot(selected);
 
     let creature = CHARACTERS('trainingDummy', true);
-    console.log(creature);
 
     app.combat = generateCombat('myseed', prepareTeams(healFull([myCharacter]), [creature]));
     console.info(app.combat);

@@ -18,8 +18,6 @@
     EQUIPMENT(chosenEquipment, false, { overrides: { level: 11 } }),
     EQUIPMENT(chosenEquipment, false, { overrides: { level: 12 } })
   ]);
-
-  console.log(equipmentPool);
 </script>
 
 <Headline text="equipment scaling" />
@@ -28,7 +26,7 @@
 <Dropdown
   options={Object.keys(ALL_EQUIPMENT)}
   value={chosenEquipment}
-  on:change={({ target: { value } }) => (chosenEquipment = value)}
+  onchange={({ target: { value } }: any) => (chosenEquipment = value)}
 />
 
 {#each equipmentPool as equipment, i (`${equipment.id}_${i}`)}

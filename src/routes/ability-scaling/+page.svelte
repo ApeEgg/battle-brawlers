@@ -25,7 +25,7 @@
 <Dropdown
   options={Object.keys(ALL_ABILITIES)}
   value={chosenAbility}
-  on:change={({ target: { value } }) => (chosenAbility = value)}
+  onchange={({ target: { value } }: any) => (chosenAbility = value)}
 />
 
 {#each abilitiesPool as abilities, i (i)}

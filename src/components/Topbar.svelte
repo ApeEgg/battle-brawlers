@@ -21,6 +21,6 @@
     <Icon class="text-blue-500" name="dark" />
   </Clickable>
   <Clickable class="crow h-8 w-8 hover:bg-black/5" onclick={setOverlay.bind(undefined, 'GameMenu')}>
-    <Icon name="menu" size={20} />
+    <Icon name="menu" />
   </Clickable>
 </crow>

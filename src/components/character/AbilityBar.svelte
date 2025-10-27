@@ -4,7 +4,7 @@
   import { flip } from 'svelte/animate';
   import type { AbilityRef } from '$src/types/ability';
   import ABILITIES from '$src/constants/ABILITIES';
-  import type { Character } from '$src/types/character';
+  import type { CharacterRef } from '$src/types/character';
   import CHARACTERS from '$src/constants/CHARACTERS';
 
   let flipDurationMs = 300;
@@ -22,7 +22,7 @@
     minimalistic = false,
     hideOverflow = false
   }: {
-    character: Character;
+    character: CharacterRef;
     abilities: AbilityRef[];
     transformDraggedCharacterAbility?: (draggedElement: any, data: any, _index: any) => void;
     considerCharacterAbilities?: (e: any) => void;
@@ -43,7 +43,7 @@
         const tickEnd = tickStart + ability.ticks;
         return { ...ability, tickStart, tickEnd };
       })
-      .filter(({ tickStart }) => tickStart < character.maxTicks)
+      .filter(({ tickStart }) => tickStart < CHARACTERS(character, true).maxTicks)
       .at(-1)?.tickEnd
   );
 </script>

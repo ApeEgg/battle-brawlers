@@ -45,7 +45,7 @@ export type Ability = AbilityRef & {
   damageModifier: number;
   healingModifier: number;
   durationModifier: number;
-  calc: {
+  calc?: {
     damage: any;
     healing: any;
     duration: any;

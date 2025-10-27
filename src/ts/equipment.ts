@@ -1,10 +1,20 @@
 import { page } from '$app/stores';
-import type { EquipmentRef, EquipmentType, EquipmentSlot } from '$src/types/equipment';
+import type { EquipmentRef, EquipmentType, EquipmentSlot, Equipment } from '$src/types/equipment';
 import { get } from 'svelte/store';
 import app from '$src/app.svelte';
-import type { Character } from '$src/types/character';
+import type { Character, CharacterRef } from '$src/types/character';
 import EQUIPMENT from '$src/constants/EQUIPMENT';
 import CHARACTERS from '$src/constants/CHARACTERS';
+import { calculateCombatStatsByCharacter } from './Utils';
+
+const correctHealth = (characterRef: CharacterRef) => {
+  const character = CHARACTERS(characterRef, true);
+  const combatStats = calculateCombatStatsByCharacter(character);
+
+  if (character.combatStats.maxHealth <= character.combatStats.currentHealth) {
+    characterRef.overrides.combatStats.currentHealth = combatStats.maxHealth;
+  }
+};
 
 const decideEquipmentSlot = (slotsIn: EquipmentType, character: Character) => {
   if (slotsIn === 'oneHand') {
@@ -45,7 +55,7 @@ export const equip = (equipmentRef: EquipmentRef) => {
   const slot = character.equipment[slotsIn];
   const mainHand = character.equipment.mainHand
     ? EQUIPMENT(character.equipment.mainHand, true)
-    : {};
+    : ({} as Equipment);
 
   const index = app.inventory.findIndex((item) => item === equipmentRef);
   // Remove item from inventory (equipment)
@@ -77,6 +87,8 @@ export const equip = (equipmentRef: EquipmentRef) => {
 
   // Replace whatever is in the slot
   characterRef.overrides.equipment[slotsIn] = equipmentRef;
+
+  correctHealth(characterRef);
 };
 
 export const unequip = (equipmentRef: EquipmentRef, slot: EquipmentSlot) => {
@@ -87,6 +99,8 @@ export const unequip = (equipmentRef: EquipmentRef, slot: EquipmentSlot) => {
 
   app.inventory.push(equipmentRef);
   characterRef.overrides.equipment[slot] = null;
+
+  correctHealth(characterRef);
 };
 
 export const slotsInPrettyName = (slotsIn: EquipmentType | string) =>

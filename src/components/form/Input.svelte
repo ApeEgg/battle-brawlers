@@ -1,25 +1,35 @@
 <script lang="ts">
-  export let placeholder: string | undefined;
-  export let blur: any;
-  export let inputRef: HTMLInputElement;
-  export let value: string;
-
   let {
-    placeholder: _placeholder,
-    value: _value,
-    inputRef: _inputRef,
+    placeholder,
+    blur,
+    value = $bindable(),
+    class: classes,
+    type,
     small,
-    class: _class,
-    ...props
-  } = $$props;
+    ...rest
+  }: {
+    placeholder?: string;
+    blur?: boolean;
+    value?: string;
+    class?: string;
+    type?: string;
+    small?: boolean;
+  } = $props();
 
-  $: blur && inputRef && inputRef === document.activeElement && ((value = ''), inputRef.blur());
+  let inputRef: HTMLInputElement;
+
+  $effect(() => {
+    if (blur && inputRef && inputRef === document.activeElement) {
+      value = '';
+      inputRef.blur();
+    }
+  });
 </script>
 
 <div
   class={tw(
     'input relative inline-block border-none bg-none text-gray-800 outline-none dark:text-white',
-    _class
+    classes
   )}
   class:active={value}
   class:small
@@ -27,12 +37,9 @@
   <input
     class="w-full rounded bg-white p-2 dark:bg-black"
     type="text"
-    {...props}
+    {...rest}
     autocomplete="off"
     bind:this={inputRef}
-    on:keyup
-    on:focus
-    on:blur
     bind:value
   />
 

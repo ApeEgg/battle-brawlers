@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Combatant } from '$src/types/combatant';
+  import type { Combatant, StatusStack, StatusEffect } from '$src/types/combatant';
   import STATUS_EFFECTS from '$src/constants/STATUS_EFFECTS';
   import { flip } from 'svelte/animate';
 
@@ -21,6 +21,12 @@
   let x = $derived(position.x);
   let y = $derived(position.y);
   let statuses = $derived(props.statuses);
+  // @ts-expect-error
+  let statusStacks: [string, StatusStack][] = $derived(Object.entries(statuses).filter(([_, { max, value }]) => max && value)); // prettier-ignore
+
+  // @ts-expect-error
+  let statusEffects: [string, StatusEffect][] = $derived(Object.entries(statuses).filter(([_, { ticks }]) => ticks)); // prettier-ignore
+
   let facingRight = $derived(props.facingRight);
   let currentArmor = $derived(combatStats.currentArmor);
   let animations = $derived(props.animations);
@@ -81,9 +87,7 @@
             !facingRight && '!items-start'
           )}
         >
-          {#each Object.entries(statuses)
-            .filter(([_, { ticks }]) => ticks)
-            .sort(([_, a], [__, b]) => a.ticks - b.ticks) as [key, { ticks }] (key)}
+          {#each statusEffects.sort(([_, a], [__, b]) => a.ticks - b.ticks) as [key, { ticks }] (key)}
             {@const effect = STATUS_EFFECTS?.[key]}
             <crow class={tw('left')} animate:flip={{ duration: 250 }}>
               <crow class={tw('!grid w-6 !flex-none', facingRight && 'order-1')}>
@@ -112,9 +116,7 @@
               </crow>
             </crow>
           {/each}
-          {#each Object.entries(statuses)
-            .filter(([_, { max, value }]) => max && value)
-            .sort(([_, a], [__, b]) => b.value - a.value) as [key, { max, value }] (key)}
+          {#each statusStacks.sort(([_, a], [__, b]) => b.value - a.value) as [key, { max, value }] (key)}
             {@const effect = STATUS_EFFECTS?.[key]}
             <crow class={tw('left gap-2')} animate:flip={{ duration: 250 }}>
               <crow class={tw('!grid w-6 !flex-none', facingRight && 'order-1')}>

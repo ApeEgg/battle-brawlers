@@ -1,5 +1,6 @@
 <script lang="ts">
   import { emptySlot } from '$src/helpers';
+  import type { ChangeEvent } from '$src/types/common';
 
   type Option =
     | {
@@ -8,12 +9,15 @@
       }
     | string;
 
-  export let value: string = 'Choose one';
-  export let options: Option[] = [];
+  let {
+    value = 'Choose one',
+    options = [],
+    onchange
+  }: { value?: string; options: Option[]; onchange?: (e: Event) => void } = $props();
 </script>
 
 <div class="relative rounded-sm border border-gray-200">
-  <select class="absolute inset-0 h-full w-full opacity-0" bind:value on:change>
+  <select class="absolute inset-0 h-full w-full opacity-0" bind:value {onchange}>
     <optgroup label="Choose one">
       {#each options as option, i}
         {#if typeof option === 'string'}

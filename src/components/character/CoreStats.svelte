@@ -1,5 +1,13 @@
 <script lang="ts">
-  let { combatStats, small = false } = $props();
+  import type { CombatStats } from '$src/types/combatStats';
+
+  let {
+    combatStats,
+    small = false
+  }: {
+    combatStats: CombatStats;
+    small?: boolean;
+  } = $props();
 </script>
 
 <crow

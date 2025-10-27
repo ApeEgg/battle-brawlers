@@ -3,8 +3,9 @@
   import { calculateCombatStatsByCharacter } from '$src/ts/Utils';
   import { AbilityType, type Ability } from '$src/types/ability';
   import type { Character } from '$src/types/character';
+  import type { CombatStats } from '$src/types/combatStats';
 
-  let props: Ability & { character: Character } = $derived(app.tooltip.props);
+  let props: Required<Ability> & { character: Character } = $derived(app.tooltip?.props);
 
   let { name, ticks, type, description, chainLink, character, statusEffects } = $derived(props);
 
@@ -13,7 +14,9 @@
   let calculatedHealing = $derived(calc.healing());
   let calculatedDuration = $derived(calc.duration());
 
-  let combatStats = $derived(character ? calculateCombatStatsByCharacter(character) : {});
+  let combatStats = $derived(
+    character ? calculateCombatStatsByCharacter(character) : ({} as Required<CombatStats>)
+  );
 </script>
 
 <div

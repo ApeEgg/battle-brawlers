@@ -350,7 +350,8 @@ export const RECRUITABLE_CHARACTERS = [
     }
   })
 ];
-const INITIAL_CHARACTERS: Character[] = [];
+
+const INITIAL_CHARACTERS: Required<CharacterRef>[] = [];
 // const INITIAL_INVENTORY = [
 //   EQUIPMENT('sword'),
 //   EQUIPMENT('sword'),
@@ -376,7 +377,7 @@ export default new (class {
   coins: number = $state(INITIAL_COINS);
   accountRewards: number = $state(1);
 
-  characters: CharacterRef[] = $state(INITIAL_CHARACTERS);
+  characters: Required<CharacterRef>[] = $state(INITIAL_CHARACTERS);
   inventory: EquipmentRef[] = $state(INITIAL_INVENTORY);
   socket = $state() as AsyncAwaitWebsocket;
   token: string | undefined = $state();
@@ -420,8 +421,8 @@ export default new (class {
   }
 
   dump() {
-    function flatSnapshot(o) {
-      const out = {};
+    function flatSnapshot(o: any) {
+      const out: any = {};
       let p = o;
       while ((p = Object.getPrototypeOf(p)) && p !== Object.prototype) {
         for (const n of Object.getOwnPropertyNames(p)) {
@@ -429,7 +430,9 @@ export default new (class {
           if (d?.get && !(n in out)) {
             try {
               out[n] = o[n];
-            } catch {}
+            } catch {
+              console.error('Failed to get property', n);
+            }
           }
         }
       }

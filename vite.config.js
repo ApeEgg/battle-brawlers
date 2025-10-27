@@ -2,7 +2,7 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import autoImport from 'sveltekit-autoimport';
 import tailwindcss from '@tailwindcss/vite';
-import { componentsTypedefsPlugin } from './scripts/generate-component-typedefs.ts';
+import { componentsTypedefsPlugin } from './scripts/generate-component-typedefs';
 
 export default defineConfig({
   build: {

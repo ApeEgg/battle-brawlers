@@ -4,6 +4,11 @@ export type CombatStats = {
   damage?: number;
   maxArmor?: number;
   currentArmor?: number;
+  limits: {
+    wounded: number;
+    concussed: number;
+    exposed: number;
+  };
 };
 
 export const prettyCombatStatKey = (key: string) =>

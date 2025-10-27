@@ -9,7 +9,7 @@
     style
   }: {
     class?: string;
-    onclick?: () => void;
+    onclick?: (e: Event) => void;
     href?: string;
     children: Snippet;
     style?: string;

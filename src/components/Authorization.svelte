@@ -1,9 +1,12 @@
 <script lang="ts">
   import { getCookie } from '$src/helpers';
+  import type { Snippet } from 'svelte';
   import { version } from '../../package.json';
 
   const { IS_DEV } = ENV;
   const { notify } = ACTIONS;
+
+  let { children }: { children?: Snippet } = $props();
 
   onMount(() => (app.token = getCookie()?.token));
 
@@ -47,7 +50,7 @@
 {#if !connected}
   <Loader>Connecting to server</Loader>
 {:else if authorized}
-  <slot />
+  {@render children?.()}
 {:else if !app.token}
   <Unauthorized />
 {/if}

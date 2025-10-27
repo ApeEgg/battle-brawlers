@@ -7,7 +7,12 @@
     frames = 0,
     prevTime = performance.now(),
     children
-  } = $props<{ children: Snippet }>();
+  }: {
+    text?: string;
+    frames?: number;
+    prevTime?: number;
+    children?: Snippet;
+  } = $props();
 
   renderable(() => {
     let time = performance.now();
@@ -23,7 +28,7 @@
 
 <Txt
   {text}
-  fontSize="12"
+  fontSize={12}
   fontFamily="Courier New"
   align="left"
   baseline="top"
@@ -31,4 +36,4 @@
   y={$height - 20}
 />
 
-{@render children()}
+{@render children?.()}

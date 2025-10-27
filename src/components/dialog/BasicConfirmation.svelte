@@ -1,5 +1,13 @@
 <script lang="ts">
-  let { text, confirm, close } = $props();
+  let {
+    text,
+    confirm,
+    close
+  }: {
+    text: string;
+    confirm: () => void;
+    close: () => void;
+  } = $props();
 </script>
 
 <Frame title="Confirmation">

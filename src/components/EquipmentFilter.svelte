@@ -4,7 +4,13 @@
 
   type EquipmentFilterType = 'all' | EquipmentType;
 
-  let { allEquipment, filteredEquipment = $bindable() } = $props();
+  let {
+    allEquipment,
+    filteredEquipment = $bindable()
+  }: {
+    allEquipment: Equipment[];
+    filteredEquipment: Equipment[];
+  } = $props();
   let filter = $state('all');
 
   const EQUIPMENT_TYPES: EquipmentFilterType[] = [

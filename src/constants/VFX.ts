@@ -42,4 +42,4 @@ export default {
     vfxName: 'filler',
     duration: 500
   }
-} as Record<string, VFX>;
+} as any;

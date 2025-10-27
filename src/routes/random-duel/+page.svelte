@@ -20,7 +20,10 @@
 
       const myCharacters = $state.snapshot(selected);
 
-      app.combat = generateCombat('myseed', prepareTeams(myCharacters, healFull(characters)));
+      app.combat = generateCombat(
+        'myseed',
+        prepareTeams(myCharacters, healFull(characters.slice(0, myCharacters.length)))
+      );
 
       $overlay = 'Combat';
     } else {

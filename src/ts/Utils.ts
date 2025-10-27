@@ -1,12 +1,14 @@
 import seedRandom from 'seedrandom';
 import type { Combatant } from '$src/types/combatant';
-import type { Character } from '$src/types/character';
+import type { Character, CharacterRef } from '$src/types/character';
 import { AbilityType, type Ability, type AbilityRef } from '$src/types/ability';
 import { COMBAT_TICK_TIME, COMBAT_RING_BASE_RADIUS } from '$src/constants/APP';
 import EQUIPMENT from '$src/constants/EQUIPMENT';
 import ABILITIES from '$src/constants/ABILITIES';
 import CHARACTERS from '$src/constants/CHARACTERS';
 import { deepAdd } from '$src/helpers';
+import type { DynamicObject } from '$src/types/common';
+import type { CombatStats } from '$src/types/combatStats';
 
 export const calculateCombatStats = (...args: any) => {
   const combined = args.reduce((acc: any, obj: any) => {
@@ -49,10 +51,13 @@ export const calculateCombatStatsByCharacter = (character: Character) => {
     ...Object.values(character.equipment)
       .filter((equipment) => equipment !== null)
       .map((equipment) => EQUIPMENT(equipment, true)?.combatStats ?? {})
-  ];
+  ] as Required<CombatStats>[];
 
   // start from a copy so we don't mutate character.combatStats
-  return parts.reduce((acc, cur) => deepAdd(acc, cur), {} as DynamicObject);
+  return parts.reduce(
+    (acc, cur) => deepAdd(acc, cur),
+    {} as DynamicObject
+  ) as Required<CombatStats>;
 };
 
 export const calculateTickStart = (abilities: Ability[], index: number) => {
@@ -64,13 +69,13 @@ export const calculateTickStart = (abilities: Ability[], index: number) => {
 };
 
 export const prepareCombatant = (
-  character: Character,
+  characterRef: CharacterRef,
   teamCount: number,
   combatantCount: number,
   teamIndex: number,
   combatantIndex: number
 ): Combatant => {
-  character = CHARACTERS(character, true); // ensure full character
+  const character = CHARACTERS(characterRef, true); // ensure full character
 
   const rotation = 360 / teamCount;
   const combatStats = calculateCombatStatsByCharacter(character);
@@ -78,18 +83,22 @@ export const prepareCombatant = (
   // combatStats.currentHealth = combatStats.maxHealth;
   combatStats.currentArmor = combatStats.maxArmor;
 
+  // Populate ability refs with data
   const abilitiesHydrated = (
     character.abilities.map((ability) => ABILITIES(ability, true)) as Ability[]
-  ).map((ability) => {
-    const { calc, ...rest } = ability;
+  )
+    // Run calcs
+    .map((ability) => {
+      const { calc, ...rest } = ability;
 
-    return {
-      ...rest,
-      damage: ability.calc.damage()?.result || 0,
-      healing: ability.calc.healing()?.result || 0,
-      duration: ability.calc.duration()?.result || 0
-    };
-  });
+      return {
+        ...rest,
+        calc: undefined, // To be able to parse it
+        damage: ability?.calc?.damage()?.result || 0,
+        healing: ability?.calc?.healing()?.result || 0,
+        duration: ability?.calc?.duration()?.result || 0
+      };
+    });
 
   const abilitiesCut = abilitiesHydrated.filter(
     (_, i) => calculateTickStart(abilitiesHydrated, i) < character.maxTicks
@@ -99,7 +108,7 @@ export const prepareCombatant = (
     const start = a[i - 1]?.end || 0;
     const end = start + ability.ticks * COMBAT_TICK_TIME;
     return [...a, { ...ability, start, end }];
-  }, [] as Ability[]);
+  }, [] as Ability[]) as Required<Ability>[];
 
   const abilities = abilitiesCut
     .reduce((a, ability) => {
@@ -126,7 +135,7 @@ export const prepareCombatant = (
       const start = a[i - 1]?.end || 0;
       const end = start + ability.ticks * COMBAT_TICK_TIME;
       return [...a, { ...ability, start, end }];
-    }, [] as Ability[]);
+    }, [] as Ability[]) as Required<Ability>[];
 
   const radius = COMBAT_RING_BASE_RADIUS;
 
@@ -154,6 +163,7 @@ export const prepareCombatant = (
     animations: [],
     injectedAnimations: [],
     position,
+    damage: 0,
     statuses: {
       isBlocking: false,
       knockedOut: 0,

@@ -35,7 +35,7 @@
   export let index = 0;
   // export let characters = [];
   export let rotation = 0;
-  export let distanceFromCenter = 0;
+  // export let distanceFromCenter = 0;
   export let scale = 1;
 </script>
 
@@ -49,7 +49,7 @@
         <div>
           <crow gap={2}>
             <div>
-              <div class="circle" style={`background: ${TEAM_COLORS[index % 7].color};`} />
+              <div class="circle" style={`background: ${TEAM_COLORS[index % 7].color};`}></div>
             </div>
             <div class="team-name" style={`color: ${TEAM_COLORS[index % 7].brightColor};`}>
               <!--{#if !characters[0]?.teamName}

@@ -70,7 +70,7 @@
     <Checkbox
       id="codeOfConduct"
       bind:value={codeOfConduct}
-      onchange={({ target: { checked } }: ChangeEvent) => (codeOfConduct = checked)}
+      onchange={({ target: { checked } }: any) => (codeOfConduct = checked)}
     >
       I agree to the <a
         class="text-blue-500 hover:underline"
@@ -86,7 +86,7 @@
     <Checkbox
       id="rememberMe"
       bind:value={rememberMe}
-      onchange={({ target: { checked } }: ChangeEvent) => (rememberMe = checked)}
+      onchange={({ target: { checked } }: any) => (rememberMe = checked)}
     >
       Remember me
     </Checkbox>

@@ -107,6 +107,6 @@
   on:mousemove={handleMouseMove}
 />
 
-<Txt fontSize={8} baseline="top" bind:this={text} />
+<Txt fontSize={8} baseline="top" />
 
 {@render children()}

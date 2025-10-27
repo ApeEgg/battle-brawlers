@@ -1,7 +1,7 @@
 import { ABILITY_PRIORITY, COMBAT_TICK_TIME } from '$src/constants/APP';
 import type { CombatEvent } from '$src/types/combat';
 import type { Team } from '$src/types/team';
-import { prepareCombatant, seededRandom } from '$src/ts/Utils';
+import { calculateCombatStatsByCharacter, prepareCombatant, seededRandom } from '$src/ts/Utils';
 import type { Combatant } from '$src/types/combatant';
 import type { VFX } from '$src/types/vfx';
 import _VFX from '$src/constants/VFX';
@@ -11,10 +11,9 @@ import CHARACTERS from '$src/constants/CHARACTERS';
 
 export const healFull = (characters: CharacterRef[]) => {
   return characters.map((character) => {
-    character.overrides.combatStats.currentHealth = CHARACTERS(
-      character,
-      true
-    ).combatStats.maxHealth;
+    const combatStats = calculateCombatStatsByCharacter(CHARACTERS(character, true));
+
+    character.overrides.combatStats.currentHealth = combatStats.maxHealth;
 
     return character;
   });

@@ -80,5 +80,5 @@
 </crow>
 
 {#if app.combat.teamsStartState.length}
-  <Combat debug />
+  <Combat />
 {/if}

@@ -16,7 +16,7 @@
       silver > 0
         ? `You will be refunded <span class="text-white">${silver} coin(s)</span> for this equipment.`
         : 'This equipment has no value.';
-    confirmWithDialog(BasicConfirmation as Component, {
+    confirmWithDialog(BasicConfirmation as any, {
       text: `${extraText}<br /><br /><span class="text-white">Are you sure?</span>`,
       confirm: () => {
         app.coins += item.cost;

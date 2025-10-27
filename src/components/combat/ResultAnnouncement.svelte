@@ -1,11 +1,12 @@
 <script lang="ts">
   import { INITIAL_COMBAT } from '$src/app.svelte';
+  import type { Reward } from '$src/types/combat';
   import { backOut } from 'svelte/easing';
   import { scale } from 'svelte/transition';
 
   const { setOverlay } = ACTIONS;
 
-  let { progress, rewards } = $props();
+  let { progress, rewards }: { progress: number; rewards: Reward[] } = $props();
   let interval = setInterval(() => {}, 500);
   let rewardsShown = $state(0);
   let delayTicks = 2;

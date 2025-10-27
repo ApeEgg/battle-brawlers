@@ -3,7 +3,6 @@
   import { page } from '$app/stores';
   import { generateCombat, prepareTeams } from '$src/ts/combat';
   import { goto } from '$app/navigation';
-  import type { Character } from '$src/types/character';
 
   const { overlay } = STORES;
 
@@ -12,14 +11,6 @@
   } = $page;
 
   let creature = CHARACTERS(creatureId, true);
-  let selectedBrawlers: Character[] = $derived(
-    app.selectedBrawlers.map((id) =>
-      CHARACTERS(
-        app.characters.find((c) => c.uuid === id),
-        true
-      )
-    )
-  );
 
   const runCombat = () => {
     const selected = app.characters.find((c) => c.uuid === app.selectedBrawlers[0]);

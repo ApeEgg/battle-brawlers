@@ -1,8 +1,10 @@
 <script lang="ts">
+  import type { Ability } from '$src/types/ability';
+
   let props = $props();
 
   let preview = $derived(!!props.preview);
-  let abilitiesCopied = $derived(props.abilitiesCopied);
+  let abilitiesCopied: Ability[] = $derived(props.abilitiesCopied);
   let progress = $derived(props.progress);
   let isStunned = $derived(!!props.statuses?.isStunned.ticks);
 </script>

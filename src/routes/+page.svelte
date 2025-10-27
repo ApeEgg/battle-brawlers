@@ -6,7 +6,7 @@
 
 Wip..
 
-<div class="h-[3000px] w-5 bg-green-100" />
+<!-- <div class="h-[3000px] w-5 bg-green-100" /> -->
 
 <Portal target="#sticky-bottom">
   <crow class="gap-3 bg-gradient-to-t from-black to-transparent p-4" right>

@@ -1,7 +1,15 @@
 <script lang="ts">
   import { formatCoins } from '$src/ts/coin';
 
-  let { class: classes = '', amount, renderAll = false } = $props();
+  let {
+    class: classes = '',
+    amount,
+    renderAll = false
+  }: {
+    class?: string;
+    amount: number;
+    renderAll?: boolean;
+  } = $props();
 
   let { copper, silver, gold } = $derived(formatCoins(amount));
 </script>

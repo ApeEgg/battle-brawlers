@@ -42,7 +42,7 @@ const deepMerge = (target: DynamicObject, source: DynamicObject) => {
   return target;
 };
 
-const deepAdd = (target: DynamicObject, source: DynamicObject): DynamicObject => {
+const deepAdd = (target: any, source: any): any => {
   for (const key in source) {
     if (
       source[key] instanceof Object &&

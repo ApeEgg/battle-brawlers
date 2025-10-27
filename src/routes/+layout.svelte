@@ -174,7 +174,6 @@
                   <Clickable
                     href="/brawlers/{i}"
                     class={tw('crow vertical w-full')}
-                    left
                     onclick={(e: Event) => selectBrawler(e, char.uuid)}
                   >
                     <crow

@@ -1,7 +1,17 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
 
-  let { id = '', value = $bindable(false), onchange, children } = $props<{ children: Snippet }>();
+  let {
+    id = '',
+    value = $bindable(false),
+    onchange,
+    children
+  }: {
+    id?: string;
+    value?: boolean;
+    onchange?: (e: Event) => void;
+    children: Snippet;
+  } = $props();
 </script>
 
 <label class="crow left gap-2" for={id}>

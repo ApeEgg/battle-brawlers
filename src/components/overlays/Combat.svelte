@@ -99,7 +99,7 @@
   </crow>
 </div>
 
-<style>
+<!-- <style>
   .diameter {
     position: absolute;
     top: 0;
@@ -116,4 +116,4 @@
     background: black;
     transition: all 0.5s ease;
   }
-</style>
+</style> -->

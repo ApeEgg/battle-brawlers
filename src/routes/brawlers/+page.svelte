@@ -4,7 +4,7 @@
   import CHARACTERS from '$src/constants/CHARACTERS';
   import { ALL_ELEMENTS } from '$src/constants/ELEMENTS';
   import type { IconName } from '$src/Iconice';
-  import type { Character } from '$src/types/character';
+  import type { Character, CharacterRef } from '$src/types/character';
   import { confirmWithDialog } from '$src/ts/dialog';
   import type { Component } from 'svelte';
   import { allowedNumberOfCharacters } from '$src/ts/level';
@@ -16,16 +16,16 @@
 
   let characterCapped = $derived(app.characters.length >= allowedNumberOfCharacters());
 
-  const pickCharacter = (character: Character) => {
+  const pickCharacter = (characterRef: Required<CharacterRef>) => {
     if (characterCapped) {
       notify({ warning: 'You cannot recruit more characters. Level up your ludus first.' });
       return;
     }
 
-    confirmWithDialog(BasicConfirmation as Component, {
-      text: `You are recruiting <span class="text-white">${CHARACTERS(character, true).name}</span> to your Ludus.<br /><br />Do you wish to proceed?`,
+    confirmWithDialog(BasicConfirmation as any, {
+      text: `You are recruiting <span class="text-white">${CHARACTERS(characterRef, true).name}</span> to your Ludus.<br /><br />Do you wish to proceed?`,
       confirm: () => {
-        app.characters.push(character);
+        app.characters.push(characterRef);
         goto(`/brawlers/${app.characters.length - 1}`);
       }
     });

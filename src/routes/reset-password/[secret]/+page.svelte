@@ -4,10 +4,11 @@
 
   const { notify } = ACTIONS;
 
-  let password = '';
-  let error: boolean | string | undefined = undefined;
+  let password = $state('');
+  let error: boolean | string | undefined = $state(undefined);
 
-  const reset = async () => {
+  const reset = async (e: Event) => {
+    e.preventDefault();
     try {
       await app.socket.sendAsync('user/password/set-new', {
         secret: $page.params.secret,
@@ -39,7 +40,7 @@
 {#if error}
   <div>{error}<br /><br /><a href="/">Go to startpage</a></div>
 {:else if error === false}
-  <form on:submit|preventDefault={reset}>
+  <form onsubmit={reset}>
     <Input type="password" bind:value={password} placeholder="Enter a new password" />
     <Button type="submit">Submit</Button>
   </form>

@@ -26,5 +26,5 @@ export type Character = CharacterRef & {
   abilities: AbilityRef[];
   maxTicks: number;
   element: string;
-  combatStats?: CombatStats;
+  combatStats?: Required<CombatStats>;
 };

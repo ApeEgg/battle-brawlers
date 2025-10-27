@@ -1,6 +1,7 @@
 <script lang="ts">
   import { renderable } from '$svelte-game-engine';
-  export let color = null;
+
+  let { color } = $props();
 
   renderable(({ ctx, width, height }: any) => {
     ctx.clearRect(0, 0, width, height);
