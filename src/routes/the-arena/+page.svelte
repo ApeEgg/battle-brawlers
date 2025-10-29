@@ -36,6 +36,7 @@
     {@const wins = Array(SIMULATION_COUNT)
       .fill(0)
       .reduce((wins, i) => {
+        console.log(app.characters[0]);
         if (!app.characters[0]) return wins;
         console.log(wins);
         const combat = generateCombat(
