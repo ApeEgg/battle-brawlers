@@ -1,6 +1,6 @@
 <script lang="ts">
   import STATUS_EFFECTS from '$src/constants/STATUS_EFFECTS';
-  import { calculateCombatStatsByCharacter } from '$src/ts/Utils';
+  import { calculateCombatStatsByCharacter } from '$src/ts/utils';
   import { AbilityType, type Ability } from '$src/types/ability';
   import type { Character } from '$src/types/character';
   import type { CombatStats } from '$src/types/combatStats';

@@ -1,15 +1,12 @@
 <script lang="ts">
-  const { notify, unlockKeys, lockKeys } = ACTIONS;
-  const { keys } = STORES;
-
-  $: ({ escape } = $keys);
+  import { notify, enableGameKeyboard, disableGameKeyboard } from '$src/ts/actions';
 </script>
 
 <crow vertical class="gap-10" left up>
   <div>
     <h2>Input</h2>
     <!--on:keyup={(e) => console.info(e?.target?.value)}-->
-    <Input placeholder="Type something" on:blur={unlockKeys} on:focus={lockKeys} blur={escape} />
+    <Input placeholder="Type something" onblur={enableGameKeyboard} onfocus={disableGameKeyboard} />
   </div>
   <div>
     <h2>Checkbox</h2>
@@ -57,7 +54,7 @@
       </Button>
       <Button
         tertiary
-        onclick={notify.bind(undefined, { information: 'this is a information toast' })}
+        onclick={notify.bind(undefined, { info: 'this is a information toast' })}
         class="text-blue-500"
       >
         Information

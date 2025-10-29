@@ -5,7 +5,7 @@ import app from '$src/app.svelte';
 import type { Character, CharacterRef } from '$src/types/character';
 import EQUIPMENT from '$src/constants/EQUIPMENT';
 import CHARACTERS from '$src/constants/CHARACTERS';
-import { calculateCombatStatsByCharacter } from './Utils';
+import { calculateCombatStatsByCharacter } from '$src/ts/utils';
 
 const correctHealth = (characterRef: CharacterRef) => {
   const character = CHARACTERS(characterRef, true);

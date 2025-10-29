@@ -1,10 +1,10 @@
 <script lang="ts">
-  const { keys, settings } = STORES;
-  const { lockKeys, unlockKeys, notify } = ACTIONS;
+  import { disableGameKeyboard, enableGameKeyboard, notify } from '$src/ts/actions';
 
-  let email = '';
+  let { email = $bindable('') } = $props();
 
-  const forgotPassword = async () => {
+  const forgotPassword = async (e: Event) => {
+    e.preventDefault();
     try {
       await app.socket.sendAsync('user/password/request-reset', {
         email,
@@ -12,27 +12,24 @@
       });
       email = '';
       notify({
-        information: 'if an account was registered on that email address, check your email'
+        info: 'if an account was registered on that email address, check your email'
       });
-      $settings.loginPageMode = 0;
+      app.settings.loginPageMode = 0;
     } catch (error) {
       notify(error);
     }
   };
-
-  $: ({ escape } = $keys);
 </script>
 
-<form class="crow w-full gap-2" on:submit|preventDefault={forgotPassword}>
+<form class="crow w-full gap-2" onsubmit={forgotPassword}>
   <Input
     class="xs:w-full"
     placeholder="Email"
     type="email"
-    on:focus={lockKeys}
-    on:blur={unlockKeys}
+    onfocus={disableGameKeyboard}
+    onblur={enableGameKeyboard}
     bind:value={email}
-    blur={escape}
   />
 
-  <Button type="submit" blur={escape}>Submit</Button>
+  <Button type="submit">Submit</Button>
 </form>

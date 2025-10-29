@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { colorStrength } from '$src/ts/Utils';
+  import { colorStrength } from '$src/ts/utils';
 
   const TEAM_COLORS = [
     {

@@ -5,7 +5,7 @@
   import { slotsInPrettyName, unequip } from '$src/ts/equipment';
   import EQUIPMENT from '$src/constants/EQUIPMENT';
   import type { EquipmentSlot } from '$src/types/equipment';
-  import { calculateCombatStatsByCharacter } from '$src/ts/Utils';
+  import { calculateCombatStatsByCharacter } from '$src/ts/utils';
   import { goto } from '$app/navigation';
   import { getLevelByExperience } from '$src/ts/level';
   import { confirmWithDialog } from '$src/ts/dialog';

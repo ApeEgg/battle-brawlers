@@ -42,7 +42,6 @@
     "seedrandom": "^3.0.5",
     "svelte-component-kit": "^2.0.2",
     "svelte-dnd-action": "^0.9.64",
-    "svelte-global-store": "^1.0.4",
     "svelte-portal": "^2.2.1",
     "sveltekit-autoimport": "^1.8.1"
   },

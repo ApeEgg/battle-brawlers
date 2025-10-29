@@ -2,9 +2,9 @@
   import type { AsyncAwaitWebsocket } from 'async-await-websockets';
   import aaw from 'async-await-websockets/client';
   import { browser } from '$app/environment';
+  import { notify } from '$src/ts/actions';
 
   const { WEBSOCKET_CONNECT } = ENV;
-  const { notify } = ACTIONS;
 
   $effect(() => {
     if (browser && !app.socket) {

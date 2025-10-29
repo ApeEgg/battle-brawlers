@@ -4,8 +4,10 @@
     blur,
     value = $bindable(),
     class: classes,
-    type,
+    type = 'text',
     small,
+    onfocus,
+    onblur,
     ...rest
   }: {
     placeholder?: string;
@@ -14,15 +16,27 @@
     class?: string;
     type?: string;
     small?: boolean;
+    onfocus?: (e: FocusEvent) => void;
+    onblur?: (e: FocusEvent) => void;
   } = $props();
 
   let inputRef: HTMLInputElement;
 
+  let { escape } = $derived(app.keys);
+
   $effect(() => {
-    if (blur && inputRef && inputRef === document.activeElement) {
+    if (escape && inputRef && inputRef === document.activeElement) {
       value = '';
-      inputRef.blur();
+      // inputRef.blur();
     }
+    // if (blur && inputRef && inputRef === document.activeElement) {
+    //   if (value !== '') {
+    //     value = '';
+    //   }
+    //   // else {
+    //   //   inputRef.blur();
+    //   // }
+    // }
   });
 </script>
 
@@ -36,7 +50,9 @@
 >
   <input
     class="w-full rounded bg-white p-2 dark:bg-black"
-    type="text"
+    {type}
+    {onfocus}
+    {onblur}
     {...rest}
     autocomplete="off"
     bind:this={inputRef}

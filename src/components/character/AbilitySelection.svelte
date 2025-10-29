@@ -3,15 +3,13 @@
   import { page } from '$app/stores';
   import app from '$src/app.svelte';
   import type { Ability, AbilityRef } from '$src/types/ability';
-  import { calculateAvailableAbilitiesByCharacter } from '$src/ts/Utils';
+  import { calculateAvailableAbilitiesByCharacter } from '$src/ts/utils';
   import EQUIPMENT from '$src/constants/EQUIPMENT';
   import ABILITIES from '$src/constants/ABILITIES';
   import type { Character } from '$src/types/character';
   import Button from '$src/components/form/Button.svelte';
   import { generateCombat, healFull, prepareTeams } from '$src/ts/combat';
   import CHARACTERS from '$src/constants/CHARACTERS';
-
-  const { overlay } = STORES;
 
   let { character, renderSides }: { character: Character; renderSides?: boolean } = $props();
 
@@ -204,7 +202,7 @@
     app.combat = generateCombat('myseed', prepareTeams(healFull([myCharacter]), [creature]));
     console.info(app.combat);
 
-    $overlay = 'Combat';
+    app.overlay = 'Combat';
   };
 </script>
 

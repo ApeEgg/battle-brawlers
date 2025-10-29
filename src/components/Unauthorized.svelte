@@ -1,8 +1,5 @@
 <script lang="ts">
-  const { settings, keys } = STORES;
-
-  $: ({ escape } = $keys);
-  $: ({ loginPageMode } = $settings);
+  let { loginPageMode } = $derived(app.settings);
 </script>
 
 <crow vertical class="glass relative w-full gap-2 p-10 pb-6">
@@ -17,15 +14,13 @@
   {/if}
   <crow class="gap-2">
     {#if loginPageMode !== 0}
-      <Button tertiary onclick={() => ($settings.loginPageMode = 0)} blur={escape}>Login</Button>
+      <Button tertiary onclick={() => (app.settings.loginPageMode = 0)}>Login</Button>
     {/if}
     {#if loginPageMode !== 1}
-      <Button tertiary onclick={() => ($settings.loginPageMode = 1)} blur={escape}>Register</Button>
+      <Button tertiary onclick={() => (app.settings.loginPageMode = 1)}>Register</Button>
     {/if}
     {#if loginPageMode !== 2}
-      <Button tertiary onclick={() => ($settings.loginPageMode = 2)} blur={escape}>
-        Forgot password
-      </Button>
+      <Button tertiary onclick={() => (app.settings.loginPageMode = 2)}>Forgot password</Button>
     {/if}
   </crow>
 </crow>

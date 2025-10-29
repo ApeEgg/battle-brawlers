@@ -1,9 +1,7 @@
 <script lang="ts">
   import { preventDefault } from '$src/helpers';
-  import type { ChangeEvent } from '$src/types/common';
+  import { enableGameKeyboard, disableGameKeyboard, notify } from '$src/ts/actions';
 
-  const { keys, overlay, token } = STORES;
-  const { lockKeys, unlockKeys, notify } = ACTIONS;
   const { IS_DEV, AUTO_EMAIL, AUTO_PASSWORD } = ENV;
 
   let email = $state(IS_DEV ? AUTO_EMAIL : '');
@@ -39,7 +37,7 @@
     }
   };
 
-  const { escape } = $derived($keys);
+  let { escape } = $derived(app.keys);
 </script>
 
 <form class="crow left vertical w-full gap-2" onsubmit={preventDefault(login)}>
@@ -48,22 +46,20 @@
       class="xs:w-full"
       placeholder="Email"
       type="email"
-      on:focus={lockKeys}
-      on:blur={unlockKeys}
+      onfocus={disableGameKeyboard}
+      onblur={enableGameKeyboard}
       bind:value={email}
-      blur={escape}
     />
     <Input
       class="xs:w-full"
       placeholder="Password"
       type="password"
       bind:value={password}
-      on:focus={lockKeys}
-      on:blur={unlockKeys}
-      blur={escape}
+      onfocus={disableGameKeyboard}
+      onblur={enableGameKeyboard}
     />
 
-    <Button primary class="xs:w-full" type="submit" blur={escape}>Log&nbsp;in</Button>
+    <Button primary class="xs:w-full" type="submit">Log&nbsp;in</Button>
   </crow>
 
   <div>
@@ -75,7 +71,7 @@
       I agree to the <a
         class="text-blue-500 hover:underline"
         href="/"
-        onclick={preventDefault(() => ($overlay = 'CodeOfConduct'))}
+        onclick={preventDefault(() => (app.overlay = 'CodeOfConduct'))}
       >
         Code of Conduct
       </a>

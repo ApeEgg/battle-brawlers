@@ -1,14 +1,13 @@
 <script lang="ts">
   import '../app.css';
   import '../crow.css';
-  import '$src/store/settings';
   import { page } from '$app/stores';
   import type { Snippet } from 'svelte';
   import app from '$src/app.svelte';
   import { overrideItemIdKeyNameBeforeInitialisingDndZones } from 'svelte-dnd-action';
   import CHARACTERS from '$src/constants/CHARACTERS';
   import ABILITIES from '$src/constants/ABILITIES';
-  import { calculateCombatStatsByCharacter, calculateTickStart } from '$src/ts/Utils';
+  import { calculateCombatStatsByCharacter, calculateTickStart } from '$src/ts/utils';
   import {
     allowedNumberOfCharacters,
     getCurrentExperienceAtLevel,
@@ -28,7 +27,6 @@
   let characterIndex = $derived($page.params.characterIndex);
   let creatureId = $derived($page.params.creatureId);
 
-  const { setOverlay } = ACTIONS;
   const { IS_PROD } = ENV;
 
   let showSequence = $state(false);
@@ -74,12 +72,12 @@
         >
           <div class="absolute -top-6 -left-0">
             {#if app.elapsedMilliseconds < app.combat.duration}
-              <Clickable onclick={() => setOverlay('Combat')} class="crow gap-2">
+              <Clickable onclick={() => (app.overlay = 'Combat')} class="crow gap-2">
                 <Spinner class="text-sm text-gray-700" />
                 <div>Fightning..</div>
               </Clickable>
             {:else if app.combat.duration !== 0}
-              <Clickable onclick={() => setOverlay('Combat')} class="crow gap-2">
+              <Clickable onclick={() => (app.overlay = 'Combat')} class="crow gap-2">
                 <div>View outcome</div>
               </Clickable>
             {/if}

@@ -4,8 +4,6 @@
   import { backOut } from 'svelte/easing';
   import { scale } from 'svelte/transition';
 
-  const { setOverlay } = ACTIONS;
-
   let { progress, rewards }: { progress: number; rewards: Reward[] } = $props();
   let interval = setInterval(() => {}, 500);
   let rewardsShown = $state(0);
@@ -65,7 +63,7 @@
                   app.liveTeams = [];
                   app.elapsedMilliseconds = 0;
 
-                  setOverlay('');
+                  app.overlay = '';
                 }}
                 innerClass="text-lg cinzel border overflow-hidden border-yellow-700 px-4 py-1 text-white [background:radial-gradient(ellipse_farthest-corner_at_right_bottom,_#FEDB37_0%,_#FDB931_8%,_#9f7928_30%,_#8A6E2F_40%,_transparent_80%),_radial-gradient(ellipse_farthest-corner_at_left_top,_#FFFFFF_0%,_#FFFFAC_8%,_#D1B464_25%,_#5d4a1f_62.5%,_#5d4a1f_100%)]"
               >
@@ -84,7 +82,7 @@
                 app.combat = { ...INITIAL_COMBAT };
                 app.liveTeams = [];
                 app.elapsedMilliseconds = 0;
-                setOverlay('');
+                app.overlay = '';
               }}
               secondary
             >

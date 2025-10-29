@@ -2,9 +2,9 @@
   import { getCookie } from '$src/helpers';
   import type { Snippet } from 'svelte';
   import { version } from '../../package.json';
+  import { notify } from '$src/ts/actions';
 
   const { IS_DEV } = ENV;
-  const { notify } = ACTIONS;
 
   let { children }: { children?: Snippet } = $props();
 

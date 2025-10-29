@@ -1,18 +1,15 @@
 <script lang="ts">
-  import { tick } from 'svelte';
   import { fly } from 'svelte/transition';
-
-  const { notifications } = STORES;
-  const { removeFirstNotification } = ACTIONS;
+  import { removeFirstNotification } from '$src/ts/actions';
 
   let ref: HTMLDivElement;
-  let animations: any[] = [];
-  let animating = false;
+  let animations: any[] = $state([]);
+  let animating = $state(false);
 
   const titleByType = (type: string) =>
     ({
       error: 'Ops, something went wrong!',
-      information: 'Did you know?',
+      info: 'Did you know?',
       success: 'Good news',
       warning: 'Heads up'
     })[type];
@@ -52,11 +49,11 @@
     }
   };
 
-  $: ref &&
-    (async () => {
-      await tick();
-      removeFirst([...$notifications]);
-    })();
+  $effect(() => {
+    if (ref) {
+      removeFirst([...app.notifications]);
+    }
+  });
 
   const hover = (enter: boolean) =>
     animations.map((animation) => animation[enter ? 'pause' : 'play']());
@@ -69,7 +66,7 @@
   on:mouseleave={hover.bind(undefined, false)}
 >
   <div class="crow vertical right" bind:this={ref}>
-    {#each [...$notifications] as notification (notification)}
+    {#each [...app.notifications] as notification, i (notification)}
       {@const { type, message } = JSON.parse(notification)}
       <div>
         <div in:fly={{ x: 50 }}>
@@ -78,7 +75,7 @@
               'notification glass mb-2 py-3 pr-5 pl-3',
               type === 'error' && 'border-red-500',
               type === 'warning' && 'border-orange-500',
-              type === 'information' && 'border-blue-500',
+              type === 'info' && 'border-blue-500',
               type === 'success' && 'border-green-500'
             )}
           >
@@ -88,7 +85,7 @@
                   'icon h-8 w-8 rounded-full',
                   type === 'error' && 'bg-red-500',
                   type === 'warning' && 'bg-orange-500',
-                  type === 'information' && 'bg-blue-500',
+                  type === 'info' && 'bg-blue-500',
                   type === 'success' && 'bg-green-500'
                 )}
               >

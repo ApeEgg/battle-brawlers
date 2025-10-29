@@ -4,8 +4,6 @@
   import { generateCombat, prepareTeams } from '$src/ts/combat';
   import { goto } from '$app/navigation';
 
-  const { overlay } = STORES;
-
   const {
     params: { creatureId }
   } = $page;
@@ -21,7 +19,7 @@
     app.combat = generateCombat('myseed', prepareTeams([myCharacter], [creature]));
     console.info(app.combat);
 
-    $overlay = 'Combat';
+    app.overlay = 'Combat';
   };
 
   let brawlersSelected = $derived(app.selectedBrawlers.length > 0);

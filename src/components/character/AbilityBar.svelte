@@ -1,6 +1,6 @@
 <script lang="ts">
   import { dndzone } from 'svelte-dnd-action';
-  import { calculateTickStart } from '$src/ts/Utils';
+  import { calculateTickStart } from '$src/ts/utils';
   import { flip } from 'svelte/animate';
   import type { AbilityRef } from '$src/types/ability';
   import ABILITIES from '$src/constants/ABILITIES';

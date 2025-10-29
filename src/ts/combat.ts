@@ -1,7 +1,7 @@
 import { ABILITY_PRIORITY, COMBAT_TICK_TIME } from '$src/constants/APP';
 import type { CombatEvent } from '$src/types/combat';
 import type { Team } from '$src/types/team';
-import { calculateCombatStatsByCharacter, prepareCombatant, seededRandom } from '$src/ts/Utils';
+import { calculateCombatStatsByCharacter, prepareCombatant, seededRandom } from '$src/ts/utils';
 import type { Combatant } from '$src/types/combatant';
 import type { VFX } from '$src/types/vfx';
 import _VFX from '$src/constants/VFX';

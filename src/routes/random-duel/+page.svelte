@@ -2,8 +2,6 @@
   import { generateCombat, healFull, prepareTeams } from '$src/ts/combat';
   import { getExperienceRangeForLevel, getLevelByExperience } from '$src/ts/level';
 
-  const { overlay } = STORES;
-
   let count = $derived(app.selectedBrawlers.length || 'X');
 
   const runCombat = async () => {
@@ -25,7 +23,7 @@
         prepareTeams(myCharacters, healFull(characters.slice(0, myCharacters.length)))
       );
 
-      $overlay = 'Combat';
+      app.overlay = 'Combat';
     } else {
       // Fight bot
       console.error('No opponents found, fighting bot (not implemented)');

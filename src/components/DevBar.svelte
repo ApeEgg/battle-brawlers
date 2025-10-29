@@ -1,7 +1,7 @@
 <script lang="ts">
   import CHARACTERS from '$src/constants/CHARACTERS';
   import customEvent from '$src/ts/customEvent';
-  import { calculateCombatStatsByCharacter } from '$src/ts/Utils';
+  import { calculateCombatStatsByCharacter } from '$src/ts/utils';
 
   const healParty = () =>
     app.characters.forEach((character) => {
@@ -25,7 +25,7 @@
   const gain100Coins = () => (app.coins += 100);
 </script>
 
-<crow up class="relative z-1 !h-30 bg-gray-200/20">
+<crow up class="relative !h-30 bg-gray-200/20">
   <crow vertical left class="gap-1 p-2">
     <Button onclick={customEvent.bind(undefined, 'pauseCombat', { nothing: 'true' })}>
       Pause combat
@@ -75,7 +75,7 @@
     <Button onclick={() => (app.accountRewards = 1)}>Reset rewards</Button>
   </crow>
   <crow left class="w-full overflow-hidden p-2">
-    {#if app.combat.duration < 0}
+    {#if app.combat.duration <= 0 && false}
       <pre class="text-xs">{JSON.stringify(app.dump(), null, 2)}
     </pre>
     {/if}

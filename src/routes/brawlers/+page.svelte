@@ -1,16 +1,14 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { RECRUITABLE_CHARACTERS } from '$src/app.svelte';
+  import { RECRUITABLE_CHARACTERS } from '$src/constants/RECRUITABLE_CHARACTERS';
   import CHARACTERS from '$src/constants/CHARACTERS';
   import { ALL_ELEMENTS } from '$src/constants/ELEMENTS';
   import type { IconName } from '$src/Iconice';
-  import type { Character, CharacterRef } from '$src/types/character';
+  import type { CharacterRef } from '$src/types/character';
   import { confirmWithDialog } from '$src/ts/dialog';
-  import type { Component } from 'svelte';
   import { allowedNumberOfCharacters } from '$src/ts/level';
   import BasicConfirmation from '$src/components/dialog/BasicConfirmation.svelte';
-
-  const { notify } = ACTIONS;
+  import { notify } from '$src/ts/actions';
 
   let characters = RECRUITABLE_CHARACTERS;
 

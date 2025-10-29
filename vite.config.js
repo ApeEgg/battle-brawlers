@@ -23,7 +23,6 @@ export default defineConfig({
       },
       module: {
         svelte: ['onMount', 'onDestroy'],
-        '$src/store': ['STORES', 'ACTIONS'],
         '$src/ts/use': ['tooltip'],
         'tailwind-merge': ['twMerge as tw']
       },

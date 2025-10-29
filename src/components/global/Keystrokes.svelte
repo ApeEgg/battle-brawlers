@@ -1,32 +1,39 @@
 <script lang="ts">
   import AVAILABLE_KEYS from '$src/constants/AVAILABLE_KEYS';
   import type { DynamicObject } from '$src/types/common';
+  import { untrack } from 'svelte';
 
-  const { keys, keyLock } = STORES;
-
-  let localKeys: DynamicObject = { ...AVAILABLE_KEYS };
+  let localKeys: DynamicObject = $state({ ...AVAILABLE_KEYS });
 
   const toggleKey = (c: KeyboardEvent) => {
     if (!(c instanceof KeyboardEvent)) return; // Password auto-filler fires `Event` which is missing `code` for example
+
     const { type, code, metaKey, ctrlKey } = c;
     const lcKey = code.toLowerCase();
-    if ($keys[lcKey] && type === 'keydown') return;
+    if (app.keys[lcKey] && type === 'keydown') return;
 
     if (metaKey || ctrlKey) {
       localKeys = { ...AVAILABLE_KEYS };
       return;
     }
 
-    if ($keyLock && !['enter', 'escape', 'shiftleft', 'shiftright'].includes(lcKey)) return;
+    if (app.gameKeyboardDisabled && !['enter', 'escape', 'shiftleft', 'shiftright'].includes(lcKey))
+      return;
 
     if (lcKey in localKeys) localKeys[lcKey] = type === 'keydown';
   };
 
-  $: $keys = localKeys;
+  $effect(() => {
+    $state.snapshot(localKeys); //
+
+    untrack(() => {
+      app.keys = { ...localKeys };
+    });
+  });
 </script>
 
-<svelte:window on:keydown={toggleKey} on:keyup={toggleKey} />
+<svelte:window onkeydown={toggleKey} onkeyup={toggleKey} />
 
-<!-- <div class="fixed bottom-0 right-0 bg-white text-gray-800 p-8 text-xs">
-  <pre>{JSON.stringify($keys, null, 2)}</pre>
+<!-- <div class="fixed right-0 bottom-0 bg-white p-8 text-xs text-gray-800">
+  <pre>{JSON.stringify(app.keys, null, 2)}</pre>
 </div> -->

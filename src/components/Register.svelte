@@ -1,9 +1,7 @@
 <script lang="ts">
-  const { keys, settings } = STORES;
-  const { lockKeys, unlockKeys, notify } = ACTIONS;
+  import { enableGameKeyboard, disableGameKeyboard, notify } from '$src/ts/actions';
 
-  let email = '';
-  let password = '';
+  let { email = $bindable(''), password = $bindable('') } = $props();
 
   const register = async () => {
     try {
@@ -16,13 +14,11 @@
       });
       email = '';
       password = '';
-      $settings.loginPageMode = 0;
+      app.settings.loginPageMode = 0;
     } catch (error) {
       notify(error);
     }
   };
-
-  $: ({ escape } = $keys);
 </script>
 
 <form class="crow w-full gap-2" on:submit|preventDefault={register}>
@@ -30,18 +26,11 @@
     class="xs:w-full"
     placeholder="Email"
     type="email"
-    on:focus={lockKeys}
-    on:blur={unlockKeys}
+    onfocus={disableGameKeyboard}
+    onblur={enableGameKeyboard}
     bind:value={email}
-    blur={escape}
   />
-  <Input
-    class="xs:w-full"
-    placeholder="Password"
-    type="password"
-    bind:value={password}
-    blur={escape}
-  />
+  <Input class="xs:w-full" placeholder="Password" type="password" bind:value={password} />
 
-  <Button primary type="submit" blur={escape}>Register</Button>
+  <Button primary type="submit">Register</Button>
 </form>

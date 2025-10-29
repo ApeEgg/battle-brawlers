@@ -1,6 +1,4 @@
 <script lang="ts">
-  const { setOverlay } = ACTIONS;
-
   const toggleDarkMode = () => {
     const classes = [...document.getElementsByTagName('html')[0].classList];
 
@@ -20,7 +18,7 @@
   >
     <Icon class="text-blue-500" name="dark" />
   </Clickable>
-  <Clickable class="crow h-8 w-8 hover:bg-black/5" onclick={setOverlay.bind(undefined, 'GameMenu')}>
+  <Clickable class="crow h-8 w-8 hover:bg-black/5" onclick={() => (app.overlay = 'GameMenu')}>
     <Icon name="menu" />
   </Clickable>
 </crow>

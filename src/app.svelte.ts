@@ -1,14 +1,16 @@
 import type { Combat } from '$src/types/combat';
-import type { Character, CharacterRef } from '$src/types/character';
-import CHARACTERS, { DEFAULT_EQUIPMENT } from '$src/constants/CHARACTERS';
+import type { CharacterRef } from '$src/types/character';
+
 import type { AsyncAwaitWebsocket } from 'async-await-websockets';
 import app from '$src/app.svelte';
 import type { EquipmentRef } from '$src/types/equipment';
 import type { Tooltip } from '$src/ts/use';
-import EQUIPMENT from '$src/constants/EQUIPMENT';
-import ABILITIES from '$src/constants/ABILITIES';
 import type { Team } from '$src/types/team';
 import type { Dialog } from '$src/ts/dialog';
+import type { DynamicObject } from '$src/types/common';
+import loadLocalStorage from '$src/ts/loadLocalStorage';
+import { browser } from '$app/environment';
+import mediaQuery from '$src/ts/mediaQuery';
 
 export const INITIAL_COMBAT = {
   teamsStartState: [],
@@ -17,339 +19,6 @@ export const INITIAL_COMBAT = {
   duration: 0,
   winningTeam: undefined
 };
-
-const DEFAULT_ABILITIES = [
-  ABILITIES('punch'),
-  ABILITIES('punch'),
-  ABILITIES('punch'),
-  ABILITIES('punch'),
-  ABILITIES('punch'),
-  ABILITIES('punch')
-];
-
-export const RECRUITABLE_CHARACTERS = [
-  CHARACTERS('elfMale', false, {
-    overrides: {
-      name: 'Elon',
-      equipment: {
-        ...DEFAULT_EQUIPMENT,
-        mainHand: EQUIPMENT('bow', false, {
-          overrides: {
-            name: 'Basic Bow',
-            cost: 0,
-            level: 1,
-            abilities: [
-              ABILITIES('pierce', false, {
-                overrides: { name: 'Basic Pierce', statusEffects: [] }
-              }),
-              ABILITIES('pierce', false, {
-                overrides: { name: 'Basic Pierce', statusEffects: [] }
-              }),
-              ABILITIES('pierce', false, {
-                overrides: { name: 'Basic Pierce', statusEffects: [] }
-              }),
-              ABILITIES('pierce', false, { overrides: { name: 'Basic Pierce', statusEffects: [] } })
-            ]
-          }
-        })
-      },
-      abilities: DEFAULT_ABILITIES,
-      combatStats: { currentHealth: 24 }
-    }
-  }),
-  CHARACTERS('elfFemale', false, {
-    overrides: {
-      name: 'Evyn',
-      equipment: {
-        ...DEFAULT_EQUIPMENT,
-        mainHand: EQUIPMENT('sword', false, {
-          overrides: {
-            name: 'Basic Sword',
-            cost: 0,
-            level: 1,
-            abilities: [
-              ABILITIES('swing', false, {
-                overrides: { name: 'Basic Swing', statusEffects: [] }
-              }),
-              ABILITIES('swing', false, {
-                overrides: { name: 'Basic Swing', statusEffects: [] }
-              })
-            ]
-          }
-        }),
-        offHand: EQUIPMENT('sword', false, {
-          overrides: {
-            name: 'Basic Sword',
-            cost: 0,
-            level: 1,
-            abilities: [
-              ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } }),
-              ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } })
-            ]
-          }
-        })
-      },
-      abilities: DEFAULT_ABILITIES,
-      combatStats: { currentHealth: 24 }
-    }
-  }),
-  CHARACTERS('trollMale', false, {
-    overrides: {
-      name: 'Throk',
-      equipment: {
-        ...DEFAULT_EQUIPMENT,
-        mainHand: EQUIPMENT('heavyClub', false, {
-          overrides: {
-            name: 'Basic Heavy Club',
-            cost: 0,
-            level: 1,
-            abilities: [
-              ABILITIES('slam', false, { overrides: { name: 'Basic Slam', statusEffects: [] } }),
-              ABILITIES('slam', false, { overrides: { name: 'Basic Slam', statusEffects: [] } }),
-              ABILITIES('slam', false, { overrides: { name: 'Basic Slam', statusEffects: [] } })
-            ]
-          }
-        })
-      },
-      abilities: DEFAULT_ABILITIES,
-      combatStats: { currentHealth: 24 }
-    }
-  }),
-  CHARACTERS('trollFemale', false, {
-    overrides: {
-      name: 'Trula',
-      equipment: {
-        ...DEFAULT_EQUIPMENT,
-        mainHand: EQUIPMENT('club', false, {
-          overrides: {
-            name: 'Basic Club',
-            cost: 0,
-            level: 1,
-            abilities: [
-              ABILITIES('slam', false, {
-                overrides: { name: 'Basic Slam', ticks: 3, statusEffects: [] }
-              }),
-              ABILITIES('slam', false, {
-                overrides: { name: 'Basic Slam', ticks: 3, statusEffects: [] }
-              })
-            ]
-          }
-        }),
-        offHand: EQUIPMENT('club', false, {
-          overrides: {
-            name: 'Basic Club',
-            cost: 0,
-            level: 1,
-            abilities: [
-              ABILITIES('slam', false, {
-                overrides: { name: 'Basic Slam', ticks: 3, statusEffects: [] }
-              }),
-              ABILITIES('slam', false, {
-                overrides: { name: 'Basic Slam', ticks: 3, statusEffects: [] }
-              })
-            ]
-          }
-        })
-      },
-      abilities: DEFAULT_ABILITIES,
-      combatStats: { currentHealth: 24 }
-    }
-  }),
-  CHARACTERS('goblinMale', false, {
-    overrides: {
-      name: 'Grish',
-      equipment: {
-        ...DEFAULT_EQUIPMENT,
-        mainHand: EQUIPMENT('dagger', false, {
-          overrides: {
-            name: 'Basic Dagger',
-            cost: 0,
-            level: 1,
-            abilities: [
-              ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } }),
-              ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } }),
-              ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } })
-            ]
-          }
-        }),
-        offHand: EQUIPMENT('dagger', false, {
-          overrides: {
-            name: 'Basic Dagger',
-            cost: 0,
-            level: 1,
-            abilities: [
-              ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } }),
-              ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } }),
-              ABILITIES('stab', false, { overrides: { name: 'Basic Stab', statusEffects: [] } })
-            ]
-          }
-        })
-      },
-      abilities: DEFAULT_ABILITIES,
-      combatStats: { currentHealth: 24 }
-    }
-  }),
-  CHARACTERS('goblinFemale', false, {
-    overrides: {
-      name: 'Grishna',
-      equipment: {
-        ...DEFAULT_EQUIPMENT,
-        mainHand: EQUIPMENT('twoHandedSpear', false, {
-          overrides: {
-            name: 'Basic Spear',
-            cost: 0,
-            level: 1,
-            abilities: [
-              ABILITIES('stab', false, {
-                overrides: { name: 'Basic Stab', ticks: 4, statusEffects: [] }
-              }),
-              ABILITIES('stab', false, {
-                overrides: { name: 'Basic Stab', ticks: 4, statusEffects: [] }
-              }),
-              ABILITIES('stab', false, {
-                overrides: { name: 'Basic Stab', ticks: 4, statusEffects: [] }
-              })
-            ]
-          }
-        })
-      },
-      abilities: DEFAULT_ABILITIES,
-      combatStats: { currentHealth: 24 }
-    }
-  }),
-  CHARACTERS('humanMale', false, {
-    overrides: {
-      name: 'Henry',
-      equipment: {
-        ...DEFAULT_EQUIPMENT,
-        mainHand: EQUIPMENT('axe', false, {
-          overrides: {
-            name: 'Basic Axe',
-            cost: 0,
-            level: 1,
-            abilities: [
-              ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } }),
-              ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } })
-            ]
-          }
-        }),
-        offHand: EQUIPMENT('axe', false, {
-          overrides: {
-            name: 'Basic Axe',
-            cost: 0,
-            level: 1,
-            abilities: [
-              ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } }),
-              ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } })
-            ]
-          }
-        })
-      },
-      abilities: DEFAULT_ABILITIES,
-      combatStats: { currentHealth: 24 }
-    }
-  }),
-  CHARACTERS('humanFemale', false, {
-    overrides: {
-      name: 'Helena',
-      equipment: {
-        ...DEFAULT_EQUIPMENT,
-        mainHand: EQUIPMENT('sword', false, {
-          overrides: {
-            name: 'Basic Sword',
-            cost: 0,
-            level: 1,
-            abilities: [
-              ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } }),
-              ABILITIES('swing', false, { overrides: { name: 'Basic Swing', statusEffects: [] } })
-            ]
-          }
-        }),
-        offHand: EQUIPMENT('shield', false, {
-          overrides: {
-            name: 'Basic Shield',
-            cost: 0,
-            level: 1,
-            abilities: [
-              ABILITIES('block'),
-              ABILITIES('shieldBash', false, {
-                overrides: { name: 'Basic Shield Bash', statusEffects: [] }
-              })
-            ]
-          }
-        })
-      },
-      abilities: DEFAULT_ABILITIES,
-      combatStats: { currentHealth: 24 }
-    }
-  }),
-  CHARACTERS('dwarfMale', false, {
-    overrides: {
-      name: 'Durak',
-      equipment: {
-        ...DEFAULT_EQUIPMENT,
-        mainHand: EQUIPMENT('hammer', false, {
-          overrides: {
-            name: 'Basic Hammer',
-            cost: 0,
-            level: 1,
-            abilities: [
-              ABILITIES('slam', false, {
-                overrides: { name: 'Basic Slam', ticks: 3, statusEffects: [] }
-              }),
-              ABILITIES('slam', false, {
-                overrides: { name: 'Basic Slam', ticks: 3, statusEffects: [] }
-              })
-            ]
-          }
-        }),
-        offHand: EQUIPMENT('shield', false, {
-          overrides: {
-            name: 'Basic Shield',
-            cost: 0,
-            level: 1,
-            abilities: [
-              ABILITIES('block'),
-              ABILITIES('shieldBash', false, {
-                overrides: { name: 'Basic Shield Bash', statusEffects: [] }
-              })
-            ]
-          }
-        })
-      },
-      abilities: DEFAULT_ABILITIES,
-      combatStats: { currentHealth: 24 }
-    }
-  }),
-  CHARACTERS('dwarfFemale', false, {
-    overrides: {
-      name: 'Dina',
-      equipment: {
-        ...DEFAULT_EQUIPMENT,
-        mainHand: EQUIPMENT('twoHandedAxe', false, {
-          overrides: {
-            name: 'Basic Great Axe',
-            cost: 0,
-            level: 1,
-            abilities: [
-              ABILITIES('swing', false, {
-                overrides: { name: 'Basic Swing', ticks: 4, statusEffects: [] }
-              }),
-              ABILITIES('swing', false, {
-                overrides: { name: 'Basic Swing', ticks: 4, statusEffects: [] }
-              }),
-              ABILITIES('swing', false, {
-                overrides: { name: 'Basic Swing', ticks: 4, statusEffects: [] }
-              })
-            ]
-          }
-        })
-      },
-      abilities: DEFAULT_ABILITIES,
-      combatStats: { currentHealth: 24 }
-    }
-  })
-];
 
 const INITIAL_CHARACTERS: Required<CharacterRef>[] = [];
 // const INITIAL_INVENTORY = [
@@ -386,9 +55,34 @@ export default new (class {
   tooltip?: Tooltip = $state();
   dialog?: Dialog = $state();
   showAccountProgression: boolean = $state(false);
+  notifications: string[] = $state([]);
+
+  gameKeyboardDisabled: boolean = $state(false);
+  keys: DynamicObject = $state({});
+  overlay: string = $state('');
+  settings: DynamicObject = $state(
+    loadLocalStorage({
+      loginPageMode: 0
+    })
+  );
+  mqs = mediaQuery({
+    desktop: '(min-width: 1200px)',
+    tablet: '(min-width: 768px) and (max-width: 1199px)',
+    smartphone: '(max-width: 767px)',
+    landscape: '(orientation: landscape)',
+    portrait: '(orientation: portrait)',
+    hoverable: '(hover: hover)'
+  });
 
   constructor() {
     $effect.root(() => {
+      $effect(() => {
+        const settings = $state.snapshot(this.settings);
+
+        Object.entries(settings).forEach(
+          ([key, value]) => browser && window.localStorage.setItem(key, JSON.stringify(value))
+        );
+      });
       $effect(() => {
         const inventory = $state.snapshot(this.inventory); // Hack to trigger reruns
         const characters = $state.snapshot(this.characters); // Hack to trigger reruns
