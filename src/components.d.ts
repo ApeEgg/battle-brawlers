@@ -33,6 +33,7 @@ declare global {
     const ConnectSocket: typeof import("./components/global/ConnectSocket.svelte")["default"]
     const CoreStats: typeof import("./components/character/CoreStats.svelte")["default"]
     const Debug: typeof import("./components/Debug.svelte")["default"]
+    const DebugAppData: typeof import("./components/DebugAppData.svelte")["default"]
     const DevBar: typeof import("./components/DevBar.svelte")["default"]
     const Dialog: typeof import("./components/global/Dialog.svelte")["default"]
     const Dropdown: typeof import("./components/form/Dropdown.svelte")["default"]

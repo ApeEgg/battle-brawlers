@@ -74,10 +74,6 @@
     <Button onclick={() => (app.characters = [])}>Reset characters</Button>
     <Button onclick={() => (app.accountRewards = 1)}>Reset rewards</Button>
   </crow>
-  <crow left class="w-full overflow-hidden p-2">
-    {#if app.combat.duration <= 0 && false}
-      <pre class="text-xs">{JSON.stringify(app.dump(), null, 2)}
-    </pre>
-    {/if}
-  </crow>
+
+  <DebugAppData />
 </crow>

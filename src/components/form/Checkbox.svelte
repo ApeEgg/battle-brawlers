@@ -10,7 +10,7 @@
     id?: string;
     value?: boolean;
     onchange?: (e: Event) => void;
-    children: Snippet;
+    children?: Snippet;
   } = $props();
 </script>
 
@@ -20,6 +20,6 @@
     <Icon class="hidden text-green-500" name="success" />
   </crow>
   <div class="overflow-hidden">
-    {@render children()}
+    {@render children?.()}
   </div>
 </label>

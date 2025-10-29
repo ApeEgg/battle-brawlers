@@ -173,6 +173,13 @@ export const generateCombat = (seed: string, teams: Team[]) => {
 
   let healingEfficiency = 1;
 
+  events.push(
+    structuredClone({
+      eventTimestamp: now,
+      teams
+    })
+  );
+
   while (moreThanOneTeamStanding(teams)) {
     // console.info(`--- Tick ${tickCount} at ${now}ms ---`);
     const stillStandingCombatants = teams

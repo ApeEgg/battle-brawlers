@@ -62,7 +62,9 @@ export default new (class {
   overlay: string = $state('');
   settings: DynamicObject = $state(
     loadLocalStorage({
-      loginPageMode: 0
+      loginPageMode: 0,
+      openProperties: {},
+      debugOpen: false
     })
   );
   mqs = mediaQuery({

@@ -36,14 +36,11 @@
     {@const wins = Array(SIMULATION_COUNT)
       .fill(0)
       .reduce((wins, i) => {
-        console.log(app.characters[0]);
         if (!app.characters[0]) return wins;
-        console.log(wins);
         const combat = generateCombat(
           `testseed${i}`,
           prepareTeams([$state.snapshot(app.characters[0])], [creature])
         );
-        console.log(combat);
 
         if (combat?.winningTeam?.index === 0) return wins + 1;
 
