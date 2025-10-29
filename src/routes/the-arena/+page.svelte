@@ -11,7 +11,7 @@
       ...CHARACTERS(key, true),
       url: key
     }))
-    .filter(({ image, name }) => /*image.startsWith('creature') &&*/ name !== 'Target Dummy');
+    .filter(({ image, name }) => /*image.startsWith('creature') &&*/ name !== 'Training Dummy');
 </script>
 
 <Headline text="the arena" />
