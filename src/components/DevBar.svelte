@@ -28,7 +28,7 @@
   const gain100Coins = () => (app.coins += 100);
 </script>
 
-<crow up class="relative bg-gray-200/20">
+<crow up class="glass sticky top-0">
   <crow vertical left class="gap-1 p-2">
     <Button onclick={customEvent.bind(undefined, 'pauseCombat', { nothing: 'true' })}>
       Pause combat
@@ -119,6 +119,4 @@
     <Button onclick={() => (app.characters = [])}>Reset characters</Button>
     <Button onclick={() => (app.accountRewards = 1)}>Reset rewards</Button>
   </crow>
-
-  <DebugAppData />
 </crow>

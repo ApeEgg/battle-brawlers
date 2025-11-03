@@ -15,6 +15,8 @@
     getLevelByExperience
   } from '$src/ts/level';
   import { goto, onNavigate } from '$app/navigation';
+  import DebugAppData from '$src/components/DebugAppData.svelte';
+  import { notify } from '$src/ts/actions';
   overrideItemIdKeyNameBeforeInitialisingDndZones('uuid');
 
   let { children } = $props<{ children: Snippet }>();
@@ -23,25 +25,43 @@
   let activePage = $derived($page.route.id?.split('/')[1] || (!app.token ? 'start' : ''));
   let isDebugPage = $derived($page.route.id === '/debug');
   let isVendorPage = $derived($page.route.id === '/vendor');
-  let isRandomDuelPage = $derived($page.route.id === '/random-duel');
   let characterIndex = $derived($page.params.characterIndex);
-  let fightId = $derived($page.params.fightId);
 
   const { IS_PROD } = ENV;
 
   let showSequence = $state(false);
 
-  onNavigate(() => {
-    app.selectedBrawlers = [];
-  });
+  onNavigate(
+    ({
+      to: {
+        route: { id }
+      }
+    }: any) => {
+      if (
+        !id.includes('/[characterIndex]') &&
+        !id.includes('/[fightId]') &&
+        id !== '/random-duel'
+      ) {
+        app.selectedBrawlers = [];
+        app.maxBrawlers = 0;
+      }
+    }
+  );
 
   const selectBrawler = (e: Event, id: string) => {
-    const isFightPage = fightId !== undefined;
-    const isDuelOnDemandPage = $page.route.id === '/random-duel';
-
-    if ((isFightPage || isDuelOnDemandPage) && !app.selectedBrawlers.includes(id)) {
+    if (app.maxBrawlers) {
       e.preventDefault();
-      app.selectedBrawlers.push(id);
+
+      if (app.selectedBrawlers.includes(id)) {
+        app.selectedBrawlers = app.selectedBrawlers.filter((uuid) => uuid !== id);
+        return;
+      }
+
+      if (app.selectedBrawlers.length < app.maxBrawlers) {
+        app.selectedBrawlers.push(id);
+      } else {
+        notify({ warning: `You can only engage with ${app.maxBrawlers} brawlers in this fight` });
+      }
     }
   };
 </script>
@@ -53,6 +73,7 @@
 
 {#if !IS_PROD}
   <DevBar />
+  <DebugAppData />
 {/if}
 
 <div
@@ -68,7 +89,10 @@
     <Authorization>
       <div class="flex min-h-[calc(100vh-theme(spacing.20)-theme(spacing.3))] flex-1 gap-3">
         <div
-          class="sticky top-3 h-[calc(100vh-theme(spacing.6))] w-56 rounded border border-transparent bg-white/30 p-4"
+          class={tw(
+            'sticky top-3 h-[calc(100vh-theme(spacing.6))] w-56 rounded border border-transparent bg-white/30 p-4',
+            !IS_PROD && 'top-48'
+          )}
         >
           <div class="absolute -top-6 -left-0">
             {#if app.elapsedMilliseconds < app.combat.duration}
@@ -165,10 +189,10 @@
                   {@const abilitiesHydrated = character.abilities.map((ability) =>
                     ABILITIES(ability, true)
                   )}
-                  {@const isActive =
+                  {@const isActive = !!(
                     parseInt(characterIndex, 10) === i ||
-                    (fightId !== undefined && app.selectedBrawlers.includes(char.uuid)) ||
-                    (isRandomDuelPage && app.selectedBrawlers.includes(char.uuid))}
+                    (app.maxBrawlers && app.selectedBrawlers.includes(char.uuid))
+                  )}
                   <Clickable
                     href="/brawlers/{i}"
                     class={tw('crow vertical w-full')}
@@ -195,18 +219,11 @@
                             max={calculateCombatStatsByCharacter(character).maxHealth}
                             current={character.combatStats.currentHealth}
                             text={character.name}
-                            percentage={!showSequence &&
-                              fightId === undefined &&
-                              characterIndex === undefined}
+                            percentage={!(showSequence || !!app.maxBrawlers || isActive)}
                           />
                         </div>
 
-                        <Accordion
-                          isOpen={showSequence ||
-                            fightId !== undefined ||
-                            characterIndex !== undefined ||
-                            isRandomDuelPage}
-                        >
+                        <Accordion isOpen={showSequence || !!app.maxBrawlers || isActive}>
                           <div class="pr-px">
                             <CombatantAbilityBar
                               preview
@@ -303,7 +320,6 @@
             </crow>
           </div>
         </crow>
-
         <div
           class={tw(
             'pointer-events-none sticky top-3 h-[calc(100vh-theme(spacing.6))] w-56 translate-x-4 rounded border border-transparent bg-white/30 p-4 opacity-0 transition-all duration-200',

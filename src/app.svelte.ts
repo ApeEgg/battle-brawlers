@@ -52,6 +52,7 @@ export default new (class {
   socket = $state() as AsyncAwaitWebsocket;
   token: string | undefined = $state();
   selectedBrawlers: string[] = $state([]);
+  maxBrawlers: number = $state(0);
 
   tooltip?: Tooltip = $state();
   dialog?: Dialog = $state();

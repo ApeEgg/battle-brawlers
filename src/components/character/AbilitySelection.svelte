@@ -14,6 +14,7 @@
   import { generateCombat, healFull, prepareTeams } from '$src/ts/combat';
   import CHARACTERS from '$src/constants/CHARACTERS';
   import CoreStats from './CoreStats.svelte';
+  import { goto } from '$app/navigation';
 
   let { character, renderSides }: { character: Character; renderSides?: boolean } = $props();
 
@@ -274,6 +275,12 @@
       <crow class="relative my-2 w-full gap-2 overflow-hidden p-1" vertical left up>
         <crow class="w-full !justify-between">
           <h5>Available abilities</h5>
+
+          <Button
+            onclick={() =>
+              goto(`/brawlers/${app.characters.findIndex(({ uuid }) => uuid === character.uuid)}`)}
+            tertiary>Edit brawler</Button
+          >
         </crow>
         <AbilityInventory
           {character}

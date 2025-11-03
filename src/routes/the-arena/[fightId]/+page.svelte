@@ -22,6 +22,10 @@
     }))
   );
 
+  $effect(() => {
+    app.maxBrawlers = fight.allowedNumberOfCharacters;
+  });
+
   const runCombat = () => {
     const selected = app.characters.find((c) => c.uuid === app.selectedBrawlers[0]);
     if (!selected) return;

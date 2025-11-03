@@ -2,7 +2,12 @@
   import { generateCombat, healFull, prepareTeams } from '$src/ts/combat';
   import { getExperienceRangeForLevel, getLevelByExperience } from '$src/ts/level';
 
-  let count = $derived(app.selectedBrawlers.length || 'X');
+  let selectedBrawlersPretty = $derived(app.selectedBrawlers.length || 'X');
+  let count = $derived(Math.floor(getLevelByExperience(app.experience) / 5) + 1);
+
+  $effect(() => {
+    app.maxBrawlers = count;
+  });
 
   const runCombat = async () => {
     const { minXp, maxXp } = getExperienceRangeForLevel(getLevelByExperience(app.experience));
@@ -34,7 +39,7 @@
 <div class="mb-8">
   <Headline text="random duel">
     <crow class="w-full !justify-between">
-      <Pill text="{count}&nbsp;vs&nbsp;{count}" />
+      <Pill text="{selectedBrawlersPretty}&nbsp;vs&nbsp;{selectedBrawlersPretty}" />
       <!-- <CoreStats combatStats={creature.combatStats} /> -->
     </crow>
   </Headline>
@@ -46,4 +51,4 @@
   </crow>
 </div>
 
-<CharacterSelection {runCombat} count={Math.floor(getLevelByExperience(app.experience) / 5) + 1} />
+<CharacterSelection {runCombat} {count} />

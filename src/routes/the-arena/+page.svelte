@@ -17,13 +17,16 @@
 
     // 3) If both are (non-)bosses, sort by maxLevel
     return a.maxLevel - b.maxLevel;
-  });
-  //.sort((a, b) => Number(a.boss) - Number(b.boss))
-  // .map(([key]) => ({
-  //   ...CHARACTERS(key, true),
-  //   url: key
-  // }))
-  // .filter(({ image, name }) => image.startsWith('creature') && name !== 'Training Dummy');
+  }).map((fight) => ({
+    ...fight,
+    characters: fight.characters.map((character) => ({
+      ...character,
+      overrides: {
+        ...character?.overrides,
+        level: fight.minLevel
+      }
+    }))
+  }));
 
   let hideTreshold = $derived(app.bossHighscore + 5);
 </script>
