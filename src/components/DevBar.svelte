@@ -2,6 +2,9 @@
   import CHARACTERS from '$src/constants/CHARACTERS';
   import customEvent from '$src/ts/customEvent';
   import { calculateCombatStatsByCharacter } from '$src/ts/utils';
+  import { page } from '$app/stores';
+
+  let activePage = $derived($page.route.id?.split('/')[1] || (!app.token ? 'start' : ''));
 
   const healParty = () =>
     app.characters.forEach((character) => {
@@ -25,7 +28,7 @@
   const gain100Coins = () => (app.coins += 100);
 </script>
 
-<crow up class="relative !h-30 bg-gray-200/20">
+<crow up class="relative bg-gray-200/20">
   <crow vertical left class="gap-1 p-2">
     <Button onclick={customEvent.bind(undefined, 'pauseCombat', { nothing: 'true' })}>
       Pause combat
@@ -50,6 +53,44 @@
     <div>
       Time (server): {new Date(app.serverTimestamp).toLocaleString()}
     </div>
+    <crow vertical up left>
+      <a
+        class={tw(
+          'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+          activePage === 'debug' && 'rounded-sm border-transparent bg-white text-black'
+        )}
+        href="/debug"
+      >
+        Debug
+      </a>
+      <a
+        class={tw(
+          'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+          activePage === 'ability-scaling' && 'rounded-sm border-transparent bg-white text-black'
+        )}
+        href="/ability-scaling"
+      >
+        Ability&nbsp;Scaling
+      </a>
+      <a
+        class={tw(
+          'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+          activePage === 'equipment-scaling' && 'rounded-sm border-transparent bg-white text-black'
+        )}
+        href="/equipment-scaling"
+      >
+        Equipment&nbsp;Scaling
+      </a>
+      <a
+        class={tw(
+          'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
+          activePage === 'character-scaling' && 'rounded-sm border-transparent bg-white text-black'
+        )}
+        href="/character-scaling"
+      >
+        Character&nbsp;Scaling
+      </a>
+    </crow>
   </crow>
   <crow vertical left class="gap-1 p-2">
     <!-- <Button

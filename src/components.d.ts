@@ -14,6 +14,7 @@ declare global {
     const BasicConfirmation: typeof import("./components/dialog/BasicConfirmation.svelte")["default"]
     const Button: typeof import("./components/form/Button.svelte")["default"]
     const CharacterAvatar: typeof import("./components/character/CharacterAvatar.svelte")["default"]
+    const CharacterEquipment: typeof import("./components/character/CharacterEquipment.svelte")["default"]
     const CharacterSelection: typeof import("./components/combat/CharacterSelection.svelte")["default"]
     const Checkbox: typeof import("./components/form/Checkbox.svelte")["default"]
     const Clickable: typeof import("./components/buttons/Clickable.svelte")["default"]

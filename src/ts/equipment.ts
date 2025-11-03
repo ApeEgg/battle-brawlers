@@ -7,11 +7,18 @@ import EQUIPMENT from '$src/constants/EQUIPMENT';
 import CHARACTERS from '$src/constants/CHARACTERS';
 import { calculateCombatStatsByCharacter } from '$src/ts/utils';
 
-export const correctHealth = (characterRef: Required<CharacterRef>) => {
+export const correctHealth = (characterRef: Required<CharacterRef>, prevMax?: number) => {
   const character = CHARACTERS(characterRef, true);
   const combatStats = calculateCombatStatsByCharacter(character);
 
-  if (character.combatStats.maxHealth <= character.combatStats.currentHealth) {
+  // Case 1: new current health is more than new max health, damage to 100%
+  // Case 2: previous max health is equal to current health, keep it full
+  // Case 3: no previous max health provided, assume full health (eg. level up / recruit)
+  if (
+    combatStats.maxHealth <= character.combatStats.currentHealth ||
+    prevMax === character.combatStats.currentHealth ||
+    prevMax === undefined
+  ) {
     characterRef.overrides.combatStats.currentHealth = combatStats.maxHealth;
   }
 
@@ -90,7 +97,7 @@ export const equip = (equipmentRef: EquipmentRef) => {
   // Replace whatever is in the slot
   characterRef.overrides.equipment[slotsIn] = equipmentRef;
 
-  correctHealth(characterRef);
+  correctHealth(characterRef, calculateCombatStatsByCharacter(character).maxHealth);
 };
 
 export const unequip = (equipmentRef: EquipmentRef, slot: EquipmentSlot) => {
@@ -98,11 +105,12 @@ export const unequip = (equipmentRef: EquipmentRef, slot: EquipmentSlot) => {
   if (characterIndex === undefined) return;
 
   const characterRef = app.characters[characterIndex];
+  const character = CHARACTERS(characterRef, true);
 
   app.inventory.push(equipmentRef);
   characterRef.overrides.equipment[slot] = null;
 
-  correctHealth(characterRef);
+  correctHealth(characterRef, calculateCombatStatsByCharacter(character).maxHealth);
 };
 
 export const slotsInPrettyName = (slotsIn: EquipmentType | string) =>

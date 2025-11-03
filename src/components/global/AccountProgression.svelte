@@ -18,7 +18,7 @@
 
     if (previousLevel !== null && currentLevel > previousLevel) {
       app.showAccountProgression = true;
-      app.characters.map(correctHealth);
+      app.characters.map((character) => correctHealth(character));
     }
 
     previousLevel = currentLevel;

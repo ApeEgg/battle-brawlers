@@ -92,7 +92,7 @@ export default new (class {
         const experience = $state.snapshot(this.experience); // Hack to trigger reruns
         const coins = $state.snapshot(this.coins); // Hack to trigger reruns
         const accountRewards = $state.snapshot(this.accountRewards); // Hack to trigger reruns
-        // console.log(app.syncPerformanceNow);
+        // console.info(app.syncPerformanceNow);
         const saveDebounce = setTimeout(() => {
           if (app.socket && app.token) {
             (async () => {

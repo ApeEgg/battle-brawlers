@@ -70,7 +70,7 @@ export async function generateComponentsTypedefs() {
 
   await writeIfChanged(OUTPUT_PATH, content);
 
-  console.log(
+  console.info(
     `[generate-components-typedefs] Wrote ${sorted.length} component${sorted.length === 1 ? '' : 's'} to ${path.relative(
       process.cwd(),
       OUTPUT_PATH

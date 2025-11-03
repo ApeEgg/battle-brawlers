@@ -48,12 +48,17 @@ export const calculateAvailableAbilitiesByCharacter = (character: Character) =>
 // };
 
 export const calculateCombatStatsByCharacter = (character: Character) => {
+  const isNPC = character?.image.startsWith('creature');
   // If level isn't set, expect player character
   const characterLevel = character?.level || getLevelByExperience(app.experience);
+  const HEALTH_PER_LEVEL = isNPC ? 8 : 4;
+  const DAMAGE_PER_LEVEL = isNPC ? 4 : 2;
+  const ARMOR_PER_LEVEL = isNPC ? 2 : 0;
 
   const levelCombatStats = {
-    maxHealth: 8 * (characterLevel - 1),
-    damage: 4 * (characterLevel - 1)
+    maxHealth: HEALTH_PER_LEVEL * (characterLevel - 1),
+    damage: DAMAGE_PER_LEVEL * (characterLevel - 1),
+    maxArmor: ARMOR_PER_LEVEL * (characterLevel - 1)
   };
 
   const parts = [

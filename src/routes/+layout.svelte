@@ -299,38 +299,6 @@
                 >
                   Brawlers
                 </a>
-                {#if !IS_PROD}
-                  <a
-                    class={tw(
-                      'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
-                      activePage === 'debug' &&
-                        'rounded-t-sm border-transparent bg-white text-black'
-                    )}
-                    href="/debug"
-                  >
-                    Debug
-                  </a>
-                  <a
-                    class={tw(
-                      'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
-                      activePage === 'ability-scaling' &&
-                        'rounded-t-sm border-transparent bg-white text-black'
-                    )}
-                    href="/ability-scaling"
-                  >
-                    Ability Scaling
-                  </a>
-                  <a
-                    class={tw(
-                      'border border-b-0 border-transparent px-2 py-0.5 text-gray-600',
-                      activePage === 'equipment-scaling' &&
-                        'rounded-t-sm border-transparent bg-white text-black'
-                    )}
-                    href="/equipment-scaling"
-                  >
-                    Equipment Scaling
-                  </a>
-                {/if}
               </crow>
             </crow>
           </div>
