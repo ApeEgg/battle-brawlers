@@ -32,6 +32,7 @@
 
     const myCharacter = $state.snapshot(selected);
 
+    app.selectedBrawlers = [];
     app.combat = generateCombat('myseed', prepareTeams([myCharacter], characters));
     console.info(app.combat);
 
@@ -49,8 +50,8 @@
     <crow left class="gap-2">
       <Pill text="{fight.allowedNumberOfCharacters}&nbsp;vs&nbsp;{fight.characters.length}" />
       {#if fight.boss}
-        <Pill text="Bossfight" />
-        <Pill text="Luck disabled" />
+        <Pill text="bossfight" />
+        <Pill text="luck disabled" class="bg-red-200 text-red-400" />
       {/if}
     </crow>
     <span class="text-gray-400">

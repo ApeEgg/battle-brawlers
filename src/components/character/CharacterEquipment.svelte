@@ -10,7 +10,7 @@
 {#each Object.entries(character.equipment) as [slot, equipment] (`${character.uuid}-${slot}-${equipment?.uuid}`)}
   <crow left class="w-full !justify-between gap-2">
     <crow left class="gap-2">
-      <div class="w-20 font-bold">{slotsInPrettyName(slot as EquipmentSlot)}:</div>
+      <div class="w-20">{slotsInPrettyName(slot as EquipmentSlot)}</div>
 
       {#if slot === 'offHand' && character.equipment.mainHand && EQUIPMENT(character.equipment.mainHand, true).slotsIn === 'twoHand'}
         <span class="text-gray-400">

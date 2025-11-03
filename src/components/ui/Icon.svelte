@@ -12,7 +12,9 @@
   let { name, original = false, ratio = 1, ...rest }: Props = $props();
 
   if (!icons[name]) {
-    throw new Error(`Icon "${name}" does not exist.`);
+    // throw new Error(`Icon "${name}" does not exist.`);
+    console.error(`Icon "${name}" does not exist.`);
+    name = 'error';
   }
 
   const {

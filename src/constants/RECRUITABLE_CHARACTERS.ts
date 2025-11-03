@@ -101,7 +101,7 @@ export const RECRUITABLE_CHARACTERS = [
   }),
   CHARACTERS('trollFemale', false, {
     overrides: {
-      name: 'Trula',
+      name: 'Tabam',
       equipment: {
         ...DEFAULT_EQUIPMENT,
         mainHand: EQUIPMENT('club', false, {
@@ -175,7 +175,7 @@ export const RECRUITABLE_CHARACTERS = [
   }),
   CHARACTERS('goblinFemale', false, {
     overrides: {
-      name: 'Grishna',
+      name: 'Gling',
       equipment: {
         ...DEFAULT_EQUIPMENT,
         mainHand: EQUIPMENT('twoHandedSpear', false, {
@@ -203,7 +203,7 @@ export const RECRUITABLE_CHARACTERS = [
   }),
   CHARACTERS('humanMale', false, {
     overrides: {
-      name: 'Henry',
+      name: 'Hans',
       equipment: {
         ...DEFAULT_EQUIPMENT,
         mainHand: EQUIPMENT('axe', false, {
@@ -269,7 +269,7 @@ export const RECRUITABLE_CHARACTERS = [
   }),
   CHARACTERS('dwarfMale', false, {
     overrides: {
-      name: 'Durak',
+      name: 'Dürak',
       equipment: {
         ...DEFAULT_EQUIPMENT,
         mainHand: EQUIPMENT('hammer', false, {
@@ -307,7 +307,7 @@ export const RECRUITABLE_CHARACTERS = [
   }),
   CHARACTERS('dwarfFemale', false, {
     overrides: {
-      name: 'Dina',
+      name: 'Denea',
       equipment: {
         ...DEFAULT_EQUIPMENT,
         mainHand: EQUIPMENT('twoHandedAxe', false, {

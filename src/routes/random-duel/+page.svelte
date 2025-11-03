@@ -2,8 +2,10 @@
   import { generateCombat, healFull, prepareTeams } from '$src/ts/combat';
   import { getExperienceRangeForLevel, getLevelByExperience } from '$src/ts/level';
 
-  let selectedBrawlersPretty = $derived(app.selectedBrawlers.length || 'X');
   let count = $derived(Math.floor(getLevelByExperience(app.experience) / 5) + 1);
+  let selectedBrawlersPretty = $derived(
+    app.selectedBrawlers.length || count === 1 ? app.selectedBrawlers.length : 'X'
+  );
 
   $effect(() => {
     app.maxBrawlers = count;
@@ -22,7 +24,7 @@
       if (!selected) return;
 
       const myCharacters = $state.snapshot(selected);
-
+      app.selectedBrawlers = [];
       app.combat = generateCombat(
         'myseed',
         prepareTeams(myCharacters, healFull(characters.slice(0, myCharacters.length)))

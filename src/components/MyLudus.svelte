@@ -44,7 +44,7 @@
   };
 
   const rewardForLevel = (level: number) => {
-    const rewards = ['100_coins'];
+    const rewards = ['100_coins', 'character_stats'];
 
     if (level % 5 === 0 || level === 1) {
       rewards.push('ludus_upgrade');
@@ -70,26 +70,57 @@
       vertical
     >
       <h4 class="cinzel">Level {level}</h4>
-      <Hr class="my-2" />
+      <Hr class="my-3.5" />
       <div>
         <crow vertical class="gap-4">
-          {#if rewards.includes('100_coins')}
-            <Coin type="silver" class="text-2xl" />
-          {/if}
-          {#if rewards.includes('ludus_upgrade')}
-            +1 Barracks
-          {/if}
+          <crow class="gap-8" up left>
+            {#if rewards.includes('100_coins')}
+              <crow up left vertical>
+                <strong>Account</strong>
+                <crow class="gap-1">
+                  +1
+                  <Coin type="silver" class="text-2xl" />
+                </crow>
+                {#if rewards.includes('ludus_upgrade')}
+                  <span>+1&nbsp;brawler</span>
+                {/if}
+              </crow>
+            {/if}
+            {#if rewards.includes('character_stats')}
+              <crow vertical up left>
+                <strong>Brawlers</strong>
+                <crow class="gap-1">
+                  +4
+                  <Icon name="maxHealth" original />
+                </crow>
+                <crow class="gap-1">
+                  +2
+                  <Icon name="damage" original />
+                </crow>
+              </crow>
+            {/if}
+          </crow>
 
           {#if claimed}
-            <crow class="!h-6 !flex-none">
+            <crow class="top-half absolute left-[calc(100%-theme(spacing.10))] !h-6 !flex-none">
               <Icon name="checkmark" class="text-green-400" />
             </crow>
           {:else}
-            <Button {disabled} onclick={claimReward.bind(undefined, level)} primary>Claim</Button>
+            <Button
+              class="absolute top-[calc(100%+theme(spacing.4))]"
+              {disabled}
+              big
+              onclick={claimReward.bind(undefined, level)}
+              primary
+            >
+              Claim
+            </Button>
           {/if}
         </crow>
       </div>
-      <!-- <div>down</div> -->
+      <crow class="mt-4 min-h-20 w-full !items-stretch">
+        <crow class="-mx-4 -mb-4 rounded-b bg-yellow-500/10"> Premium rewards TBA. </crow>
+      </crow>
     </crow>
   {/each}
 </crow>

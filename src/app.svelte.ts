@@ -66,7 +66,8 @@ export default new (class {
     loadLocalStorage({
       loginPageMode: 0,
       openProperties: {},
-      debugOpen: false
+      debugOpen: false,
+      showDetailedCharacterView: false
     })
   );
   mqs = mediaQuery({

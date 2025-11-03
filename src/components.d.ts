@@ -61,6 +61,7 @@ declare global {
     const ReleaseNotes: typeof import("./components/overlays/ReleaseNotes.svelte")["default"]
     const ResultAnnouncement: typeof import("./components/combat/ResultAnnouncement.svelte")["default"]
     const Spinner: typeof import("./components/ui/Spinner.svelte")["default"]
+    const Stats: typeof import("./components/character/Stats.svelte")["default"]
     const TeamBadge: typeof import("./components/combat/TeamBadge.svelte")["default"]
     const Tooltip: typeof import("./components/ui/Tooltip.svelte")["default"]
     const TooltipAbility: typeof import("./components/tooltips/TooltipAbility.svelte")["default"]

@@ -10,6 +10,13 @@ export type CharacterKey = Race | 'creature';
 const DEFAULT_MAX_HP = 24;
 const DEFAULT_DAMAGE = 10;
 const DEFAULT_MAX_TICKS = 12;
+const DEFAULT_LUCKY_STATS = {
+  criticalChance: 0.05,
+  criticalDamage: 0.5,
+  dodgeChance: 0.05,
+  blockChance: 0,
+  magicChance: 0
+};
 
 export const DEFAULT_EQUIPMENT = {
   mainHand: null,
@@ -39,9 +46,10 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
       limits: {
         wounded: 8,
         concussed: 8,
@@ -66,9 +74,10 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
       limits: {
         wounded: 8,
         concussed: 8,
@@ -89,9 +98,10 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
       limits: {
         wounded: 8,
         concussed: 8,
@@ -112,9 +122,10 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
       limits: {
         wounded: 8,
         concussed: 8,
@@ -135,9 +146,10 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
       limits: {
         wounded: 8,
         concussed: 8,
@@ -161,6 +173,7 @@ export const ALL_CHARACTERS = {
       damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0,
+      ...DEFAULT_LUCKY_STATS,
       limits: {
         wounded: 8,
         concussed: 8,
@@ -194,9 +207,10 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
       limits: {
         wounded: 8,
         concussed: 8,
@@ -217,9 +231,10 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
       limits: {
         wounded: 8,
         concussed: 8,
@@ -244,9 +259,10 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
       limits: {
         wounded: 8,
         concussed: 8,
@@ -274,9 +290,10 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
       limits: {
         wounded: 8,
         concussed: 8,
@@ -303,9 +320,10 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: 70,
       currentHealth: 70,
-      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
       limits: {
         wounded: 8,
         concussed: 8,
@@ -327,9 +345,10 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: 50,
       currentHealth: 50,
-      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
       limits: {
         wounded: 8,
         concussed: 8,
@@ -350,9 +369,10 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: 20,
       currentHealth: 20,
-      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
       limits: {
         wounded: 8,
         concussed: 8,
@@ -381,9 +401,9 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: 50,
       currentHealth: 50,
-      damage: DEFAULT_DAMAGE,
       maxArmor: 100,
       currentArmor: 100,
+      damage: DEFAULT_DAMAGE,
       limits: {
         wounded: 8,
         concussed: 8,
@@ -404,9 +424,10 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: 40,
       currentHealth: 40,
-      damage: 0,
       maxArmor: 0,
       currentArmor: 0,
+      damage: 0,
+      ...DEFAULT_LUCKY_STATS,
       limits: {
         wounded: 8,
         concussed: 8,
@@ -431,9 +452,10 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
       limits: {
         wounded: 8,
         concussed: 8,
@@ -457,9 +479,10 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
       limits: {
         wounded: 8,
         concussed: 8,

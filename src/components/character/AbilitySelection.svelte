@@ -276,11 +276,17 @@
         <crow class="w-full !justify-between">
           <h5>Available abilities</h5>
 
-          <Button
-            onclick={() =>
-              goto(`/brawlers/${app.characters.findIndex(({ uuid }) => uuid === character.uuid)}`)}
-            tertiary>Edit brawler</Button
-          >
+          {#if !characterIndex}
+            <Button
+              onclick={() =>
+                goto(
+                  `/brawlers/${app.characters.findIndex(({ uuid }) => uuid === character.uuid)}`
+                )}
+              tertiary
+            >
+              Character sheet
+            </Button>
+          {/if}
         </crow>
         <AbilityInventory
           {character}

@@ -10,6 +10,7 @@
   import BasicConfirmation from '$src/components/dialog/BasicConfirmation.svelte';
   import { notify } from '$src/ts/actions';
   import { correctHealth } from '$src/ts/equipment';
+  import CoreStats from '$src/components/character/CoreStats.svelte';
 
   let characters = RECRUITABLE_CHARACTERS;
 
@@ -17,7 +18,7 @@
 
   const pickCharacter = (characterRef: Required<CharacterRef>) => {
     if (characterCapped) {
-      notify({ warning: 'You cannot recruit more characters. Level up your ludus first.' });
+      notify({ warning: 'You cannot recruit more brawlers. Level up your ludus first.' });
       return;
     }
 
@@ -49,9 +50,10 @@
     {@const character = CHARACTERS(char, true)}
     {@const isRecruited = app.characters.find(({ id }) => id === character.id)}
     {@const { primary, secondary } = ALL_ELEMENTS[character.element].color}
-    {@const combatStats = Object.entries(character.combatStats).filter(
+    <!-- {@const combatStats = Object.entries(character.combatStats).filter(
       ([key]) => !['limits', 'currentArmor', 'currentHealth'].includes(key)
-    )}
+    )} -->
+    {@const combatStats = character.combatStats}
     <Clickable
       class={tw(
         'crow vertical up !h-70 w-60 !flex-none overflow-hidden bg-gray-100 p-2',
@@ -70,7 +72,8 @@
       <crow left class="w-full gap-4">
         <CharacterAvatar {...character} class="w-20" />
         <crow vertical left class="gap-2">
-          {#each combatStats as [stat, value]}
+          <CoreStats {combatStats} vertical />
+          <!-- {#each combatStats as [stat, value]}
             <crow class="!flex-none gap-2 pl-6 text-2xl">
               <div class="font-bold">
                 <Icon
@@ -81,7 +84,7 @@
               </div>
               <div>{value}</div>
             </crow>
-          {/each}
+          {/each} -->
         </crow>
       </crow>
       <!-- <div class="absolute inset-0 top-auto h-2 bg-gradient-to-t from-white to-transparent"></div> -->
