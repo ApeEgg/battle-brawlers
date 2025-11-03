@@ -31,3 +31,12 @@ export const getExperienceRangeForLevel = (level: number) => {
   const maxXp = getExperienceByLevel(level + 1) - 1;
   return { minXp: Math.floor(minXp), maxXp: Math.floor(maxXp) };
 };
+
+export const getExperienceReward = (
+  numberOfEnemies: number,
+  minLevel: number,
+  maxLevel: number,
+  boss: boolean
+) => {
+  return 40 * numberOfEnemies * (boss ? 10 : 1) + 40 * Math.ceil((minLevel + maxLevel) / 2) * 0.2;
+};

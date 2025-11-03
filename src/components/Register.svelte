@@ -1,9 +1,11 @@
 <script lang="ts">
   import { enableGameKeyboard, disableGameKeyboard, notify } from '$src/ts/actions';
 
-  let { email = $bindable(''), password = $bindable('') } = $props();
+  let email = $state('');
+  let password = $state('');
 
-  const register = async () => {
+  const register = async (e: Event) => {
+    e.preventDefault();
     try {
       await app.socket.sendAsync('user/register', {
         email,
@@ -21,7 +23,7 @@
   };
 </script>
 
-<form class="crow w-full gap-2" on:submit|preventDefault={register}>
+<form class="crow w-full gap-2" onsubmit={register}>
   <Input
     class="xs:w-full"
     placeholder="Email"

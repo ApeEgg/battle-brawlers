@@ -3,6 +3,7 @@ import ABILITIES from '$src/constants/ABILITIES';
 import type { DynamicObject } from '$src/types/common';
 import entity from '$src/ts/entity';
 import { deepMerge } from '$src/helpers';
+import EQUIPMENT from './EQUIPMENT';
 
 export type CharacterKey = Race | 'creature';
 
@@ -414,6 +415,66 @@ export const ALL_CHARACTERS = {
     },
     maxTicks: Infinity,
     abilities: [ABILITIES('harden', false, { overrides: { ticks: 12 } })]
+  },
+  nomad: {
+    name: 'Nomad',
+    race: 'creature',
+    image: 'creature/training-dummy.png',
+    size: 1,
+    equipment: {
+      ...DEFAULT_EQUIPMENT,
+      accessory: EQUIPMENT('ring')
+    },
+    description:
+      'The nomad is a wanderer from the outer dunes, a survivor of endless storms and scorching suns. Cloaked in weathered leathers and cloth dyed by the sand itself, they carry the dust of a thousand miles on their shoulders. Their weapons are mismatched yet deadly — a curved blade forged from scavenged steel and a handmade bow strung with sinew. Years of solitude have honed their reflexes and instincts beyond human measure; they fight not for glory but for survival, their every motion born of necessity. Their silence speaks of exile, their gaze of battles fought in forgotten places.',
+    element: '',
+    combatStats: {
+      maxHealth: DEFAULT_MAX_HP,
+      currentHealth: DEFAULT_MAX_HP,
+      damage: DEFAULT_DAMAGE,
+      maxArmor: 0,
+      currentArmor: 0,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
+    },
+    maxTicks: Infinity,
+    abilities: [ABILITIES('swing'), ABILITIES('swing'), ABILITIES('swing'), ABILITIES('swing')]
+  },
+  lostCivilian: {
+    name: 'Lost civilian',
+    race: 'creature',
+    image: 'creature/training-dummy.png',
+    size: 1,
+    equipment: {
+      ...DEFAULT_EQUIPMENT,
+      mainHand: EQUIPMENT('dagger', false, { overrides: { level: 5 } })
+    },
+    description: 'This civilian took the wrong turn when going shopping and ended up in the arena.',
+    element: '',
+    combatStats: {
+      maxHealth: DEFAULT_MAX_HP,
+      currentHealth: DEFAULT_MAX_HP,
+      damage: DEFAULT_DAMAGE,
+      maxArmor: 0,
+      currentArmor: 0,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
+    },
+    maxTicks: Infinity,
+    abilities: [
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch')
+    ]
   }
 };
 

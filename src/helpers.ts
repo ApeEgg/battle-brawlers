@@ -1,8 +1,5 @@
-import lodash from 'lodash';
 import { IS_DEV } from '$src/constants/ENV_VARS';
 import type { DynamicObject } from '$src/types/common';
-
-const { isEqual, merge } = lodash;
 
 const wrapBasedOnType = (value: any) => (typeof value !== 'string' ? `{${value}}` : `"${value}"`);
 
@@ -17,16 +14,6 @@ const formatProps = (props: any) =>
     ''
   );
 
-// const deepMerge = (target: DynamicObject, source: DynamicObject) => {
-//   for (const key in source) {
-//     if (source[key] instanceof Object && key in target && target[key] instanceof Object) {
-//       deepMerge(target[key], source[key]);
-//     } else {
-//       target[key] = source[key];
-//     }
-//   }
-//   return target;
-// };
 const deepMerge = (target: DynamicObject, source: DynamicObject) => {
   for (const key in source) {
     if (
@@ -280,21 +267,6 @@ const traverse = ([step, ...steps]: any, tree: any, pointer: any = undefined) =>
   return tree;
 };
 
-const dirty: any = (oldData: any = {}, newData: any, chain: any = '') =>
-  Object.entries(newData).reduce((a, [key, value]: any) => {
-    const keyChain = [...(chain ? [chain] : []), key].join('.');
-
-    if (typeof value === 'object' && Object.keys(value)?.length && value?.length === undefined) {
-      return merge(a, dirty(oldData[key], value, keyChain));
-    }
-
-    if (!isEqual(oldData[key], value)) {
-      return traverse([...keyChain.split('.'), value], a);
-    }
-
-    return a;
-  }, {});
-
 const byKeys = (keys: any[]) => (checkAgainst: any[]) =>
   Object.entries(keys).every(([key, value]: any) => checkAgainst?.[key] === value);
 
@@ -348,7 +320,6 @@ export {
   dayAfter,
   clamp,
   isNewerVersion,
-  dirty,
   byKeys,
   notByKeys,
   reorder,

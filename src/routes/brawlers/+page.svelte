@@ -9,6 +9,7 @@
   import { allowedNumberOfCharacters } from '$src/ts/level';
   import BasicConfirmation from '$src/components/dialog/BasicConfirmation.svelte';
   import { notify } from '$src/ts/actions';
+  import { correctHealth } from '$src/ts/equipment';
 
   let characters = RECRUITABLE_CHARACTERS;
 
@@ -23,7 +24,8 @@
     confirmWithDialog(BasicConfirmation as any, {
       text: `You are recruiting <span class="text-white">${CHARACTERS(characterRef, true).name}</span> to your Ludus.<br /><br />Do you wish to proceed?`,
       confirm: () => {
-        app.characters.push(characterRef);
+        app.characters.push(correctHealth(characterRef));
+
         goto(`/brawlers/${app.characters.length - 1}`);
       }
     });

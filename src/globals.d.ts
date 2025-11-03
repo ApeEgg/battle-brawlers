@@ -5,9 +5,6 @@ interface Window {
 }
 
 declare module 'async-await-websockets/client';
-declare module '$svelte-game-engine';
-declare module 'gl-vec2';
-declare module 'lodash';
 declare module 'sveltekit-autoimport';
 declare module 'seedrandom';
 

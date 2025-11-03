@@ -6,9 +6,11 @@ export default {
   kit: {
     adapter: adapter(),
     alias: {
-      $src: 'src/*',
-      '$svelte-game-engine': 'svelte-game-engine/*'
+      $src: 'src/*'
     }
+  },
+  compilerOptions: {
+    runes: true
   },
   preprocess: vitePreprocess(),
   vitePlugin: {
@@ -17,6 +19,13 @@ export default {
       toggleKeyCombo: 'meta-shift',
       showToggleButton: 'never',
       holdMode: true
+    },
+    // This ignores "compilerOptions.runes = true" for external packages
+    // Ideally this is removed once third party packages supports Svelte 5 runes
+    dynamicCompileOptions({ filename }) {
+      if (filename.includes('node_modules')) {
+        return { runes: undefined }; // or false, check what works
+      }
     }
   }
 };

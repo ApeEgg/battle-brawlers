@@ -5,7 +5,7 @@
 <crow vertical class="gap-10" left up>
   <div>
     <h2>Input</h2>
-    <!--on:keyup={(e) => console.info(e?.target?.value)}-->
+    <!--onkeyup={(e) => console.info(e?.target?.value)}-->
     <Input placeholder="Type something" onblur={enableGameKeyboard} onfocus={disableGameKeyboard} />
   </div>
   <div>
@@ -14,7 +14,7 @@
   </div>
   <div>
     <h2>Dropdown</h2>
-    <!--on:change={({ target: { value } }) => console.info(value)}-->
+    <!--onchange={({ target: { value } }) => console.info(value)}-->
     <Dropdown options={['option 1', 'option 2']} />
   </div>
   <div>

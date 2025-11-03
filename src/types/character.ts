@@ -20,6 +20,7 @@ export type Character = CharacterRef & {
   name: string;
   description: string;
   race: CharacterKey;
+  level: number;
   image: string;
   size: number;
   equipment: CharacterEquipment;

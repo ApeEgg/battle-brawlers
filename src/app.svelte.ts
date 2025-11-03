@@ -45,6 +45,7 @@ export default new (class {
   experience: number = $state(0);
   coins: number = $state(INITIAL_COINS);
   accountRewards: number = $state(1);
+  bossHighscore: number = $state(0);
 
   characters: Required<CharacterRef>[] = $state(INITIAL_CHARACTERS);
   inventory: EquipmentRef[] = $state(INITIAL_INVENTORY);

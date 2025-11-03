@@ -1,13 +1,13 @@
 <script lang="ts">
-  import Checkbox from './form/Checkbox.svelte';
-
   let showSidebar = $state(false);
 </script>
 
 <crow
+  vertical
+  up
   class={tw(
-    'fixed top-20 bottom-0 left-[calc(100%-theme(spacing.10))] z-100 max-w-100 !flex-none overflow-hidden overflow-y-scroll pl-10 transition-transform duration-200',
-    (showSidebar || app.settings.debugOpen) && '-translate-x-[calc(100%-theme(spacing.10))]'
+    'fixed top-20 bottom-0 left-[calc(100%-theme(spacing.2))] z-100 max-w-100 !flex-none overflow-hidden overflow-y-scroll pl-2 transition-transform duration-200',
+    (showSidebar || app.settings.debugOpen) && '-translate-x-[calc(100%-theme(spacing.2))]'
   )}
   role="none"
   onmouseenter={() => (showSidebar = true)}

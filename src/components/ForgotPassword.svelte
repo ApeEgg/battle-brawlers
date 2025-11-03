@@ -1,7 +1,7 @@
 <script lang="ts">
   import { disableGameKeyboard, enableGameKeyboard, notify } from '$src/ts/actions';
 
-  let { email = $bindable('') } = $props();
+  let email = $state('');
 
   const forgotPassword = async (e: Event) => {
     e.preventDefault();

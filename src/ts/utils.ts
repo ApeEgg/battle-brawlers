@@ -9,6 +9,8 @@ import CHARACTERS from '$src/constants/CHARACTERS';
 import { deepAdd } from '$src/helpers';
 import type { DynamicObject } from '$src/types/common';
 import type { CombatStats } from '$src/types/combatStats';
+import { getLevelByExperience } from '$src/ts/level';
+import app from '$src/app.svelte';
 
 export const calculateCombatStats = (...args: any) => {
   const combined = args.reduce((acc: any, obj: any) => {
@@ -46,8 +48,17 @@ export const calculateAvailableAbilitiesByCharacter = (character: Character) =>
 // };
 
 export const calculateCombatStatsByCharacter = (character: Character) => {
+  // If level isn't set, expect player character
+  const characterLevel = character?.level || getLevelByExperience(app.experience);
+
+  const levelCombatStats = {
+    maxHealth: 8 * (characterLevel - 1),
+    damage: 4 * (characterLevel - 1)
+  };
+
   const parts = [
     character.combatStats,
+    levelCombatStats,
     ...Object.values(character.equipment)
       .filter((equipment) => equipment !== null)
       .map((equipment) => EQUIPMENT(equipment, true)?.combatStats ?? {})

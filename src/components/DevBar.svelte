@@ -71,6 +71,10 @@
       <Button onclick={gain100Coins}>Gain coins</Button>
       <Button onclick={() => (app.coins = 0)}>Reset coins</Button>
     </crow>
+    <crow class="gap-1">
+      <Button onclick={() => (app.bossHighscore += 1)}>Increase boss level</Button>
+      <Button onclick={() => (app.bossHighscore = 0)}>Reset boss level</Button>
+    </crow>
     <Button onclick={() => (app.characters = [])}>Reset characters</Button>
     <Button onclick={() => (app.accountRewards = 1)}>Reset rewards</Button>
   </crow>

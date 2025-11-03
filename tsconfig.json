@@ -13,9 +13,7 @@
     "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
-      "$src/*": ["src/*"],
-      "$svelte-game-engine": ["svelte-game-engine/*"],
-      "$svelte-game-engine/*": ["svelte-game-engine/*"]
+      "$src/*": ["src/*"]
     }
   },
   "exclude": ["src/**/*.js"]

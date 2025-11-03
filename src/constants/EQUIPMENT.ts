@@ -51,7 +51,7 @@ export const ALL_EQUIPMENT = {
     cost: DEFAULT_COST,
     level: 3,
     combatStats: {
-      damage: 0
+      damage: 10
     },
     abilities: [
       ABILITIES('slam', false, { overrides: { ticks: 3 } }),

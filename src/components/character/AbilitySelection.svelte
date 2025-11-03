@@ -3,13 +3,17 @@
   import { page } from '$app/stores';
   import app from '$src/app.svelte';
   import type { Ability, AbilityRef } from '$src/types/ability';
-  import { calculateAvailableAbilitiesByCharacter } from '$src/ts/utils';
+  import {
+    calculateAvailableAbilitiesByCharacter,
+    calculateCombatStatsByCharacter
+  } from '$src/ts/utils';
   import EQUIPMENT from '$src/constants/EQUIPMENT';
   import ABILITIES from '$src/constants/ABILITIES';
   import type { Character } from '$src/types/character';
   import Button from '$src/components/form/Button.svelte';
   import { generateCombat, healFull, prepareTeams } from '$src/ts/combat';
   import CHARACTERS from '$src/constants/CHARACTERS';
+  import CoreStats from './CoreStats.svelte';
 
   let { character, renderSides }: { character: Character; renderSides?: boolean } = $props();
 
@@ -217,9 +221,10 @@
       >
         <img
           src="/images/races/{character.image.replace('.png', '-mugshot.png')}"
-          class="absolute top-0 right-0 left-0"
+          class="absolute top-0 right-0 left-0 opacity-20"
           alt=""
         />
+        <CoreStats combatStats={calculateCombatStatsByCharacter(character)} small vertical />
       </crow>
     {/if}
 

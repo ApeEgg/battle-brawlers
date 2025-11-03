@@ -21,7 +21,7 @@
 
 <Headline text="ability scaling" />
 
-<!--on:change={({ target: { value } }) => console.info(value)}-->
+<!--onchange={({ target: { value } }) => console.info(value)}-->
 <Dropdown
   options={Object.keys(ALL_ABILITIES)}
   value={chosenAbility}

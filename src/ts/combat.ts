@@ -13,24 +13,40 @@ export const healFull = (characters: CharacterRef[]) => {
   return characters.map((character) => {
     const combatStats = calculateCombatStatsByCharacter(CHARACTERS(character, true));
 
-    character.overrides.combatStats.currentHealth = combatStats.maxHealth;
+    // character.overrides.combatStats.currentHealth = combatStats.maxHealth;
 
-    return character;
+    // return character;
+    return {
+      ...character,
+      overrides: {
+        ...character.overrides,
+        combatStats: {
+          ...character.overrides?.combatStats,
+          currentHealth: combatStats.maxHealth
+        }
+      }
+    };
   });
 };
 
 export const prepareTeams = (...teams: [CharacterRef[], CharacterRef[], ...CharacterRef[][]]) => {
-  const preparedCombatants = teams.map((team, teamIndex) =>
-    team.map((combatant, combatatantIndex) =>
-      prepareCombatant(
-        CHARACTERS(combatant, true),
-        teams.length,
-        team.length,
-        teamIndex,
-        combatatantIndex
-      )
-    )
-  );
+  const preparedCombatants = teams.map((team, teamIndex) => {
+    // Heal full for non-player teams
+
+    const preparedTeam = (teamIndex !== 0 ? healFull(team) : team).map(
+      (combatant, combatatantIndex) => {
+        return prepareCombatant(
+          CHARACTERS(combatant, true),
+          teams.length,
+          team.length,
+          teamIndex,
+          combatatantIndex
+        );
+      }
+    );
+
+    return preparedTeam;
+  });
 
   return preparedCombatants.map((team, index) => ({
     name: `Team ${index}`,

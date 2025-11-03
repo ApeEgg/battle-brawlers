@@ -22,7 +22,7 @@
 
 <Headline text="equipment scaling" />
 
-<!--on:change={({ target: { value } }) => console.info(value)}-->
+<!--onchange={({ target: { value } }) => console.info(value)}-->
 <Dropdown
   options={Object.keys(ALL_EQUIPMENT)}
   value={chosenEquipment}

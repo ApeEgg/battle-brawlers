@@ -7,13 +7,15 @@ import EQUIPMENT from '$src/constants/EQUIPMENT';
 import CHARACTERS from '$src/constants/CHARACTERS';
 import { calculateCombatStatsByCharacter } from '$src/ts/utils';
 
-const correctHealth = (characterRef: CharacterRef) => {
+export const correctHealth = (characterRef: Required<CharacterRef>) => {
   const character = CHARACTERS(characterRef, true);
   const combatStats = calculateCombatStatsByCharacter(character);
 
   if (character.combatStats.maxHealth <= character.combatStats.currentHealth) {
     characterRef.overrides.combatStats.currentHealth = combatStats.maxHealth;
   }
+
+  return characterRef;
 };
 
 const decideEquipmentSlot = (slotsIn: EquipmentType, character: Character) => {

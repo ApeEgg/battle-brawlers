@@ -1,0 +1,353 @@
+import CHARACTERS from '$src/constants/CHARACTERS';
+
+export const ALL_FIGHTS = [
+  {
+    url: 'broodmother',
+    name: 'Broodmother',
+    characters: [CHARACTERS('nomad'), CHARACTERS('nomad'), CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 2,
+    minLevel: 5,
+    maxLevel: 9,
+    loot: ['experience']
+  },
+  {
+    url: 'overgrown-dwarf',
+    name: 'Overgrown Dwarf',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 12,
+    maxLevel: 15,
+    loot: ['experience']
+  },
+  {
+    url: 'crazy-old-man',
+    name: 'Crazy Old Man',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 4,
+    maxLevel: 6,
+    loot: ['experience']
+  },
+  {
+    url: 'fired-cityguard',
+    name: 'Fired Cityguard',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 5,
+    maxLevel: 7,
+    loot: ['experience']
+  },
+  {
+    url: 'beastmaster',
+    name: 'Beastmaster',
+    characters: [CHARACTERS('nomad'), CHARACTERS('nomad')],
+    description: '',
+    boss: true,
+    allowedNumberOfCharacters: 1,
+    minLevel: 10,
+    maxLevel: 10,
+    loot: ['experience']
+  },
+  {
+    url: 'drunk-veteran',
+    name: 'Drunk Veteran',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 11,
+    maxLevel: 13,
+    loot: ['experience']
+  },
+  {
+    url: 'frenzied-bunny',
+    name: 'Frenzied Bunny',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 4,
+    maxLevel: 7,
+    loot: ['experience']
+  },
+  {
+    url: 'serious-soldier',
+    name: 'Serious Soldier',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 3,
+    maxLevel: 5,
+    loot: ['experience']
+  },
+  {
+    url: 'blind-seer',
+    name: 'Blind Seer',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 10,
+    maxLevel: 12,
+    loot: ['experience']
+  },
+  {
+    url: 'pack-of-wolves',
+    name: 'Pack of Wolves',
+    characters: [CHARACTERS('nomad'), CHARACTERS('nomad'), CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 8,
+    maxLevel: 10,
+    loot: ['experience']
+  },
+  {
+    url: 'tanky-triplets',
+    name: 'Tanky Triplets',
+    characters: [CHARACTERS('nomad'), CHARACTERS('nomad'), CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 6,
+    maxLevel: 9,
+    loot: ['experience']
+  },
+  {
+    url: 'pitchfork-patrik',
+    name: 'Pitchfork Patrik',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 3,
+    maxLevel: 5,
+    loot: ['experience']
+  },
+  {
+    url: 'lost-civilian',
+    name: 'Lost Civilian',
+    characters: [CHARACTERS('lostCivilian')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 1,
+    maxLevel: 1,
+    loot: ['experience']
+  },
+  {
+    url: 'poorest-knight-in-town',
+    name: 'Poorest Knight in Town',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 2,
+    maxLevel: 4,
+    loot: ['experience']
+  },
+  {
+    url: 'rhino',
+    name: 'Rhino',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 6,
+    maxLevel: 8,
+    loot: ['experience']
+  },
+  {
+    url: 'grave-guy',
+    name: 'Grave Guy',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 8,
+    maxLevel: 10,
+    loot: ['experience']
+  },
+  {
+    url: 'jester',
+    name: 'Jester',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 2,
+    maxLevel: 3,
+    loot: ['experience']
+  },
+  {
+    url: 'desert-greyhound',
+    name: 'Desert Greyhound',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 5,
+    maxLevel: 8,
+    loot: ['experience']
+  },
+  {
+    url: 'sabertooth-tiger',
+    name: 'Sabertooth Tiger',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 2,
+    maxLevel: 4,
+    loot: ['experience']
+  },
+  {
+    url: 'the-inventor-of-ballista',
+    name: 'The inventor of Ballista',
+    characters: [CHARACTERS('nomad'), CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 9,
+    maxLevel: 11,
+    loot: ['experience']
+  },
+  {
+    url: 'elephant',
+    name: 'Elephant',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 10,
+    maxLevel: 14,
+    loot: ['experience']
+  },
+  {
+    url: 'nomad',
+    name: 'Nomad',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 1,
+    maxLevel: 2,
+    loot: ['experience']
+  },
+  {
+    url: 'grizzly-bear',
+    name: 'Grizzly Bear',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 9,
+    maxLevel: 13,
+    loot: ['experience']
+  },
+  {
+    url: 'giant-scorpion',
+    name: 'Giant Scorpion',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 3,
+    maxLevel: 5,
+    loot: ['experience']
+  },
+  {
+    url: 'boar',
+    name: 'Boar',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 1,
+    maxLevel: 2,
+    loot: ['experience']
+  },
+  {
+    url: 'bastard-brothers',
+    name: 'Bastard Brothers',
+    characters: [CHARACTERS('nomad'), CHARACTERS('nomad')],
+    description: '',
+    boss: false,
+    allowedNumberOfCharacters: 1,
+    minLevel: 7,
+    maxLevel: 10,
+    loot: ['experience']
+  },
+  {
+    url: 'the-grand-champion',
+    name: 'The Grand Champion',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: true,
+    allowedNumberOfCharacters: 1,
+    minLevel: 15,
+    maxLevel: 15,
+    loot: ['experience']
+  },
+  {
+    url: 'the-emperor',
+    name: 'The Emperor',
+    characters: [CHARACTERS('nomad')],
+    description: '',
+    boss: true,
+    allowedNumberOfCharacters: 1,
+    minLevel: 15,
+    maxLevel: 15,
+    loot: ['experience']
+  },
+  {
+    url: 'giant-rat',
+    name: 'Giant Rat',
+    characters: [CHARACTERS('rat')],
+    description: '',
+    boss: true,
+    allowedNumberOfCharacters: 1,
+    minLevel: 5,
+    maxLevel: 5,
+    loot: ['experience']
+  },
+  {
+    url: 'succubus',
+    name: 'Succubus',
+    characters: [CHARACTERS('succubus')],
+    description: '',
+    boss: true,
+    allowedNumberOfCharacters: 1,
+    minLevel: 16,
+    maxLevel: 25
+  },
+  {
+    url: 'undead',
+    name: 'Undead',
+    characters: [CHARACTERS('undead')],
+    description: '',
+    boss: true,
+    allowedNumberOfCharacters: 1,
+    minLevel: 16,
+    maxLevel: 25
+  },
+  {
+    url: 'golem',
+    name: 'Golem',
+    characters: [CHARACTERS('golem')],
+    description: '',
+    boss: true,
+    allowedNumberOfCharacters: 1,
+    minLevel: 16,
+    maxLevel: 25
+  }
+];

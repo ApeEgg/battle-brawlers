@@ -62,8 +62,8 @@
 <div
   role="status"
   class="fixed top-8 right-2 text-gray-500"
-  on:mouseenter={hover.bind(undefined, true)}
-  on:mouseleave={hover.bind(undefined, false)}
+  onmouseenter={hover.bind(undefined, true)}
+  onmouseleave={hover.bind(undefined, false)}
 >
   <div class="crow vertical right" bind:this={ref}>
     {#each [...app.notifications] as notification, i (notification)}

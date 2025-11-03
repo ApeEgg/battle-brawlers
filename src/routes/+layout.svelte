@@ -25,7 +25,7 @@
   let isVendorPage = $derived($page.route.id === '/vendor');
   let isRandomDuelPage = $derived($page.route.id === '/random-duel');
   let characterIndex = $derived($page.params.characterIndex);
-  let creatureId = $derived($page.params.creatureId);
+  let fightId = $derived($page.params.fightId);
 
   const { IS_PROD } = ENV;
 
@@ -36,10 +36,10 @@
   });
 
   const selectBrawler = (e: Event, id: string) => {
-    const isCreaturePage = creatureId !== undefined;
+    const isFightPage = fightId !== undefined;
     const isDuelOnDemandPage = $page.route.id === '/random-duel';
 
-    if ((isCreaturePage || isDuelOnDemandPage) && !app.selectedBrawlers.includes(id)) {
+    if ((isFightPage || isDuelOnDemandPage) && !app.selectedBrawlers.includes(id)) {
       e.preventDefault();
       app.selectedBrawlers.push(id);
     }
@@ -167,7 +167,7 @@
                   )}
                   {@const isActive =
                     parseInt(characterIndex, 10) === i ||
-                    (creatureId !== undefined && app.selectedBrawlers.includes(char.uuid)) ||
+                    (fightId !== undefined && app.selectedBrawlers.includes(char.uuid)) ||
                     (isRandomDuelPage && app.selectedBrawlers.includes(char.uuid))}
                   <Clickable
                     href="/brawlers/{i}"
@@ -196,14 +196,14 @@
                             current={character.combatStats.currentHealth}
                             text={character.name}
                             percentage={!showSequence &&
-                              creatureId === undefined &&
+                              fightId === undefined &&
                               characterIndex === undefined}
                           />
                         </div>
 
                         <Accordion
                           isOpen={showSequence ||
-                            creatureId !== undefined ||
+                            fightId !== undefined ||
                             characterIndex !== undefined ||
                             isRandomDuelPage}
                         >

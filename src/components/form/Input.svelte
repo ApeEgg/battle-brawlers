@@ -2,7 +2,7 @@
   let {
     placeholder,
     blur,
-    value = $bindable(),
+    value = $bindable(''),
     class: classes,
     type = 'text',
     small,

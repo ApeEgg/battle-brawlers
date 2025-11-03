@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { correctHealth } from '$src/ts/equipment';
   import { getLevelByExperience } from '$src/ts/level';
 
   let previousLevel: number | null = $state(null);
@@ -17,6 +18,7 @@
 
     if (previousLevel !== null && currentLevel > previousLevel) {
       app.showAccountProgression = true;
+      app.characters.map(correctHealth);
     }
 
     previousLevel = currentLevel;

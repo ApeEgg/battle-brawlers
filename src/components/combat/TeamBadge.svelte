@@ -32,11 +32,13 @@
     }
   ];
 
-  export let index = 0;
-  // export let characters = [];
-  export let rotation = 0;
-  // export let distanceFromCenter = 0;
-  export let scale = 1;
+  let {
+    index = 0,
+    // characters = [],
+    rotation = 0,
+    // distanceFromCenter = 0,
+    scale = 1
+  } = $props();
 </script>
 
 <div class="line" style={`transform: rotate(${rotation}deg);`}>
