@@ -17,7 +17,8 @@ export const INITIAL_COMBAT = {
   teamsEndState: [],
   events: [],
   duration: 0,
-  winningTeam: undefined
+  winningTeam: undefined,
+  fightId: undefined
 };
 
 const INITIAL_CHARACTERS: Required<CharacterRef>[] = [];

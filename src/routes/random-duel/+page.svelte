@@ -4,7 +4,7 @@
 
   let count = $derived(Math.floor(getLevelByExperience(app.experience) / 5) + 1);
   let selectedBrawlersPretty = $derived(
-    app.selectedBrawlers.length || count === 1 ? app.selectedBrawlers.length : 'X'
+    app.selectedBrawlers.length || count === 1 ? Math.max(app.selectedBrawlers.length, 1) : 'X'
   );
 
   $effect(() => {

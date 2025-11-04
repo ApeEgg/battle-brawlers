@@ -54,7 +54,7 @@
                     )}
                   </span>
                 {:else}
-                  {value || '-'}
+                  {value || value === 0 ? value : '-'}
                 {/if}
                 <crow class={tw('aspect-square w-8 !flex-none')}>
                   {#if isOpenable}

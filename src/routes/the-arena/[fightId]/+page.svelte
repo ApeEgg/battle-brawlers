@@ -12,7 +12,7 @@
     params: { fightId }
   } = $page;
 
-  let fight = ALL_FIGHTS.find(({ url }) => url === fightId) as any;
+  let fight = ALL_FIGHTS.find(({ id }) => id === fightId) as any;
   let characters = $derived(
     fight.characters.map((character: CharacterRef[]) => ({
       ...character,
@@ -27,14 +27,17 @@
   });
 
   const runCombat = () => {
-    const selected = app.characters.find((c) => c.uuid === app.selectedBrawlers[0]);
+    const selected = app.characters.filter(({ uuid }) => app.selectedBrawlers.includes(uuid));
     if (!selected) return;
 
-    const myCharacter = $state.snapshot(selected);
+    app.combat = generateCombat(
+      'myseed',
+      prepareTeams($state.snapshot(selected), characters),
+      fight.id
+    );
+    console.info(app.combat);
 
     app.selectedBrawlers = [];
-    app.combat = generateCombat('myseed', prepareTeams([myCharacter], characters));
-    console.info(app.combat);
 
     app.overlay = 'Combat';
   };

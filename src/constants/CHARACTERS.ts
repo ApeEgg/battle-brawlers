@@ -422,8 +422,8 @@ export const ALL_CHARACTERS = {
     description: '',
     element: '',
     combatStats: {
-      maxHealth: 40,
-      currentHealth: 40,
+      maxHealth: 20,
+      currentHealth: 20,
       maxArmor: 0,
       currentArmor: 0,
       damage: 0,
@@ -435,12 +435,112 @@ export const ALL_CHARACTERS = {
       }
     },
     maxTicks: Infinity,
-    abilities: [ABILITIES('harden', false, { overrides: { ticks: 12 } })]
+    abilities: [ABILITIES('playingTheVictim')]
+  },
+  boar: {
+    name: 'Boar',
+    race: 'creature',
+    image: 'creature/boar.png',
+    size: 1,
+    equipment: {
+      ...DEFAULT_EQUIPMENT
+    },
+    description: '',
+    element: '',
+    combatStats: {
+      maxHealth: DEFAULT_MAX_HP,
+      currentHealth: DEFAULT_MAX_HP,
+      maxArmor: 0,
+      currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
+    },
+    maxTicks: Infinity,
+    abilities: [
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch')
+    ]
+  },
+  jester: {
+    name: 'Jester',
+    race: 'creature',
+    image: 'creature/jester.png',
+    size: 1,
+    equipment: {
+      ...DEFAULT_EQUIPMENT
+    },
+    description: '',
+    element: '',
+    combatStats: {
+      maxHealth: DEFAULT_MAX_HP,
+      currentHealth: DEFAULT_MAX_HP,
+      maxArmor: 0,
+      currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
+    },
+    maxTicks: Infinity,
+    abilities: [
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch')
+    ]
+  },
+  lostCivilian: {
+    name: 'Lost civilian',
+    race: 'creature',
+    image: 'creature/lost-civilian.png',
+    size: 1,
+    equipment: {
+      ...DEFAULT_EQUIPMENT,
+      mainHand: EQUIPMENT('dagger', false, { overrides: { level: 5 } })
+    },
+    description: 'This civilian took the wrong turn when going shopping and ended up in the arena.',
+    element: '',
+    combatStats: {
+      maxHealth: DEFAULT_MAX_HP,
+      currentHealth: DEFAULT_MAX_HP,
+      maxArmor: 0,
+      currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
+    },
+    maxTicks: Infinity,
+    abilities: [
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch')
+    ]
   },
   nomad: {
     name: 'Nomad',
     race: 'creature',
-    image: 'creature/training-dummy.png',
+    image: 'creature/nomad.png',
     size: 1,
     equipment: {
       ...DEFAULT_EQUIPMENT,
@@ -463,18 +563,87 @@ export const ALL_CHARACTERS = {
       }
     },
     maxTicks: Infinity,
-    abilities: [ABILITIES('swing'), ABILITIES('swing'), ABILITIES('swing'), ABILITIES('swing')]
+    abilities: [
+      ABILITIES('stab', false, { overrides: { ticks: 4 } }),
+      ABILITIES('stab', false, { overrides: { ticks: 4 } }),
+      ABILITIES('stab', false, { overrides: { ticks: 4 } })
+    ]
   },
-  lostCivilian: {
-    name: 'Lost civilian',
+  pitchforkPatrick: {
+    name: 'Pitchfork Patrick',
     race: 'creature',
-    image: 'creature/training-dummy.png',
+    image: 'creature/pitchfork-patrick.png',
     size: 1,
     equipment: {
-      ...DEFAULT_EQUIPMENT,
-      mainHand: EQUIPMENT('dagger', false, { overrides: { level: 5 } })
+      ...DEFAULT_EQUIPMENT
     },
-    description: 'This civilian took the wrong turn when going shopping and ended up in the arena.',
+    description: '',
+    element: '',
+    combatStats: {
+      maxHealth: DEFAULT_MAX_HP,
+      currentHealth: DEFAULT_MAX_HP,
+      maxArmor: 0,
+      currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
+    },
+    maxTicks: Infinity,
+    abilities: [
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch')
+    ]
+  },
+  poorestKnightInTown: {
+    name: 'Poorest Knight in Town',
+    race: 'creature',
+    image: 'creature/poorest-knight-in-town.png',
+    size: 1,
+    equipment: {
+      ...DEFAULT_EQUIPMENT
+    },
+    description: '',
+    element: '',
+    combatStats: {
+      maxHealth: DEFAULT_MAX_HP,
+      currentHealth: DEFAULT_MAX_HP,
+      maxArmor: 0,
+      currentArmor: 0,
+      damage: DEFAULT_DAMAGE,
+      ...DEFAULT_LUCKY_STATS,
+      limits: {
+        wounded: 8,
+        concussed: 8,
+        exposed: 8
+      }
+    },
+    maxTicks: Infinity,
+    abilities: [
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch'),
+      ABILITIES('punch')
+    ]
+  },
+  sabertoothTiger: {
+    name: 'Sabertooth Tiger',
+    race: 'creature',
+    image: 'creature/sabertooth-tiger.png',
+    size: 1,
+    equipment: {
+      ...DEFAULT_EQUIPMENT
+    },
+    description: '',
     element: '',
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,

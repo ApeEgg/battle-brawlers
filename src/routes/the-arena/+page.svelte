@@ -47,7 +47,7 @@
       <!-- Name -->
     </crow>
   </crow>
-  {#each fights as { characters, url, name, minLevel, maxLevel, boss }, i}
+  {#each fights as { characters, id, name, minLevel, maxLevel, boss }, i}
     {@const wins = Array(SIMULATION_COUNT)
       .fill(0)
       .reduce((wins, i) => {
@@ -66,7 +66,7 @@
     {@const bossCompleted = boss && app.bossHighscore >= minLevel}
 
     <Clickable
-      href="/the-arena/{url}"
+      href="/the-arena/{id}"
       onclick={(e) => {
         if (isLocked || bossCompleted) {
           e.preventDefault();

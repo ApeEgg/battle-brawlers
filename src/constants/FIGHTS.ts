@@ -2,139 +2,151 @@ import CHARACTERS from '$src/constants/CHARACTERS';
 
 export const ALL_FIGHTS = [
   {
-    url: 'broodmother',
+    id: 'broodmother',
     name: 'Broodmother',
-    characters: [CHARACTERS('nomad'), CHARACTERS('nomad'), CHARACTERS('nomad')],
+    characters: [
+      CHARACTERS('trainingDummy'),
+      CHARACTERS('trainingDummy'),
+      CHARACTERS('trainingDummy')
+    ],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 2,
     minLevel: 5,
     maxLevel: 9,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'overgrown-dwarf',
+    id: 'overgrown-dwarf',
     name: 'Overgrown Dwarf',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('trainingDummy')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 12,
     maxLevel: 15,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'crazy-old-man',
+    id: 'crazy-old-man',
     name: 'Crazy Old Man',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('trainingDummy')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 4,
     maxLevel: 6,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'fired-cityguard',
+    id: 'fired-cityguard',
     name: 'Fired Cityguard',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('trainingDummy')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 5,
     maxLevel: 7,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'beastmaster',
+    id: 'beastmaster',
     name: 'Beastmaster',
-    characters: [CHARACTERS('nomad'), CHARACTERS('nomad')],
+    characters: [CHARACTERS('trainingDummy'), CHARACTERS('trainingDummy')],
     description: '',
     boss: true,
     allowedNumberOfCharacters: 1,
     minLevel: 10,
     maxLevel: 10,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'drunk-veteran',
+    id: 'drunk-veteran',
     name: 'Drunk Veteran',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('trainingDummy')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 11,
     maxLevel: 13,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'frenzied-bunny',
+    id: 'frenzied-bunny',
     name: 'Frenzied Bunny',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('trainingDummy')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 4,
     maxLevel: 7,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'serious-soldier',
+    id: 'serious-soldier',
     name: 'Serious Soldier',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('trainingDummy')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 3,
     maxLevel: 5,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'blind-seer',
+    id: 'blind-seer',
     name: 'Blind Seer',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('trainingDummy')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 10,
     maxLevel: 12,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'pack-of-wolves',
+    id: 'pack-of-wolves',
     name: 'Pack of Wolves',
-    characters: [CHARACTERS('nomad'), CHARACTERS('nomad'), CHARACTERS('nomad')],
+    characters: [
+      CHARACTERS('trainingDummy'),
+      CHARACTERS('trainingDummy'),
+      CHARACTERS('trainingDummy')
+    ],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 8,
     maxLevel: 10,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'tanky-triplets',
+    id: 'tanky-triplets',
     name: 'Tanky Triplets',
-    characters: [CHARACTERS('nomad'), CHARACTERS('nomad'), CHARACTERS('nomad')],
+    characters: [
+      CHARACTERS('trainingDummy'),
+      CHARACTERS('trainingDummy'),
+      CHARACTERS('trainingDummy')
+    ],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 6,
     maxLevel: 9,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'pitchfork-patrik',
-    name: 'Pitchfork Patrik',
-    characters: [CHARACTERS('nomad')],
+    id: 'pitchfork-patrick',
+    name: 'Pitchfork Patrick',
+    characters: [CHARACTERS('pitchforkPatrick')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 3,
     maxLevel: 5,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'lost-civilian',
+    id: 'lost-civilian',
     name: 'Lost Civilian',
     characters: [CHARACTERS('lostCivilian')],
     description: '',
@@ -142,98 +154,98 @@ export const ALL_FIGHTS = [
     allowedNumberOfCharacters: 1,
     minLevel: 1,
     maxLevel: 1,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'poorest-knight-in-town',
+    id: 'poorest-knight-in-town',
     name: 'Poorest Knight in Town',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('poorestKnightInTown')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 2,
     maxLevel: 4,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'rhino',
+    id: 'rhino',
     name: 'Rhino',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('trainingDummy')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 6,
     maxLevel: 8,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'grave-guy',
+    id: 'grave-guy',
     name: 'Grave Guy',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('trainingDummy')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 8,
     maxLevel: 10,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'jester',
+    id: 'jester',
     name: 'Jester',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('jester')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 2,
     maxLevel: 3,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'desert-greyhound',
+    id: 'desert-greyhound',
     name: 'Desert Greyhound',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('trainingDummy')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 5,
     maxLevel: 8,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'sabertooth-tiger',
+    id: 'sabertooth-tiger',
     name: 'Sabertooth Tiger',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('sabertoothTiger')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 2,
     maxLevel: 4,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'the-inventor-of-ballista',
+    id: 'the-inventor-of-ballista',
     name: 'The inventor of Ballista',
-    characters: [CHARACTERS('nomad'), CHARACTERS('nomad')],
+    characters: [CHARACTERS('trainingDummy'), CHARACTERS('trainingDummy')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 9,
     maxLevel: 11,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'elephant',
+    id: 'elephant',
     name: 'Elephant',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('trainingDummy')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 10,
     maxLevel: 14,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'nomad',
+    id: 'nomad',
     name: 'Nomad',
     characters: [CHARACTERS('nomad')],
     description: '',
@@ -241,76 +253,76 @@ export const ALL_FIGHTS = [
     allowedNumberOfCharacters: 1,
     minLevel: 1,
     maxLevel: 2,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'grizzly-bear',
+    id: 'grizzly-bear',
     name: 'Grizzly Bear',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('trainingDummy')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 9,
     maxLevel: 13,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'giant-scorpion',
+    id: 'giant-scorpion',
     name: 'Giant Scorpion',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('trainingDummy')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 3,
     maxLevel: 5,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'boar',
+    id: 'boar',
     name: 'Boar',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('boar')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 1,
     maxLevel: 2,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'bastard-brothers',
+    id: 'bastard-brothers',
     name: 'Bastard Brothers',
-    characters: [CHARACTERS('nomad'), CHARACTERS('nomad')],
+    characters: [CHARACTERS('trainingDummy'), CHARACTERS('trainingDummy')],
     description: '',
     boss: false,
     allowedNumberOfCharacters: 1,
     minLevel: 7,
     maxLevel: 10,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'the-grand-champion',
+    id: 'the-grand-champion',
     name: 'The Grand Champion',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('trainingDummy')],
     description: '',
     boss: true,
     allowedNumberOfCharacters: 1,
     minLevel: 15,
     maxLevel: 15,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'the-emperor',
+    id: 'the-emperor',
     name: 'The Emperor',
-    characters: [CHARACTERS('nomad')],
+    characters: [CHARACTERS('trainingDummy')],
     description: '',
     boss: true,
     allowedNumberOfCharacters: 1,
     minLevel: 15,
     maxLevel: 15,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'giant-rat',
+    id: 'giant-rat',
     name: 'Giant Rat',
     characters: [CHARACTERS('rat')],
     description: '',
@@ -318,36 +330,39 @@ export const ALL_FIGHTS = [
     allowedNumberOfCharacters: 1,
     minLevel: 5,
     maxLevel: 5,
-    loot: ['experience']
+    loot: []
   },
   {
-    url: 'succubus',
+    id: 'succubus',
     name: 'Succubus',
     characters: [CHARACTERS('succubus')],
     description: '',
     boss: true,
     allowedNumberOfCharacters: 1,
     minLevel: 16,
-    maxLevel: 25
+    maxLevel: 25,
+    loot: []
   },
   {
-    url: 'undead',
+    id: 'undead',
     name: 'Undead',
     characters: [CHARACTERS('undead')],
     description: '',
     boss: true,
     allowedNumberOfCharacters: 1,
     minLevel: 16,
-    maxLevel: 25
+    maxLevel: 25,
+    loot: []
   },
   {
-    url: 'golem',
+    id: 'golem',
     name: 'Golem',
     characters: [CHARACTERS('golem')],
     description: '',
     boss: true,
     allowedNumberOfCharacters: 1,
     minLevel: 16,
-    maxLevel: 25
+    maxLevel: 25,
+    loot: []
   }
 ];

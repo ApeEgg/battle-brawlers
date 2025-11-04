@@ -178,7 +178,7 @@ const tickStatusEffects = (combatants: Combatant[]) => {
   });
 };
 
-export const generateCombat = (seed: string, teams: Team[]) => {
+export const generateCombat = (seed: string, teams: Team[], fightId?: string) => {
   const events: CombatEvent[] = [];
 
   let now = 0;
@@ -473,6 +473,7 @@ export const generateCombat = (seed: string, teams: Team[]) => {
     teamsStartState,
     teamsEndState,
     duration,
-    winningTeam
+    winningTeam,
+    fightId
   };
 };

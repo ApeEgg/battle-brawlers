@@ -188,6 +188,19 @@ export const ALL_ABILITIES = {
     damageModifier: null,
     healingModifier: null,
     durationModifier: null
+  },
+  playingTheVictim: {
+    name: 'Playing the Victim',
+    type: AbilityType.WindUp,
+    description: '',
+    ticks: 12,
+    icon: 'cross',
+    basic: true,
+    statusEffects: [],
+    vfx: VFX.heal,
+    damageModifier: null,
+    healingModifier: null,
+    durationModifier: null
   }
 };
 

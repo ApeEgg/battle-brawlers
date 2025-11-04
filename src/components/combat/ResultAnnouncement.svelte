@@ -23,6 +23,7 @@
 
   let winningTeam = $derived(app.combat.winningTeam);
   let outcome = $derived<'victory' | 'defeat'>(winningTeam?.index === 0 ? 'victory' : 'defeat');
+  let rewardsToShow = $derived(rewards.filter(({ showInUI }) => showInUI));
 </script>
 
 {#if progress >= 1}
@@ -36,16 +37,16 @@
             <div class="cinzel text-2xl">rewards</div>
             <Hr />
             <crow vertical>
-              {#each rewards as { type, amount }, i}
+              {#each rewardsToShow as { type, amount }, i}
                 <Accordion isOpen={rewardsShown > i + delayTicks + 1}>
                   <crow>+{amount} {type}</crow>
                 </Accordion>
               {/each}
-              {#each rewards as { type, amount }, i}
+              {#each rewardsToShow as { type, amount }, i}
                 <Accordion isOpen={rewardsShown <= i + delayTicks + 1}>
                   <crow class="p-0.5">
                     <Icon
-                      name="isStunned"
+                      name="stunned"
                       class="animate-spin text-xl [animation-direction:reverse]"
                     />
                   </crow>
@@ -58,6 +59,9 @@
                 tertiary
                 onclick={() => {
                   app.experience += rewards.find(({ type }) => type === 'experience')?.amount || 0;
+                  app.bossHighscore =
+                    rewards.find(({ type }) => type === 'bossHighscore')?.amount ||
+                    app.bossHighscore;
 
                   app.combat = { ...INITIAL_COMBAT };
                   app.liveTeams = [];

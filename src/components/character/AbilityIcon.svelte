@@ -52,8 +52,11 @@
   <crow class={tw('absolute bottom-1 left-1', small && 'bottom-px left-px')}>
     {#each statusEffects as effect}
       {@const isStatusStack = ['isConcussed', 'isWounded', 'isExposed'].includes(effect)}
+
       <Icon
-        name={isStatusStack ? STATUS_EFFECTS[STATUS_EFFECTS[effect].convertsInto].icon : effect}
+        name={isStatusStack
+          ? STATUS_EFFECTS[STATUS_EFFECTS[effect].convertsInto].icon
+          : STATUS_EFFECTS[effect].icon}
         class={tw('text-md', isStatusStack && 'text-xs text-gray-400', small && 'text-[10px]')}
         original={!isStatusStack}
       />

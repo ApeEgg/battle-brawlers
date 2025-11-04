@@ -1,5 +1,8 @@
 <script lang="ts">
   import { COMBAT_TICK_TIME, COMBAT_RING_BASE_RADIUS } from '$src/constants/APP';
+  import { ALL_FIGHTS } from '$src/constants/FIGHTS';
+  import { getExperienceReward } from '$src/ts/level';
+  import type { Reward } from '$src/types/combat';
   import type { Team } from '$src/types/team';
 
   const getGeometry = (N: number, { baseRadius = 250, itemWidth = 140, gap = 0 } = {}) => {
@@ -23,7 +26,26 @@
   let progress = $derived(
     app.elapsedMilliseconds / app.combat.duration // avoid divide-by-zero
   );
-  let experience = $derived(startTeams[1]?.combatants?.[0]?.name === 'Target Dummy' ? 0 : 50);
+  let fight = ALL_FIGHTS.find(({ id }) => id === app.combat.fightId) as any;
+
+  let experience = $derived(
+    startTeams[1]?.combatants?.[0]?.name === 'Training Dummy'
+      ? 0
+      : fight
+        ? getExperienceReward(fight.characters.length, fight.minLevel, fight.maxLevel, fight.boss)
+        : 50
+  );
+  let rewards: Reward[] = $derived.by(() => {
+    const rewards: Reward[] = [];
+
+    rewards.push({ type: 'experience', amount: experience, showInUI: true });
+
+    if (fight && fight.boss) {
+      rewards.push({ type: 'bossHighscore', amount: fight.minLevel, showInUI: false });
+    }
+
+    return rewards;
+  });
 </script>
 
 <div class="relative w-full">
@@ -95,7 +117,7 @@
         {/each}
       {/if}
     </CombatArena>
-    <ResultAnnouncement {progress} rewards={[{ type: 'experience', amount: experience }]} />
+    <ResultAnnouncement {progress} {rewards} />
   </crow>
 </div>
 

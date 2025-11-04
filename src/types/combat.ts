@@ -1,11 +1,12 @@
 import type { Team } from '$src/types/team';
 import type { Combatant } from '$src/types/combatant';
 
-type RewardType = 'experience';
+type RewardType = 'experience' | 'bossHighscore';
 
 export type Reward = {
   type: RewardType;
   amount: number;
+  showInUI: boolean;
 };
 
 export type CombatEvent = {
@@ -30,4 +31,5 @@ export type Combat = {
   events: CombatEvent[];
   duration: number;
   winningTeam?: Team;
+  fightId?: string;
 };
