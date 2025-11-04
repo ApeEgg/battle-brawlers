@@ -22,7 +22,9 @@
   });
 
   let winningTeam = $derived(app.combat.winningTeam);
-  let outcome = $derived<'victory' | 'defeat'>(winningTeam?.index === 0 ? 'victory' : 'defeat');
+  let outcome = $derived<'victory' | 'defeat' | 'draw'>(
+    winningTeam?.index === 0 ? 'victory' : winningTeam?.index === undefined ? 'draw' : 'defeat'
+  );
   let rewardsToShow = $derived(rewards.filter(({ showInUI }) => showInUI));
 </script>
 

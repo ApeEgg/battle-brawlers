@@ -1,13 +1,15 @@
 <script lang="ts">
   import icons from '$src/iconice-icons.json';
 
-  let { outcome }: { outcome: 'victory' | 'defeat' } = $props();
+  let { outcome }: { outcome: 'victory' | 'defeat' | 'draw' } = $props();
+
+  let icon = $derived(outcome === 'draw' ? 'defeat' : outcome);
 
   const svg = `
     <svg xmlns="http://www.w3.org/2000/svg"
-         viewBox="${icons[outcome].viewBoxLeft} ${icons[outcome].viewBoxTop} ${icons[outcome].viewBoxWidth} ${icons[outcome].viewBoxHeight}">
+         viewBox="${icons[icon].viewBoxLeft} ${icons[icon].viewBoxTop} ${icons[icon].viewBoxWidth} ${icons[icon].viewBoxHeight}">
       <g fill="#fff" stroke="none">
-        ${icons[outcome].elements.join('')}
+        ${icons[icon].elements.join('')}
       </g>
     </svg>`.trim();
 
@@ -30,7 +32,7 @@
     ></div>
   {/if}
   <div class="[grid-area:1/1]">
-    <Icon name={outcome} class="text-9xl text-gray-400 drop-shadow-sm" />
+    <Icon name={icon} class="text-9xl text-gray-400 drop-shadow-sm" />
   </div>
   <div
     class={tw(
@@ -44,7 +46,7 @@
     "
   >
     <!-- JUST FOR SIZE, DOESN'T RENDER -->
-    <Icon name={outcome} class="text-9xl text-yellow-400 opacity-0 drop-shadow-lg" />
+    <Icon name={icon} class="text-9xl text-yellow-400 opacity-0 drop-shadow-lg" />
   </div>
 
   <div
