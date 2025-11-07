@@ -9,7 +9,8 @@
     isTime = false,
     isLoading = false,
     center = false,
-    percentage = false
+    percentage = false,
+    left = false
   } = $derived(props);
 
   //  let minutes = $derived(Math.floor(timeToRefill / 60000));
@@ -45,7 +46,7 @@
         {timeToRefillFormatted}
       </crow>
     {:else}
-      <div>
+      <div class={tw(left && '')}>
         {#if text}
           {text}
         {/if}

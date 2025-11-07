@@ -1,5 +1,6 @@
 import type { Team } from '$src/types/team';
 import type { Combatant } from '$src/types/combatant';
+import type { SFX } from '$src/types/sfx';
 
 type RewardType = 'experience' | 'bossHighscore';
 
@@ -32,4 +33,5 @@ export type Combat = {
   duration: number;
   winningTeam?: Team;
   fightId?: string;
+  audio: SFX[];
 };

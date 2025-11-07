@@ -40,15 +40,27 @@
         ['basicAttackFast', 'basicAttackRegular', 'basicAttackSlow', 'whirlwind'].includes(vfxName)
     )
   );
+
   let isHealing = $derived(
     animations.find(
       ({ start, end, vfxName }) =>
         start < elapsedMilliseconds && end > elapsedMilliseconds && vfxName === 'heal'
     )
   );
+  let isHurting = $derived(
+    animations.find(
+      ({ start, end, vfxName }) =>
+        start < elapsedMilliseconds && end > elapsedMilliseconds && vfxName === 'hurt'
+    )
+  );
+  let isArmorHurting = $derived(
+    animations.find(
+      ({ start, end, vfxName }) =>
+        start < elapsedMilliseconds && end > elapsedMilliseconds && vfxName === 'armorHurt'
+    )
+  );
 
   const applyAnimationClass = (name: string) =>
-    !statuses.knockedOut &&
     animations.some(
       ({ vfxName, start, end }) =>
         start < elapsedMilliseconds && end > elapsedMilliseconds && vfxName === name
@@ -73,11 +85,20 @@
         <HealthBar
           current={combatStats.currentHealth}
           max={combatStats.maxHealth}
-          currentAnimation={isHealing}
-          {applyAnimationClass}
+          {isHurting}
+          {isArmorHurting}
+          {isHealing}
+          {animations}
+          {elapsedMilliseconds}
+          left={facingRight}
         ></HealthBar>
+
         <div class="h-40 w-36"></div>
-        <CombatantAbilityBar {...props} />
+        <!-- <pre class="text-[5px]">
+        {JSON.stringify(props, null, 2)}
+        </pre> -->
+        <CombatantAbilityBar {...props} character={props} />
+        <!-- <CombatantAudioPlayer audio={props.audio} {elapsedMilliseconds} /> -->
 
         <crow
           vertical

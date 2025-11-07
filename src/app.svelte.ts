@@ -12,13 +12,24 @@ import loadLocalStorage from '$src/ts/loadLocalStorage';
 import { browser } from '$app/environment';
 import mediaQuery from '$src/ts/mediaQuery';
 
+const audioModules = import.meta.glob('/static/audio/**/*.*');
+
+export const AUDIO: any = {};
+
+for (const path in audioModules) {
+  const filename = path.split('/').pop()?.replace('.wav', '').replace('.mp3', '') || '';
+  AUDIO[filename] = [path];
+}
+console.log(AUDIO);
+
 export const INITIAL_COMBAT = {
   teamsStartState: [],
   teamsEndState: [],
   events: [],
   duration: 0,
   winningTeam: undefined,
-  fightId: undefined
+  fightId: undefined,
+  audio: []
 };
 
 const INITIAL_CHARACTERS: Required<CharacterRef>[] = [];
@@ -71,6 +82,9 @@ export default new (class {
       showDetailedCharacterView: false
     })
   );
+
+  audio: any = $state(AUDIO);
+
   mqs = mediaQuery({
     desktop: '(min-width: 1200px)',
     tablet: '(min-width: 768px) and (max-width: 1199px)',

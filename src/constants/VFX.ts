@@ -28,7 +28,11 @@ export default {
   // Status effects
   hurt: {
     vfxName: 'hurt',
-    duration: 250
+    duration: 500
+  },
+  armorHurt: {
+    vfxName: 'armorHurt',
+    duration: 500
   },
   attackBlocked: {
     vfxName: 'attackBlocked',

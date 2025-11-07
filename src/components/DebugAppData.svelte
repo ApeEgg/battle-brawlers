@@ -1,5 +1,23 @@
 <script lang="ts">
   let showSidebar = $state(false);
+
+  const stringifyCircularJSON = (obj: any) => {
+    const seen = new WeakSet();
+    return JSON.stringify(
+      obj,
+      (_, value) => {
+        if (value !== null && typeof value === 'object') {
+          if (seen.has(value)) return;
+          seen.add(value);
+        }
+
+        if (value === undefined) return null;
+
+        return value;
+      },
+      2
+    );
+  };
 </script>
 
 <crow
@@ -72,15 +90,9 @@
             <Accordion {isOpen}>
               <crow up left class="w-full">
                 <code class="text-left">
-                  <pre class="p-2 text-[10px]">{JSON.stringify(
-                      value,
-                      (_, value) => {
-                        if (value === undefined) return null;
-
-                        return value;
-                      },
-                      2
-                    )}</pre>
+                  <pre class="p-2 text-[10px]">
+                    {stringifyCircularJSON(value)}
+                    </pre>
                 </code>
               </crow>
             </Accordion>

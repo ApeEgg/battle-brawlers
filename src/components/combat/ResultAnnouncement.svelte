@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { INITIAL_COMBAT } from '$src/app.svelte';
+  import { AUDIO, INITIAL_COMBAT } from '$src/app.svelte';
   import type { Reward } from '$src/types/combat';
   import { backOut } from 'svelte/easing';
   import { scale } from 'svelte/transition';
@@ -11,6 +11,13 @@
 
   $effect(() => {
     if (progress >= 1) {
+      if (rewardsShown === 0) {
+        if (outcome === 'victory') {
+          new Howl({ src: AUDIO['Victory Stinger 1'] }).play();
+        } else {
+          new Howl({ src: AUDIO['Stinger Defeat 2'] }).play();
+        }
+      }
       interval = setInterval(() => {
         rewardsShown = rewardsShown + 1;
       }, 500);

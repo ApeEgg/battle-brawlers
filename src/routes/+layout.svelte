@@ -226,6 +226,7 @@
                         <Accordion isOpen={showSequence || !!app.maxBrawlers || isActive}>
                           <div class="pr-px">
                             <CombatantAbilityBar
+                              {character}
                               preview
                               abilitiesCopied={abilitiesHydrated.filter(
                                 (_, i) =>

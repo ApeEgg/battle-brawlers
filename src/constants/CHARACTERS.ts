@@ -74,8 +74,8 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      maxArmor: 0,
-      currentArmor: 0,
+      maxArmor: 10,
+      currentArmor: 10,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
       limits: {

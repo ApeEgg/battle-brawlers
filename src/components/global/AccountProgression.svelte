@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { AUDIO } from '$src/app.svelte';
   import { correctHealth } from '$src/ts/equipment';
   import { getLevelByExperience } from '$src/ts/level';
 
@@ -19,6 +20,7 @@
     if (previousLevel !== null && currentLevel > previousLevel) {
       app.showAccountProgression = true;
       app.characters.map((character) => correctHealth(character));
+      new Howl({ src: AUDIO['Stinger - Mystic Choir'] }).play();
     }
 
     previousLevel = currentLevel;

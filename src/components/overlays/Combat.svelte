@@ -4,6 +4,7 @@
   import { getExperienceReward } from '$src/ts/level';
   import type { Reward } from '$src/types/combat';
   import type { Team } from '$src/types/team';
+  import CombatAudioPlayer from '../combat/CombatAudioPlayer.svelte';
 
   const getGeometry = (N: number, { baseRadius = 250, itemWidth = 140, gap = 0 } = {}) => {
     const C_base = 2 * Math.PI * baseRadius;
@@ -49,6 +50,7 @@
 </script>
 
 <div class="relative w-full">
+  <CombatAudioPlayer audio={app.combat.audio} elapsedMilliseconds={app.elapsedMilliseconds} />
   <crow class="!grid aspect-square place-items-center">
     <CombatArena>
       {#if liveTeams.length}

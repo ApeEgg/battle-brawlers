@@ -1,12 +1,15 @@
 <script lang="ts">
+  import TooltipAbility from '../tooltips/TooltipAbility.svelte';
   import type { Ability } from '$src/types/ability';
+  import ABILITIES from '$src/constants/ABILITIES';
+  import CHARACTERS from '$src/constants/CHARACTERS';
 
   let props = $props();
-
   let preview = $derived(!!props.preview);
   let abilitiesCopied: Ability[] = $derived(props.abilitiesCopied);
   let progress = $derived(props.progress);
   let isStunned = $derived(!!props.statuses?.isStunned.ticks);
+  let character = $derived(props.character);
 </script>
 
 {#snippet iconBar(topLayer = false, progress = 100)}
@@ -26,7 +29,20 @@
       )}
     >
       {#each abilitiesCopied as { name, ticks, icon, chainLink }, i (`icon_${i}_${name}`)}
-        <crow class="relative h-6 !flex-none" style="width: calc(12px*{ticks});">
+        <crow
+          use:tooltip={{
+            children: TooltipAbility,
+            props: {
+              ...ABILITIES(props.abilitiesCopied[i], true),
+              character,
+              visible: !preview
+            },
+            direction: 'up',
+            lockInPlace: true
+          }}
+          class="relative h-6 !flex-none"
+          style="width: calc(12px*{ticks});"
+        >
           {#if chainLink}
             {#each Array(chainLink).fill(0).slice(0, -1) as _, j}
               <div

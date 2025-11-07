@@ -31,7 +31,7 @@ const tooltip = (node: Node, item: any) => {
       y: clientY,
       targetX,
       targetY,
-      visible: true,
+      visible: item?.props?.visible !== undefined ? item.props.visible : true,
       ...item,
       props: { ...item.props } // strip reference
     };

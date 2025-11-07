@@ -133,9 +133,9 @@ export const ALL_EQUIPMENT = {
       damage: 0
     },
     abilities: [
-      ABILITIES('swing', false, { overrides: { ticks: 4 } }),
-      ABILITIES('swing', false, { overrides: { ticks: 4 } }),
-      ABILITIES('swing', false, { overrides: { ticks: 4 } })
+      ABILITIES('swing', false, { overrides: { ticks: 12 } })
+      // ABILITIES('swing', false, { overrides: { ticks: 4 } }),
+      // ABILITIES('swing', false, { overrides: { ticks: 4 } })
     ]
   },
   bow: {

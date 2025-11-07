@@ -1,6 +1,7 @@
 import type { IconName } from '$src/Iconice';
 import type { VFX } from '$src/types/vfx';
 import type { DynamicObject } from '$src/types/common';
+import type { SFX } from '$src/types/sfx';
 
 export enum AbilityType {
   WindUp = 'windUp',
@@ -37,6 +38,7 @@ export type Ability = AbilityRef & {
   end?: number;
   icon: IconName;
   vfx: VFX;
+  sfx: SFX;
   statusEffects: StatusEffect[];
 
   damage: number;

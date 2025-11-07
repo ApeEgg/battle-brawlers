@@ -2,10 +2,10 @@
   import STATUS_EFFECTS from '$src/constants/STATUS_EFFECTS';
   import { calculateCombatStatsByCharacter } from '$src/ts/utils';
   import { AbilityType, type Ability } from '$src/types/ability';
-  import type { Character } from '$src/types/character';
+  import type { Combatant } from '$src/types/combatant';
   import type { CombatStats } from '$src/types/combatStats';
 
-  let props: Required<Ability> & { character: Character } = $derived(app.tooltip?.props);
+  let props: Required<Ability> & { character: Combatant } = $derived(app.tooltip?.props);
 
   let { name, ticks, type, description, chainLink, character, statusEffects } = $derived(props);
 
@@ -15,7 +15,11 @@
   let calculatedDuration = $derived(calc.duration());
 
   let combatStats = $derived(
-    character ? calculateCombatStatsByCharacter(character) : ({} as Required<CombatStats>)
+    character
+      ? character?.teamIndex !== undefined
+        ? character.combatStats
+        : calculateCombatStatsByCharacter(character)
+      : ({} as Required<CombatStats>)
   );
 </script>
 
@@ -26,6 +30,7 @@
     <div class="text-lg text-black">{name}</div>
     <Hr />
   </crow>
+
   <crow vertical left>
     {#if type === AbilityType.WindUp}
       <div class="text-sm">

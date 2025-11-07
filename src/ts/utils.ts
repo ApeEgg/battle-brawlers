@@ -48,7 +48,7 @@ export const calculateAvailableAbilitiesByCharacter = (character: Character) =>
 // };
 
 export const calculateCombatStatsByCharacter = (character: Character) => {
-  const isNPC = character?.image.startsWith('creature');
+  const isNPC = character?.image?.startsWith('creature');
   // If level isn't set, expect player character
   const characterLevel = character?.level || getLevelByExperience(app.experience);
   const HEALTH_PER_LEVEL = isNPC ? 8 : 4;
@@ -178,6 +178,7 @@ export const prepareCombatant = (
     combatStats,
     animations: [],
     injectedAnimations: [],
+    audio: [],
     position,
     damage: 0,
     statuses: {

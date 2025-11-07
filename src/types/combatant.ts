@@ -2,6 +2,7 @@ import type { Character } from '$src/types/character';
 import type { CombatStats } from '$src/types/combatStats';
 import type { Ability } from '$src/types/ability';
 import type { VFX } from '$src/types/vfx';
+import type { SFX } from '$src/types/sfx';
 
 export type StatusStack = {
   max: number;
@@ -18,6 +19,7 @@ export type Combatant = Omit<Character, 'abilities'> & {
   teamIndex: number;
   animations: VFX[];
   injectedAnimations: VFX[];
+  audio: SFX[];
   combatStats: Required<CombatStats>;
   eventTimestamp: number;
   eventAbility: Ability['id'];

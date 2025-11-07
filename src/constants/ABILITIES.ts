@@ -1,5 +1,6 @@
 import { AbilityType, type Ability, type AbilityRef } from '$src/types/ability';
 import VFX from '$src/constants/VFX';
+import SFX from '$src/constants/SFX';
 import entity from '$src/ts/entity';
 import type { DynamicObject } from '$src/types/common';
 import { deepMerge } from '$src/helpers';
@@ -14,6 +15,7 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: ['isWounded'],
     vfx: VFX.basicAttackFast,
+    sfx: SFX.stab,
     damageModifier: -0.05,
     healingModifier: null,
     durationModifier: null
@@ -27,6 +29,7 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: ['isWounded'],
     vfx: VFX.basicAttackFast,
+    sfx: SFX.stab,
     damageModifier: -0.05,
     healingModifier: null,
     durationModifier: null
@@ -40,6 +43,7 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: ['isExposed'],
     vfx: VFX.basicAttackRegular,
+    sfx: SFX.swing,
     damageModifier: 0,
     healingModifier: null,
     durationModifier: null
@@ -53,6 +57,7 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: ['isConcussed'],
     vfx: VFX.basicAttackSlow,
+    sfx: SFX.slam,
     damageModifier: 0.05,
     healingModifier: null,
     durationModifier: null
@@ -66,6 +71,7 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: ['isConcussed'],
     vfx: VFX.basicAttackFast,
+    sfx: SFX.punch,
     damageModifier: -0.1,
     healingModifier: null,
     durationModifier: null
@@ -79,6 +85,7 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: [],
     vfx: VFX.block,
+    sfx: SFX.stab,
     damageModifier: null,
     healingModifier: null,
     durationModifier: 0
@@ -92,6 +99,7 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: ['isStunned'],
     vfx: VFX.basicAttackRegular,
+    sfx: SFX.stab,
     damageModifier: 0,
     healingModifier: null,
     durationModifier: null
@@ -105,6 +113,7 @@ export const ALL_ABILITIES = {
     basic: false,
     statusEffects: ['isStunned'],
     vfx: VFX.kick,
+    sfx: SFX.stab,
     damageModifier: null,
     healingModifier: null,
     durationModifier: Infinity
@@ -119,6 +128,7 @@ export const ALL_ABILITIES = {
     basic: false,
     statusEffects: [],
     vfx: VFX.whirlwind,
+    sfx: SFX.stab,
     damageModifier: 0,
     healingModifier: null,
     durationModifier: 0
@@ -132,6 +142,7 @@ export const ALL_ABILITIES = {
     basic: false,
     statusEffects: ['isBleeding'],
     vfx: VFX.basicAttackFast,
+    sfx: SFX.stab,
     damageModifier: null,
     healingModifier: null,
     durationModifier: 1
@@ -145,6 +156,7 @@ export const ALL_ABILITIES = {
     basic: false,
     statusEffects: ['isVulnerable'],
     vfx: VFX.filler,
+    sfx: SFX.stab,
     damageModifier: null,
     healingModifier: null,
     durationModifier: 2
@@ -159,6 +171,7 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: [],
     vfx: VFX.heal,
+    sfx: SFX.stab,
     damageModifier: null,
     healingModifier: 0,
     durationModifier: 0
@@ -172,6 +185,7 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: ['isBleeding'],
     vfx: VFX.basicAttackFast,
+    sfx: SFX.stab,
     damageModifier: 0,
     healingModifier: null,
     durationModifier: 4
@@ -185,6 +199,7 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: [],
     vfx: VFX.heal,
+    sfx: SFX.stab,
     damageModifier: null,
     healingModifier: null,
     durationModifier: null
@@ -198,6 +213,7 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: [],
     vfx: VFX.heal,
+    sfx: SFX.stab,
     damageModifier: null,
     healingModifier: null,
     durationModifier: null

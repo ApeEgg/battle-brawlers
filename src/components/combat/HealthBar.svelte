@@ -1,17 +1,126 @@
 <script lang="ts">
+  import type { VFX } from '$src/types/vfx';
+  import { untrack } from 'svelte';
+
   let props = $props();
-  let { currentAnimation, applyAnimationClass = () => {} } = $derived(props);
+  let {
+    isHurting,
+    isArmorHurting,
+    isHealing,
+    animations,
+    elapsedMilliseconds,
+    left
+  }: {
+    isHurting?: VFX;
+    isArmorHurting?: VFX;
+    isHealing?: VFX;
+    animations: VFX[];
+    elapsedMilliseconds: number;
+    left: boolean;
+    applyAnimationClass: (name: string) => boolean;
+  } = $derived(props);
+
+  let hurts: (VFX & { random: number })[] = $state([]);
+  let armorHurts: (VFX & { random: number })[] = $state([]);
+  let heals: (VFX & { random: number })[] = $state([]);
+
+  $effect(() => {
+    $state.snapshot(isHurting);
+
+    untrack(() => {
+      if (isHurting?.vfxName === 'hurt') {
+        let hurtAnimations = animations.filter(
+          ({ start, end, vfxName }) =>
+            start < elapsedMilliseconds && end > elapsedMilliseconds && vfxName === 'hurt'
+        );
+
+        hurts.push(...hurtAnimations.map((anim) => ({ ...anim, random: Math.random() })));
+      }
+    });
+  });
+
+  $effect(() => {
+    $state.snapshot(isArmorHurting);
+
+    untrack(() => {
+      if (isArmorHurting?.vfxName === 'armorHurt') {
+        let armorHurtAnimations = animations.filter(
+          ({ start, end, vfxName }) =>
+            start < elapsedMilliseconds && end > elapsedMilliseconds && vfxName === 'armorHurt'
+        );
+
+        armorHurts.push(...armorHurtAnimations.map((anim) => ({ ...anim, random: Math.random() })));
+      }
+    });
+  });
+
+  $effect(() => {
+    $state.snapshot(isHealing);
+
+    untrack(() => {
+      if (isHealing?.vfxName === 'heal') {
+        let healAnimations = animations.filter(
+          ({ start, end, vfxName }) =>
+            start < elapsedMilliseconds && end > elapsedMilliseconds && vfxName === 'heal'
+        );
+
+        heals.push(...healAnimations.map((anim) => ({ ...anim, random: Math.random() })));
+      }
+    });
+  });
 </script>
 
 <Bar {...props}>
-  <div
+  <!-- <div
     class:heal={applyAnimationClass('heal')}
     class="alfa-slab-one fat-number absolute top-1 left-full text-green-300"
   >
     <div class="heal-x translate-x-0">
-      <div class="heal-y -translate-y-0">+{currentAnimation?.amount}</div>
+      <div class="heal-y -translate-y-0">+{currentAnimations[0]?.amount}</div>
     </div>
-  </div>
+  </div> -->
+
+  {#each armorHurts as armorHurt (armorHurt.id)}
+    <div
+      class={tw(
+        'hurt alfa-slab-one fat-number absolute top-1 left-full text-white',
+        left && 'right-full left-auto'
+      )}
+      style="--y-offset: 160px; --random-x-offset: {armorHurt.random}; --dir:{left ? -1 : 1};"
+    >
+      <div class="hurt-x translate-x-0">
+        <div class="hurt-y -translate-y-0">{armorHurt.amount}</div>
+      </div>
+    </div>
+  {/each}
+
+  {#each hurts as hurt (hurt.id)}
+    <div
+      class={tw(
+        'hurt alfa-slab-one fat-number absolute top-1 left-full text-red-300',
+        left && 'right-full left-auto'
+      )}
+      style="--y-offset: 0; --random-x-offset: {hurt.random}; --dir:{left ? -1 : 1};"
+    >
+      <div class="hurt-x translate-x-0">
+        <div class="hurt-y -translate-y-0">{hurt.amount}</div>
+      </div>
+    </div>
+  {/each}
+
+  {#each heals as heal (heal.id)}
+    <div
+      class={tw(
+        'heal alfa-slab-one fat-number absolute top-1 left-full text-green-300',
+        left && 'right-full left-auto'
+      )}
+      style="--y-offset: 0px; --random-x-offset: {heal.random}; --dir:{left ? -1 : 1};"
+    >
+      <div class="heal-x translate-x-0">
+        <div class="heal-y -translate-y-0">+{heal.amount}</div>
+      </div>
+    </div>
+  {/each}
 </Bar>
 
 <style>
@@ -30,7 +139,7 @@
       opacity: 1;
     }
     100% {
-      transform: translateX(10px);
+      transform: translateX(calc(var(--dir) * 10px));
       opacity: 0;
     }
   }
@@ -43,6 +152,50 @@
     }
     100% {
       transform: translateY(-20px);
+    }
+  }
+
+  .hurt {
+    opacity: 0;
+    animation: hurt 1000ms ease-in forwards;
+  }
+  @keyframes hurt {
+    0% {
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .hurt .hurt-x {
+    animation: hurt-x 200ms ease-in forwards;
+  }
+  @keyframes hurt-x {
+    0% {
+      transform: translateY(var(--y-offset)) translateX(calc(var(--dir) * -15px)) scale(3);
+    }
+    100% {
+      transform: translateY(var(--y-offset))
+        translateX(calc(var(--dir) * (5px + var(--random-x-offset) * 25px))) scale(1);
+    }
+  }
+
+  .hurt .hurt-y {
+    animation: hurt-y 1000ms linear forwards;
+  }
+  @keyframes hurt-y {
+    0% {
+      transform: translateY(calc(0px));
+    }
+    100% {
+      transform: translateY(calc(-40px));
     }
   }
 </style>
