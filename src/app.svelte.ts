@@ -11,7 +11,7 @@ import loadLocalStorage from '$src/ts/loadLocalStorage';
 import { browser } from '$app/environment';
 import mediaQuery from '$src/ts/mediaQuery';
 
-const audioModules = import.meta.glob('/static/**/*.*', { eager: true });
+const audioModules = import.meta.glob('/static/audio/**/*.*', { eager: true });
 export const AUDIO: Record<string, string> = {};
 
 for (const [path, module] of Object.entries(audioModules)) {
@@ -25,8 +25,9 @@ for (const [path, module] of Object.entries(audioModules)) {
 
 export const SETTINGS_DEFAULT_VOLUME = {
   master: 0.5,
-  music: 1,
-  sfx: 1
+  ambient: 0.25,
+  sfx: 0.5,
+  combat: 1
 };
 
 export const INITIAL_COMBAT = {

@@ -99,7 +99,7 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: ['isStunned'],
     vfx: VFX.basicAttackRegular,
-    sfx: SFX.stab,
+    sfx: SFX.slam,
     damageModifier: 0,
     healingModifier: null,
     durationModifier: null

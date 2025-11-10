@@ -19,13 +19,7 @@
   import { notify } from '$src/ts/actions';
   overrideItemIdKeyNameBeforeInitialisingDndZones('uuid');
 
-  let { children } = $props<{ children: Snippet }>();
-  let isFrontpage = $derived($page.route.id === '/' && !app.token);
-  let isAuthenticated = $derived(!!app.token);
-  let activePage = $derived($page.route.id?.split('/')[1] || (!app.token ? 'start' : ''));
-  let isDebugPage = $derived($page.route.id === '/debug');
-  let isVendorPage = $derived($page.route.id === '/vendor');
-  let characterIndex = $derived($page.params.characterIndex);
+  let { children }: { children: Snippet } = $props();
 
   const { IS_PROD } = ENV;
 
@@ -64,12 +58,20 @@
       }
     }
   };
+
+  let isFrontpage = $derived($page.route.id === '/' && !app.token);
+  let isAuthenticated = $derived(!!app.token);
+  let activePage = $derived($page.route.id?.split('/')[1] || (!app.token ? 'start' : ''));
+  let isDebugPage = $derived($page.route.id === '/debug');
+  let isVendorPage = $derived($page.route.id === '/vendor');
+  let characterIndex = $derived($page.params.characterIndex);
 </script>
 
 <ClientClock />
 <ConnectSocket />
 <Keystrokes />
 <InCombat />
+<GameAudio />
 
 {#if !IS_PROD}
   <DevBar />

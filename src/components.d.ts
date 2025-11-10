@@ -41,6 +41,7 @@ declare global {
     const EquipmentLink: typeof import("./components/EquipmentLink.svelte")["default"]
     const ForgotPassword: typeof import("./components/ForgotPassword.svelte")["default"]
     const Frame: typeof import("./components/Frame.svelte")["default"]
+    const GameAudio: typeof import("./components/GameAudio.svelte")["default"]
     const GameMenu: typeof import("./components/overlays/GameMenu.svelte")["default"]
     const GoBack: typeof import("./components/buttons/GoBack.svelte")["default"]
     const Headline: typeof import("./components/Headline.svelte")["default"]

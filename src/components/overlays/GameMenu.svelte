@@ -11,11 +11,14 @@
 {#snippet displayMasterVolume()}
   <crow class="w-10 p-2 text-sm">{prettyVolume(app.settings.volume.master)}</crow>
 {/snippet}
-{#snippet displayMusicVolume()}
-  <crow class="w-10 p-2 text-sm">{prettyVolume(app.settings.volume.music)}</crow>
+{#snippet displayAmbientVolume()}
+  <crow class="w-10 p-2 text-sm">{prettyVolume(app.settings.volume.ambient)}</crow>
 {/snippet}
 {#snippet displaySFXVolume()}
   <crow class="w-10 p-2 text-sm">{prettyVolume(app.settings.volume.sfx)}</crow>
+{/snippet}
+{#snippet displayCombatVolume()}
+  <crow class="w-10 p-2 text-sm">{prettyVolume(app.settings.volume.combat)}</crow>
 {/snippet}
 
 <Frame title="options">
@@ -34,10 +37,6 @@
   </crow>
   <crow class="w-full gap-4">
     <div class="w-40">Master</div>
-    <!-- <div class="w-14 text-xs">
-      {(app.settings.volume.master * 100) | 0}%
-    </div> -->
-
     <input
       use:tooltip={{
         children: displayMasterVolume,
@@ -47,35 +46,29 @@
       type="range"
       min="0"
       max="1"
-      step="0.1"
+      step="0.05"
       bind:value={app.settings.volume.master}
       class="w-full"
     />
   </crow>
   <crow class="w-full gap-4">
-    <div class="w-40">Music</div>
-    <!-- <div class="w-14 text-xs">
-      {(app.settings.volume.music * 100) | 0}%
-    </div> -->
+    <div class="w-40">Ambient</div>
     <input
       use:tooltip={{
-        children: displayMusicVolume,
+        children: displayAmbientVolume,
         direction: 'right',
         lockInPlace: true
       }}
       type="range"
       min="0"
       max="1"
-      step="0.1"
-      bind:value={app.settings.volume.music}
+      step="0.05"
+      bind:value={app.settings.volume.ambient}
       class="w-full"
     />
   </crow>
   <crow class="w-full gap-4">
     <div class="w-40">Sound effect</div>
-    <!-- <div class="w-14 text-xs">
-      {(app.settings.volume.sfx * 100) | 0}%
-    </div> -->
     <input
       use:tooltip={{
         children: displaySFXVolume,
@@ -85,8 +78,24 @@
       type="range"
       min="0"
       max="1"
-      step="0.1"
+      step="0.05"
       bind:value={app.settings.volume.sfx}
+      class="w-full"
+    />
+  </crow>
+  <crow class="w-full gap-4">
+    <div class="w-40">Combat</div>
+    <input
+      use:tooltip={{
+        children: displayCombatVolume,
+        direction: 'right',
+        lockInPlace: true
+      }}
+      type="range"
+      min="0"
+      max="1"
+      step="0.05"
+      bind:value={app.settings.volume.combat}
       class="w-full"
     />
   </crow>
