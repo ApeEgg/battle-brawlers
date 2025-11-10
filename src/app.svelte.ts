@@ -20,7 +20,12 @@ for (const path in audioModules) {
   const filename = path.split('/').pop()?.replace('.wav', '').replace('.mp3', '') || '';
   AUDIO[filename] = [path];
 }
-console.log(AUDIO);
+
+export const SETTINGS_DEFAULT_VOLUME = {
+  master: 0.5,
+  music: 1,
+  sfx: 1
+};
 
 export const INITIAL_COMBAT = {
   teamsStartState: [],
@@ -76,6 +81,7 @@ export default new (class {
   overlay: string = $state('');
   settings: DynamicObject = $state(
     loadLocalStorage({
+      volume: SETTINGS_DEFAULT_VOLUME,
       loginPageMode: 0,
       openProperties: {},
       debugOpen: false,

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { AUDIO } from '$src/app.svelte';
   import { getLevelByExperience } from '$src/ts/level';
   import { untrack } from 'svelte';
 
@@ -39,6 +40,10 @@
         app.showAccountProgression = false;
       }, 500);
     }
+    new Howl({
+      src: AUDIO['Special Lootbox 13'],
+      volume: app.settings.volume.master * app.settings.volume.sfx
+    }).play();
     app.accountRewards += 1;
     app.coins += 100;
   };

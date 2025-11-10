@@ -20,7 +20,10 @@
     if (previousLevel !== null && currentLevel > previousLevel) {
       app.showAccountProgression = true;
       app.characters.map((character) => correctHealth(character));
-      new Howl({ src: AUDIO['Stinger - Mystic Choir'] }).play();
+      new Howl({
+        src: AUDIO['Fire & Shimmer'],
+        volume: app.settings.volume.sfx * app.settings.volume.master
+      }).play();
     }
 
     previousLevel = currentLevel;

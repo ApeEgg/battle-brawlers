@@ -29,7 +29,7 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: ['isWounded'],
     vfx: VFX.basicAttackFast,
-    sfx: SFX.stab,
+    sfx: SFX.bowShot,
     damageModifier: -0.05,
     healingModifier: null,
     durationModifier: null

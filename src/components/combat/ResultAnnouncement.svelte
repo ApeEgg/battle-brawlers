@@ -13,9 +13,15 @@
     if (progress >= 1) {
       if (rewardsShown === 0) {
         if (outcome === 'victory') {
-          new Howl({ src: AUDIO['Victory Stinger 1'] }).play();
+          new Howl({
+            src: AUDIO['Victory Stinger 1'],
+            volume: app.settings.volume.sfx * app.settings.volume.master
+          }).play();
         } else {
-          new Howl({ src: AUDIO['Stinger Defeat 2'] }).play();
+          new Howl({
+            src: AUDIO['Stinger Defeat 2'],
+            volume: app.settings.volume.sfx * app.settings.volume.master
+          }).play();
         }
       }
       interval = setInterval(() => {

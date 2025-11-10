@@ -26,9 +26,22 @@ export default {
       'Default Strike (6)',
       'Default Strike (7)',
       'Default Strike (8)',
-      'Default Strike (9)',
-      'Default Strike (10)'
+      'Default Strike (9)'
     ]
+  },
+  armorHit: {
+    sfxName: 'armorHit',
+    duration: 500,
+    variants: [
+      // 'Target Impact - Armor Layer (1)'
+      'Target Impact - Armor Layer (2)'
+      // 'Target Impact - Armor Layer (3)'
+    ]
+  },
+  bowShot: {
+    sfxName: 'bowShot',
+    duration: 800,
+    variants: ['Target Impact - Default (1)']
   },
   block: {
     sfxName: 'block',

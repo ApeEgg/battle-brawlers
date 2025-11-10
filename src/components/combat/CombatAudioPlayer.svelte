@@ -1,19 +1,27 @@
 <script lang="ts">
   import { AUDIO } from '$src/app.svelte';
+  import type { SFX } from '$src/types/sfx';
 
-  let { audio, elapsedMilliseconds } = $props();
+  let {
+    audio,
+    elapsedMilliseconds
+  }: {
+    audio: SFX[];
+    elapsedMilliseconds: number;
+  } = $props();
 
-  // let queue: any[] = $state([]);
   let played: any[] = $state([]);
-  let raf: any = $state(null);
   let queue: any[] = $state([]);
+  let raf: any = $state(null);
 
   $effect(() => {
     // reading queue here makes the effect depend on queue,
     // which is fine as long as we don't write back unnecessarily.
     const q = new Set(queue.map(({ id }) => id));
     const p = new Set(played.map(({ id }) => id));
-    const incoming = audio.filter(({ id }) => !q.has(id) && !p.has(id));
+    const incoming = audio.filter(
+      ({ id, start }) => !q.has(id) && !p.has(id) && start > elapsedMilliseconds
+    );
 
     // 🔑 guard: only assign if there is a change
     if (!incoming.length) return;
@@ -25,9 +33,12 @@
 
   const playSfx = (sfx: any) => {
     const randomOne = sfx.variants[Math.floor(Math.random() * sfx.variants.length)];
+
     // console.info('playing sfx', randomOne);
-    new Howl({ src: AUDIO[randomOne] }).play();
-    // app.audio[randomOne]?.play();
+    new Howl({
+      src: AUDIO[randomOne],
+      volume: app.settings.volume.sfx * app.settings.volume.master
+    }).play();
   };
 
   const loop = () => {

@@ -64,7 +64,7 @@ export const ALL_CHARACTERS = {
     race: 'elf',
     image: 'elf/female-01.png',
     size: 1.05,
-    equipment: DEFAULT_EQUIPMENT,
+    equipment: { ...DEFAULT_EQUIPMENT },
     description: '',
     // woundLimit: 8,
     // concussionLimit: 8,
@@ -85,7 +85,7 @@ export const ALL_CHARACTERS = {
       }
     },
     maxTicks: DEFAULT_MAX_TICKS,
-    abilities: [ABILITIES('swing'), ABILITIES('swing'), ABILITIES('swing'), ABILITIES('swing')]
+    abilities: [ABILITIES('slam', false, { overrides: { ticks: 12 } })]
   },
   humanMale: {
     name: 'Brawler',

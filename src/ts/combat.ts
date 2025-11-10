@@ -66,9 +66,9 @@ const moreThanOneTeamStanding = (teams: Team[]) => {
 
 const bufferAnimation = (combatant: Combatant, vfx: VFX, timestamp: number) => {
   const newVFX = structuredClone(vfx);
-  // const delay = vfx.duration * 0.05;
+
   newVFX.start = timestamp;
-  newVFX.end = timestamp + vfx.duration;
+  newVFX.end = timestamp + COMBAT_TICK_TIME;
 
   newVFX.id = crypto.randomUUID();
 
@@ -303,12 +303,14 @@ export const generateCombat = (seed: string, teams: Team[], fightId?: string) =>
             const abilityDamage = combatant.combatStats.damage * currentAbility.damage;
             const weakenedDamage = abilityDamage * (1 + target.statuses.isVulnerable.value);
             damage.result = Math.ceil(weakenedDamage);
+
             if (target.combatStats.currentArmor > 0) {
               target.combatStats.currentArmor -= damage.result;
 
               let armorDamage = damage.result;
+              let overflow = 0;
               if (target.combatStats.currentArmor < 0) {
-                const overflow = Math.abs(target.combatStats.currentArmor);
+                overflow = Math.abs(target.combatStats.currentArmor);
                 damage.result = overflow;
                 armorDamage -= overflow;
               } else {
@@ -316,12 +318,15 @@ export const generateCombat = (seed: string, teams: Team[], fightId?: string) =>
               }
 
               bufferAnimation(target, { ..._VFX.armorHurt, amount: armorDamage }, now);
+              if (overflow <= 0) {
+                bufferAudio(audio, _SFX.armorHit, now - 200);
+              }
             }
 
-            bufferAudio(audio, currentAbility.sfx, now - 100);
             target.combatStats.currentHealth -= damage.result;
             if (damage.result > 0) {
               bufferAnimation(target, { ..._VFX.hurt, amount: damage.result }, now);
+              bufferAudio(audio, currentAbility.sfx, now - 200);
             }
 
             if (currentAbility.statusEffects.includes('isExposed')) {

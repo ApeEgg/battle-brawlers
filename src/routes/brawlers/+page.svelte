@@ -3,7 +3,6 @@
   import { RECRUITABLE_CHARACTERS } from '$src/constants/RECRUITABLE_CHARACTERS';
   import CHARACTERS from '$src/constants/CHARACTERS';
   import { ALL_ELEMENTS } from '$src/constants/ELEMENTS';
-  import type { IconName } from '$src/Iconice';
   import type { CharacterRef } from '$src/types/character';
   import { confirmWithDialog } from '$src/ts/dialog';
   import { allowedNumberOfCharacters } from '$src/ts/level';

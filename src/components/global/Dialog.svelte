@@ -6,7 +6,13 @@
     props
   }: { Component?: SvelteComponent; props?: ComponentProps<SvelteComponent> } = $props();
 
-  const close = () => (app.dialog = undefined);
+  const close = () => {
+    // Let app render next animation frame before closing
+    // This prevents mouseenter for things like tooltips
+    requestAnimationFrame(() => {
+      app.dialog = undefined;
+    });
+  };
 </script>
 
 <div

@@ -91,7 +91,7 @@
           {animations}
           {elapsedMilliseconds}
           left={facingRight}
-        ></HealthBar>
+        />
 
         <div class="h-40 w-36"></div>
         <!-- <pre class="text-[5px]">

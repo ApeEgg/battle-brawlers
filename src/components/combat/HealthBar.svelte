@@ -71,15 +71,6 @@
 </script>
 
 <Bar {...props}>
-  <!-- <div
-    class:heal={applyAnimationClass('heal')}
-    class="alfa-slab-one fat-number absolute top-1 left-full text-green-300"
-  >
-    <div class="heal-x translate-x-0">
-      <div class="heal-y -translate-y-0">+{currentAnimations[0]?.amount}</div>
-    </div>
-  </div> -->
-
   {#each armorHurts as armorHurt (armorHurt.id)}
     <div
       class={tw(
