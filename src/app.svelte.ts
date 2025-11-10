@@ -1,6 +1,5 @@
 import type { Combat } from '$src/types/combat';
 import type { CharacterRef } from '$src/types/character';
-
 import type { AsyncAwaitWebsocket } from 'async-await-websockets';
 import app from '$src/app.svelte';
 import type { EquipmentRef } from '$src/types/equipment';
@@ -12,13 +11,16 @@ import loadLocalStorage from '$src/ts/loadLocalStorage';
 import { browser } from '$app/environment';
 import mediaQuery from '$src/ts/mediaQuery';
 
-const audioModules = import.meta.glob('/static/audio/**/*.*');
+const audioModules = import.meta.glob('/static/**/*.*', { eager: true });
+export const AUDIO: Record<string, string> = {};
 
-export const AUDIO: any = {};
-
-for (const path in audioModules) {
-  const filename = path.split('/').pop()?.replace('.wav', '').replace('.mp3', '') || '';
-  AUDIO[filename] = [path];
+for (const [path, module] of Object.entries(audioModules)) {
+  const filename =
+    path
+      .split('/')
+      .pop()
+      ?.replace(/\.(wav|mp3)$/, '') || '';
+  AUDIO[filename] = (module as { default: string }).default; // correct production URL
 }
 
 export const SETTINGS_DEFAULT_VOLUME = {
