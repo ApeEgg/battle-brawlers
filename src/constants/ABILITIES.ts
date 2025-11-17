@@ -69,7 +69,7 @@ export const ALL_ABILITIES = {
     ticks: 2,
     icon: 'punch',
     basic: true,
-    statusEffects: ['isConcussed'],
+    statusEffects: [],
     vfx: VFX.basicAttackFast,
     sfx: SFX.punch,
     damageModifier: -0.1,
@@ -97,7 +97,7 @@ export const ALL_ABILITIES = {
     ticks: 3,
     icon: 'shieldBash',
     basic: true,
-    statusEffects: ['isStunned'],
+    statusEffects: ['isConcussed'],
     vfx: VFX.basicAttackRegular,
     sfx: SFX.slam,
     damageModifier: 0,
@@ -142,7 +142,7 @@ export const ALL_ABILITIES = {
     basic: false,
     statusEffects: ['isBleeding'],
     vfx: VFX.basicAttackFast,
-    sfx: SFX.stab,
+    sfx: SFX.doubleCut,
     damageModifier: null,
     healingModifier: null,
     durationModifier: 1
@@ -171,7 +171,7 @@ export const ALL_ABILITIES = {
     basic: true,
     statusEffects: [],
     vfx: VFX.heal,
-    sfx: SFX.stab,
+    sfx: SFX.chew,
     damageModifier: null,
     healingModifier: 0,
     durationModifier: 0
@@ -188,7 +188,7 @@ export const ALL_ABILITIES = {
     sfx: SFX.stab,
     damageModifier: 0,
     healingModifier: null,
-    durationModifier: 4
+    durationModifier: null
   },
   harden: {
     name: 'Harden',
@@ -223,15 +223,13 @@ export const ALL_ABILITIES = {
 const scalingCalc = (ticks: number, modifier: number = 0) => {
   if (modifier === null) return;
 
-  const base = 0.1 * (ticks + 1);
-  const added = modifier; // ticks * (0.2 + modifier);
-  const result = (base + added).toFixed(2); // divide by 10 for healing
+  const maxTicks = 4;
+  const mod = 1.25; //;- modifier;
+  const base = ticks / maxTicks;
+  const pow = +Math.pow(base, mod).toFixed(2);
+  const result = +(pow * (1 + modifier)).toFixed(2);
 
-  return {
-    base,
-    added,
-    result
-  };
+  return { base, pow, modifier, result };
 };
 
 function damageCalc(this: Ability) {

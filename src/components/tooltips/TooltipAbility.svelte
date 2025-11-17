@@ -39,7 +39,7 @@
       </div>
     {/if}
     {#if calculatedDuration?.result}
-      {@const duration = Math.ceil(calculatedDuration.result)}
+      {@const duration = Math.floor(calculatedDuration.result)}
       <div class="text-sm">
         <strong class="text-black"> Duration: </strong>
         {duration === Infinity ? 'variable' : `${duration} tick${duration === 1 ? '' : 's'}`}
@@ -52,20 +52,26 @@
         {ticks / chainLink} tick{ticks / chainLink === 1 ? '' : 's'}
       </div>
     {/if}
+    <!-- <pre>{JSON.stringify(calculatedDamage, null, 2)}
+        </pre> -->
     {#if calculatedDamage?.result}
       <div class="text-sm">
         <strong class="text-black"> Damage: </strong>
-        {Math.ceil(combatStats?.damage * calculatedDamage.result)}
-        ({Math.ceil(calculatedDamage.result * 100)}% of total damage)
+        {Math.floor(combatStats?.damage * calculatedDamage.result)}
+        ({Math.floor(calculatedDamage.result * 100)}% of total damage)
+      </div>
+    {/if}
+    {#if name === 'Block'}
+      <div class="text-sm">
+        <strong class="text-black"> Block chance: </strong>
+        <span class="text-green-500">100%</span>
       </div>
     {/if}
     {#if calculatedHealing?.result}
       <div class="text-sm">
         <strong class="text-black"> Heal: </strong>
-        {Math.ceil(combatStats?.maxHealth * calculatedHealing.result)}
-        <!-- ({calculatedHealing.baseDamage.toFixed(2) * 100}% + {calculatedHealing.addedDamage.toFixed(2) *
-        100}% of damage) -->
-        ({Math.ceil(calculatedHealing.result * 100)}% of max health)
+        {Math.floor(combatStats?.maxHealth * calculatedHealing.result)}
+        ({Math.floor(calculatedHealing.result * 100)}% of max health)
       </div>
     {/if}
   </crow>

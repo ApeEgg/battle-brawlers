@@ -4,6 +4,11 @@ export type CombatStats = {
   damage?: number;
   maxArmor?: number;
   currentArmor?: number;
+  criticalChance?: number;
+  criticalDamage?: number;
+  dodgeChance?: number;
+  blockChance?: number;
+  magicChance?: number;
   limits: {
     wounded: number;
     concussed: number;
@@ -21,11 +26,11 @@ export const prettyCombatStatKey = (key: string) =>
     stunned: 'Stunned',
     vulnerable: 'Vulnerable',
 
-    criticalChance: 'Critical',
+    criticalChance: 'Critical chance',
     criticalDamage: 'Critical damage',
-    dodgeChance: 'Dodge',
-    block: 'Block',
-    magicChance: 'Enchantment'
+    dodgeChance: 'Dodge chance',
+    blockChance: 'Block chance',
+    magicChance: 'Enchantment chance'
   })[key] || key;
 
 export const prettyCombatStatValue = (key: string, value: number) =>
@@ -34,7 +39,7 @@ export const prettyCombatStatValue = (key: string, value: number) =>
       criticalChance: `${value * 100}%`,
       criticalDamage: `${value * 100}%`,
       dodgeChance: `${value * 100}%`,
-      block: `${value * 100}%`,
+      blockChance: `${value * 100}%`,
       magicChance: `${value * 100}%`
     })[key] || value
   )

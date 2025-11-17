@@ -64,7 +64,9 @@ export const ALL_EQUIPMENT = {
     slotsIn: 'offHand',
     cost: DEFAULT_COST,
     level: DEFAULT_LEVEL,
-    combatStats: {},
+    combatStats: {
+      blockChance: 0.3
+    },
     abilities: [ABILITIES('block'), ABILITIES('shieldBash')]
   },
   twoHandedAxe: {

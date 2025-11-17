@@ -1,7 +1,7 @@
 <script lang="ts">
   import { COMBAT_TICK_TIME, COMBAT_RING_BASE_RADIUS } from '$src/constants/APP';
   import { ALL_FIGHTS } from '$src/constants/FIGHTS';
-  import { getExperienceReward } from '$src/ts/level';
+  import { getExperienceReward, getLevelByExperience } from '$src/ts/level';
   import type { Reward } from '$src/types/combat';
   import type { Team } from '$src/types/team';
   import CombatAudioPlayer from '../combat/CombatAudioPlayer.svelte';
@@ -39,7 +39,9 @@
   let rewards: Reward[] = $derived.by(() => {
     const rewards: Reward[] = [];
 
-    rewards.push({ type: 'experience', amount: experience, showInUI: true });
+    const amount = getLevelByExperience(app.experience) > fight?.maxLevel ? 1 : experience;
+
+    rewards.push({ type: 'experience', amount, showInUI: true });
 
     if (fight && fight.boss) {
       rewards.push({ type: 'bossHighscore', amount: fight.minLevel, showInUI: false });

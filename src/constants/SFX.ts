@@ -17,25 +17,18 @@ export default {
   punch: {
     sfxName: 'punch',
     duration: 100,
-    variants: [
-      'Default Strike (1)',
-      'Default Strike (2)',
-      'Default Strike (3)',
-      'Default Strike (4)',
-      'Default Strike (5)',
-      'Default Strike (6)',
-      'Default Strike (7)',
-      'Default Strike (8)',
-      'Default Strike (9)'
-    ]
+    variants: ['Slap Style Layer (1)', 'Slap Style Layer (2)', 'Slap Style Layer (3)']
   },
   armorHit: {
     sfxName: 'armorHit',
     duration: 500,
     variants: [
-      // 'Target Impact - Armor Layer (1)'
-      'Target Impact - Armor Layer (2)'
-      // 'Target Impact - Armor Layer (3)'
+      'Armor Layer (1)',
+      'Armor Layer (2)',
+      'Armor Layer (3)',
+      'Armor Layer (4)',
+      'Armor Layer (5)',
+      'Armor Layer (6)'
     ]
   },
   bowShot: {
@@ -47,5 +40,31 @@ export default {
     sfxName: 'block',
     duration: 500,
     variants: ['Axe Chop 1', 'Axe Chop 2', 'Axe Chop 3', 'Axe Chop 4', 'Axe Chop 5', 'Axe Chop 6']
+  },
+  dodge: {
+    sfxName: 'dodge',
+    duration: 500,
+    variants: [
+      'Swing Whoosh (1)',
+      'Swing Whoosh (2)',
+      'Swing Whoosh (3)',
+      'Swing Whoosh (4)',
+      'Swing Whoosh (5)',
+      'Swing Whoosh (6)',
+      'Swing Whoosh (7)',
+      'Swing Whoosh (8)',
+      'Swing Whoosh (9)',
+      'Swing Whoosh (10)'
+    ]
+  },
+  chew: {
+    sfxName: 'chew',
+    duration: 2000,
+    variants: ['Food Use - Buff Style 1', 'Food Use - Buff Style 2']
+  },
+  doubleCut: {
+    sfxName: 'doubleCut',
+    duration: 1200,
+    variants: ['SOW1 - Combo - Double Slash 1']
   }
 } as any;

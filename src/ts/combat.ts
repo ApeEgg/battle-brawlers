@@ -11,6 +11,11 @@ import { AbilityType, type Ability } from '$src/types/ability';
 import type { CharacterRef } from '$src/types/character';
 import CHARACTERS from '$src/constants/CHARACTERS';
 
+const isLucky = (chance: number, seed: string) => {
+  const random = seededRandom(0, 1, seed, 0.01);
+  return random <= chance;
+};
+
 export const healFull = (characters: CharacterRef[]) => {
   return characters.map((character) => {
     const combatStats = calculateCombatStatsByCharacter(CHARACTERS(character, true));
@@ -181,7 +186,7 @@ const tickStatusEffects = (combatants: Combatant[], now: number) => {
     if (combatant.statuses.isBleeding.ticks > 0) {
       const bleedDamage = combatant.statuses.isBleeding.value;
       const weakenedDamage = (1 + combatant.statuses.isVulnerable.value) * bleedDamage;
-      const finalDamage = Math.ceil(weakenedDamage);
+      const finalDamage = Math.floor(weakenedDamage);
       combatant.combatStats.currentHealth -= finalDamage;
       bufferAnimation(combatant, { ..._VFX.hurt, amount: finalDamage }, now);
       combatant.statuses.isBleeding.ticks -= 1;
@@ -236,11 +241,11 @@ export const generateCombat = (seed: string, teams: Team[], fightId?: string) =>
         combatant.statuses.isBlocking = true;
       }
 
-      combatant.damage = Math.ceil(combatant.combatStats.damage * currentAbility.damage);
+      combatant.damage = Math.floor(combatant.combatStats.damage * currentAbility.damage);
     });
 
     // END OF ABILITY
-    orderedCombatantsEnding.forEach((combatant) => {
+    orderedCombatantsEnding.forEach((combatant, i) => {
       const targetableCombatants = stillStandingCombatants.filter(
         ({ teamIndex }) => teamIndex !== combatant.teamIndex
       );
@@ -259,10 +264,11 @@ export const generateCombat = (seed: string, teams: Team[], fightId?: string) =>
         ];
 
       const damage = {
-        result: 0
+        amount: 0,
+        isCritical: false
       };
       const heal = {
-        result: 0
+        amount: 0
       };
 
       const isWindUp = currentAbility.type === AbilityType.WindUp;
@@ -282,7 +288,7 @@ export const generateCombat = (seed: string, teams: Team[], fightId?: string) =>
             };
           }
         } else if (isWindUp) {
-          const healingAmount = Math.ceil(
+          const healingAmount = Math.floor(
             combatant.combatStats.maxHealth * currentAbility.healing * healingEfficiency
           );
 
@@ -293,40 +299,71 @@ export const generateCombat = (seed: string, teams: Team[], fightId?: string) =>
           combatant.combatStats.currentHealth += actualHealingDone;
 
           if (actualHealingDone > 0) {
+            bufferAudio(audio, _SFX.chew, now - 200);
             bufferAnimation(combatant, { ..._VFX.heal, amount: actualHealingDone }, now);
           }
 
-          if (isBlocking) {
+          const isBlocked = isLucky(
+            target.combatStats.blockChance,
+            `${seed}_${tickCount}_${i}_blockChance`
+          );
+          const isDodged = isLucky(
+            target.combatStats.dodgeChance,
+            `${seed}_${tickCount}_${i}_dodgeChance`
+          );
+
+          if (isBlocking || isBlocked) {
             bufferAudio(audio, _SFX.block, now - 100);
             bufferAnimation(target, _VFX.attackBlocked, now);
+          } else if (isDodged) {
+            bufferAudio(audio, _SFX.dodge, now - 100);
+            bufferAnimation(target, _VFX.attackDodged, now);
           } else {
+            const isCritical = isLucky(
+              combatant.combatStats.criticalChance,
+              `${seed}_${tickCount}_${i}_criticalDamage`
+            );
+
+            // console.info(
+            //   isCritical,
+            //   currentAbility.damage,
+            //   combatant.combatStats.criticalDamage,
+            //   currentAbility.damage + combatant.combatStats.criticalDamage
+            // );
+
             const abilityDamage = combatant.combatStats.damage * currentAbility.damage;
             const weakenedDamage = abilityDamage * (1 + target.statuses.isVulnerable.value);
-            damage.result = Math.ceil(weakenedDamage);
+            const criticalDamage =
+              weakenedDamage * (1 + (isCritical ? combatant.combatStats.criticalDamage : 0));
+            damage.amount = Math.floor(criticalDamage);
+            damage.isCritical = isCritical;
 
+            let armorDamage = 0;
             if (target.combatStats.currentArmor > 0) {
-              target.combatStats.currentArmor -= damage.result;
+              target.combatStats.currentArmor -= damage.amount;
 
-              let armorDamage = damage.result;
+              armorDamage = damage.amount;
               let overflow = 0;
               if (target.combatStats.currentArmor < 0) {
                 overflow = Math.abs(target.combatStats.currentArmor);
-                damage.result = overflow;
+                damage.amount = overflow;
                 armorDamage -= overflow;
               } else {
-                damage.result = 0;
+                damage.amount = 0;
               }
 
-              bufferAnimation(target, { ..._VFX.armorHurt, amount: armorDamage }, now);
+              bufferAnimation(target, { ..._VFX.armorHurt, amount: armorDamage, isCritical }, now);
               if (overflow <= 0) {
                 bufferAudio(audio, _SFX.armorHit, now - 200);
               }
             }
 
-            target.combatStats.currentHealth -= damage.result;
-            if (damage.result > 0) {
-              bufferAnimation(target, { ..._VFX.hurt, amount: damage.result }, now);
-              bufferAudio(audio, currentAbility.sfx, now - 200);
+            target.combatStats.currentHealth -= damage.amount;
+
+            let playAudio = false;
+            if (damage.amount > 0) {
+              bufferAnimation(target, { ..._VFX.hurt, ...damage }, now);
+              playAudio = true;
             }
 
             if (currentAbility.statusEffects.includes('isExposed')) {
@@ -363,7 +400,7 @@ export const generateCombat = (seed: string, teams: Team[], fightId?: string) =>
                   ? combatant.combatStats.damage * currentAbility.damage * 0.3
                   : combatant.combatStats.damage * 0.2;
 
-                const value = Math.ceil(tickDamage);
+                const value = Math.floor(tickDamage);
                 const overflow = target.statuses.isWounded.value - target.statuses.isWounded.max;
                 target.statuses.isWounded.value = 0;
                 target.statuses.isBleeding = {
@@ -378,7 +415,7 @@ export const generateCombat = (seed: string, teams: Team[], fightId?: string) =>
                 ? combatant.combatStats.damage * currentAbility.damage * 0.3
                 : combatant.combatStats.damage * 0.2;
 
-              const value = Math.ceil(tickDamage);
+              const value = Math.floor(tickDamage);
 
               target.statuses.isBleeding = {
                 ticks: target.statuses.isBleeding.ticks + currentAbility.duration,
@@ -394,6 +431,10 @@ export const generateCombat = (seed: string, teams: Team[], fightId?: string) =>
                 ticks: target.statuses.isVulnerable.ticks + currentAbility.duration,
                 value: 0.5
               };
+            }
+
+            if (playAudio || currentAbility.statusEffects.includes('isBleeding')) {
+              bufferAudio(audio, currentAbility.sfx, now - 200);
             }
           }
 
@@ -422,14 +463,18 @@ export const generateCombat = (seed: string, teams: Team[], fightId?: string) =>
             const total = target.abilitiesCopied[target.abilitiesCopied.length - 1].end!;
             const t = ((now % total) + total) % total; // normalize now into [0,total)
 
-            const targetCurrentAbility = target.abilitiesCopied.find(
-              (ability) =>
-                ability.end % total > ability.start % total
-                  ? t >= ability.start % total && t < ability.end % total // normal segment
-                  : ability.end % total < ability.start % total
-                    ? t >= ability.start % total || t < ability.end % total // wraps over end->start
-                    : t === ability.start % total // zero-length segment
-            ) as Required<Ability>;
+            const targetCurrentAbility = target.abilitiesCopied.find((ability) => {
+              const start = ability.start % total;
+              const end = ability.end % total;
+
+              if (end > start) {
+                return t >= start && t < end; // normal segment
+              } else if (end < start) {
+                return t >= start || t < end; // wraps around
+              } else {
+                return true; // start === end → treat as full cycle, not zero-length
+              }
+            }) as Required<Ability>;
 
             const endTime = targetCurrentAbility.end % total;
             const remainingTime =
@@ -452,7 +497,7 @@ export const generateCombat = (seed: string, teams: Team[], fightId?: string) =>
       //   Tick: tickCount,
       //   attacker: combatant.race,
       //   ability: currentAbility.id,
-      //   damage: damage.result,
+      //   damage: damage.amount,
       //   target: target.race,
       //   isBlocking,
       //   targetStatuses: target.statuses

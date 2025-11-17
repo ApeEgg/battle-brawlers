@@ -2,7 +2,7 @@
   import CHARACTERS, { ALL_CHARACTERS } from '$src/constants/CHARACTERS';
   import { ALL_FIGHTS } from '$src/constants/FIGHTS';
   import { generateCombat, prepareTeams } from '$src/ts/combat';
-  import { getExperienceReward } from '$src/ts/level';
+  import { getExperienceReward, getLevelByExperience } from '$src/ts/level';
 
   const { IS_DEV } = ENV;
 
@@ -27,8 +27,10 @@
       }
     }))
   }));
+  // .slice(0, 1);
 
   let hideTreshold = $derived(app.bossHighscore + 5);
+  let ludusLevel = $derived(getLevelByExperience(app.experience));
 </script>
 
 <Headline text="the arena" />
@@ -50,7 +52,7 @@
   {#each fights as { characters, id, name, minLevel, maxLevel, boss }, i}
     {@const wins = Array(SIMULATION_COUNT)
       .fill(0)
-      .reduce((wins, i) => {
+      .reduce((wins, _, i) => {
         if (!app.characters[0]) return wins;
 
         const combat = generateCombat(
@@ -91,8 +93,10 @@
         {/if}
       </crow>
       <div class="!w-12 text-center">{minLevel} {minLevel === maxLevel ? '' : `- ${maxLevel}`}</div>
-      <div class="!w-12 text-left">
-        {getExperienceReward(characters.length, minLevel, maxLevel, boss)} XP
+      <div class={tw('!w-12 text-left')}>
+        <div class={tw(ludusLevel > maxLevel && 'text-gray-400 line-through')}>
+          {getExperienceReward(characters.length, minLevel, maxLevel, boss)} XP
+        </div>
       </div>
       {#if IS_DEV}
         <div class="!w-12 text-right">{(wins / SIMULATION_COUNT) * 100}%</div>

@@ -2,7 +2,7 @@
   import type { Equipment } from '$src/types/equipment';
   import ABILITIES from '$src/constants/ABILITIES';
   import type { Character } from '$src/types/character';
-  import { prettyCombatStatKey } from '$src/types/combatStats';
+  import { prettyCombatStatKey, prettyCombatStatValue } from '$src/types/combatStats';
 
   let {
     name,
@@ -17,6 +17,18 @@
   let availableAbilities = $derived(
     abilities?.filter((ability) => !ABILITIES(ability, true).basic)
   );
+
+  let { regularCombatStats, luckyCombatStats } = $derived.by(() => {
+    const stats = Object.entries(combatStats);
+    const regularStats = ['damage', 'maxHealth', 'maxArmor'];
+    const regularCombatStats = stats.filter(([key]) => regularStats.includes(key));
+    const luckyCombatStats = stats.filter(([key]) => !regularStats.includes(key));
+
+    return {
+      regularCombatStats,
+      luckyCombatStats
+    };
+  });
 </script>
 
 <crow
@@ -32,12 +44,22 @@
 
     <Hr class="mb-0" />
   </crow>
-  {#if Object.entries(combatStats).length > 0}
+  {#if regularCombatStats.length > 0}
     <crow vertical left class="!w-1/2">
-      {#each Object.entries(combatStats) as [key, value]}
-        <crow class="bg-green w-full !justify-between text-sm">
+      {#each regularCombatStats as [key, value]}
+        <crow class="w-full !justify-between text-sm">
           <strong class="text-black"> {prettyCombatStatKey(key)} </strong>
-          {value}
+          <span class="text-black">{value}</span>
+        </crow>
+      {/each}
+    </crow>
+  {/if}
+  {#if luckyCombatStats.length > 0}
+    <crow vertical left class="!w-1/2">
+      {#each luckyCombatStats as [key, value]}
+        <crow class="w-full !justify-between text-sm">
+          <strong class="text-black"> {prettyCombatStatKey(key)} </strong>
+          <span class="text-green-500">{prettyCombatStatValue(key, value)}</span>
         </crow>
       {/each}
     </crow>

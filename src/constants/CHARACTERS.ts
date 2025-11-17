@@ -3,19 +3,19 @@ import ABILITIES from '$src/constants/ABILITIES';
 import type { DynamicObject } from '$src/types/common';
 import entity from '$src/ts/entity';
 import { deepMerge } from '$src/helpers';
-import EQUIPMENT from './EQUIPMENT';
+import EQUIPMENT from '$src/constants/EQUIPMENT';
 
 export type CharacterKey = Race | 'creature';
 
 const DEFAULT_MAX_HP = 24;
-const DEFAULT_DAMAGE = 10;
+const DEFAULT_DAMAGE = 8;
 const DEFAULT_MAX_TICKS = 12;
 const DEFAULT_LUCKY_STATS = {
   criticalChance: 0.05,
   criticalDamage: 0.5,
   dodgeChance: 0.05,
-  blockChance: 0,
-  magicChance: 0
+  blockChance: 0
+  // magicChance: 0
 };
 
 export const DEFAULT_EQUIPMENT = {
@@ -49,7 +49,10 @@ export const ALL_CHARACTERS = {
       maxArmor: 0,
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
-      ...DEFAULT_LUCKY_STATS,
+      ...{
+        ...DEFAULT_LUCKY_STATS
+        // dodgeChance: 0
+      },
       limits: {
         wounded: 8,
         concussed: 8,
@@ -64,7 +67,7 @@ export const ALL_CHARACTERS = {
     race: 'elf',
     image: 'elf/female-01.png',
     size: 1.05,
-    equipment: { ...DEFAULT_EQUIPMENT },
+    equipment: { ...DEFAULT_EQUIPMENT, mainHand: EQUIPMENT('bow') },
     description: '',
     // woundLimit: 8,
     // concussionLimit: 8,
@@ -85,7 +88,12 @@ export const ALL_CHARACTERS = {
       }
     },
     maxTicks: DEFAULT_MAX_TICKS,
-    abilities: [ABILITIES('slam', false, { overrides: { ticks: 12 } })]
+    abilities: [
+      ABILITIES('pierce'), //, false, { overrides: { ticks: 12 } }),
+      ABILITIES('pierce'),
+      ABILITIES('pierce'),
+      ABILITIES('pierce')
+    ]
   },
   humanMale: {
     name: 'Brawler',
@@ -210,7 +218,10 @@ export const ALL_CHARACTERS = {
       maxArmor: 0,
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
-      ...DEFAULT_LUCKY_STATS,
+      ...{
+        ...DEFAULT_LUCKY_STATS
+        // criticalChance: 0.8
+      },
       limits: {
         wounded: 8,
         concussed: 8,
@@ -302,9 +313,13 @@ export const ALL_CHARACTERS = {
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [
-      ABILITIES('stab', false, { overrides: { ticks: 4 } }),
-      ABILITIES('stab', false, { overrides: { ticks: 4 } }),
-      ABILITIES('stab', false, { overrides: { ticks: 4 } })
+      // ABILITIES('stab', false, { overrides: { ticks: 4 } }),
+      // ABILITIES('stab', false, { overrides: { ticks: 4 } }),
+      // ABILITIES('stab', false, { overrides: { ticks: 4 } })
+      ABILITIES('swing'),
+      ABILITIES('swing'),
+      ABILITIES('swing'),
+      ABILITIES('swing')
     ]
   },
   // Creatures
@@ -418,7 +433,10 @@ export const ALL_CHARACTERS = {
     race: 'creature',
     image: 'creature/training-dummy.png',
     size: 1,
-    equipment: DEFAULT_EQUIPMENT,
+    equipment: {
+      ...DEFAULT_EQUIPMENT
+      // offHand: EQUIPMENT('shield')
+    },
     description: '',
     element: '',
     combatStats: {
@@ -427,7 +445,10 @@ export const ALL_CHARACTERS = {
       maxArmor: 0,
       currentArmor: 0,
       damage: 0,
-      ...DEFAULT_LUCKY_STATS,
+      ...{
+        ...DEFAULT_LUCKY_STATS
+        // dodgeChance: 0.5
+      },
       limits: {
         wounded: 8,
         concussed: 8,
@@ -453,7 +474,10 @@ export const ALL_CHARACTERS = {
       maxArmor: 0,
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
-      ...DEFAULT_LUCKY_STATS,
+      ...{
+        ...DEFAULT_LUCKY_STATS
+        // dodgeChance: 0.6
+      },
       limits: {
         wounded: 8,
         concussed: 8,
@@ -511,6 +535,7 @@ export const ALL_CHARACTERS = {
     equipment: {
       ...DEFAULT_EQUIPMENT,
       mainHand: EQUIPMENT('dagger', false, { overrides: { level: 5 } })
+      // offHand: EQUIPMENT('shield')
     },
     description: 'This civilian took the wrong turn when going shopping and ended up in the arena.',
     element: '',

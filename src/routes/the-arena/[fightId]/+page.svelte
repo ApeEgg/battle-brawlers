@@ -7,6 +7,7 @@
   import { allowedNumberOfCharacters, getExperienceReward } from '$src/ts/level';
   import { calculateCombatStatsByCharacter } from '$src/ts/utils';
   import type { CharacterRef } from '$src/types/character';
+  import { IS_DEV } from '$src/constants/ENV_VARS';
 
   const {
     params: { fightId }
@@ -58,7 +59,7 @@
       {/if}
     </crow>
     <span class="text-gray-400">
-      {getExperienceReward(fight.characters.length, fight.minLevel, fight.maxLevel, fight.boss)} XP
+      <!-- {getExperienceReward(fight.characters.length, fight.minLevel, fight.maxLevel, fight.boss)} XP -->
     </span>
     <!-- <CoreStats combatStats={creature.combatStats} /> -->
   </crow>
@@ -66,6 +67,7 @@
 
 {#each characters as character}
   {@const creature = CHARACTERS(character, true)}
+  {@const combatStats = calculateCombatStatsByCharacter(creature)}
   <!-- <Headline text={creature.name} small>
     <CoreStats combatStats={creature.combatStats} />
   </Headline> -->
@@ -77,7 +79,7 @@
         !descriptionOpen && 'w-20 opacity-100'
       )}
     >
-      <CoreStats combatStats={calculateCombatStatsByCharacter(creature)} small vertical />
+      <CoreStats {combatStats} small vertical />
     </crow>
     <!-- <pre>
     {JSON.stringify(creature, null, 2)}
@@ -91,8 +93,26 @@
             <CoreStats combatStats={calculateCombatStatsByCharacter(creature)} />
           </crow> -->
           <crow left class="mb-6">
-            <CoreStats combatStats={calculateCombatStatsByCharacter(creature)} />
+            <CoreStats {combatStats} />
           </crow>
+          {#if IS_DEV && false}
+            <crow up left vertical>
+              <Headline text="lucky stats" small />
+
+              <Stats
+                class="text-green-500"
+                stats={Object.entries(combatStats).filter(([key]) =>
+                  [
+                    'criticalChance',
+                    'criticalDamage',
+                    'blockChance',
+                    'dodgeChance',
+                    'magicChance'
+                  ].includes(key)
+                )}
+              />
+            </crow>
+          {/if}
           {@html creature.description}
         </div>
       </Accordion>

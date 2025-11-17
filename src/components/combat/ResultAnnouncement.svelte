@@ -19,7 +19,7 @@
           }).play();
         } else {
           new Howl({
-            src: AUDIO['Stinger Defeat 2'],
+            src: AUDIO['Stinger - Ominous Timpani'],
             volume: app.settings.volume.sfx * app.settings.volume.master
           }).play();
         }

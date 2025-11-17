@@ -214,11 +214,16 @@ export const prepareCombatant = (
   };
 };
 
-export const seededRandom = (min: number, max: number, string: string) =>
-  random(min, max, seedRandom(string)());
+export const random = (min: number, max: number, factor = Math.random(), step = 1) => {
+  const steps = Math.round((max - min) / step);
+  const index = Math.floor(factor * (steps + 1)); // include last step
+  const value = min + index * step;
+  // Handle floating-point precision issues (e.g., 0.30000000000004)
+  return Math.round(value / step) * step;
+};
 
-export const random = (min: number, max: number, factor = Math.random()) =>
-  Math.floor(factor * (max - min + 1) + min);
+export const seededRandom = (min: number, max: number, string: string, step = 1) =>
+  random(min, max, seedRandom(string)(), step);
 
 export const colorStrength = (col: any, amt: any) => {
   let usePound = false;

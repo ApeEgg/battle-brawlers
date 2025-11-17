@@ -9,8 +9,7 @@
     {
       wounded: 'bleeding',
       concussed: 'stunned',
-      exposed: 'vulnerable',
-      blockChance: 'block'
+      exposed: 'vulnerable'
     }?.[key as string] || key}
   {@const actualValue = prettyCombatStatValue(actualKey, value)}
   <crow class="w-full !justify-between">

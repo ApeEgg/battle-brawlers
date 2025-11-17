@@ -38,6 +38,10 @@ export default {
     vfxName: 'attackBlocked',
     duration: 340
   },
+  attackDodged: {
+    vfxName: 'attackDodged',
+    duration: 340
+  },
   heal: {
     vfxName: 'heal',
     duration: 500

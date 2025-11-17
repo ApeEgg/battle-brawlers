@@ -33,6 +33,7 @@
 
   const playSfx = (sfx: any) => {
     const randomOne = sfx.variants[Math.floor(Math.random() * sfx.variants.length)];
+
     new Howl({
       src: AUDIO[randomOne],
       volume: app.settings.volume.combat * app.settings.volume.master

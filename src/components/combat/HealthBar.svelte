@@ -77,10 +77,17 @@
         'hurt alfa-slab-one fat-number absolute top-1 left-full text-white',
         left && 'right-full left-auto'
       )}
-      style="--y-offset: 160px; --random-x-offset: {armorHurt.random}; --dir:{left ? -1 : 1};"
+      style="--y-offset: 160px; --scale: {armorHurt.isCritical
+        ? 2
+        : 1}; --random-x-offset: {armorHurt.random}; --dir:{left ? -1 : 1};"
     >
       <div class="hurt-x translate-x-0">
-        <div class="hurt-y -translate-y-0">{armorHurt.amount}</div>
+        <crow class="hurt-y -translate-y-0 gap-0.5">
+          {#if armorHurt.isCritical}
+            <Icon name="criticalDamage" class="text-xs drop-shadow-lg" />
+          {/if}
+          {armorHurt.amount}
+        </crow>
       </div>
     </div>
   {/each}
@@ -89,12 +96,20 @@
     <div
       class={tw(
         'hurt alfa-slab-one fat-number absolute top-1 left-full text-red-300',
-        left && 'right-full left-auto'
+        left && 'right-full left-auto',
+        hurt.isCritical && 'text-red-300'
       )}
-      style="--y-offset: 0; --random-x-offset: {hurt.random}; --dir:{left ? -1 : 1};"
+      style="--y-offset: 0; --scale: {hurt.isCritical
+        ? 2
+        : 1}; --random-x-offset: {hurt.random}; --dir:{left ? -1 : 1};"
     >
       <div class="hurt-x translate-x-0">
-        <div class="hurt-y -translate-y-0">{hurt.amount}</div>
+        <crow class="hurt-y -translate-y-0 gap-0.5">
+          {#if hurt.isCritical}
+            <Icon name="criticalDamage" class="text-xs drop-shadow-lg" />
+          {/if}
+          {hurt.amount}
+        </crow>
       </div>
     </div>
   {/each}
@@ -170,11 +185,13 @@
   }
   @keyframes hurt-x {
     0% {
-      transform: translateY(var(--y-offset)) translateX(calc(var(--dir) * -15px)) scale(3);
+      transform: translateY(var(--y-offset)) translateX(calc(var(--dir) * -15px))
+        scale(calc(var(--scale) * 3));
     }
     100% {
       transform: translateY(var(--y-offset))
-        translateX(calc(var(--dir) * (5px + var(--random-x-offset) * 25px))) scale(1);
+        translateX(calc(var(--dir) * (5px + var(--random-x-offset) * 25px)))
+        scale(calc(0.6 + 0.4 * var(--scale)));
     }
   }
 

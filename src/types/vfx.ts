@@ -7,4 +7,6 @@ export type VFX = {
   targetX?: number;
   targetY?: number;
   amount?: number;
+
+  isCritical?: boolean;
 };
