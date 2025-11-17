@@ -363,7 +363,7 @@
       background-image: url('/images/parchment-bg-2250x1500.jpg');
     }
     :root:has([data-page-id='debug']) body {
-      background-image: url('/images/arena-cut.png');
+      background-image: url('/images/arena.png');
     }
   }
 </style>

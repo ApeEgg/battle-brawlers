@@ -11,6 +11,26 @@ import type { DynamicObject } from '$src/types/common';
 import type { CombatStats } from '$src/types/combatStats';
 import { getLevelByExperience } from '$src/ts/level';
 import app from '$src/app.svelte';
+import { generateCombat, prepareTeams } from '$src/ts/combat';
+
+export const runCombatSimulations = (
+  simulationCount: number,
+  allies: Character[],
+  foes: Character[],
+  seed?: string
+) => {
+  return Array(simulationCount)
+    .fill(0)
+    .reduce((wins, _, i) => {
+      if (!allies[0]) return wins;
+
+      const combat = generateCombat(`${seed}${i}`, prepareTeams(allies, foes));
+
+      if (combat?.winningTeam?.index === 0) return wins + 1;
+
+      return wins;
+    }, 0);
+};
 
 export const calculateCombatStats = (...args: any) => {
   const combined = args.reduce((acc: any, obj: any) => {

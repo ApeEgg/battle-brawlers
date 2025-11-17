@@ -17,6 +17,11 @@ const DEFAULT_LUCKY_STATS = {
   blockChance: 0
   // magicChance: 0
 };
+const DEFAULT_LIMITS = {
+  wounded: 8,
+  concussed: 8,
+  exposed: 8
+};
 
 export const DEFAULT_EQUIPMENT = {
   mainHand: null,
@@ -53,11 +58,7 @@ export const ALL_CHARACTERS = {
         ...DEFAULT_LUCKY_STATS
         // dodgeChance: 0
       },
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('pierce'), ABILITIES('pierce'), ABILITIES('pierce'), ABILITIES('pierce')]
@@ -81,11 +82,7 @@ export const ALL_CHARACTERS = {
       currentArmor: 10,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [
@@ -110,11 +107,7 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('swing'), ABILITIES('swing'), ABILITIES('swing'), ABILITIES('swing')]
@@ -134,11 +127,7 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('swing'), ABILITIES('swing'), ABILITIES('block'), ABILITIES('shieldBash')]
@@ -158,11 +147,7 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
@@ -182,11 +167,7 @@ export const ALL_CHARACTERS = {
       maxArmor: 0,
       currentArmor: 0,
       ...DEFAULT_LUCKY_STATS,
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [
@@ -222,11 +203,7 @@ export const ALL_CHARACTERS = {
         ...DEFAULT_LUCKY_STATS
         // criticalChance: 0.8
       },
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('block'), ABILITIES('shieldBash')]
@@ -246,11 +223,7 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [
@@ -274,11 +247,7 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [
@@ -305,11 +274,7 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [
@@ -339,11 +304,7 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: Infinity,
     abilities: [ABILITIES('swing'), ABILITIES('whirlwind', false, { overrides: { basic: true } })]
@@ -364,11 +325,7 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: Infinity,
     abilities: [ABILITIES('bite'), ABILITIES('cheesyTactics'), ABILITIES('bite')]
@@ -388,11 +345,7 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: Infinity,
     abilities: [
@@ -419,11 +372,7 @@ export const ALL_CHARACTERS = {
       maxArmor: 100,
       currentArmor: 100,
       damage: DEFAULT_DAMAGE,
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: Infinity,
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam'), ABILITIES('harden')]
@@ -449,11 +398,7 @@ export const ALL_CHARACTERS = {
         ...DEFAULT_LUCKY_STATS
         // dodgeChance: 0.5
       },
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: Infinity,
     abilities: [ABILITIES('playingTheVictim')]
@@ -478,11 +423,7 @@ export const ALL_CHARACTERS = {
         ...DEFAULT_LUCKY_STATS
         // dodgeChance: 0.6
       },
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: Infinity,
     abilities: [
@@ -511,11 +452,7 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: Infinity,
     abilities: [
@@ -546,11 +483,7 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: Infinity,
     abilities: [
@@ -581,11 +514,7 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: Infinity,
     abilities: [
@@ -611,11 +540,7 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: Infinity,
     abilities: [
@@ -644,11 +569,7 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: Infinity,
     abilities: [
@@ -677,11 +598,7 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: {
-        wounded: 8,
-        concussed: 8,
-        exposed: 8
-      }
+      limits: DEFAULT_LIMITS
     },
     maxTicks: Infinity,
     abilities: [

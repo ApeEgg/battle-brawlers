@@ -5,8 +5,8 @@
   import { ALL_FIGHTS } from '$src/constants/FIGHTS';
   import CHARACTERS from '$src/constants/CHARACTERS';
   import { allowedNumberOfCharacters, getExperienceReward } from '$src/ts/level';
-  import { calculateCombatStatsByCharacter } from '$src/ts/utils';
-  import type { CharacterRef } from '$src/types/character';
+  import { calculateCombatStatsByCharacter, runCombatSimulations } from '$src/ts/utils';
+  import type { Character, CharacterRef } from '$src/types/character';
   import { IS_DEV } from '$src/constants/ENV_VARS';
 
   const {
@@ -32,7 +32,7 @@
     if (!selected) return;
 
     app.combat = generateCombat(
-      'myseed',
+      Math.random(),
       prepareTeams($state.snapshot(selected), characters),
       fight.id
     );
@@ -59,6 +59,15 @@
       {/if}
     </crow>
     <span class="text-gray-400">
+      {#if IS_DEV}
+        {(runCombatSimulations(
+          10,
+          [$state.snapshot(app.characters[0] as Character)],
+          fight.characters
+        ) /
+          10) *
+          100}% win chance
+      {/if}
       <!-- {getExperienceReward(fight.characters.length, fight.minLevel, fight.maxLevel, fight.boss)} XP -->
     </span>
     <!-- <CoreStats combatStats={creature.combatStats} /> -->

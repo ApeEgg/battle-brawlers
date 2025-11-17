@@ -1,8 +1,9 @@
 <script lang="ts">
-  import CHARACTERS, { ALL_CHARACTERS } from '$src/constants/CHARACTERS';
+  import CHARACTERS from '$src/constants/CHARACTERS';
   import { ALL_FIGHTS } from '$src/constants/FIGHTS';
-  import { generateCombat, prepareTeams } from '$src/ts/combat';
   import { getExperienceReward, getLevelByExperience } from '$src/ts/level';
+  import { runCombatSimulations } from '$src/ts/utils';
+  import type { Character } from '$src/types/character';
 
   const { IS_DEV } = ENV;
 
@@ -50,20 +51,11 @@
     </crow>
   </crow>
   {#each fights as { characters, id, name, minLevel, maxLevel, boss }, i}
-    {@const wins = Array(SIMULATION_COUNT)
-      .fill(0)
-      .reduce((wins, _, i) => {
-        if (!app.characters[0]) return wins;
-
-        const combat = generateCombat(
-          `testseed${i}`,
-          prepareTeams([$state.snapshot(app.characters[0])], characters)
-        );
-
-        if (combat?.winningTeam?.index === 0) return wins + 1;
-
-        return wins;
-      }, 0)}
+    {@const wins = runCombatSimulations(
+      SIMULATION_COUNT,
+      [$state.snapshot(app.characters[0] as Character)],
+      characters
+    )}
     {@const isLocked = hideTreshold < minLevel}
     {@const bossCompleted = boss && app.bossHighscore >= minLevel}
 
