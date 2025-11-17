@@ -26,7 +26,7 @@
       const myCharacters = $state.snapshot(selected);
       app.selectedBrawlers = [];
       app.combat = generateCombat(
-        'myseed',
+        `${Math.random()}`,
         prepareTeams(myCharacters, healFull(characters.slice(0, myCharacters.length)))
       );
 
