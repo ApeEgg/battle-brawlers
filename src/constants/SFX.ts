@@ -66,5 +66,10 @@ export default {
     sfxName: 'doubleCut',
     duration: 1200,
     variants: ['SOW1 - Combo - Double Slash 1']
+  },
+  demoralizingShout: {
+    sfxName: 'demoralizingShout',
+    duration: 1500,
+    variants: ['Fantasy Game Buff (1)']
   }
 } as any;

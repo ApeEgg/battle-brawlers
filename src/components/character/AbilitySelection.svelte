@@ -204,10 +204,7 @@
 
     let creature = CHARACTERS('trainingDummy', true);
 
-    app.combat = generateCombat(
-      `${Math.random()}`,
-      prepareTeams(healFull([myCharacter]), [creature])
-    );
+    app.combat = generateCombat(prepareTeams(healFull([myCharacter]), [creature]));
     console.info(app.combat);
 
     app.overlay = 'Combat';

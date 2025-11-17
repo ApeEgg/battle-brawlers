@@ -5,7 +5,7 @@
   import { runCombatSimulations } from '$src/ts/utils';
   import type { Character } from '$src/types/character';
 
-  const { IS_DEV } = ENV;
+  const { IS_PROD } = ENV;
 
   const SIMULATION_COUNT = 10;
 
@@ -42,7 +42,7 @@
     <div class="cinzel !w-12 text-center">level</div>
     <div class="cinzel !w-12 text-left">loot</div>
 
-    {#if IS_DEV}
+    {#if !IS_PROD}
       <div class="cinzel !w-12 text-right">win</div>
     {/if}
     <!-- <div class="cinzel flex-2 text-right">stats</div> -->
@@ -54,7 +54,9 @@
     {@const wins = runCombatSimulations(
       SIMULATION_COUNT,
       [$state.snapshot(app.characters[0] as Character)],
-      characters
+      characters,
+      undefined,
+      id
     )}
     {@const isLocked = hideTreshold < minLevel}
     {@const bossCompleted = boss && app.bossHighscore >= minLevel}
@@ -90,7 +92,7 @@
           {getExperienceReward(characters.length, minLevel, maxLevel, boss)} XP
         </div>
       </div>
-      {#if IS_DEV}
+      {#if !IS_PROD}
         <div class="!w-12 text-right">{(wins / SIMULATION_COUNT) * 100}%</div>
       {/if}
       <!-- <div class="flex-2">

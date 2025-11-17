@@ -17,14 +17,15 @@ export const runCombatSimulations = (
   simulationCount: number,
   allies: Character[],
   foes: Character[],
-  seed?: string
+  seed?: string,
+  fightId?: string
 ) => {
   return Array(simulationCount)
     .fill(0)
     .reduce((wins, _, i) => {
       if (!allies[0]) return wins;
 
-      const combat = generateCombat(`${seed}${i}`, prepareTeams(allies, foes));
+      const combat = generateCombat(prepareTeams(allies, foes), `${seed}${i}`, fightId);
 
       if (combat?.winningTeam?.index === 0) return wins + 1;
 

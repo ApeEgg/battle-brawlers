@@ -10,10 +10,13 @@ import _SFX from '$src/constants/SFX';
 import { AbilityType, type Ability } from '$src/types/ability';
 import type { CharacterRef } from '$src/types/character';
 import CHARACTERS from '$src/constants/CHARACTERS';
+import { ALL_FIGHTS } from '$src/constants/FIGHTS';
 
-const isLucky = (chance: number, seed: string) => {
+const isLucky = (chance: number, seed: string, luckDisabled: boolean) => {
+  if (luckDisabled) return false;
   const random = seededRandom(0, 1, seed, 0.01);
-  return random <= chance;
+
+  return random < chance;
 };
 
 export const healFull = (characters: CharacterRef[]) => {
@@ -196,7 +199,12 @@ const tickStatusEffects = (combatants: Combatant[], now: number) => {
   });
 };
 
-export const generateCombat = (seed: string, teams: Team[], fightId?: string) => {
+export const generateCombat = (
+  teams: Team[],
+  seed: string = `${Math.random()}`,
+  fightId?: string
+) => {
+  const luckDisabled = !!ALL_FIGHTS.find(({ id }) => id === fightId)?.boss;
   const events: CombatEvent[] = [];
 
   let now = 0;
@@ -305,11 +313,14 @@ export const generateCombat = (seed: string, teams: Team[], fightId?: string) =>
 
           const isBlocked = isLucky(
             target.combatStats.blockChance,
-            `${seed}_${tickCount}_${i}_blockChance`
+            `${seed}_${tickCount}_${i}_blockChance`,
+            luckDisabled
           );
+
           const isDodged = isLucky(
             target.combatStats.dodgeChance,
-            `${seed}_${tickCount}_${i}_dodgeChance`
+            `${seed}_${tickCount}_${i}_dodgeChance`,
+            luckDisabled
           );
 
           if (isBlocking || isBlocked) {
@@ -321,7 +332,8 @@ export const generateCombat = (seed: string, teams: Team[], fightId?: string) =>
           } else {
             const isCritical = isLucky(
               combatant.combatStats.criticalChance,
-              `${seed}_${tickCount}_${i}_criticalDamage`
+              `${seed}_${tickCount}_${i}_criticalDamage`,
+              luckDisabled
             );
 
             // console.info(
@@ -433,7 +445,11 @@ export const generateCombat = (seed: string, teams: Team[], fightId?: string) =>
               };
             }
 
-            if (playAudio || currentAbility.statusEffects.includes('isBleeding')) {
+            if (
+              playAudio ||
+              currentAbility.statusEffects.includes('isBleeding') ||
+              currentAbility.name === 'Demoralizing Shout'
+            ) {
               bufferAudio(audio, currentAbility.sfx, now - 200);
             }
           }

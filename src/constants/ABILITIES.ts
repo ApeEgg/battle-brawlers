@@ -156,7 +156,7 @@ export const ALL_ABILITIES = {
     basic: false,
     statusEffects: ['isVulnerable'],
     vfx: VFX.filler,
-    sfx: SFX.stab,
+    sfx: SFX.demoralizingShout,
     damageModifier: null,
     healingModifier: null,
     durationModifier: 2
@@ -188,7 +188,7 @@ export const ALL_ABILITIES = {
     sfx: SFX.stab,
     damageModifier: 0,
     healingModifier: null,
-    durationModifier: null
+    durationModifier: 1
   },
   harden: {
     name: 'Harden',

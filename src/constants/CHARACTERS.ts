@@ -43,10 +43,6 @@ export const ALL_CHARACTERS = {
     size: 1.2,
     equipment: DEFAULT_EQUIPMENT,
     description: '',
-    // woundLimit: 8,
-    // concussionLimit: 8,
-    // comboLimit: 8,
-    // exosedLimit: 8,
     element: 'nature',
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
@@ -56,7 +52,8 @@ export const ALL_CHARACTERS = {
       damage: DEFAULT_DAMAGE,
       ...{
         ...DEFAULT_LUCKY_STATS
-        // dodgeChance: 0
+        // dodgeChance: 1,
+        // criticalChance: 1
       },
       limits: DEFAULT_LIMITS
     },
@@ -70,10 +67,6 @@ export const ALL_CHARACTERS = {
     size: 1.05,
     equipment: { ...DEFAULT_EQUIPMENT, mainHand: EQUIPMENT('bow') },
     description: '',
-    // woundLimit: 8,
-    // concussionLimit: 8,
-    // comboLimit: 8,
-    // exosedLimit: 8,
     element: 'nature',
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
@@ -106,7 +99,10 @@ export const ALL_CHARACTERS = {
       maxArmor: 0,
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
-      ...DEFAULT_LUCKY_STATS,
+      ...{
+        ...DEFAULT_LUCKY_STATS,
+        dodgeChance: 1
+      },
       limits: DEFAULT_LIMITS
     },
     maxTicks: DEFAULT_MAX_TICKS,
@@ -456,12 +452,12 @@ export const ALL_CHARACTERS = {
     },
     maxTicks: Infinity,
     abilities: [
-      ABILITIES('punch'),
-      ABILITIES('punch'),
-      ABILITIES('punch'),
-      ABILITIES('punch'),
-      ABILITIES('punch'),
-      ABILITIES('punch')
+      ABILITIES('stab'),
+      ABILITIES('stab'),
+      ABILITIES('stab'),
+      ABILITIES('stab'),
+      ABILITIES('stab'),
+      ABILITIES('stab')
     ]
   },
   lostCivilian: {
@@ -470,8 +466,8 @@ export const ALL_CHARACTERS = {
     image: 'creature/lost-civilian.png',
     size: 1,
     equipment: {
-      ...DEFAULT_EQUIPMENT,
-      mainHand: EQUIPMENT('dagger', false, { overrides: { level: 5 } })
+      ...DEFAULT_EQUIPMENT
+      // mainHand: EQUIPMENT('dagger', false, { overrides: { level: 5 } })
       // offHand: EQUIPMENT('shield')
     },
     description: 'This civilian took the wrong turn when going shopping and ended up in the arena.',
@@ -513,7 +509,10 @@ export const ALL_CHARACTERS = {
       maxArmor: 0,
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
-      ...DEFAULT_LUCKY_STATS,
+      ...{
+        ...DEFAULT_LUCKY_STATS,
+        dodgeChance: 0
+      },
       limits: DEFAULT_LIMITS
     },
     maxTicks: Infinity,

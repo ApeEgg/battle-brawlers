@@ -7,7 +7,8 @@
   import { allowedNumberOfCharacters, getExperienceReward } from '$src/ts/level';
   import { calculateCombatStatsByCharacter, runCombatSimulations } from '$src/ts/utils';
   import type { Character, CharacterRef } from '$src/types/character';
-  import { IS_DEV } from '$src/constants/ENV_VARS';
+
+  const { IS_PROD } = ENV;
 
   const {
     params: { fightId }
@@ -32,8 +33,8 @@
     if (!selected) return;
 
     app.combat = generateCombat(
-      Math.random(),
       prepareTeams($state.snapshot(selected), characters),
+      undefined,
       fight.id
     );
     console.info(app.combat);
@@ -59,11 +60,18 @@
       {/if}
     </crow>
     <span class="text-gray-400">
-      {#if IS_DEV}
+      {#if !IS_PROD}
         {(runCombatSimulations(
           10,
           [$state.snapshot(app.characters[0] as Character)],
-          fight.characters
+          fight.characters.map((character: CharacterRef) => ({
+            ...character,
+            overrides: {
+              level: fight.minLevel
+            }
+          })),
+          undefined,
+          fight.id
         ) /
           10) *
           100}% win chance
@@ -104,7 +112,7 @@
           <crow left class="mb-6">
             <CoreStats {combatStats} />
           </crow>
-          {#if IS_DEV && false}
+          {#if !IS_PROD && false}
             <crow up left vertical>
               <Headline text="lucky stats" small />
 
