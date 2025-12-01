@@ -16,6 +16,10 @@ const formatProps = (props: any) =>
 
 const deepMerge = (target: DynamicObject, source: DynamicObject) => {
   for (const key in source) {
+    if (target[key] === null) {
+      continue;
+    }
+
     if (
       Array.isArray(source[key]) // check if it's an array
     ) {
@@ -23,6 +27,28 @@ const deepMerge = (target: DynamicObject, source: DynamicObject) => {
     } else if (source[key] instanceof Object && key in target && target[key] instanceof Object) {
       deepMerge(target[key], source[key]);
     } else {
+      target[key] = source[key];
+    }
+  }
+  return target;
+};
+
+const deepSubtract = (target: any, source: any): any => {
+  for (const key in source) {
+    if (
+      source[key] instanceof Object &&
+      key in target &&
+      target[key] instanceof Object &&
+      !Array.isArray(source[key]) &&
+      !Array.isArray(target[key])
+    ) {
+      // If both are objects, recurse
+      deepSubtract(target[key], source[key]);
+    } else if (typeof source[key] === 'number' && typeof target[key] === 'number') {
+      // If both are numbers, subtract
+      target[key] -= source[key];
+    } else {
+      // Otherwise, just set/overwrite
       target[key] = source[key];
     }
   }
@@ -327,5 +353,6 @@ export {
   once,
   preventDefault,
   deepMerge,
-  deepAdd
+  deepAdd,
+  deepSubtract
 };

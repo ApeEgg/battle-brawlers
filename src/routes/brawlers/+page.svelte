@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { RECRUITABLE_CHARACTERS } from '$src/constants/RECRUITABLE_CHARACTERS';
-  import CHARACTERS from '$src/constants/CHARACTERS';
+  import CHARACTERS, { DEFAULT_LUCKY_STATS, DEFAULT_MODIFIERS } from '$src/constants/CHARACTERS';
   import { ALL_ELEMENTS } from '$src/constants/ELEMENTS';
   import type { CharacterRef } from '$src/types/character';
   import { confirmWithDialog } from '$src/ts/dialog';
@@ -10,6 +10,7 @@
   import { notify } from '$src/ts/actions';
   import { correctHealth } from '$src/ts/equipment';
   import CoreStats from '$src/components/character/CoreStats.svelte';
+  import { deepSubtract } from '$src/helpers';
 
   let characters = RECRUITABLE_CHARACTERS;
 
@@ -53,9 +54,21 @@
       ([key]) => !['limits', 'currentArmor', 'currentHealth'].includes(key)
     )} -->
     {@const combatStats = character.combatStats}
+    {@const luckyStats = Object.entries(deepSubtract(combatStats, DEFAULT_LUCKY_STATS)).filter(
+      ([key, value]) =>
+        ['criticalChance', 'criticalDamage', 'blockChance', 'dodgeChance', 'magicChance'].includes(
+          key
+        ) && value !== 0
+    )}
+    {@const modifierStats = Object.entries(
+      deepSubtract(character.combatStats.modifiers, DEFAULT_MODIFIERS)
+    ).filter(
+      ([key, value]) =>
+        ['maxHealth', 'maxArmor', 'damage', 'resistance'].includes(key) && value !== 0
+    )}
     <Clickable
       class={tw(
-        'crow vertical up !h-70 w-60 !flex-none overflow-hidden bg-gray-100 p-2',
+        'crow vertical up !h-70 w-90 !flex-none overflow-hidden bg-gray-100 p-2',
         isRecruited
           ? 'cursor-not-allowed opacity-50 grayscale'
           : 'cursor-pointer active:translate-y-px'
@@ -69,10 +82,17 @@
       <div class="cinzel text-2xl">{character.name}</div>
       <Hr />
       <crow left class="w-full gap-4">
-        <CharacterAvatar {...character} class="w-20" />
-        <crow vertical left class="gap-2">
-          <CoreStats {combatStats} vertical />
-          <!-- {#each combatStats as [stat, value]}
+        <CharacterAvatar {...character} class="w-30 !flex-none" />
+        <div>
+          <crow vertical left class="gap-2">
+            <CoreStats {combatStats} vertical />
+
+            <!-- <Pill text="Swift" /> -->
+            <crow vertical>
+              <Stats class="text-green-500" stats={luckyStats} showAsAddition />
+              <Stats class="text-green-500" stats={modifierStats} showAsAddition />
+            </crow>
+            <!-- {#each combatStats as [stat, value]}
             <crow class="!flex-none gap-2 pl-6 text-2xl">
               <div class="font-bold">
                 <Icon
@@ -84,7 +104,8 @@
               <div>{value}</div>
             </crow>
           {/each} -->
-        </crow>
+          </crow>
+        </div>
       </crow>
       <!-- <div class="absolute inset-0 top-auto h-2 bg-gradient-to-t from-white to-transparent"></div> -->
     </Clickable>

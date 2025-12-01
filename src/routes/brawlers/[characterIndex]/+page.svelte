@@ -95,17 +95,8 @@
                 )}
               />
 
-              <div class="h-4" />
+              <div class="h-10" />
 
-              <Headline text="Resistances" small />
-
-              <Stats
-                stats={Object.entries(combatStats.limits).filter(([key]) =>
-                  ['wounded', 'concussed', 'exposed'].includes(key)
-                )}
-              />
-            </crow>
-            <crow up left vertical>
               <Headline text="lucky stats" small />
 
               <Stats
@@ -118,6 +109,25 @@
                     'dodgeChance',
                     'magicChance'
                   ].includes(key)
+                )}
+              />
+            </crow>
+            <crow up left vertical>
+              <Headline text="modifiers" small />
+
+              <Stats
+                stats={Object.entries(combatStats.modifiers).filter(([key]) =>
+                  ['maxHealth', 'maxArmor', 'damage', 'resistance'].includes(key)
+                )}
+              />
+
+              <div class="h-4" />
+
+              <Headline text="Resistances" small />
+
+              <Stats
+                stats={Object.entries(combatStats.limits).filter(([key]) =>
+                  ['wounded', 'concussed', 'exposed'].includes(key)
                 )}
               />
             </crow>

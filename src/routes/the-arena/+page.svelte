@@ -24,7 +24,12 @@
       ...character,
       overrides: {
         ...character?.overrides,
-        level: fight.minLevel
+        level: fight.minLevel,
+        equipment: {
+          mainHand: { overrides: { level: fight.minLevel } },
+          offHand: { overrides: { level: fight.minLevel } },
+          armor: { overrides: { level: fight.minLevel } }
+        }
       }
     }))
   }));

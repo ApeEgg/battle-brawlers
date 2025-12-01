@@ -3,20 +3,21 @@
 // import mongodb from 'mongodb';
 // const { ObjectId } = mongodb;
 
-import { $ } from 'bun';
-
 // const { version: serverVersion } = json;
 
 export default async ({ minXp, maxXp, count }, { mongo }) => {
   const collection = mongo.collection('game-states');
 
+  const experience = { $gte: minXp };
+
+  if (maxXp) {
+    experience.$lte = maxXp;
+  }
+
   const matches = await collection
     .find({
       $expr: { $gte: [{ $size: '$characters' }, count] },
-      experience: {
-        $gte: minXp,
-        $lte: maxXp
-      }
+      experience
     })
     .toArray();
 

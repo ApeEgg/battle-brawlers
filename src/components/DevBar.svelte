@@ -4,6 +4,7 @@
   import { calculateCombatStatsByCharacter } from '$src/ts/utils';
   import { page } from '$app/stores';
 
+  let expGain = $state(40);
   let activePage = $derived($page.route.id?.split('/')[1] || (!app.token ? 'start' : ''));
 
   const healParty = () =>
@@ -24,7 +25,7 @@
       character.overrides.combatStats.currentHealth = currentHealth - 5;
     });
 
-  const gain50Exp = () => (app.experience += 50);
+  const gainExp = () => (app.experience += expGain);
   const gain100Coins = () => (app.coins += 100);
 </script>
 
@@ -105,7 +106,8 @@
       <Button onclick={damageParty}>Damage party</Button>
     </crow>
     <crow class="gap-1">
-      <Button onclick={gain50Exp}>Gain exp</Button>
+      <Input type="number" bind:value={expGain} small />
+      <Button onclick={gainExp}>Gain exp</Button>
       <Button onclick={() => (app.experience = 0)}>Reset exp</Button>
     </crow>
     <crow class="gap-1">

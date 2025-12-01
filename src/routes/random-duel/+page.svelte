@@ -13,6 +13,7 @@
 
   const runCombat = async () => {
     const { minXp, maxXp } = getExperienceRangeForLevel(getLevelByExperience(app.experience));
+    console.log(minXp, maxXp);
     const characters = await app.socket.sendAsync('pvp/get-random-opponent', {
       count: app.selectedBrawlers.length,
       minXp,

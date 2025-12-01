@@ -19,7 +19,12 @@
     fight.characters.map((character: CharacterRef[]) => ({
       ...character,
       overrides: {
-        level: fight.minLevel
+        level: fight.minLevel,
+        equipment: {
+          mainHand: { overrides: { level: fight.minLevel } },
+          offHand: { overrides: { level: fight.minLevel } },
+          armor: { overrides: { level: fight.minLevel } }
+        }
       }
     }))
   );
@@ -64,12 +69,7 @@
         {(runCombatSimulations(
           10,
           [$state.snapshot(app.characters[0] as Character)],
-          fight.characters.map((character: CharacterRef) => ({
-            ...character,
-            overrides: {
-              level: fight.minLevel
-            }
-          })),
+          characters,
           undefined,
           fight.id
         ) /

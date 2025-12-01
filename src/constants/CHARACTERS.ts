@@ -10,12 +10,20 @@ export type CharacterKey = Race | 'creature';
 const DEFAULT_MAX_HP = 24;
 const DEFAULT_DAMAGE = 8;
 const DEFAULT_MAX_TICKS = 12;
-const DEFAULT_LUCKY_STATS = {
+
+export const DEFAULT_MODIFIERS = {
+  maxHealth: 0,
+  maxArmor: 0,
+  damage: 0,
+  resistance: 0
+};
+
+export const DEFAULT_LUCKY_STATS = {
   criticalChance: 0.05,
   criticalDamage: 0.5,
   dodgeChance: 0.05,
-  blockChance: 0
-  // magicChance: 0
+  blockChance: 0,
+  magicChance: 0
 };
 const DEFAULT_LIMITS = {
   wounded: 8,
@@ -27,6 +35,14 @@ export const DEFAULT_EQUIPMENT = {
   mainHand: null,
   offHand: null,
   armor: null,
+  accessory: null,
+  trinket: null
+};
+
+const DEFAULT_NPC_EQUIPMENT = {
+  mainHand: EQUIPMENT('sword'),
+  offHand: null,
+  armor: EQUIPMENT('leatherBoots'),
   accessory: null,
   trinket: null
 };
@@ -51,11 +67,12 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...{
-        ...DEFAULT_LUCKY_STATS
-        // dodgeChance: 1,
-        // criticalChance: 1
+        ...DEFAULT_LUCKY_STATS,
+        dodgeChance: DEFAULT_LUCKY_STATS.dodgeChance + 0.04,
+        magicChance: DEFAULT_LUCKY_STATS.magicChance + 0.02
       },
-      limits: DEFAULT_LIMITS
+      limits: DEFAULT_LIMITS,
+      modifiers: DEFAULT_MODIFIERS
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('pierce'), ABILITIES('pierce'), ABILITIES('pierce'), ABILITIES('pierce')]
@@ -71,11 +88,16 @@ export const ALL_CHARACTERS = {
     combatStats: {
       maxHealth: DEFAULT_MAX_HP,
       currentHealth: DEFAULT_MAX_HP,
-      maxArmor: 10,
-      currentArmor: 10,
+      maxArmor: 0,
+      currentArmor: 0,
       damage: DEFAULT_DAMAGE,
-      ...DEFAULT_LUCKY_STATS,
-      limits: DEFAULT_LIMITS
+      ...{
+        ...DEFAULT_LUCKY_STATS,
+        dodgeChance: DEFAULT_LUCKY_STATS.dodgeChance + 0.02,
+        magicChance: DEFAULT_LUCKY_STATS.magicChance + 0.04
+      },
+      limits: DEFAULT_LIMITS,
+      modifiers: DEFAULT_MODIFIERS
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [
@@ -100,10 +122,15 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...{
-        ...DEFAULT_LUCKY_STATS,
-        dodgeChance: 1
+        ...DEFAULT_LUCKY_STATS
+        // dodgeChance: 1
       },
-      limits: DEFAULT_LIMITS
+      limits: DEFAULT_LIMITS,
+      modifiers: {
+        ...DEFAULT_MODIFIERS,
+        damage: DEFAULT_MODIFIERS.damage + 0.15,
+        resistance: DEFAULT_MODIFIERS.resistance + 0.25
+      }
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('swing'), ABILITIES('swing'), ABILITIES('swing'), ABILITIES('swing')]
@@ -123,7 +150,12 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: DEFAULT_LIMITS
+      limits: DEFAULT_LIMITS,
+      modifiers: {
+        ...DEFAULT_MODIFIERS,
+        damage: DEFAULT_MODIFIERS.damage + 0.05,
+        resistance: DEFAULT_MODIFIERS.resistance + 0.5
+      }
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('swing'), ABILITIES('swing'), ABILITIES('block'), ABILITIES('shieldBash')]
@@ -142,8 +174,15 @@ export const ALL_CHARACTERS = {
       maxArmor: 0,
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
-      ...DEFAULT_LUCKY_STATS,
-      limits: DEFAULT_LIMITS
+      ...{
+        ...DEFAULT_LUCKY_STATS
+      },
+      limits: DEFAULT_LIMITS,
+      modifiers: {
+        ...DEFAULT_MODIFIERS,
+        maxHealth: DEFAULT_MODIFIERS.maxHealth + 0.2,
+        damage: DEFAULT_MODIFIERS.damage + 0.4
+      }
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam')]
@@ -162,8 +201,15 @@ export const ALL_CHARACTERS = {
       damage: DEFAULT_DAMAGE,
       maxArmor: 0,
       currentArmor: 0,
-      ...DEFAULT_LUCKY_STATS,
-      limits: DEFAULT_LIMITS
+      ...{
+        ...DEFAULT_LUCKY_STATS
+      },
+      limits: DEFAULT_LIMITS,
+      modifiers: {
+        ...DEFAULT_MODIFIERS,
+        maxHealth: DEFAULT_MODIFIERS.maxHealth + 0.4,
+        damage: DEFAULT_MODIFIERS.damage + 0.2
+      }
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [
@@ -197,9 +243,13 @@ export const ALL_CHARACTERS = {
       damage: DEFAULT_DAMAGE,
       ...{
         ...DEFAULT_LUCKY_STATS
-        // criticalChance: 0.8
       },
-      limits: DEFAULT_LIMITS
+      limits: DEFAULT_LIMITS,
+      modifiers: {
+        ...DEFAULT_MODIFIERS,
+        maxArmor: DEFAULT_MODIFIERS.maxArmor + 0.4,
+        maxHealth: DEFAULT_MODIFIERS.maxHealth + 0.2
+      }
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('block'), ABILITIES('shieldBash')]
@@ -219,7 +269,12 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: DEFAULT_LIMITS
+      limits: DEFAULT_LIMITS,
+      modifiers: {
+        ...DEFAULT_MODIFIERS,
+        maxArmor: DEFAULT_MODIFIERS.maxArmor + 0.5,
+        maxHealth: DEFAULT_MODIFIERS.maxHealth + 0.1
+      }
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [
@@ -242,8 +297,13 @@ export const ALL_CHARACTERS = {
       maxArmor: 0,
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
-      ...DEFAULT_LUCKY_STATS,
-      limits: DEFAULT_LIMITS
+      ...{
+        ...DEFAULT_LUCKY_STATS,
+        criticalChance: DEFAULT_LUCKY_STATS.criticalChance + 0.02,
+        criticalDamage: DEFAULT_LUCKY_STATS.criticalDamage + 0.4
+      },
+      limits: DEFAULT_LIMITS,
+      modifiers: DEFAULT_MODIFIERS
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [
@@ -269,8 +329,13 @@ export const ALL_CHARACTERS = {
       maxArmor: 0,
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
-      ...DEFAULT_LUCKY_STATS,
-      limits: DEFAULT_LIMITS
+      ...{
+        ...DEFAULT_LUCKY_STATS,
+        criticalChance: DEFAULT_LUCKY_STATS.criticalChance + 0.04,
+        criticalDamage: DEFAULT_LUCKY_STATS.criticalDamage + 0.2
+      },
+      limits: DEFAULT_LIMITS,
+      modifiers: DEFAULT_MODIFIERS
     },
     maxTicks: DEFAULT_MAX_TICKS,
     abilities: [
@@ -289,7 +354,7 @@ export const ALL_CHARACTERS = {
     race: 'creature',
     image: 'creature/succubus.png',
     size: 1.2,
-    equipment: DEFAULT_EQUIPMENT,
+    equipment: DEFAULT_NPC_EQUIPMENT,
     description:
       'The Succubus is a deadly demon whose elegance masks her savage nature. In battle, she thrives amid chaos, lashing out with razor-sharp claws in a flurry of violent motion.<br /><br />Her signature attack is a whirling dance of destruction, spinning with unrelenting speed to strike all who dare draw near. This devastating technique carves through groups of enemies with merciless efficiency, leaving little chance for escape.',
     element: '',
@@ -300,7 +365,8 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: DEFAULT_LIMITS
+      limits: DEFAULT_LIMITS,
+      modifiers: DEFAULT_MODIFIERS
     },
     maxTicks: Infinity,
     abilities: [ABILITIES('swing'), ABILITIES('whirlwind', false, { overrides: { basic: true } })]
@@ -310,7 +376,7 @@ export const ALL_CHARACTERS = {
     race: 'creature',
     image: 'creature/rat.png',
     size: 1.15,
-    equipment: DEFAULT_EQUIPMENT,
+    equipment: DEFAULT_NPC_EQUIPMENT,
     description:
       'The Giant Rat is a vile and tenacious creature, driven by an insatiable hunger. Its bite is vicious and infectious, leaving deep wounds that continue to bleed long after the initial strike.<br /><br />When not attacking, it retreats to feast on nearby scraps of food. This gluttonous act rapidly restores its health, making it a persistent and frustrating foe to defeat if left unchecked',
     element: '',
@@ -321,7 +387,8 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: DEFAULT_LIMITS
+      limits: DEFAULT_LIMITS,
+      modifiers: DEFAULT_MODIFIERS
     },
     maxTicks: Infinity,
     abilities: [ABILITIES('bite'), ABILITIES('cheesyTactics'), ABILITIES('bite')]
@@ -331,7 +398,7 @@ export const ALL_CHARACTERS = {
     race: 'creature',
     image: 'creature/undead.png',
     size: 1,
-    equipment: DEFAULT_EQUIPMENT,
+    equipment: DEFAULT_NPC_EQUIPMENT,
     description:
       'The Undead is a ghastly remnant of a once-living being, now animated by dark magic. It moves with eerie silence, its cold, lifeless gaze fixed on its prey.<br /><br />Even the slightest touch from this cursed creature is lethal, sapping the strength and vitality of the living. Those who encounter it rarely survive, and those who do are never the same again.',
     combatStats: {
@@ -341,7 +408,8 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: DEFAULT_LIMITS
+      limits: DEFAULT_LIMITS,
+      modifiers: DEFAULT_MODIFIERS
     },
     maxTicks: Infinity,
     abilities: [
@@ -358,7 +426,7 @@ export const ALL_CHARACTERS = {
     race: 'creature',
     image: 'creature/golem.png',
     size: 1.2,
-    equipment: DEFAULT_EQUIPMENT,
+    equipment: DEFAULT_NPC_EQUIPMENT,
     description:
       'The Golem is a towering sentinel of stone, crafted for war and built to endure. Its immense frame makes it a formidable presence on the battlefield, shrugging off attacks that would shatter lesser foes.<br /><br />When its armor is even partially intact, it draws upon ancient magic to restore its defenses completely, becoming nearly invulnerable once more. Only those who can deplete its armor fully stand a chance of bringing it down.',
     element: '',
@@ -368,7 +436,8 @@ export const ALL_CHARACTERS = {
       maxArmor: 100,
       currentArmor: 100,
       damage: DEFAULT_DAMAGE,
-      limits: DEFAULT_LIMITS
+      limits: DEFAULT_LIMITS,
+      modifiers: DEFAULT_MODIFIERS
     },
     maxTicks: Infinity,
     abilities: [ABILITIES('slam'), ABILITIES('slam'), ABILITIES('slam'), ABILITIES('harden')]
@@ -379,7 +448,7 @@ export const ALL_CHARACTERS = {
     image: 'creature/training-dummy.png',
     size: 1,
     equipment: {
-      ...DEFAULT_EQUIPMENT
+      ...DEFAULT_NPC_EQUIPMENT
       // offHand: EQUIPMENT('shield')
     },
     description: '',
@@ -394,7 +463,8 @@ export const ALL_CHARACTERS = {
         ...DEFAULT_LUCKY_STATS
         // dodgeChance: 0.5
       },
-      limits: DEFAULT_LIMITS
+      limits: DEFAULT_LIMITS,
+      modifiers: DEFAULT_MODIFIERS
     },
     maxTicks: Infinity,
     abilities: [ABILITIES('playingTheVictim')]
@@ -405,7 +475,7 @@ export const ALL_CHARACTERS = {
     image: 'creature/boar.png',
     size: 1,
     equipment: {
-      ...DEFAULT_EQUIPMENT
+      ...DEFAULT_NPC_EQUIPMENT
     },
     description: '',
     element: '',
@@ -419,7 +489,8 @@ export const ALL_CHARACTERS = {
         ...DEFAULT_LUCKY_STATS
         // dodgeChance: 0.6
       },
-      limits: DEFAULT_LIMITS
+      limits: DEFAULT_LIMITS,
+      modifiers: DEFAULT_MODIFIERS
     },
     maxTicks: Infinity,
     abilities: [
@@ -437,7 +508,7 @@ export const ALL_CHARACTERS = {
     image: 'creature/jester.png',
     size: 1,
     equipment: {
-      ...DEFAULT_EQUIPMENT
+      ...DEFAULT_NPC_EQUIPMENT
     },
     description: '',
     element: '',
@@ -448,7 +519,8 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: DEFAULT_LIMITS
+      limits: DEFAULT_LIMITS,
+      modifiers: DEFAULT_MODIFIERS
     },
     maxTicks: Infinity,
     abilities: [
@@ -466,7 +538,7 @@ export const ALL_CHARACTERS = {
     image: 'creature/lost-civilian.png',
     size: 1,
     equipment: {
-      ...DEFAULT_EQUIPMENT
+      ...DEFAULT_NPC_EQUIPMENT
       // mainHand: EQUIPMENT('dagger', false, { overrides: { level: 5 } })
       // offHand: EQUIPMENT('shield')
     },
@@ -479,7 +551,8 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: DEFAULT_LIMITS
+      limits: DEFAULT_LIMITS,
+      modifiers: DEFAULT_MODIFIERS
     },
     maxTicks: Infinity,
     abilities: [
@@ -497,7 +570,7 @@ export const ALL_CHARACTERS = {
     image: 'creature/nomad.png',
     size: 1,
     equipment: {
-      ...DEFAULT_EQUIPMENT,
+      ...DEFAULT_NPC_EQUIPMENT,
       accessory: EQUIPMENT('ring')
     },
     description:
@@ -513,7 +586,8 @@ export const ALL_CHARACTERS = {
         ...DEFAULT_LUCKY_STATS,
         dodgeChance: 0
       },
-      limits: DEFAULT_LIMITS
+      limits: DEFAULT_LIMITS,
+      modifiers: DEFAULT_MODIFIERS
     },
     maxTicks: Infinity,
     abilities: [
@@ -528,7 +602,7 @@ export const ALL_CHARACTERS = {
     image: 'creature/pitchfork-patrick.png',
     size: 1,
     equipment: {
-      ...DEFAULT_EQUIPMENT
+      ...DEFAULT_NPC_EQUIPMENT
     },
     description: '',
     element: '',
@@ -539,7 +613,8 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: DEFAULT_LIMITS
+      limits: DEFAULT_LIMITS,
+      modifiers: DEFAULT_MODIFIERS
     },
     maxTicks: Infinity,
     abilities: [
@@ -557,7 +632,7 @@ export const ALL_CHARACTERS = {
     image: 'creature/poorest-knight-in-town.png',
     size: 1,
     equipment: {
-      ...DEFAULT_EQUIPMENT
+      ...DEFAULT_NPC_EQUIPMENT
     },
     description: '',
     element: '',
@@ -568,7 +643,8 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: DEFAULT_LIMITS
+      limits: DEFAULT_LIMITS,
+      modifiers: DEFAULT_MODIFIERS
     },
     maxTicks: Infinity,
     abilities: [
@@ -586,7 +662,7 @@ export const ALL_CHARACTERS = {
     image: 'creature/sabertooth-tiger.png',
     size: 1,
     equipment: {
-      ...DEFAULT_EQUIPMENT
+      ...DEFAULT_NPC_EQUIPMENT
     },
     description: '',
     element: '',
@@ -597,7 +673,8 @@ export const ALL_CHARACTERS = {
       currentArmor: 0,
       damage: DEFAULT_DAMAGE,
       ...DEFAULT_LUCKY_STATS,
-      limits: DEFAULT_LIMITS
+      limits: DEFAULT_LIMITS,
+      modifiers: DEFAULT_MODIFIERS
     },
     maxTicks: Infinity,
     abilities: [

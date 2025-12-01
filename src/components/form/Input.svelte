@@ -12,7 +12,7 @@
   }: {
     placeholder?: string;
     blur?: boolean;
-    value?: string;
+    value?: string | number;
     class?: string;
     type?: string;
     small?: boolean;
@@ -46,10 +46,9 @@
     classes
   )}
   class:active={value}
-  class:small
 >
   <input
-    class="w-full rounded bg-white p-2 dark:bg-black"
+    class={tw('w-full rounded bg-white p-2 dark:bg-black', small && 'p-1 text-xs')}
     {type}
     {onfocus}
     {onblur}

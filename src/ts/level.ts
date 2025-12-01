@@ -1,9 +1,10 @@
 import app from '$src/app.svelte';
 
-const SCALING = 1.5;
+const SCALING = 1.6;
+const MAX_LEVEL = 25;
 
 export const getLevelByExperience = (experience: number) => {
-  return Math.floor(Math.pow(experience / 100, 1 / SCALING)) + 1;
+  return Math.min(Math.floor(Math.pow(experience / 100, 1 / SCALING)) + 1, MAX_LEVEL);
 };
 
 export const getExperienceByLevel = (level: number) => {
@@ -19,7 +20,7 @@ export const getExperienceForNextLevel = (currentLevel: number) => {
 export const getCurrentExperienceAtLevel = (experience: number) => {
   const currentLevel = getLevelByExperience(experience);
   const xpForCurrentLevel = getExperienceByLevel(currentLevel);
-  return Math.floor(experience - xpForCurrentLevel);
+  return Math.ceil(experience - xpForCurrentLevel);
 };
 
 export const allowedNumberOfCharacters = () => {
@@ -27,8 +28,13 @@ export const allowedNumberOfCharacters = () => {
 };
 
 export const getExperienceRangeForLevel = (level: number) => {
-  const minXp = getExperienceByLevel(level);
-  const maxXp = getExperienceByLevel(level + 1) - 1;
+  const minXp = getExperienceByLevel(level) + 1;
+  let maxXp = getExperienceByLevel(level + 1);
+
+  if (level + 1 > MAX_LEVEL) {
+    maxXp = Infinity;
+  }
+
   return { minXp: Math.floor(minXp), maxXp: Math.floor(maxXp) };
 };
 

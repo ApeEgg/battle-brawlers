@@ -4,25 +4,33 @@
   // import Portal from 'svelte-portal';
 </script>
 
-<Headline text="start" />
+<Headline text="Game guide" />
 
-Battle Brawlers is a strategy auto-battler in your browser.
+<strong>Battle Brawlers</strong> is a strategy auto-battler playable in your browser.
 <br /><br />
-Your main objective is to upgrade your Ludus by obtaining experience & leveling it up.
+Your main objective is to upgrade your <i>Ludus</i> by obtaining experience and leveling it up.
 <br /><br />
-You can recruit Brawlers to fight for you. Each brawler can be equipped with unique items and abilities.
+You can recruit Brawlers to fight for you. Each Brawler can be equipped with unique items and abilities.
 <br /><br />
-Every 5 Ludus-level you unlock an additional Brawler-slot.
-<br /><br />
+Every 5 Ludus levels, you unlock an additional Brawler slot.
+<br /><br /><br />
 
 <Headline text="Combat" small />
 Combat is automatic once you start a fight.
 <br /><br />
-Battle Brawlers utilizes a "tick system". A tick cycle is normally 12 ticks, but can expand up to 15
-ticks. Each ability you put on your "Active abilities" has a tick-length to them. This is the duration
-for which the ability is cast/active.
+<strong>Battle Brawlers</strong> uses a <i>tick system</i>. A tick cycle is normally
+<strong>12 ticks</strong>, but it can expand up to <strong>15 ticks</strong>. Each ability you place
+in your <strong>Active Abilities</strong> has its own tick length, which represents how long the
+ability takes to cast or remain active.
 <br /><br />
-Tick cycles repeat until there is a winner.
+Tick cycles repeat until a winner is determined.
+<br /><br /><br />
+<Headline text="The arena" small />
+There’s a vast roster of fights available in the arena. Each fight features its own unique set of enemies
+and rewards.
+<br /><br />
+Boss fights unlock additional content in <strong>Battle Brawlers</strong>. But be wary! Luck-based
+combat stats are disabled during boss fights!
 
 <!-- <div class="h-[3000px] w-5 bg-green-100" /> -->
 

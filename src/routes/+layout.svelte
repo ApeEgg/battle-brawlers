@@ -132,12 +132,14 @@
                 </Button>
               </crow>
 
-              <Bar
-                class="bg-yellow-600"
-                current={getCurrentExperienceAtLevel(app.experience)}
-                max={getExperienceForNextLevel(getLevelByExperience(app.experience))}
-                center
-              />
+              {#if getLevelByExperience(app.experience) < 25}
+                <Bar
+                  class="bg-yellow-600"
+                  current={getCurrentExperienceAtLevel(app.experience)}
+                  max={getExperienceForNextLevel(getLevelByExperience(app.experience))}
+                  center
+                />
+              {/if}
             </crow>
 
             <crow vertical left class="w-full">
@@ -278,7 +280,7 @@
                   )}
                   href="/"
                 >
-                  Start
+                  Game Guide
                 </a>
                 <a
                   class={tw(
