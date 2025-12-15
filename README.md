@@ -52,6 +52,6 @@ npm run dev
 
 ## Code-base quirks
 
-- `.env (development) & .env.production (production)` are injected into `src/constants/ENV_VARS.ts`. Trying to parse `import.meta.X` won't work in Svelte files, due to vite crashing when there is CSS in the files that they parse.
+- `.env (development) & .env.production (production)` are injected into `src/constants/ENV_VARS.ts`. Trying to parse `import.meta.X` won't work in Svelte files, due to vite crashing when there is CSS in the files that they parse
 
-- This repo utilizes `sveltekit-autoimport` (https://github.com/yuanchuan/sveltekit-autoimport) hence some `.svelte` and `.js` imports seem to magically appear out of nowhere. See `vite.config.js` to see what's going on.
+- This repo utilizes `sveltekit-autoimport` (https://github.com/yuanchuan/sveltekit-autoimport) hence some `.svelte` and `.js` imports seem to magically appear out of nowhere. See `vite.config.js` to see what's going on
