@@ -16,8 +16,8 @@ The stack is:
 
 ```
 nvm use
-npm install
-npm run dev
+bun install
+bun dev
 ```
 
 ## Run the server locally
